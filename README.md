@@ -1,4 +1,4 @@
-# TeachingSeviceSystem
+# TeachingServiceSystem
 ## 使用说明
 代码下载后
 npm install
