@@ -1,0 +1,288 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+  <!--  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" /> -->
+  <meta charset="utf-8" />
+  <!-- Always force latest IE rendering engine or request Chrome Frame -->
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
+  <!-- Use title if it's in the page YAML frontmatter -->
+  <title>逗比大学教务管理系统</title>
+  <link href="/stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" />
+  <!--[if lt IE 9]>
+  <script src="javascripts/vendor/html5shiv.js" type="text/javascript"></script>
+  <script src="javascripts/vendor/excanvas.js" type="text/javascript"></script>
+  <![endif]-->
+  <script src="/javascripts/application.js" type="text/javascript"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<!-- 上方选择条 navbar-top-->
+<div class="navbar navbar-top navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+
+      <a class="brand" href="#">TeachingSystem</a>
+
+      <!-- the new toggle buttons -->
+
+      <ul class="nav pull-right">
+
+        <li class="toggle-primary-sidebar hidden-desktop" data-toggle="collapse" data-target=".nav-collapse-primary"><button type="button" class="btn btn-navbar"><i class="icon-th-list"></i></button></li>
+
+        <li class="hidden-desktop" data-toggle="collapse" data-target=".nav-collapse-top"><button type="button" class="btn btn-navbar"><i class="icon-align-justify"></i></button></li>
+
+      </ul>
+
+      <!-- 右侧下拉框 -->
+          <div class="nav-collapse nav-collapse-top collapse">
+
+            <ul class="nav full pull-right">
+              <li class="dropdown user-avatar">
+
+                <!-- the dropdown has a custom user-avatar class, this is the small avatar with the badge -->
+
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <span>
+                    <img class="menu-avatar" src="<%= image%>" /> <span><%= name %><i class="icon-caret-down"></i></span>
+                  </span>
+                </a>
+
+                <ul class="dropdown-menu">
+
+                  <!-- the first element is the one with the big avatar, add a with-image class to it -->
+
+                  <li class="with-image">
+                    <div class="avatar">
+                      <img src="<%= image %>" />
+                    </div>
+                    <span><%= name %></span>
+                  </li>
+
+                  <li class="divider"></li>
+
+                  <li><a href="#"><i class="icon-user"></i> <span>个人资料</span></a></li>
+                  <li><a href="#"><i class="icon-cog"></i> <span>设置</span></a></li>
+                  <li><a href="#"><i class="icon-off"></i> <span>Logout</span></a></li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav pull-right">
+              <li><a href="#" title="Profile"><i class="icon-home"></i>个人信息</a></li>
+              <li><a href="#" title="Resource"><i class="icon-user"></i>教学资源</a></li>
+              <li class="active"><a href="#" title="Courses"><i class="icon-table"></i>学生选课</a></li>
+              <li><a href="#" title="Share"><i class="icon-file-alt"></i>资源共享</a></li>
+              <li><a href="#" title="Judge"><i class="icon-edit"></i>在线测试</a></li>
+              <li><a href="#" title="GPA"><i class="icon-bar-chart"></i>成绩管理</a></li>
+            </ul>
+          </div>
+    </div>
+  </div>
+</div><div class="sidebar-background">
+  <div class="primary-sidebar-background"></div>
+</div>
+<div class="primary-sidebar">
+  <!--侧边选择框 -->
+  <ul class="nav nav-collapse collapse nav-collapse-primary">
+    <li>
+      <span class="glow"></span>
+      <a href="#">
+        <i class="icon-dashboard icon-2x"></i>
+        <span>培养方案</span>
+      </a>
+    </li>
+    <li  class="active">
+      <span class="glow"></span>
+      <a href="#">
+        <i class="icon-search icon-2x"></i>
+        <span>课程搜索</span>
+      </a>
+    </li>
+     <li>
+      <span class="glow"></span>
+      <a href="#">
+        <i class="icon-calendar icon-2x"></i>
+        <span>个人课表</span>
+      </a>
+    </li>
+   <!--  登入为管理员身份则显示这个 -->
+    <li class="dark-nav ">
+      <span class="glow"></span>
+      <a class="accordion-toggle collapsed " data-toggle="collapse" href="#MB8CPSHAKP">
+        <i class="icon-link icon-2x"></i>
+        <span>管理员操作<i class="icon-caret-down"></i></span>
+      </a>
+      <ul id="MB8CPSHAKP" class="collapse ">            
+        <li class="">
+          <a href="#"><i class="icon-time"></i>选课时间</a>
+        </li>
+        <li class="">
+          <a href="#"><i class="icon-key"></i>手动选课</a>
+        </li>
+        <li class="">
+          <a href="#"> <i class="icon-cut"></i>选课排除</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <hr class="divider" style="margin-top: 60px" />
+  <div class="sparkline-box side">
+    <div class="sparkline-row">
+      <h4 class="gray"><span>本学期课程</span><%= total_a %></h4>
+      <div class="sparkline big" data-color="gray"><!--<%= a %>--></div>
+    </div>
+  <hr class="divider" />
+  <div class="sparkline-row">
+      <h4 class="dark-green"><span>本学期课时</span><%= total_b %></h4>
+      <div class="sparkline big" data-color="darkGreen"><!--<%= b %>--></div>
+  </div>
+
+  <hr class="divider" />
+  <div class="sparkline-row">
+    <h4 class="blue"><span>本学期学分</span><%= total_credits %></h4>
+    <div class="sparkline big" data-color="blue"><!--<%= credits %>--></div>
+  </div>
+  <hr class="divider" />
+  </div>
+  </div>
+</div>
+
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="area-top clearfix">
+        <div class="pull-left header">
+          <h3 class="title"><i class="icon-search"></i>选课搜索系统</h3>
+          <h5>选择你要的课程</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 筛选条件 -->
+  <div class="span10">
+    <div class="box">
+      <div class="box-header">
+        <div class="title">筛选条件</div>
+      </div>
+      <form name="input" action="/course_search" method="get">
+        <div class="box-content padded">
+          <div class="row-fluid">
+            <div class="span9">
+            <!-- 条件选框 -->
+              <ul>
+                <li class="input">
+                  <label>课程名称:</label>
+                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_name">程序员</textarea>
+                </li>
+                <li class="input">
+                  <label>上课时间:</label>
+                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_time">周一 1、2、3</textarea>
+                </li>
+                <li class="input">
+                  <label>教师姓名:</label>
+                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="teacher">XXX</textarea>
+                </li>
+              </ul>
+               <!--  课程名称AND/OR -->
+              <div class="col-lg-6" style="position:absolute;top:165px;left:80%">
+                <div>
+                  <div class="iradio_flat-aero" style="position: relative;">
+                    <input type="radio" name="name" class="icheck" checked="" id="iradio1" style="position: absolute; opacity: 0;" value="and">
+                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+                  </div>
+                  <label for="iradio1" class="">AND</label>
+                </div>
+
+                <div>
+                  <div class="iradio_flat-aero" style="position: relative;">
+                    <input type="radio" name="name" class="icheck" id="iradio2" style="position: absolute; opacity: 0;"value="or">
+                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+                  </div>
+                  <label for="iradio2" class="">OR</label>
+                </div>
+              </div>
+              <!-- 上课时间AND/OR -->
+              <div style="position:absolute;top:235px;left:80%">
+                <div class="col-lg-6">
+                  <div>
+                    <div class="iradio_flat-aero" style="position: relative;">
+                      <input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">
+                      <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+                    </div>
+                    <label for="iradio3" class="">AND</label>
+                  </div>
+                  <div>
+                    <div class="iradio_flat-aero" style="position: relative;">
+                      <input type="radio" name="time" class="icheck" id="iradio4" style="position: absolute; opacity: 0;" value="or">
+                      <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+                    </div>
+                    <label for="iradio4" class="">OR</label>
+                  </div>
+                </div>
+              </div>
+              <!-- 教师姓名AND/OR -->
+              <div style="position:absolute;top:310px;left:80%">
+                <div class="col-lg-6">
+                  <div>
+                    <div class="iradio_flat-aero" style="position: relative;">
+                      <input type="radio" name="teacher" class="icheck" checked="" id="iradio5" style="position: absolute; opacity: 0;" value="and">
+                      <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+                    </div>
+                    <label for="iradio5" class="">AND</label>
+                  </div>
+                  <div>
+                    <div class="iradio_flat-aero" style="position: relative;">
+                      <input type="radio" name="teacher" class="icheck" id="iradio6" style="position: absolute; opacity: 0;" value="or">
+                      <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+                    </div>
+                    <label for="iradio6" class="">OR</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <button type="submit" class="btn btn-blue">搜索</button>
+        </div>
+      </form>
+      </div>
+  </div>
+  <!-- 搜索结果 -->
+  <div class="span10">
+    <div class="box">
+      <div class="box-header">
+        <span class="title">搜索结果</span>
+        <ul class="box-toolbar">
+          <li><span class="label label-blue">100</span></li>
+        </ul>
+      </div>
+      <div class="box-content scrollable" style="height: 552px; overflow-y: auto">
+      	<% for(var i=0; i<course_data.length;i++) { %>
+        <!-- 单条搜索结果 -->
+        <div class="box-section news with-icons">
+          <!-- icon-OK表示这门课已经修读过 icon-lightbulb表示这门课未修读过-->
+          <% if(course_data[i].complete) {%>
+          <div class="avatar blue"><i class="icon-ok icon-2x"></i></div>
+          <% } %>
+          <% if(!course_data[i].complete) {%>
+          <div class="avatar blue"><i class="icon-lightbulb icon-2x"></i></div>
+          <% } %>
+          <!-- 开课时间 -->
+          <div class="news-time" style="width:120px"><span><%= course_data[i].semaster%></span><%= course_data[i].time%></div>
+          <div class="news-content">
+            <!-- 课程名称 -->
+            <div class="news-title"><a href="#"><%= course_data[i].course_name%></a></div>
+            <!-- 课程信息 -->
+            <div class="news-text" style="display:inline">
+              任课教师:<span id="teacher"><%= course_data[i].teacher%></span>
+              校区:<span id="campus"><%= course_data[i].campus%></span>
+              上课地点:<span id="classroom"><%= course_data[i].room%></span>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
