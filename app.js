@@ -9,6 +9,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var debug = require('./routes/debug');
 
+
 var app = express();
 
 var settings = require('./settings');
@@ -27,6 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/', course);
 app.use('/users', users);
 app.use('/debug', debug);
 
