@@ -27,7 +27,7 @@ router.get('/course', function(req, res, next) {
   	course_data: course
   });
 });
-router.get('/course_search', function(req, res, next) {
+router.post('/course_search', function(req, res, next) {
   console.log(req);
   res.render('course', {
   	name: '程序员', 
