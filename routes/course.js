@@ -32,7 +32,7 @@ router.post('/course_search', function(req, res, next) {
   var db     = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
   var mongooseSchema = require('../db/courseDB/courseSchema');  
   var mongooseModel = db.model('course', mongooseSchema);
-  mongooseModel.findbyid(req.body.course_number, function(error, result){
+  mongooseModel.findbyid(req.body, function(error, result){
       if(error) {
           console.log(error);
       } else {
