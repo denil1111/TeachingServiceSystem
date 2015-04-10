@@ -7,7 +7,7 @@ db.on('error', function(error) {
 });
 db.once('open', function (callback) {
 	// 基于静态方法的查询
-	mongooseModel.findbytitle('emtity_demo_title', function(error, result){
+	mongooseModel.findbytitle('entity_demo_title', function(error, result){
 	    if(error) {
 	        console.log(error);
 	    } else {
