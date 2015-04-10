@@ -2,8 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 //var db       = mongoose.createConnection('mongodb://127.0.0.1:27017/lhdb');// 链接错误
-//mongoose.connect('mongodb://127.0.0.1:27017/test');
-mongoose.connect('mongodb://zju:123456@ds041167.mongolab.com:41167/zjustudent');
+mongoose.connect('mongodb://127.0.0.1:27017/test');
 var db = mongoose.connection;
 db.once('open', function callback () {
     console.log('About a cat Zildjian');
@@ -13,8 +12,8 @@ db.once('open', function callback () {
         age: Number,
     }); 
     var CatEntity = new CatModel({name:'Zildjian'});
-    console.log(CatEntity.name);
-    var kitty = new Cat({ name: 'Zildjian', friends: ['tom', 'jerry']});
+    console.log(CatEntity.name);*/
+/*    var kitty = new Cat({ name: 'Zildjian', friends: ['tom', 'jerry']});
     kitty.age = 3;   
     kitty.save(function (err) {
     if (err) // ...
