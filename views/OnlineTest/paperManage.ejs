@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Online Test - Paper Manage</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>创建空白试卷</h1>
+    <form method='post'>
+    	<p><input type='text', name='paperTitle', placeholder='Stem'/></p>
+    	<p><input type='submit', value='Submit'/></p>
+    </form>
+    <br/>
+    <h1>试卷列表</h1>
+    <ul>
+      <% for(var i = 0; i < papers.length; i++){
+          var paper = papers[i];
+      %>
+        <li>
+        <%= paper.title %>
+        <br/>
+        <a href="/OnlineTest/paperManage/delete/<%= paper._id %>">删除</a> <a href="/OnlineTest/paperManage/update/<%= paper._id %>">修改</a> 
+        </li>
+      <% } %>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Online Test - Problem Manage</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>添加题目到题库</h1>
+    <form method='post'>
+    	<p><input type='textarea', name='stem', placeholder='Stem'/></p>
+    	<p><input type='text', name='answer', placeholder='Right Answer(1, 2, 3, 4)'/></p>
+      <p>A.<input type='text', name='choice1', placeholder='Answer'/></p>
+      <p>B.<input type='text', name='choice2', placeholder='Answer'/></p>
+      <p>C.<input type='text', name='choice3', placeholder='Answer'/></p>
+      <p>D.<input type='text', name='choice4', placeholder='Answer'/></p>
+    	<p><input type='submit', value='Submit'/></p>
+    </form>
+    <br/>
+    <h1>题库题目</h1>
+    <ul>
+      <% for(var i = 0; i < problems.length; i++){
+          var problem = problems[i];
+      %>
+        <li>
+        <%= problem.stem %>
+        <br/>
+        Right Answer: <%= problem.answer %>
+        <br/>
+        A.<%= problem.choice[0] %>
+        <br/>
+        B.<%= problem.choice[1] %>
+        <br/>
+        C.<%= problem.choice[2] %>
+        <br/>
+        D.<%= problem.choice[3] %>
+        <br/>
+        <a href="/OnlineTest/probManage/delete/<%= problem._id %>">删除</a> <a href="/OnlineTest/probManage/update/<%= problem._id %>">修改(没实现)</a> 
+        </li>
+      <% } %>
+    </ul>
+  </body>
+</html>

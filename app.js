@@ -7,6 +7,10 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var teaOnlineTestManage = require('./routes/OnlineTest/teaManage');
+var problemOnlineTest = require('./routes/OnlineTest/probManage');
+var paperOnlineTest = require('./routes/OnlineTest/paperManage');
+var stuOnlineTestManage = require('./routes/OnlineTest/stuManage');
 
 var app = express();
 
@@ -24,6 +28,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/OnlineTest/teacher', teaOnlineTestManage);
+app.use('/OnlineTest/probManage', problemOnlineTest);
+//app.get('/OnlineTest/delete/:id', problemOnlineTest.deletePro);
+app.use('/OnlineTest/paperManage', paperOnlineTest);
+app.use('/OnlineTest/student', stuOnlineTestManage);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -55,6 +64,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;

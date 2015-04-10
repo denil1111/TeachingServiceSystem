@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Online test</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>学生登录界面</h1>
+    <h1>试卷列表</h1>
+    <ul>
+      <% for(var i = 0; i < papers.length; i++){
+          var paper = papers[i];
+      %>
+        <li>
+        <a href="/OnlineTest/student/answer=<%= paper._id %>"><%= paper.title %></a>
+        </li>
+      <% } %>
+    </ul>
+  </body>
+</html>

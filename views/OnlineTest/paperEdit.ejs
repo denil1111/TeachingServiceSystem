@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Online Test - Paper Manage</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+   <h1><%= paper.title %></h1>
+    <ul>
+      <% for(var i = 0; i < problemsInPaper.length; i++){
+          var problem = problemsInPaper[i];
+      %>
+        <li>
+        <%= problem.stem %>
+        <br/>
+        Right Answer: <%= problem.answer %>
+        <br/>
+        A.<%= problem.choice[0] %>
+        <br/>
+        B.<%= problem.choice[1] %>
+        <br/>
+        C.<%= problem.choice[2] %>
+        <br/>
+        D.<%= problem.choice[3] %>
+        <br/>
+        <a href="/OnlineTest/paperManage/deleteProblem/<%= paper._id %>/<%= problem._id %>">删除</a> <a href="/OnlineTest/probManage/update/<%= paper._id %>/<%= problem._id %>">修改(没实现)</a> 
+        </li>
+      <% } %>
+    </ul>
+
+    <h1>题库</h1>
+    <ul>
+      <% for(var i = 0; i < allProblems.length; i++){
+          var problem = allProblems[i];
+      %>
+        <li>
+        <%= problem.stem %>
+        <br/>
+        Right Answer: <%= problem.answer %>
+        <br/>
+        A.<%= problem.choice[0] %>
+        <br/>
+        B.<%= problem.choice[1] %>
+        <br/>
+        C.<%= problem.choice[2] %>
+        <br/>
+        D.<%= problem.choice[3] %>
+        <br/>
+        <a href="/OnlineTest/paperManage/add/<%= paper._id %>/<%= problem._id %>">加入试卷</a>
+        </li>
+      <% } %>
+    </ul>
+
+  </body>
+</html>

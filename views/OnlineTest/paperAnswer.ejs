@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Online Test - Answer</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>答题: <%= paper.title %></h1>
+    <ul>
+      <form method="post">
+      <% for(var i = 0; i < problemsInPaper.length; i++){
+          var problem = problemsInPaper[i];
+      %>
+        <li>
+        <%= problem.stem %>
+        <br/>
+        <input type="radio" name="<%= problem._id %>" value="1" />A.<%= problem.choice[0] %>
+        <br/>
+        <input type="radio" name="<%= problem._id %>" value="2" />B.<%= problem.choice[1] %>
+        <br/>
+        <input type="radio" name="<%= problem._id %>" value="3" />C.<%= problem.choice[2] %>
+        <br/>
+        <input type="radio" name="<%= problem._id %>" value="4" />D.<%= problem.choice[3] %>
+        </li>
+      <% } %>
+      <input type='submit', value='Submit'/>
+      </form>
+    </ul>
+  </body>
+</html>
