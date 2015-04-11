@@ -1,152 +1,14 @@
 <!doctype html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
-  <!--  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" /> -->
-  <meta charset="utf-8" />
-  <!-- Always force latest IE rendering engine or request Chrome Frame -->
-  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
-  <!-- Use title if it's in the page YAML frontmatter -->
-  <title>逗比大学教务管理系统</title>
-  <link href="/stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" />
-  <!--[if lt IE 9]>
-  <script src="javascripts/vendor/html5shiv.js" type="text/javascript"></script>
-  <script src="javascripts/vendor/excanvas.js" type="text/javascript"></script>
-  <![endif]-->
-  <script src="/javascripts/application.js" type="text/javascript"></script>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <% include head.html %>
 </head>
 <body>
 <!-- 上方选择条 navbar-top-->
-<div class="navbar navbar-top navbar-inverse">
-  <div class="navbar-inner">
-    <div class="container-fluid">
-
-      <a class="brand" href="#">TeachingSystem</a>
-
-      <!-- the new toggle buttons -->
-
-      <ul class="nav pull-right">
-
-        <li class="toggle-primary-sidebar hidden-desktop" data-toggle="collapse" data-target=".nav-collapse-primary"><button type="button" class="btn btn-navbar"><i class="icon-th-list"></i></button></li>
-
-        <li class="hidden-desktop" data-toggle="collapse" data-target=".nav-collapse-top"><button type="button" class="btn btn-navbar"><i class="icon-align-justify"></i></button></li>
-
-      </ul>
-
-      <!-- 右侧下拉框 -->
-          <div class="nav-collapse nav-collapse-top collapse">
-
-            <ul class="nav full pull-right">
-              <li class="dropdown user-avatar">
-
-                <!-- the dropdown has a custom user-avatar class, this is the small avatar with the badge -->
-
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span>
-                    <img class="menu-avatar" src="<%= image%>" /> <span><%= name %><i class="icon-caret-down"></i></span>
-                  </span>
-                </a>
-
-                <ul class="dropdown-menu">
-
-                  <!-- the first element is the one with the big avatar, add a with-image class to it -->
-
-                  <li class="with-image">
-                    <div class="avatar">
-                      <img src="<%= image %>" />
-                    </div>
-                    <span><%= name %></span>
-                  </li>
-
-                  <li class="divider"></li>
-
-                  <li><a href="#"><i class="icon-user"></i> <span>个人资料</span></a></li>
-                  <li><a href="#"><i class="icon-cog"></i> <span>设置</span></a></li>
-                  <li><a href="#"><i class="icon-off"></i> <span>Logout</span></a></li>
-                </ul>
-              </li>
-            </ul>
-            <ul class="nav pull-right">
-              <li><a href="#" title="Profile"><i class="icon-home"></i>个人信息</a></li>
-              <li><a href="#" title="Resource"><i class="icon-user"></i>教学资源</a></li>
-              <li class="active"><a href="#" title="Courses"><i class="icon-table"></i>学生选课</a></li>
-              <li><a href="#" title="Share"><i class="icon-file-alt"></i>资源共享</a></li>
-              <li><a href="#" title="Judge"><i class="icon-edit"></i>在线测试</a></li>
-              <li><a href="#" title="GPA"><i class="icon-bar-chart"></i>成绩管理</a></li>
-            </ul>
-          </div>
-    </div>
-  </div>
-</div><div class="sidebar-background">
-  <div class="primary-sidebar-background"></div>
-</div>
-<div class="primary-sidebar">
-  <!--侧边选择框 -->
-  <ul class="nav nav-collapse collapse nav-collapse-primary">
-    <li>
-      <span class="glow"></span>
-      <a href="#">
-        <i class="icon-dashboard icon-2x"></i>
-        <span>培养方案</span>
-      </a>
-    </li>
-    <li  class="active">
-      <span class="glow"></span>
-      <a href="#">
-        <i class="icon-search icon-2x"></i>
-        <span>课程搜索</span>
-      </a>
-    </li>
-     <li>
-      <span class="glow"></span>
-      <a href="#">
-        <i class="icon-calendar icon-2x"></i>
-        <span>个人课表</span>
-      </a>
-    </li>
-   <!--  登入为管理员身份则显示这个 -->
-    <li class="dark-nav ">
-      <span class="glow"></span>
-      <a class="accordion-toggle collapsed " data-toggle="collapse" href="#MB8CPSHAKP">
-        <i class="icon-link icon-2x"></i>
-        <span>管理员操作<i class="icon-caret-down"></i></span>
-      </a>
-      <ul id="MB8CPSHAKP" class="collapse ">            
-        <li class="">
-          <a href="#"><i class="icon-time"></i>选课时间</a>
-        </li>
-        <li class="">
-          <a href="#"><i class="icon-key"></i>手动选课</a>
-        </li>
-        <li class="">
-          <a href="#"> <i class="icon-cut"></i>选课排除</a>
-        </li>
-      </ul>
-    </li>
-  </ul>
-  <hr class="divider" style="margin-top: 60px" />
-  <div class="sparkline-box side">
-    <div class="sparkline-row">
-      <h4 class="gray"><span>本学期课程</span><%= total_a %></h4>
-      <div class="sparkline big" data-color="gray"><!--<%= a %>--></div>
-    </div>
-  <hr class="divider" />
-  <div class="sparkline-row">
-      <h4 class="dark-green"><span>本学期课时</span><%= total_b %></h4>
-      <div class="sparkline big" data-color="darkGreen"><!--<%= b %>--></div>
-  </div>
-
-  <hr class="divider" />
-  <div class="sparkline-row">
-    <h4 class="blue"><span>本学期学分</span><%= total_credits %></h4>
-    <div class="sparkline big" data-color="blue"><!--<%= credits %>--></div>
-  </div>
-  <hr class="divider" />
-  </div>
-  </div>
-</div>
-
+<% include navbar.html %>
+<!-- 侧边框 -->
+<% include slide.html%>
+<!-- 主要内容 -->
 <div class="main-content">
   <div class="container-fluid">
     <div class="row-fluid">
@@ -178,9 +40,308 @@
                   <label>课程名称:</label>
                   <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_name">程序员</textarea>
                 </li>
-                <li class="input" style="margin-bottom:10px">
-                  <label>上课时间:</label>
-                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_time">周一 1、2、3</textarea>
+                <li>
+                  <label>课程时间（全不选则为均可）:</label>
+                  <table border="0" width="100%">
+                    <!-- 周一 -->
+                    <tr>
+                      <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck1" name="Mon_123">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck1">周一 1、2、3</label>
+                        </div>
+                      </td>
+                      <td>
+                         <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck2" name="Mon_45">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck2">周一 4、5</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck3" name="Mon_678">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck3">周一 6、7、8</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck4" name="Mon_910">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck4">周一 9、10</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck5" name="Mon_night">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck5">周一 晚上</label>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- 周二 -->
+                    <tr>
+                    <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck21" name="Tue_123">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck21">周二 1、2、3</label>
+                        </div>
+                      </td>
+                      <td>
+                         <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck22" name="Tue_45">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck22">周二 4、5</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck23" name="Tue_678">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck23">周二 6、7、8</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck24" name="Tue_910">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck24">周二 9、10</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck25" name="Tue_night">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck25">周二 晚上</label>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- 周三 -->
+                    <tr>
+                    <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck31" name="Web_123">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck31">周三 1、2、3</label>
+                        </div>
+                      </td>
+                      <td>
+                         <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck32" name="Web_45">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck32">周三 4、5</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck33" name="Web_678">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck33">周三 6、7、8</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck34" name="Web_910">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck34">周三 9、10</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck35" name="Web_night">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck35">周三 晚上</label>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- 周四 -->
+                    <tr>
+                    <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck41" name="Thu_123">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck41">周四 1、2、3</label>
+                        </div>
+                      </td>
+                      <td>
+                         <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck42" name="Thu_45">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck42">周四 4、5</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck43" name="Thu_678">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck43">周四 6、7、8</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck44" name="Thu_910">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck44">周四 9、10</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck45" name="Thu_night">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck45">周四 晚上</label>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- 周五 -->
+                    <tr>
+                    <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck51" name="Fri_123">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck51">周五 1、2、3</label>
+                        </div>
+                      </td>
+                      <td>
+                         <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck52" name="Fri_45">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck52">周五 4、5</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck53" name="Fri_678">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck53">周五 6、7、8</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck54" name="Fri_910">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck54">周五 9、10</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck55" name="Fri_night">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck55">周五 晚上</label>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- 周末 -->
+                    <tr>
+                    <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck61" name="Sat_Mor">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck61">周六 上午</label>
+                        </div>
+                      </td>
+                      <td>
+                         <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck62" name="Sat_Aft">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck62">周六 下午</label>
+                        </div>
+                      </td>
+                       <td>
+                         <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck63" name="Sat_night">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck63">周六 晚上</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck71" name="Sun_Mor">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck71">周日 上午</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck72" name="Sun_Aft">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck72">周日 下午</label>
+                        </div>
+                      </td>
+                       <td>
+                        <div class="course_time">
+                          <div class="icheckbox_flat-aero checked" style="position: relative;">
+                            <input type="checkbox" class="icheck" id="icheck73" name="Sun_night">
+                            <ins class="iCheck-helper" style=""></ins>
+                          </div>
+                          <label for="icheck73">周日 晚上</label>
+                        </div>
+                      </td>
+                    </tr>
+
+                  </table>
                 </li>
                 <li class="input" style="margin-bottom:10px">
                   <label>教师姓名:</label>
@@ -225,7 +386,7 @@
                 </div>
               </div>
               <!-- 教师姓名AND/OR -->
-              <div style="position:absolute;top:390px;left:80%">
+              <div style="position:absolute;top:545px;left:80%">
                 <div class="col-lg-6">
                   <div>
                     <div class="iradio_flat-aero" style="position: relative;">
@@ -256,7 +417,7 @@
       <div class="box-header">
         <span class="title">搜索结果</span>
         <ul class="box-toolbar">
-          <li><span class="label label-blue"><%= course_data.length+1 %></span></li>
+          <li><span class="label label-blue"><%= course_data.length %></span></li>
         </ul>
       </div>
       <div class="box-content scrollable" style="height: 552px; overflow-y: auto">
