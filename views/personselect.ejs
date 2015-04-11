@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Insert</title>
+    <title>Select</title>
     <meta charset="UTF-8">
-    <link rel='stylesheet' href='./public/stylesheets/style.css' />
   </head>
   <body>
-    <h1>Sign In</h1>
-    <form action="/insert" role="form" method="post">
-        <p><span><%= insertresult %></span>
-        </p>
+    <h1>Select</h1>
+    <form action="/personselect" role="form" method="post">
+        <p><span><%= selectresult %></span></p>
+        <p><span id = "username" ><%= person_data.username %></span></p>
+        <p><span><% person_data.status %></span></p>
+        <p><span><% person_data.sex %></span></p>
+        <p><span><% person_data.age %></span></p>
+        <p><span><% person_data.major %></span></p>
+        <p><span><% person_data.college %></span></p>
+        <p><span><% person_data.title %></span></p>
+        <p><span><% person_data.tel %></span></p>
+        <p><span><% person_data.email %></span></p>
         <p>
           <span>姓名</span>
           <br>
-          <input id="username" name="username" placeholder="your name" type="text">
+          <input id="username" name="username" placeholder="name" type="text">
         </p>
-        <p>
+        <!--p>
             <span>身份：</span>
             <br>
             <select id="status" name="status">
@@ -27,8 +34,7 @@
                 <option value="教师">教师</option>
                 <option value="学生" selected="selected">学生</option>
               </optgroup>
-            </select>           
-            <!--input id="password" name="password" type="password"-->
+            </select>
         </p>
         <p>
           <span>性别：</span>
@@ -67,7 +73,7 @@
           <span>Email：</span>
           <br>
           <input id="email" name="email" type="text">
-        </p>
+        </p-->
         <p><input type="submit" onclick="insert();" value="submit"></p>
     </form>
   </body>

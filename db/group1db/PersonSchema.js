@@ -1,11 +1,13 @@
 var mongoose = require('mongoose');
 // Schema 结构
-var personSchema = new mongoose.Schema({
+var PersonSchema = new mongoose.Schema({
     username	: {type : String, default : '匿名用户'},
     status		: {type : String, default : '学生'},
     sex			: {type : String},
     age			: {type : Number},
-    college		: {type : String},
+    major       : {type : String},  //专业
+    college		: {type : String}, //学院
+    title       : {type : String, default : '无'},   //职称
     tel			: {type : String},
     email		: {typr : String},
     time     : {type : Date, default: Date.now}
@@ -15,9 +17,9 @@ var personSchema = new mongoose.Schema({
 personSchema.methods.insertByEntity = function(PersonEntity, callback) {
     return this.model('mongoose').find({username: username}, callback);
 }
-
-mongooseSchema.statics.findbytitle = function(title, callback) {
-    return this.model('mongoose').find({title: title}, callback);
-}
 */
-module.exports=personSchema;
+PersonSchema.statics.findbyname = function(username, callback) {
+    return this.model('PersonModel').find({username: username}, callback);
+}
+
+module.exports=PersonSchema;

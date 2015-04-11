@@ -2,25 +2,27 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose'); 
 
-
 router.get('/insert', function(req, res,next) {
     res.render('insert',{
-        username:'name',
-        status:'学生',
-        sex:' ',
-        age:' ',
-        college:' ',
-        tel:' ',
-        email:' ',
+        username : 'name',
+        status : '学生',
+        sex : ' ',
+        age : ' ',
+        major : ' ',
+        college : ' ',
+        title : ' ',
+        tel : ' ',
+        email : ' ',
         insertresult:'请提交表单'
     });
 });
 
 router.post('/insert',function(req,res,next){
-    console.log("post");
-    var db = mongoose.createConnection('mongodb://127.0.0.1:27017/mydb');
+    console.log("post:select");
+    var db = mongoose.createConnection('mongodb://127.0.0.1:27017/person');
     var PersonSchema = require('../db/group1db/PersonSchema');
-    var PersonModel = db.model('person',PersonSchema);
+    var CollectionName = 'people';
+    var PersonModel = db.model('PersonModel',PersonSchema,CollectionName);
     var doc = {
         username : req.body.username,
         status : req.body.status,
@@ -30,25 +32,33 @@ router.post('/insert',function(req,res,next){
         tel : req.body.tel,
         email : req.body.email
     };
+
+    console.log("doc:"+doc.username);
     
-    personModel.create(doc,function(err){
+    PersonModel.create(doc,function(err,data){
+        console.log('err'+err);
+        console.log('data'+data);
         if(err){
-            console.log(err);
+            console.log("create err : "+err);
         }
         else{
-            cosole.log('Saved by Model OK!');
+            console.log('Saved by Model OK!');
+            console.log(doc.username);
             res.render('insert',{
-                username:doc.username,
-                status:'学生',
-                sex:doc.sex,
-                age:doc.age,
-                college:doc.college,
-                tel:doc.tel,
-                email:doc.email,
+                username : data.username,
+                status : data.status,
+                sex : data.sex,
+                age : data.age,
+                major : data.major,
+                college : data.college,
+                title : data.title,
+                tel : data.tel,
+                email : data.email,
                 insertresult:'表单提交成功！'
             });
         }
     });
-    db.clode();
+//    db.close();
 });
 
+module.exports = router;
