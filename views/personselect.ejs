@@ -7,16 +7,18 @@
   <body>
     <h1>Select</h1>
     <form action="/personselect" role="form" method="post">
-        <p><span><%= selectresult %></span></p>
-        <p><span id = "username" ><%= person_data.username %></span></p>
-        <p><span><% person_data.status %></span></p>
-        <p><span><% person_data.sex %></span></p>
-        <p><span><% person_data.age %></span></p>
-        <p><span><% person_data.major %></span></p>
-        <p><span><% person_data.college %></span></p>
-        <p><span><% person_data.title %></span></p>
-        <p><span><% person_data.tel %></span></p>
-        <p><span><% person_data.email %></span></p>
+      <p><span><%= selectresult %></span></p>
+      <%for(var i=0; i<person_data.length;i++) { %>
+        <p><span><%= person_data[i].username %></span></p>
+        <p><span><%= person_data[i].status %></span></p>
+        <p><span><%= person_data[i].sex %></span></p>
+        <p><span><%= person_data[i].age %></span></p>
+        <p><span><%= person_data[i].major %></span></p>
+        <p><span><%= person_data[i].college %></span></p>
+        <p><span><%= person_data[i].title %></span></p>
+        <p><span><%= person_data[i].tel %></span></p>
+        <p><span><%= person_data[i].email %></span></p>
+      <% } %>
         <p>
           <span>姓名</span>
           <br>
