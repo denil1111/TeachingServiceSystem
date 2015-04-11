@@ -7,7 +7,7 @@
   </head>
   <body>
     <h1>Sign In</h1>
-    <form action="#" role="form" method="post">
+    <form action="/insert" role="form" method="post">
         <!--p>
             <span>用户ID：</span>
             <br>
@@ -16,19 +16,19 @@
         <p>
           <span>姓名</span>
           <br>
-          <input id="name" name="name" type="text">
+          <input id="username" name="username" placeholder="your name" type="text">
         </p>
         <p>
             <span>身份：</span>
             <br>
-            <select id="userdegree" name="userdegree">
+            <select id="degree" name="degree">
               <optgroup lable="管理员">
-                <option value="1" title ="请确认您是否有相应权限">系统管理员</option>
-                <option value="2">教务管理员</option>
+                <option value="系统管理员" title ="请确认您是否有相应权限">系统管理员</option>
+                <option value="教务管理员">教务管理员</option>
               </optgroup>
               <optgroup lable="用户">
-                <option value="3">教师</option>
-                <option value="4" selected="selected">学生</option>
+                <option value="教师">教师</option>
+                <option value="学生" selected="selected">学生</option>
               </optgroup>
             </select>           
             <!--input id="password" name="password" type="password"-->
@@ -36,29 +36,29 @@
         <p>
           <span>性别：</span>
           <br>
-          <select id="usersex" name="usersex">
-            <option value="0">男</option>
-            <option value="1">女</option>
+          <select id="sex" name="sex">
+            <option value="男">男</option>
+            <option value="女">女</option>
           </select>
         </p>
         <p>
           <span>学院：</span>
           <br>
-          <input id="usercollege" name="usercollege" type="text">
+          <input id="college" name="college" type="text">
         </p>
         <p>
           <span>Tel：</span>
           <br>
-          <input id="usertel" name="usertel" type="text">
+          <input id="tel" name="tel" type="text">
         </p>
         <p>
           <span>Email：</span>
           <br>
-          <input id="useremail" name="useremail" type="text">
+          <input id="email" name="email" type="text">
         </p>
         <p><input type="submit" onclick="insert();" value="submit"></p>
     </form>
-    <script>
+    <!--script>
         function insert(){
             var userid = $('#userid').val();
             var name=$('#name').val();
@@ -74,6 +74,6 @@
              data:data
                });
         }
-       </script>
+       </script-->
   </body>
 </html>
