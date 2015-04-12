@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 // var info = require()
 // var arrange = require()
-// var select = require()
+var select = require("./course")
+
 // var resource = require()
 // var test = require()
 // var score = require()
@@ -13,7 +14,7 @@ router.get('/', function(req, res, next) {
 });
 // router.get('/info', info);
 // router.get('/arrange', arrange);
-// router.get('/select', select);
+router.use('/select', select);
 // router.get('/resource', resource);
 // router.get('/test', test);
 // router.get('/score', score);
