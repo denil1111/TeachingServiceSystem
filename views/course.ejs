@@ -8,6 +8,13 @@
 <% include navbar.html %>
 <!-- 侧边框 -->
 <% include slide.html%>
+<script type="text/javascript">
+   function setActive(){
+    var active=document.getElementById('course_search');
+    active.className='active';
+  }
+  setActive();
+</script>
 <!-- 主要内容 -->
 <div class="main-content">
   <div class="container-fluid">
@@ -48,19 +55,19 @@
                       <td>
                         <div class="course_time">
                           <div class="icheckbox_flat-aero checked" style="position: relative;">
-                            <input type="checkbox" class="icheck" id="icheck1" name="Mon_123">
+                            <input type="checkbox" class="icheck" id="icheck1" name="Mon_12">
                             <ins class="iCheck-helper" style=""></ins>
                           </div>
-                          <label for="icheck1">周一 1、2、3</label>
+                          <label for="icheck1">周一 1、2</label>
                         </div>
                       </td>
                       <td>
                          <div class="course_time">
                           <div class="icheckbox_flat-aero checked" style="position: relative;">
-                            <input type="checkbox" class="icheck" id="icheck2" name="Mon_45">
+                            <input type="checkbox" class="icheck" id="icheck2" name="Mon_345">
                             <ins class="iCheck-helper" style=""></ins>
                           </div>
-                          <label for="icheck2">周一 4、5</label>
+                          <label for="icheck2">周一 3、4、5</label>
                         </div>
                       </td>
                        <td>
@@ -96,19 +103,19 @@
                     <td>
                         <div class="course_time">
                           <div class="icheckbox_flat-aero checked" style="position: relative;">
-                            <input type="checkbox" class="icheck" id="icheck21" name="Tue_123">
+                            <input type="checkbox" class="icheck" id="icheck21" name="Tue_12">
                             <ins class="iCheck-helper" style=""></ins>
                           </div>
-                          <label for="icheck21">周二 1、2、3</label>
+                          <label for="icheck21">周二 1、2</label>
                         </div>
                       </td>
                       <td>
                          <div class="course_time">
                           <div class="icheckbox_flat-aero checked" style="position: relative;">
-                            <input type="checkbox" class="icheck" id="icheck22" name="Tue_45">
+                            <input type="checkbox" class="icheck" id="icheck22" name="Tue_345">
                             <ins class="iCheck-helper" style=""></ins>
                           </div>
-                          <label for="icheck22">周二 4、5</label>
+                          <label for="icheck22">周二 3、4、5</label>
                         </div>
                       </td>
                        <td>
@@ -144,19 +151,19 @@
                     <td>
                         <div class="course_time">
                           <div class="icheckbox_flat-aero checked" style="position: relative;">
-                            <input type="checkbox" class="icheck" id="icheck31" name="Web_123">
+                            <input type="checkbox" class="icheck" id="icheck31" name="Web_12">
                             <ins class="iCheck-helper" style=""></ins>
                           </div>
-                          <label for="icheck31">周三 1、2、3</label>
+                          <label for="icheck31">周三 1、2</label>
                         </div>
                       </td>
                       <td>
                          <div class="course_time">
                           <div class="icheckbox_flat-aero checked" style="position: relative;">
-                            <input type="checkbox" class="icheck" id="icheck32" name="Web_45">
+                            <input type="checkbox" class="icheck" id="icheck32" name="Web_345">
                             <ins class="iCheck-helper" style=""></ins>
                           </div>
-                          <label for="icheck32">周三 4、5</label>
+                          <label for="icheck32">周三 3、4、5</label>
                         </div>
                       </td>
                        <td>
@@ -192,19 +199,19 @@
                     <td>
                         <div class="course_time">
                           <div class="icheckbox_flat-aero checked" style="position: relative;">
-                            <input type="checkbox" class="icheck" id="icheck41" name="Thu_123">
+                            <input type="checkbox" class="icheck" id="icheck41" name="Thu_12">
                             <ins class="iCheck-helper" style=""></ins>
                           </div>
-                          <label for="icheck41">周四 1、2、3</label>
+                          <label for="icheck41">周四 1、2</label>
                         </div>
                       </td>
                       <td>
                          <div class="course_time">
                           <div class="icheckbox_flat-aero checked" style="position: relative;">
-                            <input type="checkbox" class="icheck" id="icheck42" name="Thu_45">
+                            <input type="checkbox" class="icheck" id="icheck42" name="Thu_345">
                             <ins class="iCheck-helper" style=""></ins>
                           </div>
-                          <label for="icheck42">周四 4、5</label>
+                          <label for="icheck42">周四 3、4、5</label>
                         </div>
                       </td>
                        <td>
@@ -240,19 +247,19 @@
                     <td>
                         <div class="course_time">
                           <div class="icheckbox_flat-aero checked" style="position: relative;">
-                            <input type="checkbox" class="icheck" id="icheck51" name="Fri_123">
+                            <input type="checkbox" class="icheck" id="icheck51" name="Fri_12">
                             <ins class="iCheck-helper" style=""></ins>
                           </div>
-                          <label for="icheck51">周五 1、2、3</label>
+                          <label for="icheck51">周五 1、2</label>
                         </div>
                       </td>
                       <td>
                          <div class="course_time">
                           <div class="icheckbox_flat-aero checked" style="position: relative;">
-                            <input type="checkbox" class="icheck" id="icheck52" name="Fri_45">
+                            <input type="checkbox" class="icheck" id="icheck52" name="Fri_345">
                             <ins class="iCheck-helper" style=""></ins>
                           </div>
-                          <label for="icheck52">周五 4、5</label>
+                          <label for="icheck52">周五 3、4、5</label>
                         </div>
                       </td>
                        <td>
@@ -353,7 +360,6 @@
                 <div>
                   <div class="iradio_flat-aero" style="position: relative;">
                     <input type="radio" name="name" class="icheck" checked="" id="iradio1" style="position: absolute; opacity: 0;" value="and">
-                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
                   </div>
                   <label for="iradio1" class="">AND</label>
                 </div>
@@ -361,7 +367,6 @@
                 <div>
                   <div class="iradio_flat-aero" style="position: relative;">
                     <input type="radio" name="name" class="icheck" id="iradio2" style="position: absolute; opacity: 0;"value="or">
-                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
                   </div>
                   <label for="iradio2" class="">OR</label>
                 </div>
@@ -372,14 +377,12 @@
                   <div>
                     <div class="iradio_flat-aero" style="position: relative;">
                       <input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">
-                      <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
                     </div>
                     <label for="iradio3" class="">AND</label>
                   </div>
                   <div>
                     <div class="iradio_flat-aero" style="position: relative;">
                       <input type="radio" name="time" class="icheck" id="iradio4" style="position: absolute; opacity: 0;" value="or">
-                      <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
                     </div>
                     <label for="iradio4" class="">OR</label>
                   </div>
@@ -391,14 +394,12 @@
                   <div>
                     <div class="iradio_flat-aero" style="position: relative;">
                       <input type="radio" name="teacher" class="icheck" checked="" id="iradio5" style="position: absolute; opacity: 0;" value="and">
-                      <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
                     </div>
                     <label for="iradio5" class="">AND</label>
                   </div>
                   <div>
                     <div class="iradio_flat-aero" style="position: relative;">
                       <input type="radio" name="teacher" class="icheck" id="iradio6" style="position: absolute; opacity: 0;" value="or">
-                      <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
                     </div>
                     <label for="iradio6" class="">OR</label>
                   </div>
