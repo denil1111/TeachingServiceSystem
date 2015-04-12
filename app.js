@@ -28,8 +28,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/', course);
-app.use('/', my_course);
 app.use('/users', users);
 app.use('/debug', debug);
 
