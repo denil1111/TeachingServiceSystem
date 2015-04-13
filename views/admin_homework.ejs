@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+  <% include head.html %>
+  <style>
+  .action-nav-button{
+    width: 15%;
+  }
+  </style>
+  <script>
+  $(document).ready(function(){
+    $('#stu1').editable();
+    $('#stu2').editable();
+    $('#stu3').editable();
+  });
+
+  </script>
+</head>
+<body>
+<!-- 上方选择条 navbar-top-->
+<% include navbar.html %>
+<!-- 侧边框 -->
+<% include slide.html%>
+<script type="text/javascript">
+   function setActive(){
+    var active=document.getElementById('resource_share');
+    active.className='active';
+  }
+  setActive();
+</script>
+<!-- 主要内容 -->
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="area-top clearfix">
+        <div class="pull-left header">
+          <h3 class="title"><i class=" icon-briefcase"></i>资源管理系统</h3>
+          <h5>管理所有课程的资源与作业</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="span10" style="margin-left:50px;margin-top:10px;">
+    <div class="row">
+      <!-- Breadcrumb line -->
+      <div id="breadcrumbs">
+        <div class="breadcrumb-button blue">
+          <span class="breadcrumb-label"><i class="icon-home"></i>我的教务网</span>
+          <span class="breadcrumb-arrow"><span></span></span>
+        </div>
+
+        
+            <div class="breadcrumb-button">
+              <span class="breadcrumb-label">
+                <i class="icon-beaker"></i>管理员操作
+              </span>
+              <span class="breadcrumb-arrow"><span></span></span>
+            </div>
+        
+
+        <div class="breadcrumb-button">
+          <span class="breadcrumb-label">
+            <i class="icon-th-large"></i>批改作业
+          </span>
+          <span class="breadcrumb-arrow"><span></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="span10">
+  <div class="box">
+      <div class="box-header">
+        <div class="title">学生作业批改</div>
+      </div>
+
+      <div class="box-content padded">
+      <form class="form-horizontal fill-up">
+              <div class="control-group">
+                <label class="control-label span2" style="margin-top:20px;">课程名称</label>
+                <div class="span6" style="margin-top:20px;">
+                  <select class="chzn-select"  name="colors">
+                    <option value="计算机体系结构">计算机体系结构</option>
+                    <option value="计算机网络基础">计算机网络基础</option>
+                    <option value="软件工程">软件工程</option>
+                  </select>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label span2" style="margin-top:20px;">作业名称</label>
+                <div class="span6" style="margin-top:20px;">
+                  <select class="chzn-select"  name="colors">
+                    <option value="ch1">第一章作业</option>
+                    <option value="ch2">第二章作业</option>
+                    <option value="ch3">第三章作业</option>
+                  </select>
+                </div>
+              </div>
+      </form>
+
+      <table class="table table-normal" style="margin-top:50px;">
+      <thead>
+      <tr>
+        <td></td>
+        <td>学号</td>
+        <td>姓名</td>
+        <td>分数</td>
+        <td style="width: 40px"></td>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr>
+        <td class="icon"><i class="icon-file"></i></td>
+        <td><a href="#">3120101284</a></td>
+        <td><b>李逸婷</b></td>
+        <td><a href="#" id="stu1" data-type="text" data-pk="1" data-name="username" data-original-title="Enter score">null</a></td>
+        <td>
+          <div class="btn-group">
+            <a href="#" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="保存分数"><i class="icon-save"></i></a>
+            <a href="#" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="下载作业"><i class="icon-download-alt"></i></a>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="icon"><i class="icon-file"></i></td>
+        <td><a href="#">3120000575</a></td>
+        <td><b>张宇昊</b></td>
+        <td><a href="#" id="stu2" data-type="text" data-pk="1" data-original-title="Enter score">90</a></td>
+        <td>
+          <div class="btn-group">
+            <a href="#" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="保存分数"><i class="icon-save"></i></a>
+            <a href="#" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="下载作业"><i class="icon-download-alt"></i></a>
+          </div>
+        </td>
+      </tr>
+            <tr>
+        <td class="icon"><i class="icon-file"></i></td>
+        <td><a href="#">3120101273</a></td>
+        <td><b>冯喆</b></td>
+        <td><a href="#" id="stu3" data-type="text" data-pk="2" data-original-title="Enter score">90</a></td>
+        <td>
+          <div class="btn-group">
+            <a href="#" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="保存分数"><i class="icon-save"></i></a>
+            <a href="#" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="下载作业"><i class="icon-download-alt"></i></a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+      </div>
+  </div>
+</div>
+
+
+
+</div>
+</body>
+</html>

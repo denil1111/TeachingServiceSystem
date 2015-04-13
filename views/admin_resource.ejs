@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+  <% include head.html %>
+</head>
+<body>
+<!-- 上方选择条 navbar-top-->
+<% include navbar.html %>
+<!-- 侧边框 -->
+<% include slide.html%>
+<script type="text/javascript">
+   function setActive(){
+    var active=document.getElementById('resource_share');
+    active.className='active';
+  }
+  setActive();
+  
+  $(function() {
+    $( "tbody" ).sortable();
+    $( "tbody" ).disableSelection();
+  });
+
+</script>
+<!-- 主要内容 -->
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="area-top clearfix">
+        <div class="pull-left header">
+          <h3 class="title"><i class=" icon-briefcase"></i>资源管理系统</h3>
+          <h5>管理所有课程的资源与作业</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="span10" style="margin-left:50px;margin-top:10px;">
+    <div class="row">
+      <!-- Breadcrumb line -->
+      <div id="breadcrumbs">
+        <div class="breadcrumb-button blue">
+          <span class="breadcrumb-label"><i class="icon-home"></i>我的教务网</span>
+          <span class="breadcrumb-arrow"><span></span></span>
+        </div>
+
+        
+            <div class="breadcrumb-button">
+              <span class="breadcrumb-label">
+                <i class="icon-beaker"></i>管理员操作
+              </span>
+              <span class="breadcrumb-arrow"><span></span></span>
+            </div>
+        
+
+        <div class="breadcrumb-button">
+          <span class="breadcrumb-label">
+            <i class="icon-th-large"></i>资源管理
+          </span>
+          <span class="breadcrumb-arrow"><span></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="span10" style="margin-top:10px;">
+  <div class="box">
+      <div class="box-header">
+        <div class="title">资源管理</div>
+      </div>
+
+      <div class="box-content padded">
+      <form class="form-horizontal fill-up">
+              <div class="control-group">
+                <label class="control-label span2" style="margin-top:20px;">课程名称</label>
+                <div class="span6" style="margin-top:20px;">
+                  <select class="chzn-select"  name="colors">
+                    <option value="计算机体系结构">计算机体系结构</option>
+                    <option value="计算机网络基础">计算机网络基础</option>
+                    <option value="软件工程">软件工程</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label span2" style="margin-top:20px;">课程名称</label>
+                <div class="span6" style="margin-top:20px;">
+                  <select class="chzn-select"  name="colors">
+                    <option value="周一12">周一12</option>
+                    <option value="周二12">周二12</option>
+                    <option value="周三12">周三12</option>
+                  </select>
+                </div>
+              </div>
+      </form>
+      <table id="sortable" class="table table-normal">
+      <thead>
+      <tr>
+        <td></td>
+        <td>资源名称</td>
+        <td style="width: 60px">资源类型</td>
+        <td style="width: 60px">资源大小</td>
+        <td>下载数</td>
+        <td style="width: 40px"></td>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr>
+        <td class="icon"><i class="icon-file"></i></td>
+        <td><a href="#">软件工程ch1</a></td>
+        <td><b>pdf</b></td>
+        <td><b>1.2M</b></td>
+        <td><b>100</b></td>
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-xs btn-default"><i class="icon-remove-sign"></i></button>
+            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="icon"><i class="icon-file"></i></td>
+        <td><a href="#">软件工程ch2</a></td>
+        <td><b>pdf</b></td>
+        <td><b>1.2M</b></td>
+        <td><b>20</b></td>
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-xs btn-default"><i class="icon-remove-sign"></i></button>
+            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
+          </div>
+        </td>
+      </tr>
+            <tr>
+        <td class="icon"><i class="icon-file"></i></td>
+        <td><a href="#">软件工程ch3</a></td>
+        <td><b>pdf</b></td>
+        <td><b>1.2M</b></td>
+        <td><b>50</b></td>
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-xs btn-default"><i class="icon-remove-sign"></i></button>
+            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button type="submit" class="btn btn-default" style="margin-top:20px;margin-left:20px;">保存设置</button>
+
+  <p style="font-size:12px;margin-top:20px;margin-left:20px;"><i class="icon-info-sign"></i>&nbsp拖动可以移动资源顺序</p>
+      
+      </div>
+  </div>
+</div>
+
+
+
+</div>
+</body>
+</html>
