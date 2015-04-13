@@ -1,4 +1,4 @@
-index<!doctype html>
+<!doctype html>
 <html>
 <head>
   <% include head.html %>
@@ -112,56 +112,36 @@ index<!doctype html>
 
 
 
-
-
-
 <div class="span10">
-<ul class="chat-box timeline" style="max-width:90%">
-
-  <li class="arrow-box-left gray">
-    <div class="avatar"><img class="avatar-small" src="../../images/avatars/avatar2.jpg" /></div>
-    <div class="info">
-      <span class="name">
-        <span class="label label-blue">TASK</span> <strong class="indent">老师</strong> 布置了新作业： <strong>需求报告</strong>
-      </span>
-      <span class="time"><i class="icon-time"></i> 6 minutes ago</span>
-    </div>
-  </li>
-
-  <li class="arrow-box-left gray">
-    <div class="avatar"><img class="avatar-small" src="../../images/avatars/avatar3.jpg" /></div>
-    <div class="info">
-      <span class="name">
-        <span class="label label-purple">FILE</span> <strong class="indent">老师</strong> 上传了新的资源：<strong>SE_ppt_ch1.ppt</strong>
-      </span>
-      <span class="time"><i class="icon-time"></i> 12 minutes ago</span>
-    </div>
-  </li>
-</ul>
-</div>
-
-
-<div class="span10">
-  <div class="box" style="magin-left:100px;min-width:90%;">
+    <div class="box">
       <div class="box-header">
-        <div class="title">课程信息</div>
-
-        <ul class="nav nav-tabs nav-tabs-right">
-          <li class="active"><a href="#profile2" data-toggle="tab"><i class="icon-comments-alt"></i> <span>课程概要</span></a></li>
-          <li><a href="#messages2" data-toggle="tab"><i class="icon-comments-alt"></i> <span>老师/助教联系方式</span></a></li>
-          <li><a href="#settings2" data-toggle="tab"><i class="icon-cog"></i> <span>成绩组成</span></a></li>
-        </ul>
-
+        <span class="title">课程反馈</span>
       </div>
+    <div class="box-content" >
+        <form class="validatable">
 
-      <div class="box-content padded">
-        <div class="tab-content">
-          <div class="tab-pane active" id="profile2">And now to the profile</div>
-          <div class="tab-pane" id="messages2">zywang@cad.zju.edu.cn</div>
-          <div class="tab-pane" id="settings2">50%大程+50%考试</div>
-        </div>
-      </div>
-  </div>
+          <div class="padded">
+
+            <div class="form-group">
+              <label class="control-label col-lg-2">Email:</label>
+              <div class="col-lg-10">
+                <input type="text" class="validate[required]" data-prompt-position="right"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-lg-2">Message:</label>
+              <div class="col-lg-10">
+                <textarea placeholder="输入您的反馈" rows="6"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-blue">提交</button>
+          </div>
+        </form>
+    </div>
 </div>
 
 
