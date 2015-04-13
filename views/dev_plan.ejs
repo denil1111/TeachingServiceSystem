@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+  <% include head.html %>
+</head>
+<body>
+<!-- 上方选择条 navbar-top-->
+<% include navbar.html %>
+<!-- 侧边框 -->
+<% include slide.html%>
+<script type="text/javascript">
+  function setActive(){
+    console.log('dev_plan');
+    var active=document.getElementById('dev_plan');
+    active.className='active';
+  }
+  setActive();
+</script>
+<!-- 主要内容 -->
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="area-top clearfix">
+        <div class="pull-left header">
+          <h3 class="title"><i class="icon-dashboard"></i>培养方案</h3>
+          <h5>查看本专业培养方案</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 个人课表 -->
+  <div class="span10">
+    <div class="box">
+      <div class="box-header">
+        <span class="title">专业培养方案</span>
+      </div>
+      <div class="box-content scrollable" style="height: 1000px; overflow-y:auto"> 
+        <!-- 通识课部分 -->
+        <div class="span9" style="margin-top:20px;">
+          <div class="box">
+             <div class="box-header">
+                <span class="title">通识课部分</span>
+              </div>
+              <div class="box-content padded">
+                <table width="100%" class="table table-normal" style="text-align:center;">
+                  <thead>
+                    <tr>
+                      <td style="width:50%">通识课所属类别</td>
+                      <td style="width:15%">毕业最低学分</td>
+                      <td style="width:15%">已修学分</td>
+                      <td style="width:20%">是否满足要求</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for(var i=0;i<dev_plan_gen.length;i++){%>
+                    <tr>
+                      <td><%= dev_plan_gen[i].name %></td>
+                      <td><%= dev_plan_gen[i].min_credits %></td>
+                      <td><%= dev_plan_gen[i].credits %></td>
+                      <%if(dev_plan_gen[i].min_credits<=dev_plan_gen[i].credits) {%>
+                      <td><i class="icon-ok" style="color:green;"></i></td>
+                      <%}%>
+                      <%if(dev_plan_gen[i].min_credits>dev_plan_gen[i].credits) {%>
+                      <td><i class="icon-remove" style="color:red;"></i></td>
+                      <%}%>
+                    </tr>
+                    <%}%>
+                  </tbody>  
+                 </table>
+              </div>
+          </div>
+        </div>
+        <!-- 专业必修课部分 -->
+        <div class="span9" style="margin-top:20px;">
+          <div class="box">
+             <div class="box-header">
+                <span class="title">专业必修课部分</span>
+              </div>
+              <div class="box-content padded">
+                <table width="100%" class="table table-normal" style="text-align:center;">
+                      <thead>
+                        <tr>
+                          <td style="width:20%">课程序号</td>
+                          <td style="width:35%">课程名称</td>
+                          <td style="width:15%">推荐完成学期</td>
+                          <td style="width:10%">课程学分</td>
+                          <td style="width:10%">完成</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% for(var i=0;i<dev_plan_req.length;i++){%>
+                        <tr>
+                          <td><%= dev_plan_req[i].ID %></td>
+                          <td><%= dev_plan_req[i].name %></td>
+                          <td><%= dev_plan_req[i].time %></td>
+                          <td><%= dev_plan_req[i].credit %></td>
+                          <%if(dev_plan_req[i].complete) {%>
+                          <td><i class="icon-ok" style="color:green;"></i></td>
+                          <%}%>
+                          <%if(!dev_plan_req[i].complete) {%>
+                          <td><i class="icon-remove" style="color:red;"></i></td>
+                          <%}%>
+                        </tr>
+                        <%}%>
+                      </tbody>  
+                     </table>
+              </div>
+          </div>
+        </div>
+        <!-- 专业选修课部分 -->
+        <div class="span9" style="margin-top:20px;">
+          <div class="box">
+             <div class="box-header">
+                <span class="title">专业选修课部分</span>
+              </div>
+              <div class="box-content padded">
+                <ul>
+                  <% for(var i=0;i<dev_plan_elec_class.length;i++){%>
+                  <li style="margin-bottom:25px;">
+                    <span><%=dev_plan_elec_class[i].classification%> (最低 <%= dev_plan_elec_class[i].min_credits %> 学分,已完成 <%=dev_plan_elec_class[i].credits %> 学分) 
+                    </span>
+                    <%if(dev_plan_elec_class[i].min_credits<=dev_plan_elec_class[i].credits) {%>
+                    <i class="icon-ok" style="color:green;"></i>
+                    <%}%>
+                    <%if(dev_plan_elec_class[i].min_credits>dev_plan_elec_class[i].credits) {%>
+                    <i class="icon-remove" style="color:red;"></i>
+                    <%}%>
+                    <table width="100%" class="table table-normal" style="text-align:center;">
+                      <thead>
+                        <tr>
+                          <td style="width:20%">课程序号</td>
+                          <td style="width:35%">课程名称</td>
+                          <td style="width:15%">推荐完成学期</td>
+                          <td style="width:10%">课程学分</td>
+                          <td style="width:10%">完成</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% for(var j=0;j<dev_plan_elec[i].length;j++){%>
+                        <tr>
+                          <td><%= dev_plan_elec[i][j].ID %></td>
+                          <td><%= dev_plan_elec[i][j].name %></td>
+                          <td><%= dev_plan_elec[i][j].time %></td>
+                          <td><%= dev_plan_elec[i][j].credit %></td>
+                          <%if(dev_plan_elec[i][j].complete) {%>
+                          <td><i class="icon-ok"></i></td>
+                          <%}%>
+                          <%if(!dev_plan_elec[i][j].complete) {%>
+                          <td><i class="icon-remove"></i></td>
+                          <%}%>
+                        </tr>
+                        <%}%>
+                      </tbody>  
+                     </table>
+                  </li>
+                  <%}%>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 主要内容的js -->
+<script type="text/javascript">
+</script>
+</body>
+</html>
