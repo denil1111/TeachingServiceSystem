@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+  <% include head.html %>
+</head>
+<body>
+<!-- 上方选择条 navbar-top-->
+<% include navbar.html %>
+<!-- 侧边框 -->
+<% include slide.html%>
+<script type="text/javascript">
+   function setActive(){
+    var active=document.getElementById('resource_search');
+    active.className='active';
+  }
+  setActive();
+</script>
+<!-- 主要内容 -->
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="area-top clearfix">
+        <div class="pull-left header">
+          <h3 class="title"><i class="icon-search"></i>资源搜索系统</h3>
+          <h5>选择你要的资源</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 筛选条件 -->
+  <div class="span10">
+    <div class="box">
+      <div class="box-header">
+        <div class="title">筛选条件</div>
+      </div>
+      <form name="input" action="/select/course_search" method="post">
+        <div class="box-content padded">
+          <div class="row-fluid">
+            <div class="span9">
+            <!-- 条件选框 -->
+              <ul>
+                <li class="input">
+                  <label>课程号</label>
+                  <input type="text" placeholder="课程号" name="course_number">
+                </li>
+                <li class="input" style="margin-bottom:10px">
+                    <label>课程名称:</label>
+                    <input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">
+                    <label for="iradio3" class="">AND &nbsp &nbsp</label>
+                    <input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">
+                    <label for="iradio3" class="">OR</label>
+                    <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_name">程序员</textarea>
+                </li>
+                <li class="input" style="margin-bottom:10px">
+                  <label>资源名称:</label>
+                    <input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">
+                    <label for="iradio3" class="">AND &nbsp &nbsp</label>
+                    <input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">
+                    <label for="iradio3" class="">OR</label>
+                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher">XXX</textaarea>
+                </li>
+                <li class="input" style="margin-bottom:10px">
+                  <label>资源类型:</label>
+                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher">pdf</textarea>
+                </li>
+                <li class="input" style="margin-bottom:10px">
+                  <label>关键字:</label>
+                    <input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">
+                    <label for="iradio3" class="">AND &nbsp &nbsp</label>
+                    <input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">
+                    <label for="iradio3" class="">OR</label>
+                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher">XXX</textarea>
+                </li>
+              </ul>
+            </div>
+          </div>
+        <button type="submit" class="btn btn-blue" style="">搜索</button>
+        </div>
+      </form>
+      </div>
+  </div>
+  <!-- 搜索结果 -->
+  <div class="span10">
+    <div class="box">
+      <div class="box-header">
+        <span class="title">搜索结果</span>
+        <ul class="box-toolbar">
+          <li><span class="label label-blue">length</span></li>
+        </ul>
+      </div>
+    <div class="box-content" >
+    <table class="table table-normal">
+      <thead>
+      <tr>
+        <td></td>
+        <td>资源名称</td>
+        <td style="width: 60px">资源类型</td>
+        <td style="width: 60px">资源大小</td>
+        <td>课程</td>
+        <td style="width: 40px"></td>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr>
+        <td class="icon"><i class="icon-file"></i></td>
+        <td><a href="#">软件工程ch1</a></td>
+        <td><b>pdf</b></td>
+        <td><b>1.2M</b></td>
+        <td><b>软件工程</b></td>
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="icon"><i class="icon-file"></i></td>
+        <td><a href="#">软件工程ch2</a></td>
+        <td><b>pdf</b></td>
+        <td><b>1.2M</b></td>
+        <td><b>软件工程</b></td>
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
+          </div>
+        </td>
+      </tr>
+            <tr>
+        <td class="icon"><i class="icon-file"></i></td>
+        <td><a href="#">软件工程ch3</a></td>
+        <td><b>pdf</b></td>
+        <td><b>1.2M</b></td>
+        <td><b>软件工程</b></td>
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
+          </div>
+        </td>
+      </tr>
+    </div>
+  </div>
+</div>
+</body>
+</html>
