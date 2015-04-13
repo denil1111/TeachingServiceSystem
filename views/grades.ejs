@@ -1,13 +1,25 @@
 <!doctype html>
-<html>
-<head>
   <% include head.html %>
 </head>
 <body>
 <!-- 上方选择条 navbar-top-->
 <% include navbar.html %>
 <!-- 侧边框 -->
-<% include slide.html%>
+<% include slide_grades.html%>
+<script type="text/javascript">
+   function setNavActive(){
+       var active=document.getElementById('grades');
+           active.className='active';
+    }
+
+   function setSlideActive(){
+        var slide = document.getElementById('sumup');
+            slide.className='active';
+   }
+
+     setNavActive();
+     setSlideActive();
+</script>
 <!-- 主要内容 -->
 <div class="main-content">
   <div class="container-fluid">
