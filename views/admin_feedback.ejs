@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+  <% include head.html %>
+</head>
+<body>
+<!-- 上方选择条 navbar-top-->
+<% include navbar.html %>
+<!-- 侧边框 -->
+<% include slide.html%>
+<script type="text/javascript">
+   function setActive(){
+    var active=document.getElementById('resource_share');
+    active.className='active';
+  }
+  setActive();
+</script>
+<!-- 主要内容 -->
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="area-top clearfix">
+        <div class="pull-left header">
+          <h3 class="title"><i class=" icon-briefcase"></i>资源管理系统</h3>
+          <h5>管理所有课程的资源与作业</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="span10" style="margin-left:50px;margin-top:10px;">
+    <div class="row">
+      <!-- Breadcrumb line -->
+      <div id="breadcrumbs">
+        <div class="breadcrumb-button blue">
+          <span class="breadcrumb-label"><i class="icon-home"></i>我的教务网</span>
+          <span class="breadcrumb-arrow"><span></span></span>
+        </div>
+
+        
+            <div class="breadcrumb-button">
+              <span class="breadcrumb-label">
+                <i class="icon-beaker"></i>管理员操作
+              </span>
+              <span class="breadcrumb-arrow"><span></span></span>
+            </div>
+        
+
+        <div class="breadcrumb-button">
+          <span class="breadcrumb-label">
+            <i class="icon-th-large"></i>查看反馈
+          </span>
+          <span class="breadcrumb-arrow"><span></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="span10">
+<ul class="chat-box timeline" style="max-width:90%">
+
+  <li class="arrow-box-left gray">
+    <div class="avatar"><img class="avatar-small" src="../../images/avatars/avatar2.jpg" /></div>
+    <div class="info">
+      <span class="name">
+        <span class="label label-green">COMMENT</span> <strong class="indent">stu1</strong> 发表了新的反馈消息：<strong>老师，作业能少点么！</strong>
+      </span>
+      <span class="time"><i class="icon-time"></i> 6 minutes ago</span>
+    </div>
+  </li>
+
+  <li class="arrow-box-left gray">
+    <div class="avatar"><img class="avatar-small" src="../../images/avatars/avatar2.jpg" /></div>
+    <div class="info">
+      <span class="name">
+        <span class="label label-green">COMMENT</span> <strong class="indent">stu2</strong> 发表了新的反馈消息：<strong>老师，上课能不来么！</strong>
+      </span>
+      <span class="time"><i class="icon-time"></i> 6 minutes ago</span>
+    </div>
+  </li>
+</ul>
+</div>
+
+
+
+
+
+
+</div>
+</body>
+</html>
