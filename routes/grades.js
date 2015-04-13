@@ -1,25 +1,28 @@
 
 var express = require('express');
 var router = express.Router();
-var mongo = require('../settings');
-var dbb = new mongo();
-var db = dbb.module();
 var mongoose=require('mongoose')
 var Schema = new mongoose.Schema({
-       name: String,
-       score:String
+       courseNumber: String,
+       courseName:String,
+       score:Number,
+       credit:Number,
+       gradePoint:Number,
+       secondScore:Number
 });
 
-var gradesDB = db.model('grades',Schema);
 
 
 router.get('/', function(req, res, next) {
-  grades.find(function(error,docs){
+
+var gradesDB = global.db.model('grades',Schema);
+gradesDB.find(function(error,docs){
     if(error){
         console.log(error);
         return;
     }
   
+  //console.log(docs[0]);
   
   res.render('grades', {
   	name: '程序员', 
