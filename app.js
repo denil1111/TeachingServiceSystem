@@ -28,10 +28,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-<<<<<<< HEAD
-
-=======
->>>>>>> merge route with master
 app.use('/debug', debug);
 
 // catch 404 and forward to error handler
