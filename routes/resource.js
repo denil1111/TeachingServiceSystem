@@ -6,7 +6,7 @@ var router = express.Router();
 
 // TODO: wait to split those routes into separate files
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Resource' });
+  res.render('myresource', { title: 'Resource' });
 });
 
 router.get('/cloud', function(req, res, next) {
