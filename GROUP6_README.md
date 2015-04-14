@@ -1,13 +1,13 @@
-#TeachingServiceSystem Group6 
-##使用说明
+# TeachingServiceSystem Group6 
+## 使用说明
 
-###1.依赖关系安装
+### 1.依赖关系安装
  npm install
       
-###2.运行
+### 2.运行
  npm start
       
-###3.运行前将下面的内容复制到目录下的settings.js文件
+### 3.运行前将下面的内容复制到目录下的settings.js文件
 
   module.exports = {
     db : {
@@ -16,7 +16,7 @@
     }
   }
   
-###4.数据库使用说明    
+### 4.数据库使用说明    
 
 * 使用了mongolab的云数据库服务，账号密码都是tsgroup6。可以利用命令行工具批量导入数据，方便测试。具体导入和导出方法可以参见mongolab网站。
     
@@ -25,7 +25,7 @@
 * 查找和使用数据的例子可以参考 routes/grades.js 与 views/grades.ejs
 * 更多例子可以参考 db/dbDemo/ 下的文件
    
-###5.Group6页面文件说明                                                                                                                                       
+### 5.Group6页面文件说明                                                                                                                                       
      
   * views/classLists.ejs  课程列表（教师）
   * views/classManagement.ejs  课程管理(教师)
@@ -40,7 +40,7 @@
   模板元素参考 : http://beer2code.com/themes/core-admin-3/pages/dashboard/dashboard.html
 
   
-###6.其他文件说明
+### 6.其他文件说明
 
 routes/grads.js  处理后端数据库连接与路由
 settings.js 连接数据库
