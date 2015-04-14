@@ -13,7 +13,7 @@ var Schema = new mongoose.Schema({
 
 
 
-router.get('/', function(req, res, next) {
+router.get('/grades', function(req, res, next) {
 
 var gradesDB = global.db.model('grades',Schema);
 gradesDB.find(function(error,docs){
@@ -38,8 +38,16 @@ gradesDB.find(function(error,docs){
 });
 });  
 
-router.get('grades_analysis',function(req, res, next) {
-  res.render('grades', {
+router.get('/grades_analysis',function(req, res, next) {
+
+var gradesDB = global.db.model('grades',Schema);
+gradesDB.find(function(error,docs){
+    if(error){
+        console.log(error);
+        return;
+    }
+  
+  res.render('grades_analysis', {
   	name: '程序员', 
   	image: 'images/avatars/avatar1.jpg',
   	total_a:'12',
@@ -48,8 +56,10 @@ router.get('grades_analysis',function(req, res, next) {
   	b:'4,6,2,4,6,2,0',
   	total_credits:'24',
   	credits:'4,6,2,4,6,2,0',
+    data:docs
   });
   }); 
+});  
 
 
 
