@@ -18,7 +18,7 @@ router.use('/select', select);
 // router.get('/resource', resource);
 // router.get('/test', test);
 // router.get('/score', score);
-router.use('/grades', grades);
+router.use('/', grades);
 
 
 module.exports = router;
