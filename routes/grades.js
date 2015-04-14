@@ -1,7 +1,7 @@
 
 var express = require('express');
 var router = express.Router();
-var mongoose=require('mongoose')
+var mongoose=require('mongoose');
 var Schema = new mongoose.Schema({
        courseNumber: String,
        courseName:String,
