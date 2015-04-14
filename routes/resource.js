@@ -5,6 +5,10 @@ var express = require('express');
 var router = express.Router();
 
 // TODO: wait to split those routes into separate files
+router.get('/', function(req, res, next) {
+  res.render('courseInfo',{});
+});
+
 router.get('/myresource', function(req, res, next) {
   res.render('myresource',{});
 });
