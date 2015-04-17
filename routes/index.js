@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 });
 // router.get('/info', info);
 // router.get('/arrange', arrange);
-router.use('/select', select);
+router.use('/', select);
 // router.get('/resource', resource);
 // router.get('/test', test);
 // router.get('/score', score);
