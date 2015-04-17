@@ -17,7 +17,19 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/cloud', function(req, res, next) {
-  res.render('myresource', { title: 'Cloud' });
+  gfs.files.find({}, function (err, files) {
+    console.log()
+  });
+
+  var newFile = {
+    name: 'Makefile',
+    size: '1.2KB',
+    ext: '',
+    courseName: '软工'
+  };
+  var fileList = [newFile];
+
+  res.render('myresource', { title: 'Cloud' , fileList: fileList});
 });
 
 /*

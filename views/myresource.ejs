@@ -114,7 +114,7 @@
           </div>
         </td>
       </tr>
-            <tr>
+      <tr>
         <td class="icon"><i class="icon-file"></i></td>
         <td><a href="#">软件工程ch3</a></td>
         <td><b>pdf</b></td>
@@ -127,6 +127,24 @@
           </div>
         </td>
       </tr>
+      <% fileList.forEach(function (file) { %>
+      <tr>
+        <td class="icon"><i class="icon-file"></i></td>
+        <td><a href="#"> <%= file.name %></a></td>
+        <td><b><%= file.ext %></b></td>
+        <td><b><%= file.size %></b></td>
+        <td><b><%= file.courseName %></b></td>
+        <td>
+          <div class="btn-group">
+            <form method="get" action="/resource/cloud/download/<%=file.name %>">
+              <button class="btn btn-xs btn-default"><i class="icon-remove-sign"></i></button>
+              <button class="btn btn-xs btn-default" type="submit"><i class="icon-download-alt"></i></button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      <% })%>
+      </tbody>
     </div>
   </div>
 </div>
