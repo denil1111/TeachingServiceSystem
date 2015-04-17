@@ -38,30 +38,41 @@ router.get('/cloud/upload', function(req, res, next) {
 
   file upload api
 
-*/
+ */
 router.post('/cloud/upload', function(req, res, next) {
-  debug('enter upload');
-  req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype){
+  req.busboy.on('file', function(fieldname, readStream, filename, encoding, mimetype){
+    debug('a file is posted: ' + filename);
     var ws = gfs.createWriteStream({
       mode: 'w',
       content_type: mimetype,
       filename: filename,
       metadata: {}
     });
-    debug(fieldname);
-
-    file.pipe(ws);
+    readStream.pipe(ws);
   });
 
+  //TODO: should not allow any other field to be post to the upload route
   req.busboy.on('field', function(key, value, keyTruncated, valueTruncated){
-    debug(key);
+    debug('Field is ' + key + value);
   });
 
   req.busboy.on('finish', function(){
     res.redirect('/resource/cloud');
-  })
+  });
 
   req.pipe(req.busboy);
+});
+
+/*
+
+  file download api
+
+ */
+
+router.get('/cloud/download/:filename', function(req, res, next) {
+  debug('a file will be download: ' +  req.params['filename']);
+  res.status(200).json({message: 'success'});
+
 });
 
 router.get('/course', function(req, res, next) {
