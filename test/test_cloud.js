@@ -38,11 +38,19 @@ describe('POST /resource/cloud/upload', function () {
 });
 
 describe('GET /resource/cloud/download', function () {
-  it('send a GET', function (done) {
+  it('file exists', function (done) {
     var fileName = 'Makefile';
     request(serverHost + '/resource/cloud/download/' + fileName, function (err, res, body) {
       should.not.exists(err);
-      debug(JSON.parse(body)['message']);
+      res.statusCode.should.equal(200);
+      done();
+    })
+  })
+  it('file not exists', function (done) {
+    var fileName = 'jsdfjsle';
+    request(serverHost + '/resource/cloud/download/' + fileName, function (err, res, body) {
+      should.not.exists(err);
+      res.statusCode.should.equal(500);
       done();
     })
   })

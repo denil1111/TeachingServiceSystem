@@ -19,6 +19,7 @@ router.get('/', function(req, res, next) {
 router.get('/cloud', function(req, res, next) {
   res.render('myresource', { title: 'Cloud' });
 });
+
 /*
 
   A temporary upload page for test purpose
@@ -70,9 +71,26 @@ router.post('/cloud/upload', function(req, res, next) {
  */
 
 router.get('/cloud/download/:filename', function(req, res, next) {
+  var dlfileName = req.params['filename'];
   debug('a file will be download: ' +  req.params['filename']);
-  res.status(200).json({message: 'success'});
 
+  //TODO: the search option may have more fields than 'filename' only, because GridFS allow files with the same name.
+  var opts = {
+    filename: dlfileName
+  };
+  gfs.exist(opts, function (err, found) {
+    if (err)
+      return next(err);
+    if (found) {
+      var rs = gfs.createReadStream(opts);
+
+      res.setHeader('Content-disposition', 'attachment; filename=' + dlfileName);
+      res.setHeader('Content-type', 'text/plain');
+      rs.pipe(res);
+    } else {
+      next(new Error('File ' + dlfileName + ' not found'));
+    }
+  });
 });
 
 router.get('/course', function(req, res, next) {
