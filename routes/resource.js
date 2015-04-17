@@ -16,20 +16,21 @@ router.get('/', function(req, res, next) {
   // res.render('courseInfo',{});
 });
 
+//TODO: simply find all files from gfs.files and display them
 router.get('/cloud', function(req, res, next) {
-  gfs.files.find({}, function (err, files) {
-    console.log()
+  gfs.files.find({}).toArray(function (err, files) {
+    if (err)
+      return next(err);
+    res.render('myresource', { title: 'Cloud' , fileList: files.map(function (val) {
+      return {//FIXME: require ext and courseName
+        name: val.filename,
+        size: val.length + 'B',
+        ext: '',
+        courseName: '软工'
+      }
+    })});
   });
 
-  var newFile = {
-    name: 'Makefile',
-    size: '1.2KB',
-    ext: '',
-    courseName: '软工'
-  };
-  var fileList = [newFile];
-
-  res.render('myresource', { title: 'Cloud' , fileList: fileList});
 });
 
 /*
@@ -86,7 +87,7 @@ router.get('/cloud/download/:filename', function(req, res, next) {
   var dlfileName = req.params['filename'];
   debug('a file will be download: ' +  req.params['filename']);
 
-  //TODO: the search option may have more fields than 'filename' only, because GridFS allow files with the same name.
+  //FIXME: the search option may have more fields than the 'filename', because GridFS allow files with the same name.
   var opts = {
     filename: dlfileName
   };
