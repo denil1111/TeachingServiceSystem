@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Insert</title>
+    <title>Person Insert</title>
     <meta charset="UTF-8">
     <link rel='stylesheet' href='./public/stylesheets/style.css' />
   </head>
   <body>
     <h1>Sign In</h1>
-    <form action="/insert" role="form" method="post">
+    <form action="/personinsert" role="form" method="post">
         <p><span><%= insertresult %></span>
         </p>
         <p>
@@ -68,7 +68,7 @@
           <br>
           <input id="email" name="email" type="text">
         </p>
-        <p><input type="submit" onclick="insert();" value="submit"></p>
+        <p><input type="submit" onclick="personinsert();" value="submit"></p>
     </form>
   </body>
 </html>
