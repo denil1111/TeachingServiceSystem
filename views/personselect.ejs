@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Select</title>
-    <meta charset="UTF-8">
-  </head>
-  <body>
-    <h1>Select</h1>
-    <form action="/personselect" role="form" method="post">
-        <p><span><%= selectresult %></span></p>
-        <p><span id = "username" ><%= person_data.username %></span></p>
-        <p><span><% person_data.status %></span></p>
-        <p><span><% person_data.sex %></span></p>
-        <p><span><% person_data.age %></span></p>
-        <p><span><% person_data.major %></span></p>
-        <p><span><% person_data.college %></span></p>
-        <p><span><% person_data.title %></span></p>
-        <p><span><% person_data.tel %></span></p>
-        <p><span><% person_data.email %></span></p>
-        <p>
-          <span>姓名</span>
-          <br>
-          <input id="username" name="username" placeholder="name" type="text">
-        </p>
+<head>
+  <title>Select</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h1>Select</h1>
+  <form action="/personselect" role="form" method="post">
+    <% for(var i=0; i<person_data.length;i++) { %>
+    <p><span><%= selectresult %></span></p>
+    <p><span><%= person_data.username %></span></p>
+    <p><span><%= person_data[i].status %></span></p>
+    <p><span><%= person_data[i].sex %></span></p>
+    <p><span><%= person_data[i].age %></span></p>
+    <p><span><%= person_data[i].major %></span></p>
+    <p><span><%= person_data[i].college %></span></p>
+    <p><span><%= person_data[i].title %></span></p>
+    <p><span><%= person_data[i].tel %></span></p>
+    <p><span><%= person_data[i].email %></span></p>
+    <% } %>
+    <p>
+      <span>姓名</span>
+      <br>
+      <input id="username" name="username" placeholder="name" type="text">
+    </p>
         <!--p>
             <span>身份：</span>
             <br>
@@ -74,7 +76,7 @@
           <br>
           <input id="email" name="email" type="text">
         </p-->
-        <p><input type="submit" onclick="insert();" value="submit"></p>
-    </form>
-  </body>
-</html>
+        <p><input type="submit" onclick="personselect();" value="submit"></p>
+      </form>
+    </body>
+    </html>

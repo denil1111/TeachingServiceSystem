@@ -2,9 +2,13 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 
+var tmp=[];
+tmp.push({username:'initial_name',status:'initial_status',sex:'initial_sex',age:'',major:'',college:'',title:'',tel:'',email:''});
+
+
 router.get('/personselect', function(req, res, next) {
     res.render('personselect',{
-    	person_data:'',
+    	person_data:tmp,
         selectresult:'请提交表单'
     });
 });
@@ -16,7 +20,7 @@ router.post('/personselect',function(req, res, next){
 	var CollectionName = 'people';
 	var PersonModel = db.model('PersonModel',PersonSchema,CollectionName);
 
-	PersonModel.findbyname(req.body.username1, function(error, data){
+	PersonModel.findbyname(req.body.username, function(error, data){
 		if(error) {
 			console.log('find error!'+error);
 		} else {

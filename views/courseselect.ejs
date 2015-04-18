@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Select</title>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <h1>Select</h1>
+    <form action="/courseselect" role="form" method="post">
+        <p><span><%= selectresult %></span></p>
+        <p><span id = "username" ><%= person_data.username %></span></p>
+        <p><span><% person_data.status %></span></p>
+        <p><span><% person_data.sex %></span></p>
+        <p><span><% person_data.age %></span></p>
+        <p><span><% person_data.major %></span></p>
+        <p><span><% person_data.college %></span></p>
+        <p><span><% person_data.title %></span></p>
+        <p><span><% person_data.tel %></span></p>
+        <p><span><% person_data.email %></span></p>
+        <p>
+          <span>课程名称</span>
+          <br>
+          <input id="coursename" name="coursename" placeholder="name" type="text">
+        </p>
+ 
+        <p><input type="submit" onclick="insert();" value="submit"></p>
+    </form>
+  </body>
+</html>
