@@ -13,6 +13,7 @@ Group4 内部共享信息
 - `2015.4.14`**lyt9304**:添加当前路由说明
 - `2015.4.15`**Gnnng**:修改路由说明，简化文本，增加"Git 使用"和"代码规范""
 - `2015.4.17`**Gnnng**:增加"进度情况"，"如何测试"和"GridFS说明"
+- `2015.4.19`**Gnnng**:补充细节到“如何测试”
 
 # 2 路由说明
 
@@ -120,8 +121,53 @@ Group4 内部共享信息
 
 # 6 如何测试
 
-> 待补充
+## mocha
 
+这是一个测试框架，首页<http://mochajs.org/>有不少例子可以看。
+
+## 运行测试
+
+> 确保已经 `npm install`
+
+`make` 或者 `mocha`
+
+
+## 如何编写测试
+
+所有的测试文件都放在`test`目录下，文件名称自定，但是扩展名为`.js`。每个文件都是一个独立的测试集合。
+
+mocha 提供了几个基本的测试方法`describe`, `it`，具体用法可以参考`test_route_of_resource.js`以及官网文档
+
+```
+var should = require('should'); //一个断言库
+var request = require('request'); //一个用来模拟发起HTTP请求的库
+var async = require('async'); //略
+
+describe('These is a test subject', function() {
+  it('a test case under current subject', function(done){
+    // do some test with 'should'
+    
+    // then call done() to end this test
+    done();
+  });
+});
+
+```
+
+## 添加路由可用性测试
+
+参考`test_route_of_resource.js`，基本不需要太大的改动。
+
+```javascript
+// 直接按照格式添加路由到该文件的数组中
+    [
+      '/resource',
+      '/resource/cloud',
+      '/resource/course',
+      '/resource/config',
+      '/resource/newroute'
+    ]
+```
 # 7 GridFS 说明
 
 官方文档在<https://github.com/aheckmann/gridfs-stream>

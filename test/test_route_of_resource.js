@@ -7,7 +7,7 @@ var async = require('async');
 
 var serverHost = 'http://localhost:3000';
 
-describe('Route', function (end) {
+describe('Route', function () {
   context('when access correct route', function () {
     [
       '/resource',
