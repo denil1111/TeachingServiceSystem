@@ -42,7 +42,7 @@ router.get('/cloud/upload', function(req, res, next) {
   var html = '<form action="/resource/cloud/upload"enctype="multipart/form-data" method="post"> ' +
     '<h1> Upload your file </h1> ' +
     'Please specify a file, or a set of files:<br> ' +
-    '<input type="file" name="datafile" size="40">  ' +
+    '<input type="file" name="datafile" size="40" multiple="multiple">  ' +
     '<div> <input type="submit" value="Send"> </div> </form>';
   res.send(html);
   res.end();
