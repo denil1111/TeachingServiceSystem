@@ -27,7 +27,7 @@ router.post('/courseinsert',function(req,res,next){
         college : req.body.college
     };
 
-    console.log("doc:"+doc.coursename);
+    console.log("doc:"+doc.room);
     
     CourseModel.create(doc,function(err,data){
         console.log('err'+err);
