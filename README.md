@@ -3,4 +3,5 @@
 代码下载后
 npm install
 npm start
-可以运行网站
+在浏览器中打开localhost:3000/insert
+localhost:3000/personselect
