@@ -13,7 +13,8 @@ Group4 内部共享信息
 - `2015.4.14`**lyt9304**:添加当前路由说明
 - `2015.4.15`**Gnnng**:修改路由说明，简化文本，增加"Git 使用"和"代码规范""
 - `2015.4.17`**Gnnng**:增加"进度情况"，"如何测试"和"GridFS说明"
-- `2015.4.19`**Gnnng**:补充细节到“如何测试”
+- `2015.4.19`**Gnnng**:补充细节到"如何测试"
+- `2015.4.20`**Gnnng**:删除冗余信息，增加第二周任务
 
 # 2 路由说明
 
@@ -24,8 +25,8 @@ Group4 内部共享信息
     - `/cloud`
         - `/` 个人网盘页面
         - `/search` 公开资源搜索页面，热门资源展示
-    - `/course` 
-        - `/` 课程资源，上传下载
+    - `/course` 默认跳转`/data`
+        - `/data` 课程资源，上传下载
         - `/info` 课程信息
         - `/homework` 作业提交
         - `/feedback` 反馈信息
@@ -33,35 +34,6 @@ Group4 内部共享信息
 
 #### 注：
 1. 上述只是确定大致结构，具体路由和代码实现有关
-2. 本周的两个工作
-    1. GridFS, 在 `/cloud` 下完成
-    2. 基本完成 `/course` 下的内容
-
-
-
-> To lyt: 按照格式修改补充到上面的路由说明之后，可以删除掉这些内容
-> ## 访问小组主页
-> http://localhost:3000/resource
-
-> 会跳转到courseInfo.ejs这个界面
-
-> ## 资源共享主界面
-> 目前只有软工这个课程作为演示界面
-
-> 1. 课程信息 http://localhost:3000/resource/info
-> 2. 课程资源 http://localhost:3000/resource/resource
-> 3. 作业提交 http://localhost:3000/resource/homework
-> 4. 我的资源管理 http://localhost:3000/resource/myresource
-> 5. 课程反馈 http://localhost:3000/resource/feedback
-
-> ## 管理员操作
-> 1. 修改课程信息 http://localhost:3000/resource/admin_changeinfo
-> 2. 管理资源 http://localhost:3000/resource/admin_resource
-> 3. 批改作业 http://localhost:3000/resource/admin_homework
-> 4. 查看反馈 http://localhost:3000/resource/admin_feedback
-
-> ## 资源搜索
-> http://localhost:3000/resource/search
 
 # 3 Git 使用
 
@@ -97,6 +69,8 @@ Group4 内部共享信息
 
 ### 任务1 GridFS
 
+> gdl
+
 - 两个API接口
     - `/resource/cloud/upload` POST 简单实现demo
     - `/resource/cloud/download/:filename` GET 简单实现demo
@@ -116,8 +90,52 @@ Group4 内部共享信息
 
 - 基础页面设计
 
-> 请 lyt 补充
+> 请 lyt 补充页面设计的内容
 
+## 第二周(4.20-4.27)
+
+### 任务1 需求报告
+
+任务分配:
+
+- gdl
+
+### 任务2 页面改进
+
+任务分配:
+
+- lyt
+
+内容:
+
+1. 改侧栏，课程列表+资源库按钮 
+2. cloud页面（加强：文件夹）
+3. 页面冗余结构，前端小组讨论
+4. 加上ejs和后台交互
+
+### 任务3 文件上传下载-进阶
+
+任务分配：
+
+- zyh
+- gt
+
+内容：
+
+1. **完成**多文件上传测试
+    - 在`resource/cloud/upload`有一个测试页面，在此处完成
+2. **确定**GridFS中文件的`metadata`内容
+    - 即属性
+    - 包含权限，创建日期，虚拟路径等
+3. **初步完成**`resource/cloud`页面
+    - 即个人网盘页面
+    - 配合前端修改
+4. **初步完成**`resource/course`页面
+    - 暂时不区分“教师”和“学生”两个角色
+    - `/data` 课件显示，课件上传，下载
+    - `/homework` 已上传作业显示，作业上传，下载
+    - `/feedback` 反馈提交
+    - `/info` 课程信息显示（暂缓）
 
 # 6 如何测试
 
