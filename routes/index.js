@@ -7,10 +7,6 @@ var select = require("./course")
 // var resource = require()
 // var test = require()
 // var score = require()
-
-// var resource = require()
-// var test = require()
-// var score = require()
 var grades = require("./grades")
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -18,11 +14,11 @@ router.get('/', function(req, res, next) {
 });
 // router.get('/info', info);
 // router.get('/arrange', arrange);
-router.use('/select', select);
+router.use('/', select);
 // router.get('/resource', resource);
 // router.get('/test', test);
 // router.get('/score', score);
-router.use('/grades', grades);
+router.use('/', grades);
 
 
 module.exports = router;
