@@ -293,7 +293,7 @@
     //ajax传输
     var _json = jQuery.param ({year:data_year,sem:data_sem});  
     var request = $.ajax({  
-        url: "/my_course_search",  
+        url: "/select/my_course_search",  
         type: "POST",  
         async: false,  
         data: _json,   
@@ -313,7 +313,7 @@
     //ajax传输
     var _json = jQuery.param ({year:data_year,sem:data_sem});
     var request = $.ajax({  
-        url: "/my_course_search",  
+        url: "/select/my_course_search",  
         type: "POST",  
         async: false,  
         data: _json,   
@@ -335,7 +335,7 @@
     //ajax传输
     var _json = jQuery.param ({year:data_year,sem:data_sem});  
     var request = $.ajax({  
-        url: "/my_course_search",  
+        url: "/select/my_course_search",  
         type: "POST",  
         async: false,  
         data: _json, //不能直接写成 {id:"123",code:"tomcat"}  

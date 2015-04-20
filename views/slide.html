@@ -4,12 +4,20 @@
 <div class="primary-sidebar">
   <!--侧边选择框 -->
   <ul class="nav nav-collapse collapse nav-collapse-primary">
-    <li id="develop_plan">
+    <li class="dark-nav " id="dev_plan">
       <span class="glow"></span>
-      <a href="#">
+      <a class="accordion-toggle collapsed " data-toggle="collapse" href="#MB8CPSHAKP">
         <i class="icon-dashboard icon-2x"></i>
-        <span>培养方案</span>
+        <span>培养方案<i class="icon-caret-down"></i></span>
       </a>
+      <ul id="MB8CPSHAKP" class="collapse ">            
+        <li class="">
+          <a href="/select/dev_plan"><i class="icon-time"></i>查看培养方案</a>
+        </li>
+        <li class="">
+          <a href="/select/my_dev_plan"><i class="icon-cut"></i>修改培养方案</a>
+        </li>
+      </ul>
     </li>
     <li id="course_search">
       <span class="glow"></span>
@@ -26,23 +34,12 @@
       </a>
     </li>
    <!--  登入为管理员身份则显示这个 -->
-    <li class="dark-nav " id="manager">
+    <li id="develop_plan">
       <span class="glow"></span>
-      <a class="accordion-toggle collapsed " data-toggle="collapse" href="#MB8CPSHAKP">
-        <i class="icon-link icon-2x"></i>
-        <span>管理员操作<i class="icon-caret-down"></i></span>
+      <a href="#">
+        <i class="icon-search icon-2x"></i>
+        <span>管理员操作</span>
       </a>
-      <ul id="MB8CPSHAKP" class="collapse ">            
-        <li class="">
-          <a href="#"><i class="icon-time"></i>选课时间</a>
-        </li>
-        <li class="">
-          <a href="#"><i class="icon-key"></i>手动选课</a>
-        </li>
-        <li class="">
-          <a href="#"> <i class="icon-cut"></i>选课排除</a>
-        </li>
-      </ul>
     </li>
   </ul>
   <hr class="divider" style="margin-top: 60px" />

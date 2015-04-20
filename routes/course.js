@@ -199,6 +199,26 @@ router.post('/my_dev_plan_add', function(req, res, next) {
         my_dev_plan_gen:my_dev_plan_gen,
         is_checked:true //该培养方案是否通过审核
       });
-  
 });
+
+router.post('/choose', function(req, res, next) {
+  console.log(req.body);
+  res.render('choose', {
+    name: '程序员', 
+    image: 'images/avatars/avatar3.jpg',
+    total_a:'12',
+    a:'2,3,1,2,3,1,0',
+    total_b:'24',
+    b:'4,6,2,4,6,2,0',
+    total_credits:'24',
+    credits:'4,6,2,4,6,2,0',
+    dev_plan_gen:dev_plan_gen,
+    dev_plan_elec:dev_plan_elec,
+    dev_plan_elec_class:dev_plan_elec_class,
+    dev_plan_req:dev_plan_req,
+    my_dev_plan_gen:my_dev_plan_gen,
+    is_checked:true //该培养方案是否通过审核
+  });
+});
+
 module.exports = router;
