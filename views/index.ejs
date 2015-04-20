@@ -1,11 +1,475 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<head>
+	<link type="text/css" rel="stylesheet" href="/css/materialize.min.css"	media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="/css/customize.css" media="screen,projection"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+</head>
+
+<body>
+
+<header>
+<div class="navbar-fixed">
+	<nav>
+		<div class="nav-wrapper white">
+			<a id="logo" href="#" class="blue-text text-lighten-1">教学管理系统</a>
+			<ul class="right">
+				<li><a href="#" class="blue-text">资源共享</a></li>
+				<li><a href="#" class="blue-text">在线测试</a></li>
+				<li><a href="#" class="blue-text">成绩管理</a></li>
+				<li><a href="#" class="blue-text">我的信息</a></li>
+			</ul>
+		</div>
+	</nav>
+</div>
+</header>
+
+<main>
+<ul class="collapsible col s12 side-bar fixed z-depth-1" data-collapsible="Expandable">
+	<li>
+		<div class="collapsible-header"><i class="mdi-image-filter-drama"></i>请求更改课程</div>
+		<div class="collapsible-body grey lighten-5">
+			<div class="input-field col s6">
+				<input id="course_name" type="text" class="validate">
+				<label for="course_name">课程名</label>
+			</div>
+			<div class="input-field col s6">
+				<input id="course_number" type="text" class="validate">
+				<label for="course_number">课程号</label>
+			</div>
+			<div class="input-field col s6">
+				<input id="course_time" type="text" class="validate">
+				<label for="course_time">时间</label>
+			</div>
+
+			<div class="input-field col s6">
+				<input id="classroom-" type="text" class="validate">
+				<label for="classroom-">教室</label>
+			</div>
+			<form>
+				<div class="input-field col s12">
+					<textarea id="reason" class="materialize-textarea"></textarea>
+					<label for="reason">原因</label>
+				</div>
+			</form>
+			<div class="center-align">
+				<button class="btn waves-effect waves-light blue lighten-1" type="submit" name="action">提交
+					<i class="mdi-content-send right"></i>
+				</button>
+			</div>
+		</div>
+	</li>
+	<li>
+		<div class="collapsible-header"><i class="mdi-maps-place"></i>查看请求结果</div>
+		<div class="collapsible-body">
+			<ul class="collapsible popout" data-collapsible="accordion">
+				<li>
+					<div class="collapsible-header grey lighten-5">数据库系统原理<span class="accepted badge">接受</span></div>
+					<div class="collapsible-body grey lighten-3">
+						<table>
+							<tr>
+								<th>课程名</th>
+								<td>离散数学</td>
+							</tr>
+							<tr>
+								<th>课程号</th>
+								<td>1010</td>
+							</tr>
+							<tr>
+								<th>教室</th>
+								<td>东一A404</td>
+								
+							</tr>
+							<tr>
+								<th>时间</th>
+								<td>周一第一节</td>
+							</tr>
+						</table>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header grey lighten-5">计算机组成<span class="undetermined badge">待定</span></div>
+					<div class="collapsible-body grey lighten-3">
+						<table>
+							<tr>
+								<th>课程名</th>
+								<td>离散数学</td>
+							</tr>
+							<tr>
+								<th>课程号</th>
+								<td>1010</td>
+							</tr>
+							<tr>
+								<th>教室</th>
+								<td>东一A404</td>
+								
+							</tr>
+							<tr>
+								<th>时间</th>
+								<td>周一第一节</td>
+							</tr>
+						</table>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header grey lighten-5">数据结构<span class="rejected badge">拒绝</span></div>
+					<div class="collapsible-body grey lighten-3">
+						<table>
+							<tr>
+								<th>课程名</th>
+								<td>离散数学</td>
+							</tr>
+							<tr>
+								<th>课程号</th>
+								<td>1010</td>
+							</tr>
+							<tr>
+								<th>教室</th>
+								<td>东一A404</td>
+								
+							</tr>
+							<tr>
+								<th>时间</th>
+								<td>周一第一节</td>
+							</tr>
+						</table>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</li>
+		<li>
+		<div class="collapsible-header"><i class="mdi-image-filter-drama"></i>搜索教室信息</div>
+		<div class="collapsible-body grey lighten-5">
+
+		</div>
+	</li>
+</ul>
+
+<div class="col s12">
+	<ul class="tabs">
+		<li class="tab col s3 grey lighten-5"><a class="active blue-text" href="#course">课表</a></li>
+		<li class="tab col s3 grey lighten-5">
+			<a class="blue-text" href="#classroom" onclick="showSearch()">教室信息</a>
+		</li>
+	</ul>
+</div>
+
+<div id="course" class="col s12">
+	<table class="centered bordered">
+		<thead>
+			<tr>
+				<th data-field="Blank" colspan="2">2015春学期</th>
+				<th data-field="Monday">周一</th>
+				<th data-field="Tuesday">周二</th>
+				<th data-field="Thirsday">周三</th>
+				<th data-field="Thursday">周四</th>
+				<th data-field="Friday">周五</th>
+				<th data-field="Saturday">周六</th>
+				<th data-field="Sunday">周日</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td rowspan="5">上午</td>
+				<td>第1节</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+			</tr>
+			<tr>
+				<td>第2节</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+			</tr>
+			<tr>
+				<td>第3节</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+			</tr>
+			<tr>
+				<td>第4节</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+			</tr>
+			<tr>
+				<td>第5节</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+			</tr>
+			<tr>
+				<td rowspan="5">下午</td>
+				<td>第6节</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+			</tr>
+			<tr>
+				<td>第7节</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+			</tr>
+			<tr>
+				<td>第8节</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+			</tr>
+			<tr>
+				<td>第9节</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+			</tr>
+			<tr>
+				<td>第10节</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+			</tr>
+			<tr>
+				<td rowspan="3">晚上</td>
+				<td>第11节</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+			</tr>
+			<tr>
+				<td>第12节</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+			</tr>
+			<tr>
+				<td>第13节</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+				<td>软件工程</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div id="classroom" class="col s12">
+	<table class="centered bordered">
+		<thead>
+			<tr>
+				<th data-field="Blank" colspan="2">东一A404</th>
+				<th data-field="Monday">周一</th>
+				<th data-field="Tuesday">周二</th>
+				<th data-field="Thirsday">周三</th>
+				<th data-field="Thursday">周四</th>
+				<th data-field="Friday">周五</th>
+				<th data-field="Saturday">周六</th>
+				<th data-field="Sunday">周日</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td rowspan="5">上午</td>
+				<td>第1节</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+			</tr>
+			<tr>
+				<td>第2节</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+			</tr>
+			<tr>
+				<td>第3节</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+			</tr>
+			<tr>
+				<td>第4节</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+			</tr>
+			<tr>
+				<td>第5节</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+			</tr>
+			<tr>
+				<td rowspan="5">下午</td>
+				<td>第6节</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+			</tr>
+			<tr>
+				<td>第7节</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+			</tr>
+			<tr>
+				<td>第8节</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+			</tr>
+			<tr>
+				<td>第9节</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+			</tr>
+			<tr>
+				<td>第10节</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+			</tr>
+			<tr>
+				<td rowspan="3">晚上</td>
+				<td>第11节</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+			</tr>
+			<tr>
+				<td>第12节</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+			</tr>
+			<tr>
+				<td>第13节</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+				<td>网络基础</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</main>
+
+<footer class="page-footer blue lighten-1">
+	<div class="footer-copyright">
+		<div class="container">
+			© 2015 Copyright SE
+		<a class="grey-text text-lighten-4 right" href="#!">浙江大学 计算机科学与技术学院</a>
+		</div>
+	</div>
+</footer>
+
+<script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="/js/materialize.min.js"></script>
+</body>
 </html>
