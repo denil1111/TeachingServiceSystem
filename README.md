@@ -3,5 +3,6 @@
 代码下载后
 npm install
 npm start
-在浏览器中打开localhost:3000/insert
-localhost:3000/personselect
+可以运行网站
+## 选课
+/course 访问选课页面
