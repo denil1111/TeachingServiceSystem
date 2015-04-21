@@ -19,7 +19,7 @@ var grades = require("./grades")
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
-router.get('/info', info);
+router.use('/info', info);
 // router.get('/arrange', arrange);
 //router.use('/select', select);
 // router.get('/resource', resource);
