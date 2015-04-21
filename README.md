@@ -12,7 +12,7 @@
   module.exports = {
     db : {
       // modify the line below
-      connect : 'mongodb://tsgroup6:tsgroup6@ds061731.mongolab.com:61731/group6'
+      connect : 'mongodb://segroup2:segroup2@ds041168.mongolab.com:41168/group2'
     }
   }
 
