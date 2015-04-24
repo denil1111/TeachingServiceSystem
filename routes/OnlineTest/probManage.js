@@ -5,16 +5,16 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	//连接数据库
-	var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
+	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var mongooseSchema = require('../../db/OnlineTestDB/problemSchema');	
-	var mongooseModel = db.model('ProblemDB', mongooseSchema);
+	var mongooseModel = global.db.model('ProblemDB', mongooseSchema);
 
 	//渲染页面，其中problems是数据库中查询得到的内容
 	mongooseModel.find({}, function(err, problems){
 		if(err)
 			return next(err);
 		res.render('OnlineTest/probManage', {problems: problems});
-		db.close();
+		//db.close();
 	});
   //res.render('teaTestManage', { title: 'Online Test System - Teacher' });
 });
@@ -22,9 +22,9 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 	//连接数据库
-	var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
+	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var mongooseSchema = require('../../db/OnlineTestDB/problemSchema');	
-	var mongooseModel = db.model('ProblemDB', mongooseSchema);
+	var mongooseModel = global.db.model('ProblemDB', mongooseSchema);
 	
 	//获得表单内容
 	var stem = req.body.stem;
@@ -46,7 +46,7 @@ router.post('/', function(req, res, next) {
 	    } else {
 	        console.log('saved OK!');
 	    }
-	    db.close();
+	    //db.close();
 	});
 
 	res.redirect('/OnlineTest/probManage');
@@ -57,9 +57,9 @@ router.get('/delete/:id', function(req, res, next){
 	//获取题目ID
 	var thisId = req.params.id;
 	//连接数据库
-	var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
+	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var mongooseSchema = require('../../db/OnlineTestDB/problemSchema');	
-	var mongooseModel = db.model('ProblemDB', mongooseSchema);
+	var mongooseModel = global.db.model('ProblemDB', mongooseSchema);
 
 	//删除记录
 	//删除题目的时候要删除试卷的相应内容【还没有实现
@@ -71,7 +71,7 @@ router.get('/delete/:id', function(req, res, next){
 	        console.log('delete ok!');
 	    }
 	    //关闭数据库链接
-	    db.close();
+	    //db.close();
 	});
 
 	res.redirect('/OnlineTest/probManage');

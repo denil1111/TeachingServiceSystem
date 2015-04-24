@@ -5,25 +5,25 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	//连接数据库
-	var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
+	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = db.model('PaperDB', mongooseSchema);
+	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
 
 	//渲染页面，其中papers是数据库中查询得到的内容
 	mongooseModel.find({}, function(err, papers){
 		if(err)
 			return next(err);
 		res.render('OnlineTest/paperManage', {papers: papers});
-		db.close();
+		//db.close();
 	});
   //res.render('teaTestManage', { title: 'Online Test System - Teacher' });
 });
 
 router.post('/', function(req, res, next) {
 	//连接数据库
-	var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
+	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = db.model('PaperDB', mongooseSchema);
+	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
 	
 	//获得表单内容
 	var title = req.body.paperTitle;
@@ -37,7 +37,7 @@ router.post('/', function(req, res, next) {
 	    } else {
 	        console.log('saved OK!');
 	    }
-	    db.close();
+	    //db.close();
 	});
 
 	res.redirect('/OnlineTest/paperManage');
@@ -47,9 +47,9 @@ router.get('/delete/:id', function(req, res, next){
 	//获取试卷ID
 	var thisId = req.params.id;
 	//连接数据库
-	var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
+	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = db.model('PaperDB', mongooseSchema);
+	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
 
 	//删除记录
 	var conditions = {_id: thisId};
@@ -60,7 +60,7 @@ router.get('/delete/:id', function(req, res, next){
 	        console.log('delete ok!');
 	    }
 	    //关闭数据库链接
-	    db.close();
+	    //db.close();
 	});
 
 	res.redirect('/OnlineTest/paperManage');
@@ -70,12 +70,12 @@ router.get('/update/:id', function(req, res, next){
 	//获取试卷ID
 	var thisId = req.params.id;
 	//连接数据库
-	var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
+	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = db.model('PaperDB', mongooseSchema);
+	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
 
 	var mongooseSchema_pro = require('../../db/OnlineTestDB/problemSchema');	
-	var mongooseModel_pro = db.model('ProblemDB', mongooseSchema_pro);
+	var mongooseModel_pro = global.db.model('ProblemDB', mongooseSchema_pro);
 
 	//渲染页面，其中problems是数据库中查询得到的内容
 	mongooseModel.findOne({_id: thisId}, function(err, paper){
@@ -88,7 +88,7 @@ router.get('/update/:id', function(req, res, next){
 				if(err)
 					return next(err);
 				res.render('OnlineTest/paperEdit', {paper: paper, problemsInPaper: problemsInPaper, allProblems: allProblems});
-				db.close();
+				//db.close();
 			});
 			
 			//console.log(problems);
@@ -102,9 +102,9 @@ router.get('/add/:paperId/:problemId', function(req, res, next){
 	var problemId = req.params.problemId;
 
 	//连接数据库
-	var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
+	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = db.model('PaperDB', mongooseSchema);
+	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
 
 	mongooseModel.findOne({_id: paperId}, function(err,paper){
 		if(err)
@@ -122,7 +122,7 @@ router.get('/add/:paperId/:problemId', function(req, res, next){
 	    	    console.log('update ok!');
 	    	}
 	    	//关闭数据库链接
-	    	db.close();
+	    	//db.close();
 		});
 	});
 
@@ -135,9 +135,9 @@ router.get('/deleteProblem/:paperId/:problemId', function(req, res, next){
 	var problemId = req.params.problemId;
 
 	//连接数据库
-	var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
+	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = db.model('PaperDB', mongooseSchema);
+	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
 
 	mongooseModel.findOne({_id: paperId}, function(err,paper){
 		if(err)
@@ -162,7 +162,7 @@ router.get('/deleteProblem/:paperId/:problemId', function(req, res, next){
 	    	    console.log('update ok!');
 	    	}
 	    	//关闭数据库链接
-	    	db.close();
+	    	//db.close();
 		});
 	});
 
