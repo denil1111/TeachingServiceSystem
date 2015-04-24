@@ -5,6 +5,13 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+    <%
+      if(done){
+    %>
+      <h1>您的分数： <%= point %> / <%= total %></h1>
+    <%
+      }
+    %>
     <h1>答题: <%= paper.title %></h1>
     <ul>
       <form method="post">

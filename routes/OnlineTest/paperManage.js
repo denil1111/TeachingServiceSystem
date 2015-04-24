@@ -109,8 +109,10 @@ router.get('/add/:paperId/:problemId', function(req, res, next){
 	mongooseModel.findOne({_id: paperId}, function(err,paper){
 		if(err)
 			return next(err);
-
-		paper.problems.push(problemId);
+		
+		if(paper.problems.indexOf(problemId) == -1){
+			paper.problems.push(problemId);
+		}
 
 		var conditions = {_id : paperId};
 		var update     = {$set : {problems : paper.problems}};

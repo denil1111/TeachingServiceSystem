@@ -2,6 +2,10 @@ var express = require('express');
 var mongoose = require('mongoose');
 var router = express.Router();
 
+var done = false;
+var total = 0;
+var point = 0;
+
 router.get('/', function(req, res, next) {
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
@@ -48,8 +52,12 @@ router.post('/answer=:paperId', function(req, res, next) {
 					getPoint++;
 				}
 			}
-			res.send(getPoint + '/' + totalPoint);
+			//res.send(getPoint + '/' + totalPoint);
 			//db.close();
+			done = true;
+			point = getPoint;
+			total = totalPoint;
+			res.redirect('/OnlineTest/student/answer='+thisId);
 		});		
 	});
 });
@@ -72,9 +80,11 @@ router.get('/answer=:paperId', function(req, res, next) {
 		mongooseModel_pro.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
 			if(err)
 				return next(err);
-			res.render('OnlineTest/paperAnswer', {paper: paper, problemsInPaper: problemsInPaper});
-			//db.close();
-		});		
+			// var sec = 0;
+			// var min = 0;
+			// var hour = 0;
+			res.render('OnlineTest/paperAnswer', {done: done, point: point, total: total, paper: paper, problemsInPaper: problemsInPaper});
+		});	
 	});
 });
 
