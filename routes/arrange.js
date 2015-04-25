@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var mongoose=require('mongoose');
 var Schema = new mongoose.Schema({
-/*
   Single_1_ID  : String,Single_1_Nmae  : String,
   Double_1_ID  : String,Double_1_Nmae  : String,
   Single_2_ID  : String,Single_2_Nmae  : String,
@@ -29,13 +28,13 @@ var Schema = new mongoose.Schema({
   Double_12_ID : String,Double_12_Nmae : String,
   Single_13_ID : String,Single_13_Nmae : String,
   Double_13_ID : String,Double_13_Nmae : String
-});*/
-       courseNumber: String,
-       courseName: String,
-       score: Number,
-       credit: Number,
-       gradePoint: Number, 
-       secondScore: Number
+});
+/*       courseNumber: String,
+       courseName:String,
+       score:Number,
+       credit:Number,
+       gradePoint:Number, 
+       secondScore:Number
 });/*
   ClassroomID: String,
   Classroom_Name: String,
@@ -226,7 +225,7 @@ var Schema = new mongoose.Schema({
 
 router.get('/arrange', function(req, res, next) {
 
-var gradesDB = global.db.model('grades',Schema);
+var gradesDB = global.db.model('classroom',Schema);
 gradesDB.find(function(error,docs){
     if(error){
         console.log(error);
@@ -250,7 +249,7 @@ gradesDB.find(function(error,docs){
 
 router.get('/arrange_course_information',function(req, res, next) {
 
-var gradesDB = global.db.model('grades', Schema);
+var gradesDB = global.db.model('classroom', Schema);
 gradesDB.find(function(error, docs){
     if(error){
         console.log(error);
@@ -274,7 +273,7 @@ gradesDB.find(function(error, docs){
 
 router.get('/arrange_course_management',function(req, res, next) {
 
-var gradesDB = global.db.model('grades', Schema);
+var gradesDB = global.db.model('classroom', Schema);
 gradesDB.find(function(error, docs){
     if(error){
         console.log(error);
@@ -298,7 +297,7 @@ gradesDB.find(function(error, docs){
 
 router.get('/arrange_classroom_information',function(req, res, next) {
 
-var gradesDB = global.db.model('grades', Schema);
+var gradesDB = global.db.model('classroom', Schema);
 gradesDB.find(function(error, docs){
     if(error){
         console.log(error);
