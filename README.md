@@ -9,12 +9,14 @@
 
 ### 3.运行前将下面的内容复制到目录下的settings.js文件
 
+```javascript
   module.exports = {
     db : {
       // modify the line below
       connect : 'mongodb://segroup2:segroup2@ds041168.mongolab.com:41168/group2'
     }
   }
+```
 
 ### 4.数据库使用说明    
 
