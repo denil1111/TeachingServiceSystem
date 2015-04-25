@@ -7,7 +7,7 @@ var Schema = new mongoose.Schema({
        courseName:String,
        score:Number,
        credit:Number,
-       gradePoint:Number,
+       gradePoint:Number, 
        secondScore:Number
 });
 
