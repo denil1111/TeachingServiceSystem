@@ -20,7 +20,7 @@ gradesDB.find(function(error,docs){
         return;
     }
   
-  //console.log(docs[0]);
+  console.log(docs[0]);
   
   res.render('grades', {
   	name: '程序员', 

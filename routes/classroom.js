@@ -1,4 +1,3 @@
-
 var express = require('express');
 var router = express.Router();
 var mongoose=require('mongoose');
@@ -190,7 +189,6 @@ var Schema = new mongoose.Schema({
 });
 
 
-
 router.get('/classroom', function(req, res, next) {
 
 var gradesDB = global.db.model('classroom',Schema);
@@ -215,5 +213,6 @@ gradesDB.find(function(error,docs){
   });
 });
 });  
+
 
 module.exports = router;

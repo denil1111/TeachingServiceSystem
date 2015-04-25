@@ -22,6 +22,5 @@ router.use('/', select);
 // router.get('/score', score);
 router.use('/', grades);
 router.use('/', arrange);
-router.use('/', classroom);
 
 module.exports = router;
