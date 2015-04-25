@@ -8,6 +8,8 @@ var select = require("./course")
 // var test = require()
 // var score = require()
 var grades = require("./grades")
+var arrange = require("./arrange")
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -19,6 +21,6 @@ router.use('/', select);
 // router.get('/test', test);
 // router.get('/score', score);
 router.use('/', grades);
-
+router.use('/', arrange);
 
 module.exports = router;
