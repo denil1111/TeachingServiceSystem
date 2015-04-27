@@ -1,28 +1,69 @@
 <!doctype html>
 <html>
 <head>
-  <% include head.html %>
-    <script type="text/javascript" src="/javascripts/vendor/jquery.easyui.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/easyui.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/icon.css">
-  <style>
-  .action-nav-button{
-    width: 15%;
-  }
-  </style>
+          <% include head.html %>
+            <script type="text/javascript" src="/javascripts/vendor/jquery.easyui.min.js"></script>
+            <link rel="stylesheet" type="text/css" href="/stylesheets/easyui.css">
+            <link rel="stylesheet" type="text/css" href="/stylesheets/icon.css">
+          <style>
+          .action-nav-button{
+            width: 15%;
+          }
+              #chosen-add-button{
+                  display:none;
+              }
+          </style>
+
+        <script>
+            //jquery 1.6以后
+            function chooseAll(){
+                //            console.log("in chooseAll");
+                var isChecked=$("#all-choose").prop("checked");
+                if(isChecked==false)
+                {
+                    $("input[name=choose]").prop("checked",false);
+                }
+                else
+                {
+                    $("input[name=choose]").prop("checked",true);
+                }
+//                $("#chosen-add-button").show();
+            };
+
+            $(document).ready(function(){
+                $("input[name=choose]").click(function(){
+                    var flag=false;
+                    $("input[name=choose]").each(function(){
+                        if($(this).prop("checked")==true)
+                        {
+                            flag=true;
+                            $("#chosen-add-button").show();
+                            return false;
+                        }
+                    });
+                    if(flag!=true)
+                    {
+                        $("#chosen-add-button").hide();
+                    }
+                });
+            });
+
+
+
+
+
+
+
+        </script>
+
 </head>
 <body>
 <!-- 上方选择条 navbar-top-->
 <% include navbar.html %>
 <!-- 侧边框 -->
 <% include slide.html%>
-<script type="text/javascript">
-   function setActive(){
-    var active=document.getElementById('resource_share');
-    active.className='active';
-  }
-  setActive();
-</script>
+
+
 <!-- 主要内容 -->
 <div class="main-content">
   <div class="container-fluid">
@@ -54,7 +95,6 @@
                            <span>返回上级文件夹</span>
                         </a>
                     </div>
-
         </div>
     </div>
 
@@ -71,7 +111,7 @@
       <thead>
       <tr>
         <td></td>
-        <td><input type="checkbox">全选</td>
+        <td><input type="checkbox" id="all-choose" name="choose" onclick="chooseAll()">全选</td>
         <td>资源名称</td>
         <td style="width: 60px">资源类型</td>
         <td style="width: 60px">资源大小</td>
@@ -83,7 +123,7 @@
       <tbody>
       <tr>
         <td class="icon"><i class="icon-folder-close"></i></td>
-          <td><input type="checkbox"></td>
+          <td><input type="checkbox" name="choose"></td>
         <td><a href="#">软件工程文件夹1</a></td>
         <td><b>pdf</b></td>
         <td><b>1.2M</b></td>
@@ -105,7 +145,7 @@
       <% fileList.forEach(function (file) { %>
       <tr>
         <td class="icon"><i class="icon-file"></i></td>
-          <td><input type="checkbox"></td>
+          <td><input type="checkbox" name="choose"></td>
         <td><a href="#"> <%= file.name %></a></td>
         <td><b><%= file.ext %></b></td>
         <td><b><%= file.size %></b></td>
@@ -127,7 +167,7 @@
       <% })%>
       </tbody>
     </table>
-    <div class="chosen-add-button">
+    <div id="chosen-add-button">
         <button class="btn btn-xs btn-default">删除</button>
         <button class="btn btn-xs btn-default">下载</button>
     </div>
