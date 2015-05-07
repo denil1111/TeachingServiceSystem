@@ -5,16 +5,53 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+
+    <script type="text/javascript">
+      var seconds = 0;
+      var minutes = 0;
+      var hours = 0;
+      var t;
+      function timeCount() {
+          function addZero(num) {
+              var buffer = '';
+              if (num < 10) {
+                  buffer = '0' + num;
+              }
+              else {
+                  buffer = num.toString();
+              }
+              return buffer;
+          }
+          document.getElementById('txt').value = addZero(hours)+ ':' + addZero(minutes) + ':' + addZero(seconds);
+          seconds = seconds + 1;
+          if (seconds == 60) {
+              seconds = 0;
+              minutes = minutes + 1;
+          }
+          if (minutes == 60) {
+              minutes = 0;
+              hours = hours + 1;
+          }
+
+          t = setTimeout("timeCount()", 1000)
+      }
+    </script>
+
+    <h1>答题: <%= paper.title %></h1>
     <%
       if(done){
     %>
-      <h1>您的分数： <%= point %> / <%= total %></h1>
+      <h1>您已完成答题。您的分数：<%= point %>，答题时间：<%= time %></h1>
     <%
       }
+      else{
     %>
-    <h1>答题: <%= paper.title %></h1>
     <ul>
       <form method="post">
+      <input type="button" value="开始答题" onclick="timeCount()" />
+      <br/>
+      <p>计时：</p>
+      <input name="clock" type="text" id="txt" readonly/>
       <% for(var i = 0; i < problemsInPaper.length; i++){
           var problem = problemsInPaper[i];
       %>
@@ -30,8 +67,9 @@
         <input type="radio" name="<%= problem._id %>" value="4" />D.<%= problem.choice[3] %>
         </li>
       <% } %>
-      <input type='submit', value='Submit'/>
+      <input type='submit', value='确认提交'/>
       </form>
     </ul>
+    <% } %>
   </body>
 </html>

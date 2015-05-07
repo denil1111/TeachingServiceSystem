@@ -3,8 +3,10 @@ var mongoose = require('mongoose');
 var router = express.Router();
 
 var done = false;
-var total = 0;
 var point = 0;
+var time = "00:00:00";
+
+var student = "001";
 
 router.get('/', function(req, res, next) {
 	//连接数据库
@@ -28,6 +30,8 @@ router.post('/answer=:paperId', function(req, res, next) {
 	
 	var thisId = req.params.paperId;
 
+	var choices = [];
+
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
@@ -36,6 +40,9 @@ router.post('/answer=:paperId', function(req, res, next) {
 	var mongooseSchema_pro = require('../../db/OnlineTestDB/problemSchema');	
 	var mongooseModel_pro = global.db.model('ProblemDB', mongooseSchema_pro);
 
+	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
+	var recordModel = global.db.model('RecordDB', recordSchema);
+
 	//渲染页面，其中problems是数据库中查询得到的内容
 	mongooseModel.findOne({_id: thisId}, function(err, paper){
 		if(err)
@@ -43,21 +50,36 @@ router.post('/answer=:paperId', function(req, res, next) {
 		mongooseModel_pro.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
 			if(err)
 				return next(err);
-			var totalPoint = problemsInPaper.length;
 			var getPoint = 0;
 			for(var i = 0; i < problemsInPaper.length; i++){
 				var thisAnswer = req.body[problemsInPaper[i]._id];
 				//console.log(thisAnswer);
+				choices.push(thisAnswer);
 				if(thisAnswer == problemsInPaper[i].answer){
 					getPoint++;
 				}
 			}
-			//res.send(getPoint + '/' + totalPoint);
 			//db.close();
+
+			var recordEntity = new recordModel();
+			recordEntity.student = student;
+			recordEntity.paperId = thisId;
+			recordEntity.choices = choices;
+			recordEntity.point = getPoint;
+			recordEntity.time = req.body.clock;
+
 			done = true;
 			point = getPoint;
-			total = totalPoint;
-			res.redirect('/OnlineTest/student/answer='+thisId);
+			time = req.body.clock;
+			console.log(recordEntity);
+			recordEntity.save(function(error){
+				if(error) {
+			        console.log(error);
+			    } else {
+			        console.log('saved OK!');
+			    }
+			    res.redirect('/OnlineTest/student/answer='+thisId);
+			});
 		});		
 	});
 });
@@ -73,18 +95,27 @@ router.get('/answer=:paperId', function(req, res, next) {
 	var mongooseSchema_pro = require('../../db/OnlineTestDB/problemSchema');	
 	var mongooseModel_pro = global.db.model('ProblemDB', mongooseSchema_pro);
 
+	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
+	var recordModel = global.db.model('RecordDB', recordSchema);
+
 	//渲染页面，其中problems是数据库中查询得到的内容
-	mongooseModel.findOne({_id: thisId}, function(err, paper){
-		if(err)
-			return next(err);
-		mongooseModel_pro.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
-			if(err)
-				return next(err);
-			// var sec = 0;
-			// var min = 0;
-			// var hour = 0;
-			res.render('OnlineTest/paperAnswer', {done: done, point: point, total: total, paper: paper, problemsInPaper: problemsInPaper});
-		});	
+	recordModel.findOne({student: student, paperId: thisId}, function(err, result){
+		//没有查询到答题记录，渲染答题页面
+		if(!result){
+			mongooseModel.findOne({_id: thisId}, function(err, paper){
+				if(err)
+					return next(err);
+				mongooseModel_pro.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
+					if(err)
+						return next(err);
+					res.render('OnlineTest/paperAnswer', {done: done, point: point, paper: paper, problemsInPaper: problemsInPaper, time:time});
+				});	
+			});
+		}
+		//查询到答题记录，用户不能再次答题
+		else{
+			res.render('OnlineTest/paperAnswer', {done: true, point: result.point, paper: result.paperId, problemsInPaper: [], time: result.time});
+		}
 	});
 });
 
