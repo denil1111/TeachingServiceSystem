@@ -5,11 +5,8 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 var mongoose = require('mongoose/');
+//var session =require('express-session');
 
-var db = mongoose.createConnection('mongodb://127.0.0.1:27017/person');
-var PersonSchema = require('../db/group1db/PersonSchema');
-var CollectionName = 'people';
-var PersonModel = db.model('PersonModel',PersonSchema,CollectionName);
 
 router.get('/login',function(req,res){
   res.render('login');
@@ -36,9 +33,14 @@ passport.deserializeUser(function(user, done) {
 
 passport.use(new LocalStrategy(function(username, password, done) {
   process.nextTick(function() {
+    var db = mongoose.createConnection('mongodb://127.0.0.1:27017/person');
+    var PersonSchema = require('../db/group1db/PersonSchema');
+    var CollectionName = 'people';
+    var PersonModel = db.model('PersonModel',PersonSchema,CollectionName);
     PersonModel.findOne({
-      'username': username, 
-    }, function(err, user) {
+      'username': username
+    }, function (err, user) {
+      console.log('findOne execute!');
       if (err) {
         console.log('findOne err');
         return done(err);
@@ -52,7 +54,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
       // if (user.password != password) {
       //   return done(null, false);
       // }
-      console.log("user : "+user);
+      console.log("user : " + user);
       return done(null, user);
     });
   });

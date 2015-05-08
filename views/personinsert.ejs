@@ -3,11 +3,10 @@
   <head>
     <title>Person Insert</title>
     <meta charset="UTF-8">
-    <link rel='stylesheet' href='./public/stylesheets/style.css' />
   </head>
   <body>
     <h1>Sign In</h1>
-    <form action="/personinsert" role="form" method="post">
+    <form action="/info/personinsert" role="form" method="post">
         <p><span><%= insertresult %></span>
         </p>
         <p>
@@ -29,6 +28,12 @@
               </optgroup>
             </select>           
             <!--input id="password" name="password" type="password"-->
+        </p>
+        <p>
+          <span>课程</span>
+          <br>
+          <div id="org"></div>
+          <input type="button" onclick="add1();" value="添加" />
         </p>
         <p>
           <span>性别：</span>
@@ -70,5 +75,17 @@
         </p>
         <p><input type="submit" onclick="personinsert();" value="submit"></p>
     </form>
+    script
+    <script type="text/javascript">
+    function add1(){
+      var input1 = document.createElement('input');
+      input1.setAttribute('type', 'text');
+      input1.setAttribute('name', 'organizers');//order?
+      input1.setAttribute('class', 'git');
+      
+      var btn1 = document.getElementById("org");
+      btn1.insertBefore(input1,null);
+    }
+    </script> 
   </body>
 </html>

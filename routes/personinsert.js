@@ -25,6 +25,7 @@ router.post('/personinsert',function(req,res,next){
     var PersonModel = db.model('PersonModel',PersonSchema,CollectionName);
     var doc = {
         username : req.body.username,
+        
         status : req.body.status,
         sex : req.body.sex,
         age : req.body.age,
@@ -40,6 +41,20 @@ router.post('/personinsert',function(req,res,next){
         console.log('data'+data);
         if(err){
             console.log("create err : "+err);
+            res.render('personinsert',{
+                username : 'name',
+                status : '学生',
+                sex : ' ',
+                age : ' ',
+                major : ' ',
+                college : ' ',
+                title : ' ',
+                tel : ' ',
+                email : ' ',
+                insertresult:'表单提交失败！'
+            });
+
+
         }
         else{
             console.log('Saved by Model OK!');

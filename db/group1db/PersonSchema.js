@@ -4,6 +4,7 @@ var PersonSchema = new mongoose.Schema({
     username	: {type : String, default : '匿名用户'},
     status		: {type : String, default : '学生'},
     sex			: {type : String},
+    cstlist     : [],//课程列表
     age			: {type : Number},
     major       : {type : String},  //专业
     college		: {type : String}, //学院
