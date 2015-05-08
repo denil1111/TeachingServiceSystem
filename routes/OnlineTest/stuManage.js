@@ -7,6 +7,7 @@ var point = 0;
 var time = "00:00:00";
 
 var student = "001";
+var classId = "001";
 
 router.get('/', function(req, res, next) {
 	//连接数据库
@@ -18,7 +19,13 @@ router.get('/', function(req, res, next) {
 	mongooseModel.find({}, function(err, papers){
 		if(err)
 			return next(err);
-		res.render('OnlineTest/stuManage', {papers: papers});
+		var papers_valid = [];
+		for(var i = 0; i < papers.length; i++){
+			if(papers[i].deliver.indexOf(classId) != -1){
+				papers_valid.push(papers[i]);
+			}
+		}
+		res.render('OnlineTest/stuManage', {papers: papers_valid});
 		//db.close();
 	});
   //res.render('teaTestManage', { title: 'Online Test System - Teacher' });

@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var mongooseSchema = new mongoose.Schema({
     title 	: 	String,
     problems: 	[],
-    //deliver	: 	[]//用来记录发送给哪个班级，暂时不用
+    deliver	: 	[String]//用来记录发送给哪些班级
 });
 
 mongooseSchema.methods.findbyId = function(ID, callback) {

@@ -11,7 +11,14 @@
       var minutes = 0;
       var hours = 0;
       var t;
+
+      var flag = false;
+
       function timeCount() {
+          if(!flag){
+            document.getElementById('problems').style.display = ("block");
+            flag = true;
+          }
           function addZero(num) {
               var buffer = '';
               if (num < 10) {
@@ -52,6 +59,8 @@
       <br/>
       <p>计时：</p>
       <input name="clock" type="text" id="txt" readonly/>
+      
+      <div id="problems" style="display:none;">
       <% for(var i = 0; i < problemsInPaper.length; i++){
           var problem = problemsInPaper[i];
       %>
@@ -68,6 +77,8 @@
         </li>
       <% } %>
       <input type='submit', value='确认提交'/>
+      </div>
+
       </form>
     </ul>
     <% } %>

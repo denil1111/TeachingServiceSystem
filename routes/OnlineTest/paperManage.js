@@ -2,6 +2,8 @@ var express = require('express');
 var mongoose = require('mongoose');
 var router = express.Router();
 
+var classId = "001";
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	//连接数据库
@@ -170,4 +172,35 @@ router.get('/deleteProblem/:paperId/:problemId', function(req, res, next){
 
 	res.redirect('/OnlineTest/paperManage/update/'+paperId);
 });
+
+router.get('/deliver/:paperId', function(req, res, next){
+	var paperId = req.params.paperId;
+	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
+	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
+
+	mongooseModel.findOne({_id: paperId}, function(err,paper){
+		if(err)
+			return next(err);
+
+		if(paper.deliver.indexOf(classId) == -1){
+			paper.deliver.push(classId);
+		}
+
+		var conditions = {_id : paperId};
+		var update     = {$set : {deliver : paper.deliver}};
+		var options    = {upsert : true};
+		mongooseModel.update(conditions, update, options, function(error){
+	    	if(error) {
+	    	    console.log(error);
+	    	} else {
+	    	    console.log('update ok!');
+	    	}
+	    	//关闭数据库链接
+	    	//db.close();
+		});
+	});
+
+	res.redirect('/OnlineTest/paperManage');
+});
+
 module.exports = router;

@@ -17,9 +17,11 @@
           var paper = papers[i];
       %>
         <li>
-        <%= paper.title %>
+        <h1><%= paper.title %></h1>
+        发布班级：<%= paper.deliver %>
         <br/>
-        <a href="/OnlineTest/paperManage/delete/<%= paper._id %>">删除</a> <a href="/OnlineTest/paperManage/update/<%= paper._id %>">修改</a> 
+        <a href="/OnlineTest/paperManage/delete/<%= paper._id %>">删除</a> <a href="/OnlineTest/paperManage/update/<%= paper._id %>">修改</a>
+        <a href="/OnlineTest/paperManage/deliver/<%= paper._id %>">发布</a> 
         </li>
       <% } %>
     </ul>

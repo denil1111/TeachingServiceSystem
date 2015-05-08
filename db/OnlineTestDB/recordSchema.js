@@ -8,8 +8,4 @@ var mongooseSchema = new mongoose.Schema({
     time 	: {type : String}
 });
 
-mongooseSchema.methods.findBySID_PID = function(StuID, PaperID, callback) {
-    return this.model('mongoose').find({student: StuID, paperId: paperID}, callback);
-}
-
 module.exports=mongooseSchema;
