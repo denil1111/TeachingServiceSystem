@@ -6,6 +6,7 @@ var done = false;
 var point = 0;
 var time = "00:00:00";
 
+//假定只有一个学生，一个班级。在合体之后需要通过别的方法获取这些信息
 var student = "001";
 var classId = "001";
 
@@ -14,6 +15,9 @@ router.get('/', function(req, res, next) {
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
 	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
+
+	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
+	var recordModel = global.db.model('RecordDB', recordSchema);
 
 	//渲染页面，其中papers是数据库中查询得到的内容
 	mongooseModel.find({}, function(err, papers){
@@ -25,8 +29,18 @@ router.get('/', function(req, res, next) {
 				papers_valid.push(papers[i]);
 			}
 		}
-		res.render('OnlineTest/stuManage', {papers: papers_valid});
-		//db.close();
+		recordModel.find({student: student}, function(err, records){
+			var titles = [];
+			for(var i = 0; i < records.length; i++){
+				for(var j = 0; j < papers_valid.length; j++){
+					if(papers_valid[j]._id == records[i].paperId){
+						titles.push(papers_valid[j].title);
+					}
+				}
+			}
+			res.render('OnlineTest/stuManage', {papers: papers_valid, records: records, titles: titles});
+		});
+		
 	});
   //res.render('teaTestManage', { title: 'Online Test System - Teacher' });
 });

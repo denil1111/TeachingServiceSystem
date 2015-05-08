@@ -26,29 +26,49 @@ router.post('/', function(req, res, next) {
 	var mongooseSchema = require('../../db/OnlineTestDB/problemSchema');	
 	var mongooseModel = global.db.model('ProblemDB', mongooseSchema);
 	
-	//获得表单内容
-	var stem = req.body.stem;
-	var answer = req.body.answer;
-	var choice = [];
-	choice.push(req.body.choice1);
-	choice.push(req.body.choice2);
-	choice.push(req.body.choice3);
-	choice.push(req.body.choice4);
+	if(req.body.choice1){
+		//获得表单内容
+		var stem = req.body.stem;
+		var answer = req.body.answer;
+		var choice = [];
+		choice.push(req.body.choice1);
+		choice.push(req.body.choice2);
+		choice.push(req.body.choice3);
+		choice.push(req.body.choice4);
 
-	// 增加记录 基于 entity 操作
- 	var mongooseEntity = new mongooseModel();
- 	mongooseEntity.stem = stem;
- 	mongooseEntity.answer = answer;
- 	mongooseEntity.choice = choice;
-	mongooseEntity.save(function(error) {
-	    if(error) {
-	        console.log(error);
-	    } else {
-	        console.log('saved OK!');
-	    }
-	    //db.close();
-	});
+		// 增加记录 基于 entity 操作
+	 	var mongooseEntity = new mongooseModel();
+	 	mongooseEntity.stem = stem;
+	 	mongooseEntity.answer = answer;
+	 	mongooseEntity.choice = choice;
+	 	mongooseEntity.type = 0;
+		mongooseEntity.save(function(error) {
+		    if(error) {
+		        console.log(error);
+		    } else {
+		        console.log('saved OK!');
+		    }
+		    //db.close();
+		});
+	}
 
+	else{
+		var stem = req.body.stem;
+		var answer = req.body.answer;
+
+		// 增加记录 基于 entity 操作
+	 	var mongooseEntity = new mongooseModel();
+	 	mongooseEntity.stem = stem;
+	 	mongooseEntity.answer = answer;
+	 	mongooseEntity.type = 1;
+		mongooseEntity.save(function(error) {
+		    if(error) {
+		        console.log(error);
+		    } else {
+		        console.log('saved OK!');
+		    }
+		});
+	}
 	res.redirect('/OnlineTest/probManage');
 });
 

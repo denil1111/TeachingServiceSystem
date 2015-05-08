@@ -9,6 +9,7 @@
     <ul>
       <% for(var i = 0; i < problemsInPaper.length; i++){
           var problem = problemsInPaper[i];
+          if(problem.type == 0){
       %>
         <li>
         <%= problem.stem %>
@@ -23,15 +24,23 @@
         <br/>
         D.<%= problem.choice[3] %>
         <br/>
-        <a href="/OnlineTest/paperManage/deleteProblem/<%= paper._id %>/<%= problem._id %>">删除</a> <a href="/OnlineTest/probManage/update/<%= paper._id %>/<%= problem._id %>">修改(没实现)</a> 
+        <a href="/OnlineTest/paperManage/deleteProblem/<%= paper._id %>/<%= problem._id %>">删除</a>
         </li>
-      <% } %>
+      <% }else{ %>
+       <li>
+        <%= problem.stem %>
+        <br/>
+        Right Answer: <%= problem.answer %>
+        <br/>
+        <a href="/OnlineTest/paperManage/deleteProblem/<%= paper._id %>/<%= problem._id %>">删除</a>
+      <% }} %>
     </ul>
 
     <h1>题库</h1>
     <ul>
       <% for(var i = 0; i < allProblems.length; i++){
           var problem = allProblems[i];
+          if(problem.type == 0){
       %>
         <li>
         <%= problem.stem %>
@@ -48,7 +57,14 @@
         <br/>
         <a href="/OnlineTest/paperManage/add/<%= paper._id %>/<%= problem._id %>">加入试卷</a>
         </li>
-      <% } %>
+      <% }else{ %>
+      <li>
+        <%= problem.stem %>
+        <br/>
+        Right Answer: <%= problem.answer %>
+        <br/>
+        <a href="/OnlineTest/paperManage/add/<%= paper._id %>/<%= problem._id %>">加入试卷</a>
+      <% }} %>
     </ul>
 
   </body>

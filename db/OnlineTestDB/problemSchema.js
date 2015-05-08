@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 var mongooseSchema = new mongoose.Schema({
     stem 	: {type : String},
     answer 	: {type : Number},
-    choice 	: {type : [String]}
+    choice 	: {type : [String]},
+    type	: {type : Number}//0 选择题， 1 判断题
 });
 
 module.exports=mongooseSchema;

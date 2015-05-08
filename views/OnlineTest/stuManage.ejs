@@ -16,5 +16,15 @@
         </li>
       <% } %>
     </ul>
+    <h1>历史成绩</h1>
+    <ul>
+      <% for(var i = 0; i < records.length; i++){
+          var record = records[i];
+      %>
+        <li>
+        《<%= titles[i] %>》 得分：<%= record.point %>
+        </li>
+      <% } %>
+    </ul>
   </body>
 </html>

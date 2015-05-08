@@ -5,7 +5,20 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>添加题目到题库</h1>
+    <script type="text/javascript">
+     function addMul() {
+      document.getElementById('mulchoice').style.display = ("block");
+      document.getElementById('judge').style.display = ("none");
+     }
+     function addJud() {
+      document.getElementById('mulchoice').style.display = ("none");
+      document.getElementById('judge').style.display = ("block");
+     }
+    </script>
+    <input type="button" value="添加选择题" onclick="addMul()">
+    <input type="button" value="添加判断题" onclick="addJud()">
+    <div id="mulchoice" style="display:none;">
+    <h1>添加选择题到题库</h1>
     <form method='post'>
     	<p><input type='textarea', name='stem', placeholder='Stem'/></p>
     	<p><input type='text', name='answer', placeholder='Right Answer(1, 2, 3, 4)'/></p>
@@ -15,11 +28,22 @@
       <p>D.<input type='text', name='choice4', placeholder='Answer'/></p>
     	<p><input type='submit', value='Submit'/></p>
     </form>
+    </div>
+
+    <div id="judge" style="display:none;">
+    <h1>添加判断题到题库</h1>
+    <form method='post'>
+      <p><input type='textarea', name='stem', placeholder='Stem'/></p>
+      <p><input type='text', name='answer', placeholder='True or false(0, 1)'/></p>
+      <p><input type='submit', value='Submit'/></p>
+    </form>
+    </div>
     <br/>
     <h1>题库题目</h1>
     <ul>
       <% for(var i = 0; i < problems.length; i++){
           var problem = problems[i];
+          if(problem.type == 0){
       %>
         <li>
         <%= problem.stem %>
@@ -34,9 +58,16 @@
         <br/>
         D.<%= problem.choice[3] %>
         <br/>
-        <a href="/OnlineTest/probManage/delete/<%= problem._id %>">删除</a> <a href="/OnlineTest/probManage/update/<%= problem._id %>">修改(没实现)</a> 
+        <a href="/OnlineTest/probManage/delete/<%= problem._id %>">删除</a>
         </li>
-      <% } %>
+      <% }else{ %>
+        <li>
+        <%= problem.stem %>
+        <br/>
+        Right Answer: <%= problem.answer %>
+        <br/>
+        <a href="/OnlineTest/probManage/delete/<%= problem._id %>">删除</a>
+      <% }} %>
     </ul>
   </body>
 </html>

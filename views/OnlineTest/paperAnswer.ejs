@@ -63,6 +63,7 @@
       <div id="problems" style="display:none;">
       <% for(var i = 0; i < problemsInPaper.length; i++){
           var problem = problemsInPaper[i];
+          if(problem.type == 0){
       %>
         <li>
         <%= problem.stem %>
@@ -75,7 +76,15 @@
         <br/>
         <input type="radio" name="<%= problem._id %>" value="4" />D.<%= problem.choice[3] %>
         </li>
-      <% } %>
+      <% }else{ %>
+      <li>
+        <%= problem.stem %>
+        <br/>
+        <input type="radio" name="<%= problem._id %>" value="1" />Ture
+        <br/>
+        <input type="radio" name="<%= problem._id %>" value="0" />False
+        </li>
+      <% }} %>
       <input type='submit', value='确认提交'/>
       </div>
 
