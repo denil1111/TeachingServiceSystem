@@ -3,13 +3,21 @@ var router = express.Router();
 var mongoose = require('mongoose');
 
 var tmp=[];
-tmp.push({username:'initial_name',status:'initial_status',sex:'initial_sex',age:'',major:'',college:'',title:'',tel:'',email:''});
+//tmp.push({username:'',status:'',sex:'',age:'',major:'',college:'',title:'',tel:'',email:''});
 
 
 router.get('/personselect', function(req, res, next) {
     res.render('personselect',{
-    	person_data:tmp,
-        selectresult:'请提交表单'
+    	name: '程序员', 
+    	image: 'images/avatars/avatar3.jpg',
+    	total_a:'12',
+    	a:'2,3,1,2,3,1,0',
+    	total_b:'24',
+    	b:'4,6,2,4,6,2,0',
+    	total_credits:'24',
+    	credits:'4,6,2,4,6,2,0',
+
+    	person_data:tmp
     });
 });
 
@@ -28,7 +36,15 @@ router.post('/personselect',function(req, res, next){
 		}
 		console.log('data : '+data);
 		res.render('personselect',{
-			selectresult:'搜索结果：',
+			name: '程序员', 
+			image: 'images/avatars/avatar3.jpg',
+			total_a:'12',
+			a:'2,3,1,2,3,1,0',
+			total_b:'24',
+			b:'4,6,2,4,6,2,0',
+			total_credits:'24',
+			credits:'4,6,2,4,6,2,0',
+
 			person_data: data
 		});
 	});

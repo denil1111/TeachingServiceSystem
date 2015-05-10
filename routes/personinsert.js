@@ -4,6 +4,15 @@ var mongoose = require('mongoose');
 
 router.get('/personinsert', function(req, res,next) {
     res.render('personinsert',{
+        name: '程序员', 
+        image: 'images/avatars/avatar3.jpg',
+        total_a:'12',
+        a:'2,3,1,2,3,1,0',
+        total_b:'24',
+        b:'4,6,2,4,6,2,0',
+        total_credits:'24',
+        credits:'4,6,2,4,6,2,0',
+
         username : 'name',
         status : '学生',
         sex : ' ',
@@ -42,33 +51,48 @@ router.post('/personinsert',function(req,res,next){
         if(err){
             console.log("create err : "+err);
             res.render('personinsert',{
-                username : 'name',
-                status : '学生',
-                sex : ' ',
-                age : ' ',
-                major : ' ',
-                college : ' ',
-                title : ' ',
-                tel : ' ',
-                email : ' ',
+                name: '程序员', 
+                image: 'images/avatars/avatar3.jpg',
+                total_a:'12',
+                a:'2,3,1,2,3,1,0',
+                total_b:'24',
+                b:'4,6,2,4,6,2,0',
+                total_credits:'24',
+                credits:'4,6,2,4,6,2,0',
+                // username : 'name',
+                // status : '学生',
+                // sex : ' ',
+                // age : ' ',
+                // major : ' ',
+                // college : ' ',
+                // title : ' ',
+                // tel : ' ',
+                // email : ' ',
                 insertresult:'表单提交失败！'
-            });
-
-
+            })
         }
         else{
             console.log('Saved by Model OK!');
             console.log(doc.username);
             res.render('personinsert',{
-                username : data.username,
-                status : data.status,
-                sex : data.sex,
-                age : data.age,
-                major : data.major,
-                college : data.college,
-                title : data.title,
-                tel : data.tel,
-                email : data.email,
+                name: '程序员', 
+                image: 'images/avatars/avatar3.jpg',
+                total_a:'12',
+                a:'2,3,1,2,3,1,0',
+                total_b:'24',
+                b:'4,6,2,4,6,2,0',
+                total_credits:'24',
+                credits:'4,6,2,4,6,2,0',
+
+                // username : data.username,
+                // status : data.status,
+                // sex : data.sex,
+                // age : data.age,
+                // major : data.major,
+                // college : data.college,
+                // title : data.title,
+                // tel : data.tel,
+                // email : data.email,
                 insertresult:'表单提交成功！'
             });
         }

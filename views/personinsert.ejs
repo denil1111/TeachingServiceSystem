@@ -1,91 +1,125 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <title>Person Insert</title>
-    <meta charset="UTF-8">
-  </head>
-  <body>
-    <h1>Sign In</h1>
-    <form action="/info/personinsert" role="form" method="post">
-        <p><span><%= insertresult %></span>
-        </p>
-        <p>
-          <span>姓名</span>
-          <br>
-          <input id="username" name="username" placeholder="your name" type="text">
-        </p>
-        <p>
-            <span>身份：</span>
-            <br>
-            <select id="status" name="status">
-              <optgroup lable="管理员">
-                <option value="系统管理员" title ="请确认您是否有相应权限">系统管理员</option>
-                <option value="教务管理员">教务管理员</option>
-              </optgroup>
-              <optgroup lable="用户">
-                <option value="教师">教师</option>
-                <option value="学生" selected="selected">学生</option>
-              </optgroup>
-            </select>           
-            <!--input id="password" name="password" type="password"-->
-        </p>
-        <p>
-          <span>课程</span>
-          <br>
-          <div id="org"></div>
-          <input type="button" onclick="add1();" value="添加" />
-        </p>
-        <p>
-          <span>性别：</span>
-          <br>
-          <select id="sex" name="sex">
-            <option value="男">男</option>
-            <option value="女">女</option>
-          </select>
-        </p>
-        <p>
-          <span>年龄</span>
-          <br>
-          <input id="age" name="age" type="text">
-        </p>
-        <p>
-          <span>专业：</span>
-          <br>
-          <input id="major" name="major" type="text">
-        </p>
-        <p>
-          <span>学院：</span>
-          <br>
-          <input id="college" name="college" type="text">
-        </p>
-        <p>
-          <span>职称：</span>
-          <br>
-          <input id="title" name="title" type="text">
-        </p>
-        <p>
-          <span>Tel：</span>
-          <br>
-          <input id="tel" name="tel" type="text">
-        </p>
-        <p>
-          <span>Email：</span>
-          <br>
-          <input id="email" name="email" type="text">
-        </p>
-        <p><input type="submit" onclick="personinsert();" value="submit"></p>
-    </form>
-    script
-    <script type="text/javascript">
-    function add1(){
-      var input1 = document.createElement('input');
-      input1.setAttribute('type', 'text');
-      input1.setAttribute('name', 'organizers');//order?
-      input1.setAttribute('class', 'git');
-      
-      var btn1 = document.getElementById("org");
-      btn1.insertBefore(input1,null);
+<head>
+<% include head.html %>
+</head>
+<body>
+<!-- 上方选择条 navbar-top-->
+<% include navbar.html %>
+<!-- 侧边框 -->
+<% include slide_person.html%>
+<script type="text/javascript">
+   function setNavActive(){
+       var active=document.getElementById('infomanage');
+           active.className='active';
     }
-    </script> 
-  </body>
+
+   function setSlideActive(){
+        var slide = document.getElementById('personinsert');
+            slide.className='active';
+   }
+
+     setNavActive();
+     setSlideActive();
+</script>
+
+<!-- 主要内容 -->
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="area-top clearfix">
+        <div class="pull-left header">
+          <h3 class="title"><i class="icon-search"></i>添加用户</h3>
+          <h5>填写用户信息</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 信息填写 -->
+  <div class="span12">
+    <div class="box">
+      <div class="box-header">
+        <span class="title">信息填写</span>
+      </div>
+      <form name="input" action="/info/personinsert" method="post">
+        <div class="box-content padded">
+          <div class="row-fluid">
+            <div class="span9">
+            <!-- 条件选框 -->
+              <ul>
+                <li class="input">
+                  <label>用户名</label>
+                  <input type="text" placeholder="e.g. Tom" name="username">
+                </li>
+                <li class="input">
+                  <label>身份</label>
+                  <!--input type="text" placeholder="课程号" name="status"-->
+                  <select name="status">
+                    <optgroup lable="管理员">
+                      <option value="系统管理员" title ="请确认您是否有相应权限">系统管理员</option>
+                      <option value="教务管理员">教务管理员</option>
+                    </optgroup>
+                    <optgroup lable="用户">
+                      <option value="教师">教师</option>
+                      <option value="学生" selected="selected">学生</option>
+                    </optgroup>
+                  </select>
+                </li>
+                <li class="input">
+                  <label>性别</label>
+                  <select name="sex">
+                      <option value="男" selected="selected">男</option>
+                      <option value="女">女</option>
+                  </select>
+                </li>
+                <!--li class="input" style="margin-bottom:10px">
+                  <label>课程</label>
+                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_name">程序员</textarea>
+                </li-->
+                <li class="input">
+                  <label>年龄</label>
+                  <input type="text" placeholder="e.g. 20" name="age">
+                </li>
+                <li class="input">
+                  <label>专业</label>
+                  <input type="text" placeholder="e.g. 计算机科学与技术" name="major">
+                </li>
+                <li class="input">
+                  <label>学院</label>
+                  <input type="text" placeholder="e.g. 计算机学院" name="college">
+                </li>
+                <li class="input">
+                  <label>职称</label>
+                  <input type="text" placeholder="e.g. 教授" name="title">
+                </li>
+                <li class="input">
+                  <label>Tel</label>
+                  <input type="text" placeholder="e.g. 18868101234" name="tel">
+                </li>
+                <li class="input">
+                  <label>Email</label>
+                  <input type="text" placeholder="e.g. email@zju.edu.cn" name="email">
+                </li>
+              </ul>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-blue">添加</button>
+          </div>
+        </div>
+      </form>
+      </div>
+
+      <!-- 搜索结果 -->
+      <div class="span10">
+        <div class="box">
+          <div class="box-header">
+            <span class="title">添加结果</span>
+          </div>
+          <p><span><%= insertresult %></span></p>
+        </div>
+      </div>
+    </div>
+</div>
+
+</body>
 </html>
