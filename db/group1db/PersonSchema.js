@@ -10,7 +10,7 @@ var PersonSchema = new mongoose.Schema({
     college		: {type : String}, //学院
     title       : {type : String, default : '无'},   //职称
     tel			: {type : String},
-    email		: {typr : String},
+    email		: {type : String},
     time     : {type : Date, default: Date.now}
     
 });
