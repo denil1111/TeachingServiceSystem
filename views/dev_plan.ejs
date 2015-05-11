@@ -36,6 +36,19 @@
       </div>
       <div class="box-content scrollable" style="height: 1000px; overflow-y:auto"> 
         <!-- 通识课部分 -->
+       <div class="span9" style="margin-top:20px;">
+          <form name="input" action="/select/dev_plan" method="post">
+              <div class="input" style="display:inline; text-align:center;">
+                  <label style="float:left; margin-top:5px;">专业名称:&nbsp;</label>
+                  <select class="uniform" name="major_name">
+                      <% for(var i=0;i<major.length;i++){%>
+                      <option value="<%= major[i]%>"><%= major[i]%></option>
+                      <% } %>
+                  </select>
+                  <button type="submit" class="btn btn-blue" style="margin-left:30px;">搜索</button>
+              </div>
+          </form>
+        </div>
         <div class="span9" style="margin-top:20px;">
           <div class="box">
              <div class="box-header">

@@ -4,14 +4,92 @@
   <% include head.html %>
 </head>
 <body>
+	<% include navbar.html%>
 	<div class="span12" style="margin-top:20px">
 		<div class="box">
-			  <div class="box-header">
-		        <span class="title">课程列表</span>
-		        <ul class="box-toolbar">
-		          <li><span class="label label-red">未通过审核</span></li>
-		        </ul>
-		      </div>
+		  <div class="box-header">
+	        <span class="title">课程列表</span>
+	        <ul class="box-toolbar">
+	          <li>
+				<span class="label label-blue">
+				  课程名称：<%= course_name%>&nbsp;&nbsp;&nbsp;学分：<%= credits%>
+				</span>
+			  </li>
+	        </ul>
+	      </div>
+		  <div class="box-content padded">
+			 <form name="input" action="/select/<%=course_id %>" method="post">
+			 <table width="100%" class="table table-normal" style="text-align:center;">
+              <thead>
+                <tr>
+                  <td>教师</td>
+                  <td>上课时间</td>
+                  <td>校区</td>
+                  <td>教室</td>
+				  <td>余量/容量</td>
+				  <td>待定人数</td>
+				  <td>选课</td>
+                </tr>
+              </thead>
+              <tbody>
+			  <% for(var i=0;i<course.length;i++){%>
+			  <tr>
+				  <td><%=course[i].teacher %></td>
+				  <td><%=course[i].time %></td>
+				  <td><%=course[i].campus %></td>
+				  <td><%=course[i].room %></td>
+				  <td><%=course[i].remain %>/<%=course[i].all%></td>
+				  <td><%=course[i].waiting %></td>
+				  <td>
+					<input type="radio" name="choose" class="icheck" id="iradio<%=i%>" value="<%=i%>">
+				  </td>
+			  </tr>
+			  <%}%>
+              </tbody>  
+             </table>
+			 <div style="width:100%;text-align:center; padding-top:10px;">
+				 <button type="submit" class="btn btn-blue" style="width:80px;">提交</button>
+			 </div>
+			 </form>
+		  </div>
+		</div>
+	</div>
+	<div class="span12" style="margin-top:20px">
+		<div class="box">
+		  <div class="box-header">
+	        <span class="title">我的选择</span>
+	        <ul class="box-toolbar">
+	          <li>
+				<span class="label label-blue">
+				  课程名称：<%= course_name%>&nbsp;&nbsp;&nbsp;学分：<%= credits%>
+				</span>
+			  </li>
+	        </ul>
+	      </div>
+		  <div class="box-content padded">
+			 <table width="100%" class="table table-normal" style="text-align:center;">
+              <thead>
+                <tr>
+                  <td>教师</td>
+                  <td>上课时间</td>
+                  <td>校区</td>
+                  <td>教室</td>
+				  <td>余量/容量</td>
+				  <td>待定人数</td>
+                </tr>
+              </thead>
+              <tbody>
+			  <tr>
+				  <td><%=course[my_choice].teacher %></td>
+				  <td><%=course[my_choice].time %></td>
+				  <td><%=course[my_choice].campus %></td>
+				  <td><%=course[my_choice].room %></td>
+				  <td><%=course[my_choice].remain %>/<%=course[my_choice].all%></td>
+				  <td><%=course[my_choice].waiting %></td>
+			  </tr>
+              </tbody>  
+			 </table>
+		  </div>
 		</div>
 	</div>
 </body>
