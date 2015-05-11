@@ -41,7 +41,12 @@
 				  <td><%=course[i].remain %>/<%=course[i].all%></td>
 				  <td><%=course[i].waiting %></td>
 				  <td>
+					<% if(i!=my_choice) {%>
 					<input type="radio" name="choose" class="icheck" id="iradio<%=i%>" value="<%=i%>">
+					<%}%>
+					<% if(i==my_choice) {%>
+					<input type="radio" name="choose" class="icheck" checked="" id="iradio<%=i%>" value="<%=i%>">
+					<%}%>
 				  </td>
 			  </tr>
 			  <%}%>
@@ -51,44 +56,6 @@
 				 <button type="submit" class="btn btn-blue" style="width:80px;">提交</button>
 			 </div>
 			 </form>
-		  </div>
-		</div>
-	</div>
-	<div class="span12" style="margin-top:20px">
-		<div class="box">
-		  <div class="box-header">
-	        <span class="title">我的选择</span>
-	        <ul class="box-toolbar">
-	          <li>
-				<span class="label label-blue">
-				  课程名称：<%= course_name%>&nbsp;&nbsp;&nbsp;学分：<%= credits%>
-				</span>
-			  </li>
-	        </ul>
-	      </div>
-		  <div class="box-content padded">
-			 <table width="100%" class="table table-normal" style="text-align:center;">
-              <thead>
-                <tr>
-                  <td>教师</td>
-                  <td>上课时间</td>
-                  <td>校区</td>
-                  <td>教室</td>
-				  <td>余量/容量</td>
-				  <td>待定人数</td>
-                </tr>
-              </thead>
-              <tbody>
-			  <tr>
-				  <td><%=course[my_choice].teacher %></td>
-				  <td><%=course[my_choice].time %></td>
-				  <td><%=course[my_choice].campus %></td>
-				  <td><%=course[my_choice].room %></td>
-				  <td><%=course[my_choice].remain %>/<%=course[my_choice].all%></td>
-				  <td><%=course[my_choice].waiting %></td>
-			  </tr>
-              </tbody>  
-			 </table>
 		  </div>
 		</div>
 	</div>

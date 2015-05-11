@@ -248,25 +248,25 @@ router.post('/choose', function(req, res, next) {
 module.exports = router;
 
 //进入选课系统
-var course=[];//该课程号对应的所有不同老师、时间段的课程
-course.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30});
-course.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30});
-course.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30});
-router.get('/:courseID', function(req, res, next){
+var course1=[];//该课程号对应的所有不同老师、时间段的课程
+course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30});
+course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30});
+course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30});
+router.get('/choose_course/:courseID', function(req, res, next){
 	//课程号
 	var course_id = req.params.courseID;
   res.render('choose', {
     course_id:course_id,
     course_name:"软件工程",
     credits:2.5,
-    course:course,
+    course:course1,
     my_choice:1,//记录登陆人员选择的是哪个选项
     name: '程序员', 
-    image: 'images/avatars/avatar3.jpg'
+    image: '../images/avatars/avatar3.jpg'
   });
 });
 
-router.post('/:courseID', function(req, res, next){
+router.post('/choose_course/:courseID', function(req, res, next){
 	console.log(req.body);
   //课程号
 	var course_id = req.params.courseID;
@@ -274,9 +274,9 @@ router.post('/:courseID', function(req, res, next){
     course_id:course_id,
     course_name:"软件工程",
     credits:2.5,
-    course:course,
+    course:course1,
     my_choice:1,//记录登陆人员选择的是哪个选项
     name: '程序员', 
-    image: 'images/avatars/avatar3.jpg'
+    image: '../images/avatars/avatar3.jpg'
   });
 });
