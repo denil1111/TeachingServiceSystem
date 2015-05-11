@@ -23,4 +23,27 @@ PersonSchema.statics.findbyname = function(username, callback) {
     return this.model('PersonModel').find({username: username}, callback);
 }
 
+PersonSchema.statics.deletebyname = function(username, callback) {
+    return this.model('PersonModel').remove({username: username}, callback);
+}
+
+PersonSchema.statics.modifybyname = function(req, callback) {
+    return this.model('PersonModel').update(
+        {username: req.username},
+        {
+            $set:{
+                status : req.status,
+                sex : req.sex,
+                age : req.age,
+                major : req.major,
+                college : req.college,
+                title : req.title,
+                tel : req.tel,
+                email : req.email
+            }//,
+ //           $currentDate : { lastModified: true }
+        },
+        callback);
+}
+
 module.exports=PersonSchema;
