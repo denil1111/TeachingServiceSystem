@@ -48,7 +48,10 @@
               <div class="input" style="display:inline;">
                   <label style="float:left; margin-top:5px;">课程号:&nbsp;</label>
                   <input type="text" placeholder="课程号" name="course_number" style="float:left;"/>
-                  <button type="submit" class="btn btn-blue" style="margin-left:30px;">加入我的培养方案</button>
+                  <button class="btn btn-blue" style="margin-left:30px;" onclick="examine(1)">加入我的培养方案</button>
+                  <button class="btn btn-blue" style="margin-left:30px;" onclick="examine(2)">从我的培养方案中删除</button>
+<!--提交的时候有一个type值，type=1表示是加入，type=2表示是从培养方案中删除-->
+                  <input type="hidden" name="type" id="type"/>
               </div>
           </form>
         </div>
@@ -101,7 +104,7 @@
                         <tr>
                           <td><%= my_dev_plan_gen[i].classi %></td>
                           <td><%= my_dev_plan_gen[i].ID %></td>
-                          <td><%= my_dev_plan_gen[i].name %></td>
+                          <td><a href="/select/course/<%= my_dev_plan_gen[i].ID%>" target="view_window"><%= my_dev_plan_gen[i].name %></a></td>
                           <td><%= my_dev_plan_gen[i].time %></td>
                           <td><%= my_dev_plan_gen[i].credit %></td>
                           <%if(my_dev_plan_gen[i].complete) {%>
@@ -110,7 +113,7 @@
                           <%}%>
                           <%if(!my_dev_plan_gen[i].complete) {%>
                           <td><i class="icon-remove" style="color:red;"></i></td>
-                          <td><a href="#" target="view_window" style="color:blue;">选课</a></td>
+                          <td><a href="/select/choose_course/<%= my_dev_plan_gen[i].ID %>" target="view_window" style="color:blue;">选课</a></td>
                           <%}%>
                         </tr>
                         <%}%>
@@ -141,7 +144,7 @@
                         <% for(var i=0;i<dev_plan_req.length;i++){%>
                         <tr>
                           <td><%= dev_plan_req[i].ID %></td>
-                          <td><%= dev_plan_req[i].name %></td>
+                          <td><a href="/select/course/<%= dev_plan_req[i].ID%>" target="view_window"><%= dev_plan_req[i].name %></a></td>
                           <td><%= dev_plan_req[i].time %></td>
                           <td><%= dev_plan_req[i].credit %></td>
                           <%if(dev_plan_req[i].complete) {%>
@@ -150,7 +153,7 @@
                           <%}%>
                           <%if(!dev_plan_req[i].complete) {%>
                           <td><i class="icon-remove" style="color:red;"></i></td>
-                          <td><a href="javascript:a_post(<%=  dev_plan_req[i].ID %>)" target="view_window" style="color:blue;">选课</a></td>
+                          <td><a href="/select/choose_course/<%= dev_plan_req[i].ID %>" target="view_window" style="color:blue;">选课</a></td>
                           <%}%>
                         </tr>
                         <%}%>
@@ -192,7 +195,7 @@
                         <% for(var j=0;j<dev_plan_elec[i].length;j++){%>
                         <tr>
                           <td><%= dev_plan_elec[i][j].ID %></td>
-                          <td><%= dev_plan_elec[i][j].name %></td>
+                          <td><a href="/select/course/<%= dev_plan_elec[i][j].ID %>" target="view_window"><%= dev_plan_elec[i][j].name %></a></td>
                           <td><%= dev_plan_elec[i][j].time %></td>
                           <td><%= dev_plan_elec[i][j].credit %></td>
                           <%if(dev_plan_elec[i][j].complete) {%>
@@ -201,7 +204,7 @@
                           <%}%>
                           <%if(!dev_plan_elec[i][j].complete) {%>
                           <td><i class="icon-remove"></i></td>
-                          <td><a href="#" style="color:blue;">选课</a></td>
+                          <td><a href="/select/choose_course/<%= dev_plan_elec[i][j].ID %>" target="view_window" style="color:blue;">选课</a></td>
                           <%}%>
                         </tr>
                         <%}%>
@@ -217,28 +220,10 @@
     </div>
   </div>
 </div>
-<!-- 主要内容的js -->
 <script type="text/javascript">
-    function a_post(course_ID){
-      console.log(course_ID);
-      var _json = jQuery.param ({course_ID:course_ID});  
-      var request = $.ajax({  
-          url: "/select/choose",  
-          type: "POST",  
-          async: false,  
-          data: _json, //不能直接写成 {id:"123",code:"tomcat"}  
-          dataType: "json",  
-          // contentType: "charset=utf-8",  
-          cache: false,
-          success:function(result){
-            alert(result);
-          }
-          error:function(result){
-            alert("error");
-          }
-      });  
+    function examine(choice) {
+      document.getElementById("type").value=choice;
     }
-
 </script>
 </body>
 </html>

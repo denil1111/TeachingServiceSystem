@@ -106,13 +106,13 @@
             <% for(var i=0; i<course_data.length;i++) {%>
 
             <tr>
-              <td><a href='#'><%= course_data[i].ID %></a></td>
-              <td><a href='#'><%= course_data[i].name %></a></td>
-              <td><a href='#'><%= course_data[i].teacher %></a></td>
-              <td><a href='#'><%= course_data[i].semaster %></a></td>
-              <td><a href='#'><%= course_data[i].time %></a></td>
-              <td><a href='#'><%= course_data[i].campus %></a></td>
-              <td><a href='#'><%= course_data[i].room %></a></td>
+              <td><%= course_data[i].ID %></td>
+              <td><a href='/select/course/<%= course_data[i].ID %>' target="view_window"><%= course_data[i].name %></a></td>
+              <td><%= course_data[i].teacher %></td>
+              <td><%= course_data[i].semaster %></td>
+              <td><%= course_data[i].time %></td>
+              <td><%= course_data[i].campus %></td>
+              <td><%= course_data[i].room %></td>
             </tr>
             <% }%>
           </tbody>  
@@ -224,7 +224,7 @@
       var course_name="<%=course_data[i].name%>";
       var course_teacher="<%=course_data[i].teacher%>";
       var course_room="<%=course_data[i].room%>";
-      var data=course_name+'</br>'+course_teacher+'</br>'+course_room;
+      var data='<a href=\'/select/course/<%= course_data[i].ID %>\' target="view_window">'+course_name+'</a>'+'</br>'+course_teacher+'</br>'+course_room;
       console.log(data);
       console.log(time);
       for(var j=0;j<time_arr.length;j=j+2){

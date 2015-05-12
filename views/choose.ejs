@@ -4,14 +4,82 @@
   <% include head.html %>
 </head>
 <body>
+	<% include navbar.html%>
 	<div class="span12" style="margin-top:20px">
 		<div class="box">
-			  <div class="box-header">
-		        <span class="title">课程列表</span>
-		        <ul class="box-toolbar">
-		          <li><span class="label label-red">未通过审核</span></li>
-		        </ul>
-		      </div>
+		  <div class="box-header">
+	        <span class="title">课程列表</span>
+	        <ul class="box-toolbar">
+	          <li>
+				<span class="label label-blue">
+				  课程名称：<%= course_name%>&nbsp;&nbsp;&nbsp;学分：<%= credits%>
+				</span>
+			  </li>
+	        </ul>
+	      </div>
+		  <div class="box-content padded">
+			 <form name="input" action="/select/choose_course/<%=course_id %>" method="post">
+			 <table width="100%" class="table table-normal" style="text-align:center;">
+              <thead>
+                <tr>
+                  <td>教师</td>
+                  <td>上课时间</td>
+                  <td>校区</td>
+                  <td>教室</td>
+				  <td>余量/容量</td>
+				  <td>待定人数</td>
+				  <td>选课</td>
+                </tr>
+              </thead>
+              <tbody>
+			  <% for(var i=0;i<course.length;i++){%>
+			  <tr>
+				  <td><%=course[i].teacher %></td>
+				  <td><%=course[i].time %></td>
+				  <td><%=course[i].campus %></td>
+				  <td><%=course[i].room %></td>
+				  <td><%=course[i].remain %>/<%=course[i].all%></td>
+				  <td><%=course[i].waiting %></td>
+				  <td>
+					<% if(i!=my_choice) {%>
+					<input type="radio" name="choose" class="icheck" id="iradio<%=i%>" value="<%=i%>">
+					<%}%>
+					<% if(i==my_choice) {%>
+					<input type="radio" name="choose" class="icheck" checked="" id="iradio<%=i%>" value="<%=i%>">
+					<%}%>
+				  </td>
+			  </tr>
+			  <%}%>
+              </tbody>  
+             </table>
+			 <div class="form-group" style="display:inline;padding-top:20px;">
+              <label class="control-label col-lg-2" style="float:left;padding-top:5px;">分配点数：</label>
+              <div class="col-lg-10">
+              	<select class="uniform" name="points" id="points">
+					<option value="5">5</option>
+					<option value="10">10</option>
+					<option value="15">15</option>
+					<option value="20">20</option>
+					<option value="25">25</option>
+					<option value="30">30</option>
+					<option value="35">35</option>
+					<option value="40">40</option>
+					<option value="45">45</option>
+					<option value="50">50</option>
+				</select>
+				/<%=remain_points%>
+              </div>
+            </div>
+			 <div style="width:100%;text-align:center; padding-top:10px;">
+				 <button type="submit" class="btn btn-blue" style="width:80px;">提交</button>
+			 </div>
+			 </form>
+		  </div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		var select=document.getElementById("points");
+		var i=<%=old_point%>/5-1;
+		select[i].selected=true;
+	</script>
 </body>
