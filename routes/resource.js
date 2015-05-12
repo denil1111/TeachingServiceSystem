@@ -9,7 +9,6 @@ var debug = require('debug')('resource');
 
 var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 var fs = require('fs');
-
 // TODO: wait to split those routes into separate files
 router.get('/', function(req, res, next) {
   res.redirect('/resource/cloud');
@@ -114,6 +113,28 @@ router.get('/config', function(req, res, next) {
   res.render('index', { title: 'Config' });
 });
 
+// file tree post data
+router.post('/tree_data',function(req,res,next){
+
+  var options = {
+    root: '../public',
+    dotfiles: 'deny',
+    headers: {
+        'x-timestamp': Date.now(),
+        'x-sent': true
+    }
+  };
+  console.log("haha");
+  res.sendFile('tree_data.json', options, function (err) {
+    if (err) {
+      console.log(err);
+      res.status(err.status).end();
+    }
+    else {
+      console.log('Sent:');
+    }
+  });
+});
 /* 
 
   These routes below are under test
