@@ -436,7 +436,7 @@
           <div class="news-time" style="width:120px"><span><%= course_data[i].semaster%></span><%= course_data[i].time%></div>
           <div class="news-content">
             <!-- 课程名称 -->
-            <div class="news-title"><a href="#"><%= course_data[i].name%></a></div>
+            <div class="news-title"><a href="course/<%=course_data[i].id%>" target="view_window"><%= course_data[i].name%></a></div>
             <!-- 课程信息 -->
             <div class="news-text" style="display:inline">
               任课教师:<span id="teacher"><%= course_data[i].teacher%></span>
