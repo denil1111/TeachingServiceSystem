@@ -18,7 +18,7 @@
 	        </ul>
 	      </div>
 		  <div class="box-content padded">
-			 <form name="input" action="/select/<%=course_id %>" method="post">
+			 <form name="input" action="/select/choose_course/<%=course_id %>" method="post">
 			 <table width="100%" class="table table-normal" style="text-align:center;">
               <thead>
                 <tr>
@@ -52,6 +52,24 @@
 			  <%}%>
               </tbody>  
              </table>
+			 <div class="form-group" style="display:inline;padding-top:20px;">
+              <label class="control-label col-lg-2" style="float:left;padding-top:5px;">分配点数：</label>
+              <div class="col-lg-10">
+              	<select class="uniform" name="points" id="points">
+					<option value="5">5</option>
+					<option value="10">10</option>
+					<option value="15">15</option>
+					<option value="20">20</option>
+					<option value="25">25</option>
+					<option value="30">30</option>
+					<option value="35">35</option>
+					<option value="40">40</option>
+					<option value="45">45</option>
+					<option value="50">50</option>
+				</select>
+				/<%=remain_points%>
+              </div>
+            </div>
 			 <div style="width:100%;text-align:center; padding-top:10px;">
 				 <button type="submit" class="btn btn-blue" style="width:80px;">提交</button>
 			 </div>
@@ -59,4 +77,9 @@
 		  </div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		var select=document.getElementById("points");
+		var i=<%=old_point%>/5-1;
+		select[i].selected=true;
+	</script>
 </body>
