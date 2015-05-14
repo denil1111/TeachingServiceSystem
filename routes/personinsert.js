@@ -3,6 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose'); 
 
 router.get('/personinsert', function(req, res,next) {
+    if(!req.session.user){return res.redirect('login');}
     res.render('personinsert',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',

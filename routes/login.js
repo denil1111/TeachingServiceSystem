@@ -3,8 +3,8 @@ var router = express.Router();
 var mongoose = require('mongoose/');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
-//var session =require('express-session');
+var session = require('express-session');
+//var cookieParser = require('cookie-parser');
 
 var db = mongoose.createConnection('mongodb://127.0.0.1:27017/person');
 var PersonSchema = require('../db/group1db/PersonSchema');
@@ -13,6 +13,12 @@ var PersonModel = db.model('PersonModel',PersonSchema,CollectionName);
 
 router.use(passport.initialize());
 router.use(passport.session());
+
+router.use(session({
+  secret: 'TeachingServerSystem',
+  resave: false,
+  saveUnintialized: false
+}));
 
 passport.use(new LocalStrategy(
     function(username,passport, done) {
@@ -35,12 +41,15 @@ passport.use(new LocalStrategy(
 
 
 
-router.post('/login',
-  passport.authenticate('local', {
-    successRedirect: '/info/personinsert',
-    failureRedirect: '/info/login'
-  })
-);
+router.post('/login',function(req, res, next){
+  passport.authenticate('local',function(err,user,info){
+    if(err){return(err);}
+    if(!user){return res.redirect('login')};
+
+    req.session.user=user;
+    return res.redirect('personinsert');
+  })(req,res,next);
+});
 
 passport.serializeUser(function(user, done) {
   done(null, user);
