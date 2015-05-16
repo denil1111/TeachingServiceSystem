@@ -15,7 +15,7 @@ course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', s
 /* GET home page. */
 router.get('/course', function(req, res, next) {
   console.log(course.ejs);
-  res.render('course', {
+  res.render('select/course', {
     type:1,//tearcher
   	name: '程序员', 
   	image: 'images/avatars/avatar3.jpg',
@@ -295,7 +295,7 @@ router.get('/choose_course/:courseID', function(req, res, next){
       var choice=-1;
       var oldPoint=0;
       var render=function(){
-        res.render('choose', {
+        res.render('select/choose', {
         course_id:id,
         course_name:name,
         credits:credits,
