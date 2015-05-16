@@ -14,7 +14,7 @@ var app = express();
 
 var settings = require('./settings');
 var mongoose = require('mongoose');
-global.db       = mongoose.createConnection(settings.db.connect);
+mongoose.connect(settings.db.connect);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
