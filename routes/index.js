@@ -3,7 +3,7 @@ var router = express.Router();
 
 var info = require('./info');
 // var arrange = require()
-var select = require("./course")
+var select = require("./select/course")
 // var resource = require()
 // var test = require()
 // var score = require()
