@@ -193,7 +193,7 @@ my_dev_plan_gen.push({ID:"0015345",name:"B/S软件设计",time:"大三 夏",cred
 
 router.get('/my_dev_plan', function(req, res, next) {
   console.log(course.ejs);
-  res.render('my_dev_plan', {
+  res.render('select/my_dev_plan', {
     type:1,//tearcher
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
