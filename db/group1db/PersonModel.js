@@ -13,15 +13,21 @@ var PersonSchema = new mongoose.Schema({
     tel			: {type : String},    //电话
     email		: {type : String},   //邮件
     time     : {type : Date, default: Date.now} //创建时间
-    
 });
 /*
 personSchema.methods.insertByEntity = function(PersonEntity, callback) {
     return this.model('mongoose').find({username: username}, callback);
 }
 */
+// var db = mongoose.createConnection('mongodb://127.0.0.1:27017/person');
+// var PersonSchema = require('../db/group1db/PersonSchema');
+// var CollectionName = 'people';
+// var PersonModel = db.model('PersonModel',PersonSchema,CollectionName);
+// var PersonModel = mongoose.model('PersonSchema',PersonSchema);
+
 PersonSchema.statics.findbyname = function(username, callback) {
-    return this.model('PersonModel').find({username: username}, callback);
+    // return this.model('PersonModel').find({username: username}, callback);
+    this.find({username:username},callback);
 }
 
 PersonSchema.statics.deletebyname = function(username, callback) {
@@ -47,4 +53,5 @@ PersonSchema.statics.modifybyname = function(req, callback) {
         callback);
 }
 
-module.exports=PersonSchema;
+var PersonModel = mongoose.model('PersonSchema',PersonSchema);
+module.exports=PersonModel;

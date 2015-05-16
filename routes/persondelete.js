@@ -20,10 +20,10 @@ router.get('/persondelete', function(req, res,next) {
 
 router.post('/persondelete',function(req,res,next){
     console.log("post:persondelete");
-    var db = mongoose.createConnection('mongodb://127.0.0.1:27017/person');
-    var PersonSchema = require('../db/group1db/PersonSchema');
-    var CollectionName = 'people';
-    var PersonModel = db.model('PersonModel',PersonSchema,CollectionName);
+    // var db = mongoose.createConnection('mongodb://127.0.0.1:27017/person');
+    var PersonModel = require('../db/group1db/PersonModel');
+    // var CollectionName = 'people';
+    // var PersonModel = db.model('PersonModel',PersonSchema,CollectionName);
         
     PersonModel.deletebyname(req.body.username, function(error, data){
         if(error) {

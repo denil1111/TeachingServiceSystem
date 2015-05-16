@@ -29,10 +29,11 @@ router.get('/personinsert', function(req, res,next) {
 
 router.post('/personinsert',function(req,res,next){
     console.log("post:personinsert");
-    var db = mongoose.createConnection('mongodb://127.0.0.1:27017/person');
-    var PersonSchema = require('../db/group1db/PersonSchema');
-    var CollectionName = 'people';
-    var PersonModel = db.model('PersonModel',PersonSchema,CollectionName);
+    // var db = mongoose.createConnection('mongodb://127.0.0.1:27017/person');
+    // var PersonSchema = require('../db/group1db/PersonSchema');
+    // var CollectionName = 'people';
+    // var PersonModel = db.model('PersonModel',PersonSchema,CollectionName);
+    var PersonModel = require('../db/group1db/PersonModel');
     var doc = {
         username : req.body.username,
         status : req.body.status,
