@@ -14,10 +14,7 @@ router.get('/courseselect', function(req, res, next) {
 
 router.post('/courseselect',function(req, res, next){
 	console.log("post:courseselect");
-	var db = mongoose.createConnection('mongodb://127.0.0.1:27017/course');
-	var CourseSchema = require('../db/group1db/CourseSchema');
-	var CollectionName = 'class';
-	var CourseModel = db.model('CourseModel',CourseSchema,CollectionName);
+	var CourseModel = require('../db/group1db/CourseModel');
 
 	CourseModel.findbyname(req.body.coursename, function(error, data){
 		if(error) {

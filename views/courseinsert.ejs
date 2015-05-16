@@ -7,8 +7,13 @@
   </head>
   <body>
     <h1>Course Insert</h1>
-    <form action="/courseinsert" role="form" method="post">
+    <form action="/info/courseinsert" role="form" method="post">
         <p><span><%= insertresult %></span>
+        </p>
+        <p>
+          <span>课程id</span>
+          <br>
+          <input id="courseid" name="courseid" placeholder="course id" type="text">
         </p>
         <p>
           <span>课程名称</span>

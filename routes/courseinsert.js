@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose'); 
+var CourseModel = require('../db/group1db/CourseModel');
 
 router.get('/courseinsert', function(req, res,next) {
     res.render('courseinsert',{
@@ -15,11 +16,8 @@ router.get('/courseinsert', function(req, res,next) {
 
 router.post('/courseinsert',function(req,res,next){
     console.log("post:courseinsert");
-    var db = mongoose.createConnection('mongodb://127.0.0.1:27017/course');
-    var CourseSchema = require('../db/group1db/CourseSchema');
-    var CollectionName = 'class';
-    var CourseModel = db.model('CourseModel',CourseSchema,CollectionName);
     var doc = {
+        coureseid : req.body.courseid,
         coursename : req.body.coursename,
         teacher : req.body.teacher,
         examtime : req.body.examtime,
@@ -39,6 +37,7 @@ router.post('/courseinsert',function(req,res,next){
             console.log('Saved by Model OK!');
             console.log(doc.coursename);
             res.render('courseinsert',{
+                coureseid : data.coureseid,
                 coursename : data.coursename,
                 teacher : data.teacher,
                 examtime : data.examtime,

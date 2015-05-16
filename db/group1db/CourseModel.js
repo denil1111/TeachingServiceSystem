@@ -14,13 +14,19 @@ var CourseSchema = new mongoose.Schema({
     time     : {type : Date, default: Date.now}	//创建时间
     
 });
+var CollectionName = 'courses';
 /*
 personSchema.methods.insertByEntity = function(PersonEntity, callback) {
     return this.model('mongoose').find({username: username}, callback);
 }
 */
+CourseSchema.statics.findbyid = function(courseid, callback) {
+    return this.model('CourseModel').find({courseid: courseid}, callback);
+}
 CourseSchema.statics.findbyname = function(coursename, callback) {
     return this.model('CourseModel').find({coursename: coursename}, callback);
 }
 
-module.exports=CourseSchema;
+var CourseModel = mongoose.model('CourseModel',CourseSchema,CollectionName);
+
+module.exports=CourseModel;
