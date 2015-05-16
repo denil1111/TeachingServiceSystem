@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Course Select</title>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <h1>Course Select</h1>
+    <form action="/courseselect" role="form" method="post">
+      <% for(var i=0; i<course_data.length;i++) { %>
+        <p><span><%= selectresult %></span></p>
+        <p><span><%= course_data[i].coursename %></span></p>
+        <p><span><%= course_data[i].teacher %></span></p>
+        <p><span><%= course_data[i].examtime %></span></p>
+        <p><span><%= course_data[i].room %></span></p>
+        <p><span><%= course_data[i].college %></span></p>
+        <% } %>
+        <p>
+          <span>课程名称</span>
+          <br>
+          <input id="coursename" name="coursename" placeholder="name" type="text">
+        </p>
+ 
+        <p><input type="submit" onclick="courseselect();" value="submit"></p>
+    </form>
+  </body>
+</html>
