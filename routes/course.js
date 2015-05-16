@@ -15,7 +15,7 @@ course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', s
 /* GET home page. */
 router.get('/course', function(req, res, next) {
   console.log(course.ejs);
-  res.render('course', {
+  res.render('select/course', {
     type:1,//tearcher
   	name: '程序员', 
   	image: 'images/avatars/avatar3.jpg',
@@ -39,7 +39,7 @@ router.post('/course_search', function(req, res, next) {
           console.log(result);
       }
       //关闭数据库链接
-      res.render('course', {
+      res.render('select/course', {
         type:1,//tearcher
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
@@ -71,7 +71,7 @@ my_course.push({ID:"00002",name:'软件工程',teacher:'XX2', semaster:'春夏',
 /* GET home page. */
 router.get('/my_course', function(req, res, next) {
   console.log(my_course.ejs);
-  res.render('my_course', {
+  res.render('select/my_course', {
     type:1,//tearcher
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
@@ -99,7 +99,7 @@ router.post('/my_course_search', function(req, res, next) {
   //         console.log(result);
   //     }
       //关闭数据库链接
-  res.render('my_course', {
+  res.render('select/my_course', {
     type:1,//tearcher
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
@@ -146,7 +146,7 @@ major.push("软件工程");
 major.push("自动化控制");
 router.get('/dev_plan', function(req, res, next) {
   console.log(course.ejs);
-  res.render('dev_plan', {
+  res.render('select/dev_plan', {
     type:1,//tearcher
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
@@ -166,7 +166,7 @@ router.get('/dev_plan', function(req, res, next) {
 //获取专业信息
 router.post('/dev_plan', function(req, res, next) {
   console.log(req.body);
-  res.render('dev_plan', {
+  res.render('select/dev_plan', {
     type:1,//tearcher
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
@@ -214,7 +214,7 @@ router.get('/my_dev_plan', function(req, res, next) {
 
 router.post('/my_dev_plan_add', function(req, res, next) {
     console.log(req.body);
-    res.render('my_dev_plan', {
+    res.render('select/my_dev_plan', {
         type:1,//tearcher 
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
@@ -235,7 +235,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
 
 router.post('/choose', function(req, res, next) {
   console.log(req.body);
-  res.render('choose', {
+  res.render('select/choose', {
     type:1,//tearcher
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
@@ -306,7 +306,7 @@ router.get('/choose_course/:courseID', function(req, res, next){
           }
           course.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].time,room:result[i].room,remain:20,all:40,waiting:30});
       }
-      res.render('choose', {
+      res.render('select/choose', {
         course_id:id,
         course_name:name,
         credits:credits,
@@ -325,7 +325,7 @@ router.post('/choose_course/:courseID', function(req, res, next){
 	console.log(req.body);
   //课程号
 	var course_id = req.params.courseID;
-  res.render('choose', {
+  res.render('select/choose', {
     course_id:course_id,
     course_name:"软件工程",
     credits:2.5,
@@ -347,7 +347,7 @@ outline.push("2.类图");
 router.get('/course/:courseID', function(req, res, next){
 	//课程号
 	var course_id = req.params.courseID;
-  res.render('course_data', {
+  res.render('select/course_data', {
     course_id:course_id,
     course_name:"软件工程",
     credits:2.5,
