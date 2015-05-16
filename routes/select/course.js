@@ -29,8 +29,7 @@ router.get('/course', function(req, res, next) {
 });
 router.post('/course_search', function(req, res, next) {
   console.log(req.body); 
-  var Schema = require('../db/courseDB/courseSchema');  
-  var Model = global.db.model('course', Schema);
+  var Model = require('../../db/courseDB/courseSchema');  
   Model.findbyid(req.body, function(error, result){
       if(error) {
           console.log(error);
@@ -255,10 +254,9 @@ course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹�
 router.get('/choose_course/:courseID', function(req, res, next){
 	//课程号
 	var course_id = req.params.courseID;
-  var courseSchema = require('../db/courseDB/courseSchema');  
-  var courseModel = global.db.model('course', courseSchema);
-  var userSchema = require('../db/courseDB/userSchema');  
-  var userModel = global.db.model('user', userSchema);
+  var courseModel = require('../../db/group1db/CourseModel');
+  var userModel = require('../../db/courseDB/userSchema'); 
+  var courseSelectModel = require('../../db/courseDB/courseSelectModel'); 
   var selectedCourse=[];
   var selectedCourseP=[];
   var remainedP=0;
@@ -275,29 +273,20 @@ router.get('/choose_course/:courseID', function(req, res, next){
           selectedCourseP.push(result[0].selectedCourse[i].points);
       }
   });
-  courseModel.find({ id: req.params.courseID }, function(error,result){
+  courseModel.find({ courseid: req.params.courseID }, function(error,result){
       if(error) {
           console.log(error);
       } else {
           console.log(result);
       }
-      var name=result.length==0?'N/A':result[0].name;
-      var credits=2.5;
+      var name=result.length==0?'N/A':result[0].coursename;
+      var credits=result.length==0?-1:result[0].coursescore;
       var id=result.length==0?'N/A':result[0].id;
       var course=[];
       var choice=-1;
       var oldPoint=0;
-      for (var i=0;i<result.length;i++)
-      {
-          var index=selectedCourse.indexOf(result[i]._id.toString());
-          if (index!=-1)
-          {
-              choice=i;
-              oldPoint=selectedCourseP[index];
-          }
-          course.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].time,room:result[i].room,remain:20,all:40,waiting:30});
-      }
-      res.render('choose', {
+      var render=function(){
+        res.render('choose', {
         course_id:id,
         course_name:name,
         credits:credits,
@@ -307,7 +296,34 @@ router.get('/choose_course/:courseID', function(req, res, next){
         old_point:oldPoint,//该学生原来分配的点数
         name: '程序员', 
         image: '../images/avatars/avatar3.jpg'
-      });
+        });
+      }
+      for (var i=0;i<result.length;i++)
+      {
+          var index=selectedCourse.indexOf(result[i]._id.toString());
+          if (index!=-1)
+          {
+              choice=i;
+              oldPoint=selectedCourseP[index];
+          }
+          console.log(result[i]._id);
+          (function(i){ 
+            courseSelectModel.find({id:result[i]._id.toString()},function(error,nresult){
+              if(error) {
+                  console.log(error);
+              } else {
+                  console.log(nresult);
+              }              
+              if (nresult.length!=0)
+                  course.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].coursetime,room:result[i].room,remain:nresult[0].remain,all:nresult[0].all,waiting:nresult[0].waiting});
+              console.log(i);
+              console.log(i==result.length);
+              if (i==result.length-1)
+                  render();
+            });
+          })(i);       
+      }
+      
   });
  
 });

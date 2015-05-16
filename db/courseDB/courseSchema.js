@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 // Schema 结构
-var mongooseSchema = new mongoose.Schema({
+var courseSchema = new mongoose.Schema({
 	name:{type:String},
 	id:{type:String},
 	teacher:{type:String},
@@ -10,7 +10,7 @@ var mongooseSchema = new mongoose.Schema({
 	campus:{type:String},
 	room:{type:String}
 });
-mongooseSchema.statics.findbyid = function(id, callback) {
+courseSchema.statics.findbyid = function(id, callback) {
 	name_list = id.course_name.split(',');
 	teacher_list = id.course_teacher.split(',');
 	cond = [];
@@ -49,8 +49,9 @@ mongooseSchema.statics.findbyid = function(id, callback) {
     	//return this.model('course').find({id:id.course_number, {'$or':[{name: new RegExp(list[0], 'i'), name: new RegExp(list[1], 'i')}]}}, callback);
 }
 
-mongooseSchema.statics.findByName = function (name, cb) {
+courseSchema.statics.findByName = function (name, cb) {
   return this.model('course').find({ name: new RegExp(name, 'i') }, cb);
 }
 
-module.exports=mongooseSchema;
+var courseModel = mongoose.model('courseModel',courseSchema,'courses');
+module.exports=courseModel;

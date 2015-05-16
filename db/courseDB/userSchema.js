@@ -7,4 +7,6 @@ var userSchema = new mongoose.Schema({
 	selectedCourse:[{id:{type:String},points:{type:Number}}],
 	confirmedCourse:[{id:{type:String}}]
 });
-module.exports=userSchema;
+
+var userModel = mongoose.model('userModel',userSchema,'users');
+module.exports=userModel;
