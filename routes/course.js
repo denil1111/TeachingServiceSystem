@@ -188,7 +188,7 @@ router.post('/dev_plan', function(req, res, next) {
 //credits的含义为培养方案中已包含的总学分数量
 //增加变量my_dev_plan_gen，其含义为我的培养方案中制定的通识课
 var my_dev_plan_gen=[];
-my_dev_plan_gen.push({ID:"0015345",name:"Java应用基础",time:"大三 夏",credit:"2.5",complete:false,classi:"沟通与领导类"});
+my_dev_plan_gen.push({ID:"c001",name:"Java应用基础",time:"大三 夏",credit:"2.5",complete:false,classi:"沟通与领导类"});
 my_dev_plan_gen.push({ID:"0015345",name:"B/S软件设计",time:"大三 夏",credit:"1.5",complete:false,classi:"体育"});
 
 router.get('/my_dev_plan', function(req, res, next) {
@@ -264,17 +264,61 @@ course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹�
 router.get('/choose_course/:courseID', function(req, res, next){
 	//课程号
 	var course_id = req.params.courseID;
-  res.render('choose', {
-    course_id:course_id,
-    course_name:"软件工程",
-    credits:2.5,
-    course:course1,
-    my_choice:1,//记录登陆人员选择的是哪个选项
-    remain_points:100,//该学生剩余的点数
-    old_point:10,//该学生原来分配的点数
-    name: '程序员', 
-    image: '../images/avatars/avatar3.jpg'
+  var courseSchema = require('../db/courseDB/courseSchema');  
+  var courseModel = global.db.model('course', courseSchema);
+  var userSchema = require('../db/courseDB/userSchema');  
+  var userModel = global.db.model('user', userSchema);
+  var selectedCourse=[];
+  var selectedCourseP=[];
+  var remainedP=0;
+  userModel.find({id:"u001"},function(error,result){
+      if(error) {
+          console.log(error);
+      } else {
+          console.log(result);
+      }
+      remainedP=result[0].points;
+      for (var i=0;i<result[0].selectedCourse.length;i++)
+      {
+          selectedCourse.push(result[0].selectedCourse[i].id);
+          selectedCourseP.push(result[0].selectedCourse[i].points);
+      }
   });
+  courseModel.find({ id: req.params.courseID }, function(error,result){
+      if(error) {
+          console.log(error);
+      } else {
+          console.log(result);
+      }
+      var name=result.length==0?'N/A':result[0].name;
+      var credits=2.5;
+      var id=result.length==0?'N/A':result[0].id;
+      var course=[];
+      var choice=-1;
+      var oldPoint=0;
+      for (var i=0;i<result.length;i++)
+      {
+          var index=selectedCourse.indexOf(result[i]._id.toString());
+          if (index!=-1)
+          {
+              choice=i;
+              oldPoint=selectedCourseP[index];
+          }
+          course.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].time,room:result[i].room,remain:20,all:40,waiting:30});
+      }
+      res.render('choose', {
+        course_id:id,
+        course_name:name,
+        credits:credits,
+        course:course,
+        my_choice:choice,//记录登陆人员选择的是哪个选项
+        remain_points:remainedP,//该学生剩余的点数
+        old_point:oldPoint,//该学生原来分配的点数
+        name: '程序员', 
+        image: '../images/avatars/avatar3.jpg'
+      });
+  });
+ 
 });
 
 router.post('/choose_course/:courseID', function(req, res, next){
