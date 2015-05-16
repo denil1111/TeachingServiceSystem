@@ -28,5 +28,4 @@ CourseSchema.statics.findbyname = function(coursename, callback) {
 }
 
 var CourseModel = mongoose.model('CourseModel',CourseSchema,CollectionName);
-
 module.exports=CourseModel;

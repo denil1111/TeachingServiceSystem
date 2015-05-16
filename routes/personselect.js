@@ -7,7 +7,7 @@ var tmp=[];
 var PersonModel = require('../db/group1db/PersonModel');
 
 router.get('/personselect', function(req, res, next) {
-	// if(!req.session.user){return res.redirect('login');}
+	if(!req.session.user){return res.redirect('login');}
     res.render('personselect',{
     	name: '程序员', 
     	image: 'images/avatars/avatar3.jpg',
