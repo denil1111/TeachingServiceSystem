@@ -10,7 +10,7 @@ var debug = require('debug')('resource');
 var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 var fs = require('fs');
 // TODO: wait to split those routes into separate files
-router.get('/', function(req, res, next) {
+router.get('/', function(reqres, next) {
   res.redirect('/resource/cloud');
   // res.render('courseInfo',{});
 });
@@ -153,7 +153,85 @@ router.get('/feedback', function(req, res, next) {
 });
 
 router.get('/homework', function(req, res, next) {
-  res.render('homework',{});
+  var homework=[];
+  var db = mongoose.connection;
+  var homeWorkSchema = require('./module/homeWorkModule');
+  var homeworkModel = db.model('homework', homeWorkSchema);
+  var idd = mongoose.Schema.Types.ObjectId;
+  
+  homework.push({homework: 'work5', ddl: Date.now(),describe:'1'});
+ // homework.push({homework: 'work2',ddl: Date.now(),describe:'2'});
+ // homework.push({homework: 'work3',ddl: Date.now(),describe:'3'});
+  var homeworkEntity = new homeworkModel(homework);
+	        //console.log(homeworkEntity.id);                          
+ /* homeworkEntity.save(function(error) {
+    	if(error) {
+	        console.log(error);
+	    } else {
+	        console.log('saved OK!');
+	    }
+  });*/
+/*
+  homeworkModel.create(homework,function (error) {
+    	if(error) {
+	        console.log(error);
+	    } else {
+	        console.log(homework.id);                        
+	        console.log('save ok');
+	    }
+  });
+  */
+	// 增加记录 基于model操作
+  var id='555837a11c3eb0cb470e8d5d';
+	homeworkModel.find({_id:id}, function(error,result){
+	  if(error) {
+      console.log(error);
+	  } else {
+      homework=result;
+	    console.log(result);            
+	  }
+    res.render('homework',{
+      homeWorkList: homework
+    });
+	});
+});
+
+router.get('/homeworkupload/:homework',function(req, res, next){
+  res.render('homeworkupload',{});
+});
+
+router.get('/coursewares',function(req, res, next){
+  var course = 'course1';
+  var coursewares = [];
+  var db = mongoose.connection;
+  var courseWareSchema = require('./module/courseWareModule');
+  var courseWareModel = db.model('coursewares', courseWareSchema);
+  //TODO req.course                                          
+  courseWareModel.findbycourse(course,function (error,result) {
+    if (error){
+      console.log(error);
+    } else {
+      var cws = result[0].courseware;
+      var num=0;
+      cws.forEach(function (cw) {
+        gfs.findOne({_id:cw.id},function (error,file) {
+          if (error){
+            console.log(error);        
+          } else {
+            coursewares.push(file);
+            num++;
+            if (num >= cws.length) {
+              console.log(coursewares);
+              console.log('read file ok!');
+              res.render('coursewares',{
+                coursewares: coursewares
+              });
+            }
+          }
+        });
+      });
+    }
+  });
 });
 
 router.get('/resource', function(req, res, next) {
