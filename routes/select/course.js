@@ -13,6 +13,7 @@ course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', s
 course.push({name:'程序员的自我修养',complete:true, teacher:'XX1', semaster:'春',time:'周一 123',campus:'玉泉',room:'曹西-204',id:'000001'});
 course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', semaster:'春夏',time:'周一 123 周二 345',campus:'玉泉',room:'曹西-101',id:'000002'});
 /* GET home page. */
+/*type=0; 学生  type=1;老师  type=2 管理员 */
 router.get('/course', function(req, res, next) {
   console.log(course.ejs);
   res.render('select/course', {
@@ -55,6 +56,7 @@ router.post('/course_search', function(req, res, next) {
 });
 var my_course=[];
 my_course.push({
+  course_id:"000000",
   ID:"00001",
   name:'计算机组成',
   teacher:'XX1',
@@ -66,7 +68,8 @@ my_course.push({
 //注意所有课程的time日期格式，多个上课时间之间以空格分隔，共有以下情况：
 //晚上的课程格式为 Mon night
 //其余为 周一 123 或 周一 12 以此类推
-my_course.push({ID:"00002",name:'软件工程',teacher:'XX2', semaster:'春夏',time:'周一 12 周二 345',campus:'玉泉',room:'曹西-101'});
+//新增course_id为主键, 
+my_course.push({course_id:"000001",ID:"00002",name:'软件工程',teacher:'XX2', semaster:'春夏',time:'周一 12 周二 345',campus:'玉泉',room:'曹西-101'});
 /* GET home page. */
 router.get('/my_course', function(req, res, next) {
   console.log(my_course.ejs);
@@ -384,6 +387,24 @@ router.get('/course/:courseID', function(req, res, next){
     catagory:"工程技术类",
     course_data:"\"软件工程\"指导学生理解软件工程基本概念的重要性，介绍软件过程模型、方法与工具、以及软件管理这三大基础，讨论传统方法学与面向对象方法学。通过模拟案例，使学生在实践中体会软件的生命周期，包括需求分析、总体设计、详细设计、编码、测试、维护、以及团队合作。在实践中学生将学习使用传统工具，如数据流图、数据字典、实体-关联图、系统层次图；还有面向对象工具如脚本、事件跟踪图、状态迁移图、CRC卡等。",
     course_outline:outline,
+    name: '程序员', 
+    image: '../images/avatars/avatar3.jpg'
+  });
+});
+
+//课程人员列表
+var students=[];
+students.push({sId:"3130000027",sname:"桓神",classNo:"启真1301",major:"计算机科学与技术"});
+students.push({sId:"3130000017",sname:"闻神",classNo:"启真1301",major:"计算机科学与技术"});
+router.get('/course_list/:courseID', function(req, res, next){
+	//课程号
+	var course_id = req.params.courseID;
+  res.render('select/course_list', {
+    course_id:"000002",//注意这个课程ID不是这个主键ID 而是每一门课所对应的ID
+    course_name:"软件工程",
+    credits:2.5,
+    course_time:"周一12 周二345",
+    students:students,
     name: '程序员', 
     image: '../images/avatars/avatar3.jpg'
   });

@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+  <% include ../head.html %>
+</head>
+<body>
+<% include ../navbar.html%>
+  
+<div style="width:100%;text-align:center; padding-top:20px;">
+  <button onclick="CellToTable(student_list)" class="btn btn-blue">导出课程名单为Excel</button>
+</div>
+<div class="span12" style="margin-top:20px">
+<div class="box">
+  <div class="box-header">
+    <span class="title">课程名单</span>
+    <ul class="box-toolbar">
+      <li>
+      	<span class="label">
+      	  课程名称：<%= course_name%>&nbsp;&nbsp;&nbsp;
+          学分：<%= credits%>&nbsp;&nbsp;&nbsp;
+          课程时间：<%= course_time%>
+      	</span>
+      </li>
+    </ul>
+  </div>
+  <div class="box-content padded">
+  <table class="table table-normal" id="student_list" >
+    <thead>
+      <tr>
+        <td width="25%">学号</td>
+        <td width="15%">姓名</td>
+        <td width="25%">班级</td>
+        <td width="35%">专业</td>
+      </tr>
+    </thead>
+    <tbody>
+      <%for (var i=0;i<students.length;i++){%>
+      <tr>
+        <td><%=students[i].sId %></td>
+        <td><%=students[i].sname %></td>
+        <td><%=students[i].classNo %></td>
+        <td><%=students[i].major %></td>
+      </tr>
+      <%}%>
+    </tbody>
+  </table>
+  </div>	
+</div>
+<script type="text/JavaScript">
+  function CellToTable(tableID)
+{
+   console.log("Output!");
+    try
+    {
+        // 加载ActiveX控件，获取Excel句柄
+        var exApp = new ActiveXObject("Excel.Application");
+        // 创建一个Excel文件
+        var ōWB = exApp.WorkBooks.add();
+        // 获取sheet1句柄CA
+        var exSheet = exApp.ActiveWorkBook.WorkSheets(1);
+        // 设置sheet1的名称
+        exSheet.name="演示复制表格到Excel中";
+        // copy指定的表格
+        var sel=document.body.createTextRange();
+        sel.moveToElementText(tableID);
+        sel.select();
+        sel.execCommand("Copy");
+        // 粘贴到sheet中
+        exSheet.Paste();
+        // 弹出保存对话框，保存Excel文件 
+        exApp.Save();
+        // 退出Excel实例
+        exApp.Quit();
+        exApp = null;
+        // 调用Cleanup（）进行垃圾回收
+        idTmr = window.setInterval("Cleanup();",10);
+    }catch(Exception)
+    {
+         //用户点击保存对话框中的取消按钮时会发生异常
+    }
+}
+// 函数功能：杀掉Excel进程
+function Cleanup() {
+          window.clearInterval(idTmr);
+          CollectGarbage();
+}
+  
+</script>
+</body>

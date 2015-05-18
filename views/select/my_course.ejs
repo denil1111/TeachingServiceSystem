@@ -7,7 +7,16 @@
 <!-- 上方选择条 navbar-top-->
 <% include ../navbar.html %>
 <!-- 侧边框 -->
+<%if(type==0) {%>
 <% include slide.html%>
+<% }%>
+<%if(type==1) {%>
+<% include slide_teacher.html%>
+<% }%>
+<%if(type==2) {%>
+<% include slide_manager.html%>
+<% }%>
+<!--侧边框结束-->
 <script type="text/javascript">
   function setActive(){
     var active=document.getElementById('my_course');
@@ -99,7 +108,13 @@
               <td style="width:%10">学期</td>
               <td style="width:15%">上课时间</td>
               <td style="width:10%">上课校区</td>   
-              <td style="width:15%">上课地点</td>
+              <%if(type==1) {%>
+              <td style="width:8%">上课地点</td>
+              <td style="width:7%">名单</td>
+              <% }%>
+              <%if(type!=1) {%>
+              <td style="width:10%">上课地点</td>
+              <% }%> 
             </tr>
           </thead>
           <tbody>
@@ -113,6 +128,11 @@
               <td><%= course_data[i].time %></td>
               <td><%= course_data[i].campus %></td>
               <td><%= course_data[i].room %></td>
+              <%if(type==1) {%>
+              <td>
+                <a href="/select/course_list/<%=course_data[i].course_id%>" target="view_window" style="color:blue;">查看</a>
+              </td>
+              <% }%>
             </tr>
             <% }%>
           </tbody>  

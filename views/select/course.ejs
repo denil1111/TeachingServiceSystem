@@ -7,7 +7,15 @@
 <!-- 上方选择条 navbar-top-->
 <% include ../navbar.html %>
 <!-- 侧边框 -->
+<%if(type==0) {%>
 <% include slide.html%>
+<% }%>
+<%if(type==1) {%>
+<% include slide_teacher.html%>
+<% }%>
+<%if(type==2) {%>
+<% include slide_manager.html%>
+<% }%>
 <script type="text/javascript">
    function setActive(){
     var active=document.getElementById('course_search');
