@@ -9,6 +9,26 @@ var debug = require('debug')('resource');
 
 var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 var fs = require('fs');
+
+/*
+  file upload api return the _id
+  creat by gaotao
+*/
+function fileupload(req,callback) {
+  var id;
+  req.busboy.on('file', function(fieldname, readStream, filename, encoding, mimetype){
+    debug('a file is posted: ' + filename);
+    var ws = gfs.createWriteStream({
+      mode: 'w',
+      content_type: mimetype,
+      filename: filename,
+      metadata: {}
+    });
+    id=ws.id;
+    readStream.pipe(ws);
+    callback(id);  
+  });
+};
 // TODO: wait to split those routes into separate files
 router.get('/', function(reqres, next) {
   res.redirect('/resource/cloud');
@@ -53,6 +73,9 @@ router.get('/cloud/upload', function(req, res, next) {
 
  */
 router.post('/cloud/upload', function(req, res, next) {
+  /*uploadfile(req,function (id) {
+    console.log(id);
+  })*/
   req.busboy.on('file', function(fieldname, readStream, filename, encoding, mimetype){
     debug('a file is posted: ' + filename);
     var ws = gfs.createWriteStream({
@@ -61,6 +84,7 @@ router.post('/cloud/upload', function(req, res, next) {
       filename: filename,
       metadata: {}
     });
+    console.log(ws.id);
     readStream.pipe(ws);
   });
 
