@@ -31,7 +31,7 @@ function fileupload(req, callback) {
   });
 };
 // TODO: wait to split those routes into separate files
-router.get('/', function(reqres, next) {
+router.get('/', function(req, res, next) {
   res.redirect('/resource/cloud');
   // res.render('courseInfo',{});
 });
@@ -57,59 +57,32 @@ router.get('/cloud', function(req, res, next) {
   // var nowUserId = req.user.userid;
   //test
   var nowUserId="zyh";
-  // testTree = {
-  //   uid : "zyh",
-  //   tree : [{
-  //       "id":0,
-  //       "text":"我的资源",
-  //       "children":[{
-  //         "id":1,
-  //         "text":"软件工程",
-  //         "children":[{
-  //           "id":11,
-  //           "text":"ppt"
-  //         },{
-  //           "id":12,
-  //           "text":"实验报告"
-  //         }]
-  //       },{
-  //         "id":2,
-  //         "text":"计算机体系结构",
-  //         "state":"closed",
-  //         "children":[{
-  //           "id":21,
-  //           "text":"ppt"
-  //         },{
-  //           "id":22,
-  //           "text":"作业"
-  //         },{
-  //           "id":23,
-  //           "text":"教材"
-  //         },{
-  //           "id":24,
-  //           "text":"考试"
-  //         },{
-  //           "id":25,
-  //           "text":"实验报告"
-  //         }]
-  //       }]
-  //     }]
-  // }
-  // fileTree.create(testTree,function(result,err){
-    console.log("ok");
-    fileTree.findbyuser(nowUserId, function(result, err) {
+  console.log("ok");
+  fileTree.findbyuser(nowUserId, function(result, err) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render('myresource', {
+        title: 'Cloud',
+        fileTree: result[0].tree
+      });
+    }
+  });
+});
+
+router.post('/cloud/newfolder', function(req, res, next)
+{
+  var newtree = req.body.newtree;
+  var nowUserId="zyh";
+  fileTree.update(nowUserId,newtree,function(err){
       if (err) {
         console.log(err);
       } else {
-        res.render('myresource', {
-          title: 'Cloud',
-          fileTree: result[0].tree
-        });
+        console.log("new tree update ok!");
       }
-    });
-  // });
-  
+  });  
 });
+
 /*
 
   A temporary upload page for test purpose
