@@ -1,35 +1,45 @@
 [{
 	"id":0,
 	"text":"Foods",
+	"isFolder":1,
 	"children":[{
 		"id":1,
 		"text":"Fruits",
+		"isFolder":1,
 		"children":[{
 			"id":11,
-			"text":"apple"
+			"text":"apple",
+			"isFolder":0
 		},{
 			"id":12,
-			"text":"orange"
+			"text":"orange",
+			"isFolder":0
 		}]
 	},{
 		"id":2,
 		"text":"Vegetables",
 		"state":"closed",
+		"isFolder":1,
 		"children":[{
 			"id":21,
-			"text":"tomato"
+			"text":"tomato",
+			"isFolder":0
 		},{
 			"id":22,
-			"text":"carrot"
+			"text":"carrot",
+			"isFolder":0
 		},{
 			"id":23,
-			"text":"cabbage"
+			"text":"cabbage",
+			"isFolder":0
 		},{
 			"id":24,
-			"text":"potato"
+			"text":"potato",
+			"isFolder":0
 		},{
 			"id":25,
-			"text":"lettuce"
+			"text":"lettuce",
+			"isFolder":0
 		}]
 	}]
 }]

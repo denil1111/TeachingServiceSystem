@@ -136,10 +136,10 @@
         </td>
       </tr>
 
-      <% fileList.forEach(function (file) { %>
+      <% fileTree.forEach(function (file) { %>
       <tr>
-        <td class="icon"><i class="icon-file"></i></td>
-          <td><input type="checkbox" name="choose"></td>
+        <td class="icon"><i class="<%if(file["isFolder"]==0){%> icon-file <%}else{%> icon-folder-close <%}%>"></i></td>
+        <td><input type="checkbox" name="choose"></td>
         <td><a href="#"> <%= file.name %></a></td>
         <td><b><%= file.ext %></b></td>
         <td><b><%= file.size %></b></td>
@@ -167,8 +167,8 @@
     </div>
   </div>
 </div>
-
-
+    <div></div>
+    
     <div id="modal-upload" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -252,5 +252,10 @@
 
 
 </div>
+<script>
+  var _fileTree=<%=fileTree%>
+
+
+</script>
 </body>
 </html>
