@@ -1,5 +1,6 @@
 function Tree(tree) {
-  this.data = tree.clone();
+  var txt=JSON.stringify(tree);
+  this.data=JSON.parse(txt);
   function newnode(path, ws, callback) {
       var nowtree = this.data;
       var nowtreeP = this.print;
