@@ -7,29 +7,12 @@ var mongoose = require('mongoose');
 var Grid = require('gridfs-stream');
 var debug = require('debug')('resource');
 var fileTree = require("../db/resource/pan")
-
+var File = require("basicfileop");
+var Tree = require("basictreeop");
 var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 var fs = require('fs');
 
-/*
-  file upload api return the _id
-  creat by gaotao
-*/
-function fileupload(req, callback) {
-  var id;
-  req.busboy.on('file', function(fieldname, readStream, filename, encoding, mimetype) {
-    debug('a file is posted: ' + filename);
-    var ws = gfs.createWriteStream({
-      mode: 'w',
-      content_type: mimetype,
-      filename: filename,
-      metadata: {}
-    });
-    id = ws.id;
-    readStream.pipe(ws);
-    callback(id);
-  });
-};
+
 // TODO: wait to split those routes into separate files
 router.get('/', function(req, res, next) {
   res.redirect('/resource/cloud');
@@ -52,11 +35,15 @@ router.get('/', function(req, res, next) {
 //   });
 
 // });
-
+/*
+  show cloud file 
+  created by zyh
+*/
 router.get('/cloud', function(req, res, next) {
-  // var nowUserId = req.user.userid;
-  //test
-  var nowUserId="zyh";
+  req.session.user = {
+    userid: "zyh"
+  };
+  var nowUserId = req.session.user.userid;
   console.log("ok");
   fileTree.findbyuser(nowUserId, function(err, result) {
     console.log("in findbyuser");
@@ -65,61 +52,51 @@ router.get('/cloud', function(req, res, next) {
       console.log(err);
     } else {
       console.log("before render");
+      req.session.tree = result[0].tree;
+      showTree = new Tree(req.session.tree);
       res.render('myresource', {
         title: 'Cloud',
-        fileTree: result[0].tree
+        fileTree: showTree.data
       });
     }
   });
 });
 
 //par: newtree
-router.post('/cloud/newfolder', function(req, res, next)
-{
+router.post('/cloud/newfolder', function(req, res, next) {
   var newtree = req.body.newtree;
-  var nowUserId="zyh";
-  fileTree.update(nowUserId,newtree,function(err){
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("new tree update ok!");
-      }
-  });  
+  var nowUserId = req.session.user.userid;
+  fileTree.update(nowUserId, newtree, function(err) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("new tree update ok!");
+    }
+  });
 });
 
-function modifytree(tree,path) {
-  var nowtree = tree;
-  path.split('.',function(foldername)
-  {
-    var nexttree;
-    nowtree.forEach(function(node) {
-       if (node.text == foldername){
-         nexttree=node.children;
-       }
-    });
-    nowtree = nexttree;
-  });
-  var newfilenode={
-    
-  }
-  nowtree.children.push();
-} 
+
 //par: datafile, path(xx.xx.xx)
-router.post('/cloud',function(req, res, next){
-  fileupload(req,function(fileId)
-  {
-    modifytree
-    req.body.path.split('.',function(enter)
-    {
-      
+router.post('/cloud/newfile', function(req, res, next) {
+  File.upload(req, function(ws) {
+    var uid = req.session.user.userid;
+    fileTree.findbyuser(uid, function(err, result) {
+      var oldtree = new Tree(result[0].tree);
+      oldtree.newfile(req.body.path, ws, function() {
+        fileTree.update(uid, oldtree, function(err) {
+          req.on('data', function(sock) {
+            res.writeHead(200, {
+              "Content-Type": "text/plain"
+            });
+            res.end("Hello!!");
+          });
+        });
+
+      });
     });
-    req.on('data', function(sock) {
-      res.writeHead(200, {"Content-Type": "text/plain"});
-      res.end("Hello!!");
-  	});
   });
-  
-}); 
+
+});
 /*
 
   A temporary upload page for test purpose

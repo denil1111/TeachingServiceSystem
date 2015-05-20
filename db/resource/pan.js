@@ -3,6 +3,13 @@ var mongoose = require('mongoose');
 var mongooseSchema = new mongoose.Schema({
     uid : {type : String},
     tree : {type : mongoose.Schema.Types.Mixed}
+/*    tree:
+        {
+            text : string means file name
+            isFolder: 1/0
+            fid: file ID
+        }
+*/
 });
 mongooseSchema.statics.findbyuser = function(uid, callback) {
     return this.model('tree').find({uid: uid}, callback);
