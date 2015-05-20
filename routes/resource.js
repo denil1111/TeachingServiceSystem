@@ -70,6 +70,7 @@ router.get('/cloud', function(req, res, next) {
   });
 });
 
+//par: newtree
 router.post('/cloud/newfolder', function(req, res, next)
 {
   var newtree = req.body.newtree;
@@ -83,6 +84,39 @@ router.post('/cloud/newfolder', function(req, res, next)
   });  
 });
 
+function modifytree(tree,path) {
+  var nowtree = tree;
+  path.split('.',function(foldername)
+  {
+    var nexttree;
+    nowtree.forEach(function(node) {
+       if (node.text == foldername){
+         nexttree=node.children;
+       }
+    });
+    nowtree = nexttree;
+  });
+  var newfilenode={
+    
+  }
+  nowtree.children.push();
+} 
+//par: datafile, path(xx.xx.xx)
+router.post('/cloud',function(req, res, next){
+  fileupload(req,function(fileId)
+  {
+    modifytree
+    req.body.path.split('.',function(enter)
+    {
+      
+    });
+    req.on('data', function(sock) {
+      res.writeHead(200, {"Content-Type": "text/plain"});
+      res.end("Hello!!");
+  	});
+  });
+  
+}); 
 /*
 
   A temporary upload page for test purpose
