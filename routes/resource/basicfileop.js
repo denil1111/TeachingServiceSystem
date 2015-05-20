@@ -2,9 +2,9 @@
   file upload api return the ws
   creat by gaotao
 */
-var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 var mongoose = require('mongoose');
 var Grid = require('gridfs-stream');
+var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 var debug = require('debug')('resource');
 
 function fileupload(req, callback) {
@@ -23,4 +23,4 @@ function fileupload(req, callback) {
 
 var FILE = {};
 FILE.upload = fileupload;
-module.export = FILE;
+module.exports = FILE;

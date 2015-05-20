@@ -6,9 +6,9 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Grid = require('gridfs-stream');
 var debug = require('debug')('resource');
-var fileTree = require("../db/resource/pan")
-var File = require("basicfileop");
-var Tree = require("basictreeop");
+var fileTree = require("../../db/resource/pan")
+var File = require("./basicfileop");
+var Tree = require("./basictreeop");
 var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 var fs = require('fs');
 
