@@ -58,10 +58,13 @@ router.get('/cloud', function(req, res, next) {
   //test
   var nowUserId="zyh";
   console.log("ok");
-  fileTree.findbyuser(nowUserId, function(result, err) {
+  fileTree.findbyuser(nowUserId, function(err, result) {
+    console.log("in findbyuser");
     if (err) {
+      console.log("in err");
       console.log(err);
     } else {
+      console.log("before render");
       res.render('myresource', {
         title: 'Cloud',
         fileTree: result[0].tree
