@@ -52,8 +52,8 @@ router.get('/cloud', function(req, res, next) {
       console.log(err);
     } else {
       console.log("before render");
-      req.session.tree = result[0].tree;
-      showTree = new Tree(req.session.tree);
+      var showTree = new Tree(result[0].tree);
+      req.seesion.tree = showTree;
       res.render('myresource', {
         title: 'Cloud',
         fileTree: showTree.data
@@ -62,17 +62,29 @@ router.get('/cloud', function(req, res, next) {
   });
 });
 
-//par: newtree
+// foldername path
 router.post('/cloud/newfolder', function(req, res, next) {
-  var newtree = req.body.newtree;
+  var newtree = req.session.tree;
   var nowUserId = req.session.user.userid;
-  fileTree.update(nowUserId, newtree, function(err) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("new tree update ok!");
-    }
+  var ws={};
+  ws.filename=req.body.foldername;
+  ws.isFolder=1;
+  newtree.newnode(req.body.path,ws,function(){
+    fileTree.update(nowUserId, newtree.print, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("new tree update ok!");
+        req.on('data', function(sock) {
+              res.writeHead(200, {
+                newtree : newtree.print
+              });
+              res.end("Hello!!");
+            });
+      }
+    });  
   });
+  
 });
 
 
