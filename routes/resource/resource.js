@@ -53,7 +53,7 @@ router.get('/cloud', function(req, res, next) {
     } else {
       console.log("before render");
       var showTree = new Tree(result[0].tree);
-      req.seesion.tree = showTree;
+      req.session.tree = showTree;
       res.render('myresource', {
         title: 'Cloud',
         fileTree: showTree.data
