@@ -4,6 +4,7 @@
           <% include head.html %>
             <script type="text/javascript" src="/javascripts/vendor/jquery.easyui.min.js"></script>
             <script type="text/javascript" src="/javascripts/vendor/jquery.tmpl.js"></script>
+            <script type="text/javascript" src="/javascripts/vendor/jquery.ajaxfileupload.js"></script>
             <link rel="stylesheet" type="text/css" href="/stylesheets/easyui.css">
             <link rel="stylesheet" type="text/css" href="/stylesheets/icon.css">
           <style>
@@ -302,7 +303,7 @@
             console.log("in newFolder");
             var _name=$("input[name=newFolderInput]").val();
             $.post(
-                    "/cloud/newfolder",
+                    "/resource/cloud/newfolder",
                     {folderName:_name,path:_nowUrl},
                     function(_data){
                         if(_data.code==200){
@@ -318,6 +319,11 @@
                         alert("error");
                     });
         });
+
+//        $("#fileUploadSubmit").bind("click",function(){
+//            console.log("file upload");
+//
+//        });
 
 
         $(".action-nav-normal").delegate($("[data-view=backFolder]"),"click",function(_event){
