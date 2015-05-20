@@ -3,6 +3,7 @@
 <head>
           <% include head.html %>
             <script type="text/javascript" src="/javascripts/vendor/jquery.easyui.min.js"></script>
+            <script type="text/javascript" src="/javascripts/vendor/jquery.tmpl.js"></script>
             <link rel="stylesheet" type="text/css" href="/stylesheets/easyui.css">
             <link rel="stylesheet" type="text/css" href="/stylesheets/icon.css">
           <style>
@@ -83,7 +84,7 @@
                             <a data-toggle="modal" href="#modal-newfolder" class="btn btn-blue"><i class="icon-folder-open-alt"></i><span>新建文件夹</span></a>
                     </div>
 
-                    <div class="col-sm-2 action-nav-button">
+                    <div class="col-sm-2 action-nav-button" data-view="backFolder">
                         <a href="#" title="Messages">
                             <i class="icon-reply"></i>
                            <span>返回上级文件夹</span>
@@ -96,9 +97,6 @@
     <div class="box">
       <div class="box-header">
         <span class="title">我上传的资源</span>
-        <ul class="box-toolbar">
-          <li><span class="label label-blue">length</span></li>
-        </ul>
       </div>
     <div class="box-content" >
     <table class="table table-normal">
@@ -114,7 +112,7 @@
       </tr>
       </thead>
 
-      <tbody>
+      <tbody id="fileList">
       <tr>
         <td class="icon"><i class="icon-folder-close"></i></td>
           <td><input type="checkbox" name="choose"></td>
@@ -135,30 +133,6 @@
           </div>
         </td>
       </tr>
-
-      <% fileTree.forEach(function (file) { %>
-      <tr>
-        <td class="icon"><i class="<%if(file["isFolder"]==0){%> icon-file <%}else{%> icon-folder-close <%}%>"></i></td>
-        <td><input type="checkbox" name="choose"></td>
-        <td><a href="#"> <%= file.name %></a></td>
-        <td><b><%= file.ext %></b></td>
-        <td><b><%= file.size %></b></td>
-        <td><b><%= file.courseName %></b></td>
-        <td>
-          <div class="btn-group">
-            <form style="display: inline-block" method="get" action="/resource/cloud/download/<%=file.name %>">
-              <button class="btn btn-xs btn-default"><i class="icon-remove-sign"></i></button>
-              <button class="btn btn-xs btn-default" type="submit"><i class="icon-download-alt"></i></button>
-            </form>
-              <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-              <ul class="dropdown-menu">
-                  <li><a data-toggle="modal" href="#modal-rename">重命名</a></li>
-                  <li><a data-toggle="modal" href="#modal-move">移动到</a></li>
-              </ul>
-          </div>
-        </td>
-      </tr>
-      <% })%>
       </tbody>
     </table>
     <div id="chosen-add-button">
@@ -195,15 +169,15 @@
                     <h4 class="modal-title">新建文件夹</h4>
                 </div>
                 <div class="modal-body">
-                    <div style="width:200px;height:auto;border:1px solid #ccc;">
-                        <ul id="tt" class="easyui-tree" url="/resource/tree_data"></ul>
-                    </div>
+                    <!--<div style="width:200px;height:auto;border:1px solid #ccc;">-->
+                        <!--<ul id="tt" class="easyui-tree" url="/resource/tree_data"></ul>-->
+                    <!--</div>-->
                     <label>请输入新建文件夹的名称</label>
-                    <input type="text"/>
+                    <input type="text" name="newFolderInput"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
-                    <button type="button" class="btn btn-blue">确定</button>
+                    <button id="newFolderSubmit" type="button" class="btn btn-blue">确定</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -214,7 +188,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">新建文件夹</h4>
+                    <h4 class="modal-title">重命名</h4>
                 </div>
                 <div class="modal-body">
                     <label>请输入修改名称</label>
@@ -252,8 +226,108 @@
 
 
 </div>
+
+<script id="fileListTpl" type="text/x-jquery-tmpl">
+<tr>
+    <td class="icon"><i class="{{if isFolder}} icon-folder-close {{else}} icon-file {{/if}}"></i></td>
+    <td style="width:50px;"><input type="checkbox" name="choose"></td>
+    <td><a href="{{if isFloder}}javascript:void(0){{else}}#{{/if}}" {{if isFolder}} data-view="enterFolder" name="${text}" {{/if}}>${text}</a></td>
+    <td><b>${ext}</b></td>
+    <td><b>${size}</b></td>
+    <td><b>${courseName}</b></td>
+    <td>
+        <div class="btn-group">
+            <form style="display: inline-block" method="get" action="/resource/cloud/download/${name}">
+                <button class="btn btn-xs btn-default"><i class="icon-remove-sign"></i></button>
+                <button class="btn btn-xs btn-default" type="submit"><i class="icon-download-alt"></i></button>
+            </form>
+            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
+            <ul class="dropdown-menu">
+                <li><a data-toggle="modal" href="#modal-rename" data-src="${order}">重命名</a></li>
+                <li><a data-toggle="modal" href="#modal-move" data-src="${order}">移动到</a></li>
+            </ul>
+        </div>
+    </td>
+</tr>
+</script>
+
 <script>
-  var _fileTree=<%=fileTree%>
+    ;(function($){
+        var _fileMap=<%-JSON.stringify(fileTree)%>;
+        var _nowUrl="";
+        var _nowDir=findDirByUrl(_nowUrl);
+
+
+        function findDirByUrl(_url){
+            var _urlArray=_url.split(".");
+            var _dir=_fileMap.slice(0);
+            if(_urlArray.length==0){
+                return _dir;
+            }
+            else{
+                for(var i=0; i<_urlArray.length;i++){
+                    for(var j=0; j<_dir.length;j++){
+                        if(_dir[j]["text"]==_urlArray[i]){
+                            _dir=_dir[j]["children"];
+                            break;
+                        }
+                    }
+                }
+                return _dir;
+            }
+        }
+
+        console.log(_nowDir);
+
+        function showFileList(_nowDir){
+            $("#fileList").empty();
+            for(var i=0;i<_nowDir.length;i++){
+                $("#fileListTpl").tmpl(_nowDir[i]).appendTo("#fileList");
+            }
+        };
+
+        showFileList(_nowDir);
+
+        $("#fileList").delegate($("[data-view=enterFolder]"),"click",function(_event){
+            _event.preventDefault();
+            var _name=_event.target.getAttribute("name");
+            _nowUrl=_nowUrl.concat(".",_name);
+            _nowDir=findDirByUrl(_nowUrl);
+            showFileList(_nowDir);
+        })
+
+
+
+        $("#newFolderSubmit").bind("click",function(){
+            console.log("in newFolder");
+            var _name=$("input[name=newFolderInput]").val();
+            $.post(
+                    "/cloud/newfolder",
+                    {folderName:_name,path:_nowUrl},
+                    function(_data){
+                        if(_data.code==200){
+                            alert("succuss");
+//                        _fileMap= _data.newTree;
+//                        _nowDir=findDirByUrl(_nowUrl);
+//                        showFileList(_nowDir);
+                        }else{
+                            alert("server operation failed!");
+                        }
+                    }
+            ).error(function(){
+                        alert("error");
+                    });
+        });
+
+
+        $(".action-nav-normal").delegate($("[data-view=backFolder]"),"click",function(_event){
+            var _nowUrlArray=_nowUrl.split(".");
+            _nowUrlArray.pop();
+            _nowUrl=_nowUrlArray.join(".");
+            _nowDir=findDirByUrl(_nowUrl);
+            showFileList(_nowDir);
+        })
+    })(jQuery)
 
 
 </script>
