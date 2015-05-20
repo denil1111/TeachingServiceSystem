@@ -4,43 +4,36 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var busboy = require('connect-busboy');
-var mongoose = require('mongoose');
-var Grid = require('gridfs-stream');
 
-
+var routes = require('./routes/index');
+//var users = require('./routes/users');
+//var course= require('./routes/course');
+var personinsert= require('./routes/personinsert');
+var personselect= require('./routes/personselect');
+var courseinsert= require('./routes/courseinsert');
+var courseselect= require('./routes/courseselect');
 
 var app = express();
 
-var settings = require('./settings');
-
-//NOTE: use mongoose.connect insteadof mongoose.createConnection
-mongoose.connect(settings.db.connect);
-
-//NOTE: These routes requires must be placed after mongoose.connect
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var debug = require('./routes/debug');
-
-//this method deprecated, please refer to NOTE
-//global.db       = mongoose.createConnection(settings.db.connect);
-
-
+// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
-app.use(busboy());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
-app.use('/debug', debug);
+//app.use('/', course);
+app.use('/', personselect);
+app.use('/', personinsert);
+app.use('/', courseinsert);
+app.use('/', courseselect);
+//app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
