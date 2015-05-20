@@ -1,3 +1,4 @@
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -7,7 +8,7 @@ var bodyParser = require('body-parser');
 var busboy = require('connect-busboy');
 var mongoose = require('mongoose');
 var Grid = require('gridfs-stream');
-
+var session = require('express-session');
 
 
 var app = express();
@@ -37,6 +38,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: 'TeachingServerSystem',
+  resave: false,
+  saveUnintialized: false
+}));
+app.use(session({
+  secret: 'TeachingServerSystem',
+  resave: false,
+  saveUnintialized: false
+}));
 
 app.use('/', routes);
 app.use('/users', users);

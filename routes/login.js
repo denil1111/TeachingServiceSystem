@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose/');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var session = require('express-session');
+
 //var cookieParser = require('cookie-parser');
 
 // var db = mongoose.createConnection('mongodb://127.0.0.1:27017/person');
@@ -14,11 +14,7 @@ var PersonModel = require('../db/group1db/PersonModel');
 router.use(passport.initialize());
 router.use(passport.session());
 
-router.use(session({
-  secret: 'TeachingServerSystem',
-  resave: false,
-  saveUnintialized: false
-}));
+
 
 passport.use(new LocalStrategy(
     function(username,passport, done) {
