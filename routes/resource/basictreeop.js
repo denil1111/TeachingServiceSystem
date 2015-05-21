@@ -1,4 +1,5 @@
 
+var File = requie("./basicfileop")
 var Tree = {};
 Tree.newnode = function(path, ws, treeD, treeP, callback) {
       console.log(path);
@@ -34,19 +35,33 @@ Tree.newnode = function(path, ws, treeD, treeP, callback) {
         nowtree.push(newnode);
         nowtreeP.push(newnode);
         console.log("pushed");
-        callback();
+        callback(null);
       }
       else{
         newnode = {
           text: ws.filename,
           fid: ws.id,
+          isFolder : 0
         }
+        File.findifobyid(ws.id, function(err,info) {
+            if (err) {
+                console.log(err);
+                callback(err);
+            }
+            else{
+                console.log(info);
+                newnode.size = info.size;
+                nowtree.push(newnode);
+                nowtree.push(newnode);
+                callback(null);
+            }
+        })
         /*find by id */
       }
      
       
     };
 Tree.buildPrint = function(treeD,callback){
-    
+    callback(treeD);
 };
 module.exports = Tree;

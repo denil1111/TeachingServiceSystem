@@ -63,8 +63,9 @@ function fileinfobyid(fileid,callback) {
   gfs.findOne({_id: fileid}, function (error,file) {
     if (error) {
       console.log(error);
+      callback(error,null);
     } else {
-      callback(file);
+      callback(null,file);
     }
   })
 };
