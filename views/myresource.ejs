@@ -149,7 +149,7 @@
 
 
 
-    <!--id="fileUploadSubmit"-->
+    
 
     <div id="modal-newfolder" class="modal fade">
         <div class="modal-dialog">
@@ -219,12 +219,12 @@
                     <h4 class="modal-title">新建文件夹</h4>
                 </div>
                 <div class="modal-body">
-                    <label>请输入新建文件夹的名称</label>
-                    <input type="file"/>
+                    <label>请选择要上传的文件</label>
+                    <input type="file"id="fileUploadInput"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
-                    <button id="newFolderSubmit" type="button" class="btn btn-blue">确定</button>
+                    <button id="fileUploadSubmit" type="button" class="btn btn-blue">确定</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -325,48 +325,50 @@
                     });
         });
 
-//        $("#fileUploadSubmit").bind("click",function(){
-//            console.log("file upload");
-//            ajaxFileUpload();
-//        });
-//
-//        function ajaxFileUpload() {
-//            $.ajaxFileUpload
-//            (
-//                    {
-//                        url: '/resource/upload', //用于文件上传的服务器端请求地址
-//                        secureuri: false, //是否需要安全协议，一般设置为false
-//                        fileElementId: 'fileUploadInput', //文件上传域的ID
-//                        dataType: 'json', //返回值类型 一般设置为json
-//                        success: function (data, status)  //服务器成功响应处理函数
-//                        {
-//                            //返回file信息，添加tr
-////                            $("#fileListTpl").tmpl(_data.fileInfo).appendTo("#fileList");
-////                            if (typeof (data.error) != 'undefined') {
-////                                if (data.error != '') {
-////                                    alert(data.error);
-////                                } else {
-////                                    alert(data.msg);
-////                                }
-////                            }
-//                        },
-//                        error: function (data, status, e)//服务器响应失败处理函数
-//                        {
-////                            alert(e);
-//                        }
-//                    }
-//            )
-//            return false;
-//        }
+       $("#fileUploadSubmit").bind("click",function(){
+           console.log("file upload");
+           ajaxFileUpload();
+       });
+
+       function ajaxFileUpload() {
+           $.ajaxFileUpload
+           (
+                   {
+                       url: '/resource/cloud/newfile', //用于文件上传的服务器端请求地址
+                       secureuri: false, //是否需要安全协议，一般设置为false
+                       fileElementId: 'fileUploadInput', //文件上传域的ID
+                       dataType: 'json', //返回值类型 一般设置为json
+                       success: function (data, status)  //服务器成功响应处理函数
+                       {
+                            console.log("success");
+                           //返回file信息，添加tr
+//                            $("#fileListTpl").tmpl(_data.fileInfo).appendTo("#fileList");
+//                            if (typeof (data.error) != 'undefined') {
+//                                if (data.error != '') {
+//                                    alert(data.error);
+//                                } else {
+//                                    alert(data.msg);
+//                                }
+//                            }
+                       },
+                       error: function (data, status, e)//服务器响应失败处理函数
+                       {
+                            console.log("failed");
+//                            alert(e);
+                       }
+                   }
+           )
+           return false;
+       }
 
 
-//        $(".action-nav-normal").delegate($("[data-view=backFolder]"),"click",function(_event){
-//            var _nowUrlArray=_nowUrl.split(".");
-//            _nowUrlArray.pop();
-//            _nowUrl=_nowUrlArray.join(".");
-//            _nowDir=findDirByUrl(_nowUrl);
-//            showFileList(_nowDir);
-//        })
+       $(".action-nav-normal").delegate($("[data-view=backFolder]"),"click",function(_event){
+           var _nowUrlArray=_nowUrl.split(".");
+           _nowUrlArray.pop();
+           _nowUrl=_nowUrlArray.join(".");
+           _nowDir=findDirByUrl(_nowUrl);
+           showFileList(_nowDir);
+       })
     })(jQuery)
 
 
