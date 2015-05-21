@@ -48,5 +48,5 @@ Tree.newnode = function(path, ws, treeD, treeP, callback) {
     };
 Tree.buildPrint = function(treeD,callback){
     
-}
+};
 module.exports = Tree;
