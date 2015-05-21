@@ -57,7 +57,7 @@ function filedowloadbyid(fileid,filename,res,next,callback) {
       next(new Error('File id:' + fileid + ' not found'));
     }
   });
-};
+}; 
 
 var FILE = {};
 FILE.upload = fileupload;
