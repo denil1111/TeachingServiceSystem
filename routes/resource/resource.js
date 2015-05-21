@@ -112,6 +112,7 @@ router.post('/cloud/newfile', function(req, res, next) {
         }
       });  
     });
+  });
 });
 /*
 

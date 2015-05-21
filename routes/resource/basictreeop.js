@@ -1,5 +1,5 @@
 
-var File = requie("./basicfileop")
+var File = require("./basicfileop")
 var Tree = {};
 Tree.newnode = function(path, ws, treeD, treeP, callback) {
       console.log(path);
