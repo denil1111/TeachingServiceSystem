@@ -52,11 +52,12 @@ router.get('/cloud', function(req, res, next) {
       console.log(err);
     } else {
       console.log("before render");
-      var showTree = new Tree(result[0].tree);
-      req.session.tree = showTree;
+      req.session.treeD = result[0].tree;
+      req.session.treeP = result[0].tree;
+      console.log(req.session.treeP);
       res.render('myresource', {
         title: 'Cloud',
-        fileTree: showTree.data
+        fileTree: req.session.treeP
       });
     }
   });
@@ -64,51 +65,53 @@ router.get('/cloud', function(req, res, next) {
 
 // foldername path
 router.post('/cloud/newfolder', function(req, res, next) {
-  var newtree = req.session.tree;
   var nowUserId = req.session.user.userid;
   var ws={};
-  ws.filename=req.body.foldername;
+  ws.filename=req.body.folderName;
   ws.isFolder=1;
-  newtree.newnode(req.body.path,ws,function(){
-    fileTree.update(nowUserId, newtree.print, function(err) {
+  console.log("newfolder");
+  console.log(req.body.path,ws);
+  Tree.newnode(req.body.path,ws,req.session.treeD,req.session.treeP,function(){
+    console.log("newfolder after newnode");
+    console.log(req.session.treeP);
+    var newdata = {
+      uid : req.session.user.userid,
+      tree : req.session.treeD
+    }
+    fileTree.update(nowUserId, newdata, function(err) {
       if (err) {
         console.log(err);
       } else {
         console.log("new tree update ok!");
-        req.on('data', function(sock) {
-              res.writeHead(200, {
-                newtree : newtree.print
-              });
-              res.end("Hello!!");
-            });
+        console.log(req.session.treeP);
+        res.json({code:200,newTree: req.session.treeP});
       }
     });  
   });
   
 });
 
-
 //par: datafile, path(xx.xx.xx)
-router.post('/cloud/newfile', function(req, res, next) {
-  File.upload(req, function(ws) {
-    var uid = req.session.user.userid;
-    fileTree.findbyuser(uid, function(err, result) {
-      var oldtree = new Tree(result[0].tree);
-      oldtree.newfile(req.body.path, ws, function() {
-        fileTree.update(uid, oldtree, function(err) {
-          req.on('data', function(sock) {
-            res.writeHead(200, {
-              "Content-Type": "text/plain"
-            });
-            res.end("Hello!!");
-          });
-        });
-
-      });
-    });
-  });
-
-});
+//router.post('/cloud/newfile', function(req, res, next) {
+//  File.upload(req, function(ws) {
+//    var uid = req.session.user.userid;
+//    fileTree.findbyuser(uid, function(err, result) {
+//      var oldtree = new Tree(result[0].tree);
+//      oldtree.newfile(req.body.path, ws, function() {
+//        fileTree.update(uid, oldtree, function(err) {
+//          req.on('data', function(sock) {
+//            res.writeHead(200, {
+//              "Content-Type": "text/plain"
+//            });
+//            res.end("Hello!!");
+//          });
+//        });
+//
+//      });
+//    });
+//  });
+//
+//});
 /*
 
   A temporary upload page for test purpose

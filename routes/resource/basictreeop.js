@@ -1,9 +1,10 @@
-function Tree(tree) {
-  var txt=JSON.stringify(tree);
-  this.data=JSON.parse(txt);
-  function newnode(path, ws, callback) {
-      var nowtree = this.data;
-      var nowtreeP = this.print;
+
+var Tree = {};
+Tree.newnode = function(path, ws, treeD, treeP, callback) {
+      console.log(path);
+      console.log("new node");
+      var nowtree = treeD;
+      var nowtreeP = treeP;
       path.split('.', function(foldername) {
         var nexttree;
         var nexttreeP;
@@ -21,14 +22,19 @@ function Tree(tree) {
         nowtreeP = nexttreeP;
       });
       var newnode;
+      console.log("find path ok");
       if (ws.isFolder == 1)
       {
+        console.log("isFloder");
         newnode = {
           text: ws.filename,
-          children: []
+          children : [],
+          isFolder : 1
         }
-        nowtree.children.push(newnode);
-        nowtreeP.children.push(newnode);
+        nowtree.push(newnode);
+        nowtreeP.push(newnode);
+        console.log("pushed");
+        callback();
       }
       else{
         newnode = {
@@ -38,7 +44,9 @@ function Tree(tree) {
         /*find by id */
       }
      
-      callback();
-    }
-}
+      
+    };
+Tree.buildPrint = function(treeD,callback){
+    
+};
 module.exports = Tree;

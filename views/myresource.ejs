@@ -294,40 +294,36 @@
 
         showFileList(_nowDir);
 
-//        $("#modal-upload").bind("click mousedown mouseup",function(_event){
-//            _event.stopPropagation();
-//        });
-
-//        $("#fileList").delegate($("[data-view=enterFolder]"),"click",function(_event){
-//            _event.preventDefault();
-//            var _name=_event.target.getAttribute("name");
-//            _nowUrl=_nowUrl.concat(".",_name);
-//            _nowDir=findDirByUrl(_nowUrl);
-//            showFileList(_nowDir);
-//        })
+        $("#fileList").delegate($("[data-view=enterFolder]"),"click",function(_event){
+            _event.preventDefault();
+            var _name=_event.target.getAttribute("name");
+            _nowUrl=_nowUrl.concat(".",_name);
+            _nowDir=findDirByUrl(_nowUrl);
+            showFileList(_nowDir);
+        })
 
 
 
-//        $("#newFolderSubmit").bind("click",function(){
-//            console.log("in newFolder");
-//            var _name=$("input[name=newFolderInput]").val();
-//            $.post(
-//                    "/resource/cloud/newfolder",
-//                    {folderName:_name,path:_nowUrl},
-//                    function(_data){
-//                        if(_data.code==200){
-//                            alert("succuss");
-////                        _fileMap= _data.newTree;
-////                        _nowDir=findDirByUrl(_nowUrl);
-////                        showFileList(_nowDir);
-//                        }else{
-//                            alert("server operation failed!");
-//                        }
-//                    }
-//            ).error(function(){
-//                        alert("error");
-//                    });
-//        });
+        $("#newFolderSubmit").bind("click",function(){
+            console.log("in newFolder");
+            var _name=$("input[name=newFolderInput]").val();
+            $.post(
+                    "/resource/cloud/newfolder",
+                    {folderName:_name,path:_nowUrl},
+                    function(_data){
+                        if(_data.code==200){
+                            alert("succuss");
+                            _fileMap= _data.newTree;
+                            _nowDir=findDirByUrl(_nowUrl);
+                            showFileList(_nowDir);
+                        }else{
+                            alert("server operation failed!");
+                        }
+                    }
+            ).error(function(){
+                        alert("error");
+                    });
+        });
 
 //        $("#fileUploadSubmit").bind("click",function(){
 //            console.log("file upload");
