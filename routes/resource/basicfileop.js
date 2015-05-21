@@ -59,8 +59,18 @@ function filedowloadbyid(fileid,filename,res,next,callback) {
   });
 }; 
 
+function fileinfobyid(fileid,callback) {
+  gfs.findOne({_id: fileid}, function (error,file) {
+    if (error) {
+      console.log(error);
+    } else {
+      callback(file);
+    }
+  })
+};
 var FILE = {};
 FILE.upload = fileupload;
 FILE.dowloadbyname = filedowloadbyname;
 FILE.dowloadbyid = filedowloadbyid;
+FILE.infobyid = fileinfobyid;
 module.exports = FILE;
