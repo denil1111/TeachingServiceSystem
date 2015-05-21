@@ -4,7 +4,7 @@
           <% include head.html %>
             <script type="text/javascript" src="/javascripts/vendor/jquery.easyui.min.js"></script>
             <script type="text/javascript" src="/javascripts/vendor/jquery.tmpl.js"></script>
-            <script type="text/javascript" src="/javascripts/vendor/jquery.ajaxfileupload.js"></script>
+            <script type="text/javascript" src="/javascripts/vendor/ajaxfileupload.js"></script>
             <link rel="stylesheet" type="text/css" href="/stylesheets/easyui.css">
             <link rel="stylesheet" type="text/css" href="/stylesheets/icon.css">
           <style>
@@ -142,25 +142,14 @@
     </div>
   </div>
 </div>
+
+    <div><input type="file"/></div>
+
     <div></div>
-    
-    <div id="modal-upload" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">上传新文件</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="file"/>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
-                    <button type="button" class="btn btn-blue">确定</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal --><!-- find me in partials/modal_form -->
+
+
+
+    <!--id="fileUploadSubmit"-->
 
     <div id="modal-newfolder" class="modal fade">
         <div class="modal-dialog">
@@ -208,18 +197,34 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">新建文件夹</h4>
+                    <h4 class="modal-title">重命名</h4>
                 </div>
                 <div class="modal-body">
-                    <div style="width:200px;height:auto;border:1px solid #ccc;">
-                        <ul id="tt" class="easyui-tree" url="/resource/tree_data"></ul>
-                    </div>
-                    <label>请选择移动到哪个文件夹</label>
-                    <!--<div class="easyui-tree">-->
+                    <label>请输入修改名称</label>
+                    <input type="text"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
                     <button type="button" class="btn btn-blue">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal --><!-- find me in partials/modal_form -->
+
+    <div id="modal-upload" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">新建文件夹</h4>
+                </div>
+                <div class="modal-body">
+                    <label>请输入新建文件夹的名称</label>
+                    <input type="file"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                    <button id="newFolderSubmit" type="button" class="btn btn-blue">确定</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -289,50 +294,83 @@
 
         showFileList(_nowDir);
 
-        $("#fileList").delegate($("[data-view=enterFolder]"),"click",function(_event){
-            _event.preventDefault();
-            var _name=_event.target.getAttribute("name");
-            _nowUrl=_nowUrl.concat(".",_name);
-            _nowDir=findDirByUrl(_nowUrl);
-            showFileList(_nowDir);
-        })
+//        $("#modal-upload").bind("click mousedown mouseup",function(_event){
+//            _event.stopPropagation();
+//        });
+
+//        $("#fileList").delegate($("[data-view=enterFolder]"),"click",function(_event){
+//            _event.preventDefault();
+//            var _name=_event.target.getAttribute("name");
+//            _nowUrl=_nowUrl.concat(".",_name);
+//            _nowDir=findDirByUrl(_nowUrl);
+//            showFileList(_nowDir);
+//        })
 
 
 
-        $("#newFolderSubmit").bind("click",function(){
-            console.log("in newFolder");
-            var _name=$("input[name=newFolderInput]").val();
-            $.post(
-                    "/resource/cloud/newfolder",
-                    {folderName:_name,path:_nowUrl},
-                    function(_data){
-                        if(_data.code==200){
-                            alert("succuss");
-//                        _fileMap= _data.newTree;
-//                        _nowDir=findDirByUrl(_nowUrl);
-//                        showFileList(_nowDir);
-                        }else{
-                            alert("server operation failed!");
-                        }
-                    }
-            ).error(function(){
-                        alert("error");
-                    });
-        });
+//        $("#newFolderSubmit").bind("click",function(){
+//            console.log("in newFolder");
+//            var _name=$("input[name=newFolderInput]").val();
+//            $.post(
+//                    "/resource/cloud/newfolder",
+//                    {folderName:_name,path:_nowUrl},
+//                    function(_data){
+//                        if(_data.code==200){
+//                            alert("succuss");
+////                        _fileMap= _data.newTree;
+////                        _nowDir=findDirByUrl(_nowUrl);
+////                        showFileList(_nowDir);
+//                        }else{
+//                            alert("server operation failed!");
+//                        }
+//                    }
+//            ).error(function(){
+//                        alert("error");
+//                    });
+//        });
 
 //        $("#fileUploadSubmit").bind("click",function(){
 //            console.log("file upload");
-//
+//            ajaxFileUpload();
 //        });
+//
+//        function ajaxFileUpload() {
+//            $.ajaxFileUpload
+//            (
+//                    {
+//                        url: '/resource/upload', //用于文件上传的服务器端请求地址
+//                        secureuri: false, //是否需要安全协议，一般设置为false
+//                        fileElementId: 'fileUploadInput', //文件上传域的ID
+//                        dataType: 'json', //返回值类型 一般设置为json
+//                        success: function (data, status)  //服务器成功响应处理函数
+//                        {
+//                            //返回file信息，添加tr
+////                            $("#fileListTpl").tmpl(_data.fileInfo).appendTo("#fileList");
+////                            if (typeof (data.error) != 'undefined') {
+////                                if (data.error != '') {
+////                                    alert(data.error);
+////                                } else {
+////                                    alert(data.msg);
+////                                }
+////                            }
+//                        },
+//                        error: function (data, status, e)//服务器响应失败处理函数
+//                        {
+////                            alert(e);
+//                        }
+//                    }
+//            )
+//            return false;
+//        }
 
 
-        $(".action-nav-normal").delegate($("[data-view=backFolder]"),"click",function(_event){
-            var _nowUrlArray=_nowUrl.split(".");
-            _nowUrlArray.pop();
-            _nowUrl=_nowUrlArray.join(".");
-            _nowDir=findDirByUrl(_nowUrl);
-            showFileList(_nowDir);
-        })
+//        $(".action-nav-normal").delegate($("[data-view=backFolder]"),"click",function(_event){
+//            var _nowUrlArray=_nowUrl.split(".");
+//            _nowUrlArray.pop();
+//            _nowUrl=_nowUrlArray.join(".");
+//            _nowDir=findDirByUrl(_nowUrl);
+//            showFileList(_nowDir);
+//        })
     })(jQuery)
 
 
