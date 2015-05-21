@@ -6,9 +6,12 @@ Tree.newnode = function(path, ws, treeD, treeP, callback) {
       console.log("new node");
       var nowtree = treeD;
       var nowtreeP = treeP;
-      path.split('.', function(foldername) {
-        var nexttree;
-        var nexttreeP;
+      path.split('\.').forEach(function(foldername) {
+        var nexttree = nowtree;
+        var nexttreeP = nowtreeP;
+        console.log("in splite")
+        console.log(foldername)
+        console.log(nowtree);
         nowtree.forEach(function(node) {
           if (node.text == foldername) {
             nexttree = node.children;
@@ -24,6 +27,7 @@ Tree.newnode = function(path, ws, treeD, treeP, callback) {
       });
       var newnode;
       console.log("find path ok");
+      console.log(nowtree);
       if (ws.isFolder == 1)
       {
         console.log("isFloder");

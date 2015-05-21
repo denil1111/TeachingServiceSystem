@@ -71,6 +71,7 @@ router.post('/cloud/newfolder', function(req, res, next) {
   var ws={};
   ws.filename=req.body.folderName;
   ws.isFolder=1;
+  console.log(req.body.path);
   Tree.newnode(req.body.path,ws,req.session.treeD,req.session.treeP,function(){
     console.log(req.session.treeP);
     var newdata = {
