@@ -86,9 +86,9 @@
                     </div>
 
                     <div class="col-sm-2 action-nav-button" data-view="backFolder">
-                        <a href="#" title="Messages">
+                        <a href="javascript:void(0)" title="Messages">
                             <i class="icon-reply"></i>
-                           <span>返回上级文件夹</span>
+                            <span>返回上级文件夹</span>
                         </a>
                     </div>
         </div>
@@ -104,7 +104,7 @@
       <thead>
       <tr>
         <td></td>
-        <td><input type="checkbox" id="all-choose" name="choose" onclick="chooseAll()">全选</td>
+        <td><input type="checkbox" id="all-choose" name="choose" onclick="chooseAll()" style="text-align:center;"></td>
         <td>资源名称</td>
         <td style="width: 60px">资源类型</td>
         <td style="width: 60px">资源大小</td>
@@ -116,7 +116,7 @@
       <tbody id="fileList">
       <tr>
         <td class="icon"><i class="icon-folder-close"></i></td>
-          <td><input type="checkbox" name="choose"></td>
+          <td><input type="checkbox" name="choose" style="text-align:center;"></td>
         <td><a href="#">软件工程文件夹1</a></td>
         <td><b>pdf</b></td>
         <td><b>1.2M</b></td>
@@ -137,19 +137,11 @@
       </tbody>
     </table>
     <div id="chosen-add-button">
-        <button class="btn btn-xs btn-default">删除</button>
-        <button class="btn btn-xs btn-default">下载</button>
+        <button class="btn btn-xs btn-default" style="margin-left: 20px;margin-top: 20px;margin-bottom:20px;">删除</button>
+        <button class="btn btn-xs btn-default" style="margin-left: 10px;margin-top: 20px;margin-bottom:20px;">下载</button>
     </div>
   </div>
 </div>
-
-    <div><input type="file"/></div>
-
-    <div></div>
-
-
-
-    
 
     <div id="modal-newfolder" class="modal fade">
         <div class="modal-dialog">
@@ -220,7 +212,7 @@
                 </div>
                 <div class="modal-body">
                     <label>请选择要上传的文件</label>
-                    <input type="file"id="fileUploadInput"/>
+                    <input type="file" id="fileUploadInput"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
@@ -236,22 +228,17 @@
 <script id="fileListTpl" type="text/x-jquery-tmpl">
 <tr>
     <td class="icon"><i class="{{if isFolder}} icon-folder-close {{else}} icon-file {{/if}}"></i></td>
-    <td style="width:50px;"><input type="checkbox" name="choose"></td>
+    <td style="width:50px;text-align:center;"><input type="checkbox" name="choose"></td>
     <td><a href="{{if isFloder}}javascript:void(0){{else}}#{{/if}}" {{if isFolder}} data-view="enterFolder" name="${text}" {{/if}}>${text}</a></td>
     <td><b>${ext}</b></td>
     <td><b>${size}</b></td>
     <td><b>${courseName}</b></td>
     <td>
         <div class="btn-group">
-            <form style="display: inline-block" method="get" action="/resource/cloud/download/${name}">
-                <button class="btn btn-xs btn-default"><i class="icon-remove-sign"></i></button>
-                <button class="btn btn-xs btn-default" type="submit"><i class="icon-download-alt"></i></button>
-            </form>
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-                <li><a data-toggle="modal" href="#modal-rename" data-src="${order}">重命名</a></li>
-                <li><a data-toggle="modal" href="#modal-move" data-src="${order}">移动到</a></li>
-            </ul>
+            <button class="btn btn-xs btn-default"><i class="icon-remove-sign"></i>删除</button>
+            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i>下载</button>
+            <button class="btn btn-xs btn-default" data-toggle="modal" href="#modal-rename" data-src="${order}"> <i class="icon-cog"></i> 重命名</button>
+            <button class="btn btn-xs btn-default" data-toggle="modal" href="#modal-move" data-src="${order}"> <i class="icon-cog"></i> 移动至</button>
         </div>
     </td>
 </tr>
@@ -288,21 +275,20 @@
         function showFileList(_nowDir){
             $("#fileList").empty();
             for(var i=0;i<_nowDir.length;i++){
+                _nowDir[i].order=i;
                 $("#fileListTpl").tmpl(_nowDir[i]).appendTo("#fileList");
             }
         };
 
         showFileList(_nowDir);
 
-        $("#fileList").delegate($("[data-view=enterFolder]"),"click",function(_event){
+        $("#fileList").delegate("[data-view=enterFolder]","click",function(_event){
             _event.preventDefault();
             var _name=_event.target.getAttribute("name");
             _nowUrl=_nowUrl.concat(".",_name);
             _nowDir=findDirByUrl(_nowUrl);
             showFileList(_nowDir);
         })
-
-
 
         $("#newFolderSubmit").bind("click",function(){
             console.log("in newFolder");
@@ -362,7 +348,7 @@
        }
 
 
-       $(".action-nav-normal").delegate($("[data-view=backFolder]"),"click",function(_event){
+       $(".action-nav-normal").delegate("[data-view=backFolder]","click",function(_event){
            var _nowUrlArray=_nowUrl.split(".");
            _nowUrlArray.pop();
            _nowUrl=_nowUrlArray.join(".");
