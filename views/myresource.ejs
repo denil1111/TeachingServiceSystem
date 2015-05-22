@@ -220,7 +220,7 @@
                 </div>
                 <div class="modal-body">
                     <label>请选择要上传的文件</label>
-                    <input type="file"id="fileUploadInput"/>
+                    <input type="file" name="fileUploadInput" size="40" multiple="multiple" id="fileUploadInput">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
@@ -337,7 +337,10 @@
                        url: '/resource/cloud/newfile', //用于文件上传的服务器端请求地址
                        secureuri: false, //是否需要安全协议，一般设置为false
                        fileElementId: 'fileUploadInput', //文件上传域的ID
-                       dataType: 'json', //返回值类型 一般设置为json
+                       dataType: 'JSON', //返回值类型 一般设置为json
+                       data: {
+                           path: _nowUrl
+                       },
                        success: function (data, status)  //服务器成功响应处理函数
                        {
                             console.log("success");

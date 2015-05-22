@@ -1,4 +1,3 @@
-
 jQuery.extend({
 	
 
@@ -198,4 +197,3 @@ jQuery.extend({
         return data;
     }
 })
-

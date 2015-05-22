@@ -8,6 +8,7 @@ var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 var debug = require('debug')('resource');
 
 function fileupload(req, callback) {
+  console.log("want to upload");
   req.busboy.on('file', function(fieldname, readStream, filename, encoding, mimetype) {
     debug('a file is posted: ' + filename);
     var ws = gfs.createWriteStream({
@@ -16,9 +17,13 @@ function fileupload(req, callback) {
       filename: filename,
       metadata: {}
     });
+    console.log("upload ok");
     readStream.pipe(ws);
-    callback(ws);
+    ws.on('close', function() {
+      callback(ws);
+    });
   });
+  req.pipe(req.busboy);
 };
 
 function filedowloadbyname(fileName,res,next,callback) {
@@ -65,6 +70,7 @@ function fileinfobyid(fileid,callback) {
       console.log(error);
       callback(error,null);
     } else {
+      console.log(file);
       callback(null,file);
     }
   })
