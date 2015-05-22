@@ -314,6 +314,7 @@
                         if(_data.code==200){
                             alert("succuss");
                             _fileMap= _data.newTree;
+                            console.log(_data);
                             _nowDir=findDirByUrl(_nowUrl);
                             showFileList(_nowDir);
                         }else{
@@ -344,6 +345,10 @@
                        success: function (data, status)  //服务器成功响应处理函数
                        {
                             console.log("success");
+                            console.log(data);
+                            _fileMap= data.newTree;
+                            _nowDir=findDirByUrl(_nowUrl);
+                            showFileList(_nowDir);
                            //返回file信息，添加tr
 //                            $("#fileListTpl").tmpl(_data.fileInfo).appendTo("#fileList");
 //                            if (typeof (data.error) != 'undefined') {

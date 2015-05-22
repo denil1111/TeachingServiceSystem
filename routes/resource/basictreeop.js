@@ -59,7 +59,7 @@ Tree.newnode = function(path, ws, treeD, treeP, callback) {
                 newnode.text = info.filename;
                 newnode.size = info.size;
                 nowtree.push(newnode);
-                nowtree.push(newnode);
+                nowtreeP.push(newnode);
                 callback(null);
             }
         });
