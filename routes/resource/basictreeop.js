@@ -57,7 +57,7 @@ Tree.newnode = function(path, ws, treeD, treeP, callback) {
             else{
                 console.log(info);
                 newnode.text = info.filename;
-                newnode.size = info.size;
+                newnode.size = info.length;
                 nowtree.push(newnode);
                 nowtreeP.push(newnode);
                 callback(null);
