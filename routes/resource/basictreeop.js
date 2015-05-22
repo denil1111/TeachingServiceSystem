@@ -2,7 +2,7 @@
 var File = require("./basicfileop")
 var Tree = {};
 Tree.newnode = function(path, ws, treeD, treeP, callback) {
-      console.log(path);
+      console.log(ws);
       console.log("new node");
       var nowtree = treeD;
       var nowtreeP = treeP;
@@ -11,7 +11,7 @@ Tree.newnode = function(path, ws, treeD, treeP, callback) {
         var nexttreeP = nowtreeP;
         console.log("in splite")
         console.log(foldername)
-        console.log(nowtree);
+        console.log(nowtreeP);
         nowtree.forEach(function(node) {
           if (node.text == foldername) {
             nexttree = node.children;
@@ -42,24 +42,27 @@ Tree.newnode = function(path, ws, treeD, treeP, callback) {
         callback(null);
       }
       else{
+        console.log(ws);
         newnode = {
-          text: ws.filename,
           fid: ws.id,
           isFolder : 0
         }
-        File.findifobyid(ws.id, function(err,info) {
+        console.log("add node");
+        console.log(newnode);
+        File.infobyid(ws.id, function(err,info) {
             if (err) {
                 console.log(err);
                 callback(err);
             }
             else{
                 console.log(info);
+                newnode.text = info.filename;
                 newnode.size = info.size;
                 nowtree.push(newnode);
-                nowtree.push(newnode);
+                nowtreeP.push(newnode);
                 callback(null);
             }
-        })
+        });
         /*find by id */
       }
      
