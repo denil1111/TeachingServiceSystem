@@ -41,7 +41,7 @@
       <div class="box-header">
         <span class="title">信息填写</span>
       </div>
-      <form name="input" action="/info/personmodify" method="post">
+      <form name="input" action="/info/personmodify" method="post" enctype="multipart/form-data">
         <div class="box-content padded">
           <div class="row-fluid">
             <div class="span9">
@@ -51,6 +51,10 @@
                   <label>用户名</label>
                   <input type="text" placeholder="e.g. Tom" name="username">
                 </li>
+                  <li class="input">
+                      <label>从本地选择照片</label>
+                      <input id="fulAvatar" name="fulAvatar"  style="WIDTH: 150px; HEIGHT: 22px" size="33"  type="file" class="form-control"/>
+                  </li>
                 <li class="input">
                   <label>身份</label>
                   <!--input type="text" placeholder="课程号" name="status"-->
