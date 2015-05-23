@@ -20,9 +20,27 @@
           </style>
 
         <script>
-            function downloadByUrl(fid,name){
-            window.open("/resource/cloud/iddownload/"+fid);
-        }
+            function downloadByUrl(_fid,_name){
+//                window.open("/resource/cloud/iddownload/"+fid);
+                $.post(
+                    "/resource/cloud/iddownload",
+                    {
+                        fid:_fid,
+                        name:_name
+                    },
+                    function(_data){
+                        if(_data.code==200){
+                            return;
+                        }else{
+                            alert("下载出错！");
+                        }
+                    }
+                ).error(function(){
+                    alert("下载出错！");
+                });
+            }
+
+
             //jquery 1.6以后
             function chooseAll(){
                 //            console.log("in chooseAll");
@@ -236,22 +254,6 @@
         var _fileMap=<%-JSON.stringify(fileTree)%>;
         var _nowUrl="";
         var _nowDir=findDirByUrl(_nowUrl);
-
-//        post tmpl
-//        $.post({
-//            api,
-//            {},
-//            function(_data){
-//                if(_data.code==200){
-//                    alert("操作成功");
-//                    //refresh
-//                }else{
-//                    alert("操作失败");
-//                }
-//            }
-//        }).error(function(){
-//                    alert("请求失败");
-//        });
 
         //显示文件列表
         function findDirByUrl(_url){
