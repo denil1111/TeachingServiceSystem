@@ -8,6 +8,7 @@ var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 var debug = require('debug')('resource');
 
 function fileupload(req, callback) {
+  console.log("want to upload");
   req.busboy.on('file', function(fieldname, readStream, filename, encoding, mimetype) {
     debug('a file is posted: ' + filename);
     var ws = gfs.createWriteStream({
@@ -16,9 +17,13 @@ function fileupload(req, callback) {
       filename: filename,
       metadata: {}
     });
+    console.log("upload ok");
     readStream.pipe(ws);
-    callback(ws);
+    ws.on('close', function() {
+      callback(ws);
+    });
   });
+  req.pipe(req.busboy);
 };
 
 function filedowloadbyname(fileName,res,next,callback) {
@@ -40,7 +45,7 @@ function filedowloadbyname(fileName,res,next,callback) {
   });
 };
 
-function filedowloadbyid(fileid,filename,res,next,callback) {
+function filedowloadbyid(fileid,filename,req,res,next,callback) {
   var opts = {
     _id: fileid
   };
@@ -49,8 +54,16 @@ function filedowloadbyid(fileid,filename,res,next,callback) {
       return next(err);
     if (found) {
       var rs = gfs.createReadStream(opts);
-      console.log(rs);      
-      res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+      console.log(rs);     
+      var userAgent = (req.headers['user-agent']||'').toLowerCase(); 
+      if(userAgent.indexOf('msie') >= 0 || userAgent.indexOf('chrome') >= 0) {
+        res.setHeader('Content-Disposition', 'attachment; filename=' + encodeURIComponent(filename));
+      } else if(userAgent.indexOf('firefox') >= 0) {
+        res.setHeader('Content-Disposition', 'attachment; filename*="utf8\'\'' + encodeURIComponent(filename)+'"');
+      } else {
+         /* safari等其他非主流浏览器只能自求多福了 */
+        res.setHeader('Content-Disposition', 'attachment; filename=' + new Buffer(filename).toString('binary'));
+      }
       res.setHeader('Content-type', 'text/plain');
       rs.pipe(res);
     } else {
@@ -63,8 +76,10 @@ function fileinfobyid(fileid,callback) {
   gfs.findOne({_id: fileid}, function (error,file) {
     if (error) {
       console.log(error);
+      callback(error,null);
     } else {
-      callback(file);
+      console.log(file);
+      callback(null,file);
     }
   })
 };

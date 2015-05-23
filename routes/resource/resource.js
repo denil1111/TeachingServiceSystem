@@ -62,17 +62,17 @@ router.get('/cloud', function(req, res, next) {
     }
   });
 });
-
+/*
+  new folder api
+*/
 // foldername path
 router.post('/cloud/newfolder', function(req, res, next) {
   var nowUserId = req.session.user.userid;
   var ws={};
   ws.filename=req.body.folderName;
   ws.isFolder=1;
-  console.log("newfolder");
-  console.log(req.body.path,ws);
+  console.log(req.body.path);
   Tree.newnode(req.body.path,ws,req.session.treeD,req.session.treeP,function(){
-    console.log("newfolder after newnode");
     console.log(req.session.treeP);
     var newdata = {
       uid : req.session.user.userid,
@@ -82,7 +82,6 @@ router.post('/cloud/newfolder', function(req, res, next) {
       if (err) {
         console.log(err);
       } else {
-        console.log("new tree update ok!");
         console.log(req.session.treeP);
         res.json({code:200,newTree: req.session.treeP});
       }
@@ -91,27 +90,35 @@ router.post('/cloud/newfolder', function(req, res, next) {
   
 });
 
+/*
+  new file api
+*/
+
 //par: datafile, path(xx.xx.xx)
-//router.post('/cloud/newfile', function(req, res, next) {
-//  File.upload(req, function(ws) {
-//    var uid = req.session.user.userid;
-//    fileTree.findbyuser(uid, function(err, result) {
-//      var oldtree = new Tree(result[0].tree);
-//      oldtree.newfile(req.body.path, ws, function() {
-//        fileTree.update(uid, oldtree, function(err) {
-//          req.on('data', function(sock) {
-//            res.writeHead(200, {
-//              "Content-Type": "text/plain"
-//            });
-//            res.end("Hello!!");
-//          });
-//        });
-//
-//      });
-//    });
-//  });
-//
-//});
+router.post('/cloud/newfile', function(req, res, next) {
+  req.busboy.on('field',function(a,b){
+    req.body[a]=b;
+    File.upload(req, function(ws) {
+      console.log("upload suc");
+      ws.isFolder = 0;
+      Tree.newnode(req.body.path, ws, req.session.treeD, req.session.treeP, function(){
+        var newdata = {
+          uid : req.session.user.userid,
+          tree : req.session.treeD
+        }
+        fileTree.update(req.session.user.userid, newdata, function(err) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(req.session.treeP);
+            res.json({code:200,newTree: req.session.treeP});
+          }
+        });  
+      });
+    });
+  });
+  req.pipe(req.busboy);
+});
 /*
 
   A temporary upload page for test purpose
@@ -121,32 +128,36 @@ router.get('/cloud/upload', function(req, res, next) {
   var html = '<form action="/resource/cloud/upload"enctype="multipart/form-data" method="post"> ' +
     '<h1> Upload your file </h1> ' +
     'Please specify a file, or a set of files:<br> ' +
-    '<input type="file" name="datafile" size="40" multiple="multiple">  ' +
-    '<div> <input type="submit" value="Send"> </div> </form>';
+    '<input type="file" name="file" size="40" multiple="multiple">  ' +
+    '<div> <input type="submit" > </div> </form>';
   res.send(html);
   res.end();
 });
-
+router.get('/cloud/upload2', function(req, res, next) {
+ res.render("testup")
+  res.end();
+});
 /*
 
   file upload api
 
  */
 router.post('/cloud/upload', function(req, res, next) {
-  /*uploadfile(req,function (id) {
+  File.upload(req,function (id) {
     console.log(id);
-  })*/
-  req.busboy.on('file', function(fieldname, readStream, filename, encoding, mimetype) {
-    debug('a file is posted: ' + filename);
-    var ws = gfs.createWriteStream({
-      mode: 'w',
-      content_type: mimetype,
-      filename: filename,
-      metadata: {}
-    });
-    console.log(ws.id);
-    readStream.pipe(ws);
   });
+  console.log(req);
+//  req.busboy.on('file', function(fieldname, readStream, filename, encoding, mimetype) {
+//    debug('a file is posted: ' + filename);
+//    var ws = gfs.createWriteStream({
+//      mode: 'w',
+//      content_type: mimetype,
+//      filename: filename,
+//      metadata: {}
+//    });
+//    console.log(ws.id);
+//    readStream.pipe(ws);
+//  });
 
   //TODO: should not allow any other field to be post to the upload route
   req.busboy.on('field', function(key, value, keyTruncated, valueTruncated) {
@@ -156,8 +167,8 @@ router.post('/cloud/upload', function(req, res, next) {
   req.busboy.on('finish', function() {
     res.redirect('/resource/cloud');
   });
-
-  req.pipe(req.busboy);
+//
+//  req.pipe(req.busboy);
 });
 
 /*
@@ -186,6 +197,31 @@ router.get('/cloud/download/:filename', function(req, res, next) {
     } else {
       next(new Error('File ' + dlfileName + ' not found'));
     }
+  });
+});
+
+router.get('/cloud/iddownload/:fid', function(req, res, next) {
+  File.infobyid(req.params.fid, function(err,fileinfo) {
+    console.log(fileinfo);
+    File.dowloadbyid(req.params.fid, fileinfo.filename, req, res, next);
+  });
+  
+});
+
+router.post('/cloud/deletenode', function(req, res, next) {
+  Tree.delnode(req.body.url, req.body.name, req.session.treeD, req.session.treeP, function() {
+    var newdata = {
+      uid : req.session.user.userid,
+      tree : req.session.treeD
+    };
+    fileTree.update(req.session.user.userid, newdata, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(req.session.treeP);
+        res.json({code:200,newTree: req.session.treeP});
+      }
+    });  
   });
 });
 
