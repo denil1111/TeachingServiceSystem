@@ -222,7 +222,7 @@
             <button class="btn btn-xs btn-default" data-src="${text}" func="delete-btn"><i class="icon-remove-sign"></i>删除</button>
             <button class="btn btn-xs btn-default" data-src="${text}" func="rename-btn"> <i class="icon-cog"></i> 重命名</button>
             <button class="btn btn-xs btn-default" data-src="${text}" func="move-btn"> <i class="icon-cog"></i> 移动至</button>
-             {{if !isFolder}}<button class="btn btn-xs btn-default" func="download-btn" onclick="window.open("iddownload/"+${fid}+"/"+${text})"><i class="icon-download-alt"></i>下载</button>{{/if}}
+             {{if !isFolder}}<button class="btn btn-xs btn-default" func="download-btn" onclick="downloadByUrl(${fid},${text})"><i class="icon-download-alt"></i>下载</button>{{/if}}
         </div>
     </td>
 </tr>
@@ -473,6 +473,10 @@
                         });
             }
         });
+        
+        function downloadByUrl(fid,name){
+            window.open("iddownload/"+fid+"/"+name);
+        }
 
 
 
