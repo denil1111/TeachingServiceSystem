@@ -68,9 +68,24 @@ function fileinfobyid(fileid,callback) {
     }
   })
 };
+
+function fileremovebyid(fileid,callback) {
+  gfs.remove({_id: fileid}, function (err) {
+    callback(err);
+  });
+}
+
+function fileremovebyname(filename,callback) {
+  gfs.remove({filename: filename}, function (err) {
+    callback(err);
+  });
+}
+
 var FILE = {};
 FILE.upload = fileupload;
 FILE.dowloadbyname = filedowloadbyname;
 FILE.dowloadbyid = filedowloadbyid;
 FILE.infobyid = fileinfobyid;
+FILE.removebyid = fileremovebyid;
+FILE.removebyname = fileremovebyname;
 module.exports = FILE;
