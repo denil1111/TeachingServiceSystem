@@ -200,16 +200,41 @@ router.get('/cloud/download/:filename', function(req, res, next) {
   });
 });
 
-router.get('/cloud/iddownload/:fid', function(req, res, next) {
-  File.infobyid(req.params.fid, function(err,fileinfo) {
-    console.log(fileinfo);
-    File.dowloadbyid(req.params.fid, fileinfo.filename, req, res, next);
-  });
-  
+router.post('/cloud/iddownload', function(req, res, next) {
+  req.session.nowfilename = req.body.name;
+  res.json({});
 });
 
+router.get('/cloud/iddownload/:fid', function(req, res, next) {
+  File.dowloadbyid(req.params.fid, req.session.nowfilename, req, res, next);
+});
+
+/*
+  delete a file in tree
+*/
 router.post('/cloud/deletenode', function(req, res, next) {
   Tree.delnode(req.body.url, req.body.name, req.session.treeD, req.session.treeP, function() {
+    var newdata = {
+      uid : req.session.user.userid,
+      tree : req.session.treeD
+    };
+    fileTree.update(req.session.user.userid, newdata, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(req.session.treeP);
+        res.json({code:200,newTree: req.session.treeP});
+      }
+    });  
+  });
+});
+
+/*
+   move file
+*/
+
+router.post('/cloud/movenode', function(req, res, next) {
+  Tree.move(req.body.oldUrl, req.body.name, req.body.newUrl, req.session.treeD, req.session.treeP, function() {
     var newdata = {
       uid : req.session.user.userid,
       tree : req.session.treeD
@@ -240,23 +265,7 @@ router.get('/config', function(req, res, next) {
 // file tree post data
 router.post('/tree_data', function(req, res, next) {
 
-  var options = {
-    root: '../public',
-    dotfiles: 'deny',
-    headers: {
-      'x-timestamp': Date.now(),
-      'x-sent': true
-    }
-  };
-  console.log("haha");
-  res.sendFile('tree_data.json', options, function(err) {
-    if (err) {
-      console.log(err);
-      res.status(err.status).end();
-    } else {
-      console.log('Sent:');
-    }
-  });
+  res.send(req.session.treeP);
 });
 /* 
 
