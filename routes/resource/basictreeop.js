@@ -123,6 +123,68 @@ Tree.delnode = function(path, name, treeD, treeP, callback) {
           
       }     
     };
+Tree.move = function(oldpath, name, newpath, treeD, treeP, callback) {
+      console.log("new node");
+      var nowtree = treeD;
+      var nowtreeP = treeP;
+      oldpath.split('\.').forEach(function(foldername) {
+        var nexttree = nowtree;
+        var nexttreeP = nowtreeP;
+        console.log("in splite")
+        console.log(foldername)
+        console.log(nowtreeP);
+        nowtree.forEach(function(node) {
+          if (node.text == foldername) {
+            nexttree = node.children;
+          }
+        });
+        nowtreeP.forEach(function(node) {
+          if (node.text == foldername) {
+            nexttreeP = node.children;
+          }
+        });
+        nowtree = nexttree;
+        nowtreeP = nexttreeP;
+      });
+      var indexx=0,index;
+      console.log(name);
+      nowtree.forEach(function(node) {
+        indexx++;
+        if (node.text == name) {
+            console.log('find');
+            index=indexx-1;
+            return true;
+        } 
+      });
+      console.log(index);
+      console.log(nowtree);
+      var nowtree2 = treeD;
+      var nowtreeP2 = treeP;
+      newpath.split('\.').forEach(function(foldername) {
+        var nexttree = nowtree;
+        var nexttreeP = nowtreeP;
+        console.log("in splite")
+        console.log(foldername)
+        console.log(nowtreeP);
+        nowtree2.forEach(function(node) {
+          if (node.text == foldername) {
+            nexttree = node.children;
+          }
+        });
+        nowtreeP2.forEach(function(node) {
+          if (node.text == foldername) {
+            nexttreeP = node.children;
+          }
+        });
+        nowtree2 = nexttree;
+        nowtreeP2 = nexttreeP;
+      });
+      nowtree2.push(nowtree[index]);
+      nowtreeP2.push(nowtreeP[index]);
+      nowtree.remove(index); 
+      nowtreeP.remove(index);
+      callback(null);
+    };
 Tree.buildPrint = function(treeD,callback){
     callback(treeD);
 };
