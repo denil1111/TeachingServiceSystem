@@ -200,8 +200,12 @@ router.get('/cloud/download/:filename', function(req, res, next) {
   });
 });
 
-router.get('/cloud/iddownload/:fid/:filename', function(req, res, next) {
-  File.dowloadbyid(req.params.fid, req.params.filename, res, next);
+router.get('/cloud/iddownload/:fid', function(req, res, next) {
+  File.infobyid(req.params.fid, function(err,fileinfo) {
+    console.log(fileinfo);
+    File.dowloadbyid(req.params.fid, fileinfo.filename, req, res, next);
+  });
+  
 });
 
 router.get('/course', function(req, res, next) {

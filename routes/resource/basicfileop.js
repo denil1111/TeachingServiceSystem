@@ -45,7 +45,7 @@ function filedowloadbyname(fileName,res,next,callback) {
   });
 };
 
-function filedowloadbyid(fileid,filename,res,next,callback) {
+function filedowloadbyid(fileid,filename,req,res,next,callback) {
   var opts = {
     _id: fileid
   };
@@ -54,8 +54,16 @@ function filedowloadbyid(fileid,filename,res,next,callback) {
       return next(err);
     if (found) {
       var rs = gfs.createReadStream(opts);
-      console.log(rs);      
-      res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+      console.log(rs);     
+      var userAgent = (req.headers['user-agent']||'').toLowerCase(); 
+      if(userAgent.indexOf('msie') >= 0 || userAgent.indexOf('chrome') >= 0) {
+        res.setHeader('Content-Disposition', 'attachment; filename=' + encodeURIComponent(filename));
+      } else if(userAgent.indexOf('firefox') >= 0) {
+        res.setHeader('Content-Disposition', 'attachment; filename*="utf8\'\'' + encodeURIComponent(filename)+'"');
+      } else {
+         /* safari等其他非主流浏览器只能自求多福了 */
+        res.setHeader('Content-Disposition', 'attachment; filename=' + new Buffer(filename).toString('binary'));
+      }
       res.setHeader('Content-type', 'text/plain');
       rs.pipe(res);
     } else {
