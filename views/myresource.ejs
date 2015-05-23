@@ -37,6 +37,23 @@
                 });
             }
 
+            function formSize(_size){
+                if(_size){
+                    var n = Math.floor(Math.log(_size)/Math.log(1024));
+                    switch (n){
+                        case 0:return Math.floor(_size)+"B";break;
+                        case 1:return Math.floor(_size/1024)+"KB";break;
+                        case 2:return Math.floor(_size/1024/1024)+"MB";break;
+                        case 3:return Math.floor(_size/1024/1024/1024)+"GB";break;
+                        case 4:return "WQNMLGB";break;
+                        default:break;
+                    }
+                }else{
+                    return "";
+                }
+
+            }
+
 
             //jquery 1.6以后
             function chooseAll(){
@@ -283,6 +300,7 @@
             $("#fileList").empty();
             for(var i=0;i<_nowDir.length;i++){
                 _nowDir[i].order=i;
+                _nowDir[i].size=formSize(_nowDir[i].size);
                 $("#fileListTpl").tmpl(_nowDir[i]).appendTo("#fileList");
             }
         };
@@ -414,7 +432,7 @@
             var _newName=$("#renameInput").val();
             var _oldName=$("#renameSubmit").attr("data-src");
             $.post(
-                    "/resource/api",
+                    "/resource/cloud/renamenode",
                     {
                         url:_nowUrl,
                         oldName:_oldName,
