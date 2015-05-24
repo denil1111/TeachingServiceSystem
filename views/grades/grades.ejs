@@ -1,9 +1,9 @@
 <!doctype html>
-<% include head.html %>
+<% include ../head.html %>
 </head>
 <body>
 <!-- 上方选择条 navbar-top-->
-<% include navbar.html %>
+<% include ../navbar.html %>
 <!-- 侧边框 -->
 <% include slide_grades.html%>
 <script type="text/javascript">
@@ -53,10 +53,10 @@
             <% for(i = 0;i<data.length;i++){ %>    
             <tr>
         
-              <td><%= data[i].courseNumber %></td>
-              <td><%= data[i].courseName %></td>
+              <td><%= data[i].courseid %></td>
+              <td><%= data[i].userid %></td>
               <td class="center"><%= data[i].score %></td>
-              <td><%= data[i].credit %></td>
+              <td><%= data[i].score %></td>
               <td><%= data[i].gradePoint %></td>
               <td><%= data[i].secondScore %></td>
            </tr>

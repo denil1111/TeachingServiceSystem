@@ -1,9 +1,9 @@
 <!doctype html>
-<% include head.html %>
+<% include ../head.html %>
 </head>
 <body>
 <!-- 上方选择条 navbar-top-->
-<% include navbar.html %>
+<% include ../navbar.html %>
 <!-- 侧边框 -->
 <% include slide_grades.html%>
 <script type="text/javascript">
@@ -13,7 +13,7 @@
     }
 
    function setSlideActive(){
-        var slide = document.getElementById('classLists');
+        var slide = document.getElementById('gradesAudit');
             slide.className='active';
    }
 
@@ -30,11 +30,12 @@
     <div class="row-fluid">
       <div class="area-top clearfix">
         <div class="pull-left header">
-          <h3 class="title"><i class="icon-search"></i>课程列表</h3>
+          <h3 class="title"><i class="icon-search"></i>成绩审核</h3>
         </div>
       </div>
     </div>
   </div>
+
 
 <div class="span10">
 <div class="box">
@@ -49,44 +50,47 @@
       <thead>
       <tr>
         <td>课程编号</td>
-        <td>课程名称</td>
-        <td>上课时间</td>
-        <td>学期</td>
-        <td>上课地点</td>
-        <td>教学班人数</td>
-        <td>教学班管理</td>
+        <td>教师姓名</td>
+        <td>学生学号</td>
+        <td>原成绩</td>
+        <td>修改后成绩</td>
+        <td>修改理由</td>
+        <td style="width: 40px">审核意见</td>
       </tr>
       </thead>
 
       <tbody>
       <tr class="status-pending">
         <td>212312321</a></td>
-        <td>微积分I</td>
-        <td>周三1、2节</td>
-        <td>春夏</td>
-        <td>曹楼201</td>
+        <td>张亮</td>
+        <td>321031231</td>
+        <td>80</td>
         <td>90</td>
+        <td>登记错误</td>
         <td>
           <div class="btn-group">
             <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
             <ul class="dropdown-menu">
-              <li><a href="#">学生信息与成绩</a></li>
+              <li><a href="#">同意修改</a></li>
+              <li><a href="#">反对修改</a></li>
             </ul>
           </div>
         </td>
       </tr>
-      <tr class="status-pending">
-        <td>212312321</a></td>
-        <td>微积分II</td>
-        <td>周三3、4节</td>
-        <td>春夏</td>
-        <td>曹楼201</td>
+
+        <tr class="status-pending">
+        <td>21201022</a></td>
+        <td>张三</td>
+        <td>32132222</td>
         <td>90</td>
+        <td>80</td>
+        <td>登记错误</td>
         <td>
           <div class="btn-group">
             <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
             <ul class="dropdown-menu">
-              <li><a href="#">学生信息与成绩</a></li>
+              <li><a href="#">同意修改</a></li>
+              <li><a href="#">反对修改</a></li>
             </ul>
           </div>
         </td>
@@ -101,6 +105,10 @@
 
 
 </div>
+
+
+
+
 
 
 
