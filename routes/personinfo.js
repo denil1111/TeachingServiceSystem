@@ -7,7 +7,7 @@ var PersonModel = require('../db/group1db/PersonModel');
 router.get('/personinfo', function(req, res, next) {
     if(!req.session.user){return res.redirect('login');}
     var localuser=req.session.user[0];
-    PersonModel.findbyname(localuser.username,function (err, user) {
+    PersonModel.findbyid(localuser.userid,function (err, user) {
         localuser = user[0];
         res.render('personinfo',{
             name: '程序员', 

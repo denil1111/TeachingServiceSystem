@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose'); 
+var CourseModel = require('../db/group1db/CourseModel');
 
-router.get('/persondelete', function(req, res,next) {
+router.get('/coursedelete', function(req, res,next) {
     if(!req.session.user){return res.redirect('login');}
-    res.render('persondelete',{
+    res.render('coursedelete',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
@@ -18,21 +19,15 @@ router.get('/persondelete', function(req, res,next) {
     });
 });
 
-router.post('/persondelete',function(req,res,next){
-    console.log("post:persondelete");
-    // var db = mongoose.createConnection('mongodb://127.0.0.1:27017/person');
-    var PersonModel = require('../db/group1db/PersonModel');
-    // var CollectionName = 'people';
-    // var PersonModel = db.model('PersonModel',PersonSchema,CollectionName);
-        
-    PersonModel.deletebyid(req.body.userid, function(error, data){
+router.post('/coursedelete',function(req,res,next){
+    CourseModel.deletebyid(req.body.courseid2, function(error, data){
         if(error) {
             console.log('find error!'+error);
         } else {
             console.log('find ok!'+data);
         }
         console.log('data : '+data);
-        res.render('persondelete',{
+        res.render('coursedelete',{
             name: '程序员', 
             image: 'images/avatars/avatar3.jpg',
             total_a:'12',
@@ -42,10 +37,9 @@ router.post('/persondelete',function(req,res,next){
             total_credits:'24',
             credits:'4,6,2,4,6,2,0',
 
-            deleteresult:'用户删除成功'
+            deleteresult:'课程删除成功'
         });
     });
-    //    db.close();
 });
 
 module.exports = router;

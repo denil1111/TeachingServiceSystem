@@ -89,7 +89,6 @@ router.post('/personinsert',function(req,res,next){
         if(fields.password1 == ""){passwordErr = 'password empty!';}
         if(fields.password1 != fields.password2){passwordErr = 'password different!';}
 
-
         //emailerr
         var email = doc.email;
         var index = email.indexOf('@');
