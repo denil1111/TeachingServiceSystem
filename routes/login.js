@@ -16,11 +16,11 @@ router.get('/login',function(req,res,next){
 router.use(passport.initialize());
 router.use(passport.session());
 
-router.use(session({
-  secret: 'TeachingServerSystem',
-  resave: false,
-  saveUnintialized: false
-}));
+// router.use(session({
+//   secret: 'TeachingServerSystem',
+//   resave: false,
+//   saveUnintialized: false
+// }));
 
 passport.use(new LocalStrategy(
     function(userid,password, done) {
