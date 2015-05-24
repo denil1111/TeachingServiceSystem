@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+<% include head.html %>
+</head>
+<body>
+<!-- 上方选择条 navbar-top-->
+<% include navbar.html %>
+<!-- 侧边框 -->
+<% include slide_person.html%>
+<script type="text/javascript">
+   function setNavActive(){
+       var active=document.getElementById('infomanage');
+           active.className='active';
+    }
+
+   function setSlideActive(){
+        var slide = document.getElementById('personselect');
+            slide.className='active';
+   }
+
+     setNavActive();
+     setSlideActive();
+</script>
+
+<!-- 主要内容 -->
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="area-top clearfix">
+        <div class="pull-left header">
+          <h3 class="title"><i class="icon-search"></i>查询用户</h3>
+          <h5>获得用户信息</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 信息填写 -->
+  <div class="span12">
+    <div class="box">
+      <div class="box-header">
+        <span class="title">用户ID填写</span>
+      </div>
+      <form name="input" action="/info/personselect" method="post">
+        <div class="box-content padded">
+          <div class="row-fluid">
+            <div class="span9">
+            <!-- 条件选框 -->
+              <ul>
+                <li class="input">
+                  <label>用户名ID</label>
+                  <input type="text" placeholder="e.g. Tom" name="username">
+                </li>
+              </ul>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-blue">查询</button>
+          </div>
+        </div>
+      </form>
+      </div>
+
+      <!-- 搜索结果 -->
+      <div class="span10">
+        <div class="box">
+          <div class="box-header">
+            <span class="title">搜索结果</span>
+          </div>
+          <form action="/personselect" role="form" method="post">
+            <% for(var i=0; i<person_data.length;i++) { %>
+            <li class="input">
+              <label>用户名</label>
+              <p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= person_data[i].username %></span></p></li>
+              <li class="input">
+                  <label>照片</label>
+                <span>
+                  <img class="menu-avatar" src=<%= person_data[i].photo %> alt="Base64 encoded image" width="150" height="150"/>
+                </span>
+              </li>
+              <li class="input">
+              <label>身份</label>
+              <p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= person_data[i].status %></span></p>
+              </li>
+              <li class="input">
+              <label>性别</label>
+              <p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= person_data[i].sex %></span></p>
+              </li>
+              <li class="input">
+              <label>年龄</label>
+              <p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= person_data[i].age %></span></p>
+              </li>
+              <li class="input">
+              <label>专业</label>
+              <p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= person_data[i].major %></span></p>
+              </li>
+              <li class="input">
+              <label>学院</label>
+              <p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= person_data[i].college %></span></p>
+              </li>
+              <li class="input">
+              <label>职称</label>
+              <p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= person_data[i].title %></span></p>
+              </li>
+              <li class="input">
+              <label>Tel</label>
+              <p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= person_data[i].tel %></span></p>
+              </li>
+              <li class="input">
+              <label>Email</label>
+              <p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= person_data[i].email %></span></p>
+              </li>
+            <% } %>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+</body>
+</html>
