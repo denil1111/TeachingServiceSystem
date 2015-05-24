@@ -14,8 +14,15 @@ var Schema = new mongoose.Schema({
 
 
 router.get('/grades', function(req, res, next) {
-
-var gradesDB = global.db.model('grades',Schema);
+var Schema = new mongoose.Schema({
+       courseNumber: String,
+       courseName:String,
+       score:Number,
+       credit:Number,
+       gradePoint:Number,
+       secondScore:Number
+});
+var gradesDB =global.db.model('grades',Schema);
 gradesDB.find(function(error,docs){
     if(error){
         console.log(error);
@@ -39,7 +46,14 @@ gradesDB.find(function(error,docs){
 });  
 
 router.get('/gradesAnalysis',function(req, res, next) {
-
+var Schema = new mongoose.Schema({
+       courseNumber: String,
+       courseName:String,
+       score:Number,
+       credit:Number,
+       gradePoint:Number,
+       secondScore:Number
+});
 var gradesDB = global.db.model('grades',Schema);
 gradesDB.find(function(error,docs){
     if(error){
@@ -63,7 +77,14 @@ gradesDB.find(function(error,docs){
 
 
 router.get('/testSearch',function(req, res, next) {
-
+var Schema = new mongoose.Schema({
+       courseNumber: String,
+       courseName:String,
+       score:Number,
+       credit:Number,
+       gradePoint:Number,
+       secondScore:Number
+});
 var gradesDB = global.db.model('grades',Schema);
 gradesDB.find(function(error,docs){
     if(error){
@@ -87,7 +108,14 @@ gradesDB.find(function(error,docs){
 
 
 router.get('/tutorial',function(req, res, next) {
-
+var Schema = new mongoose.Schema({
+       courseNumber: String,
+       courseName:String,
+       score:Number,
+       credit:Number,
+       gradePoint:Number,
+       secondScore:Number
+});
 var gradesDB = global.db.model('grades',Schema);
 gradesDB.find(function(error,docs){
     if(error){
@@ -110,7 +138,14 @@ gradesDB.find(function(error,docs){
 }); 
 
 router.get('/classLists',function(req, res, next) {
-
+var Schema = new mongoose.Schema({
+       courseNumber: String,
+       courseName:String,
+       score:Number,
+       credit:Number,
+       gradePoint:Number,
+       secondScore:Number
+});
 var gradesDB = global.db.model('grades',Schema);
 gradesDB.find(function(error,docs){
     if(error){
@@ -134,7 +169,14 @@ gradesDB.find(function(error,docs){
 
 
 router.get('/classManagement',function(req, res, next) {
-
+var Schema = new mongoose.Schema({
+       courseNumber: String,
+       courseName:String,
+       score:Number,
+       credit:Number,
+       gradePoint:Number,
+       secondScore:Number
+});
 var gradesDB = global.db.model('grades',Schema);
 gradesDB.find(function(error,docs){
     if(error){
@@ -157,7 +199,14 @@ gradesDB.find(function(error,docs){
 }); 
 
 router.get('/gradesAudit',function(req, res, next) {
-
+var Schema = new mongoose.Schema({
+       courseNumber: String,
+       courseName:String,
+       score:Number,
+       credit:Number,
+       gradePoint:Number,
+       secondScore:Number
+});
 var gradesDB = global.db.model('grades',Schema);
 gradesDB.find(function(error,docs){
     if(error){
