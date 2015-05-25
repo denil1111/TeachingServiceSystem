@@ -47,42 +47,52 @@
   </div>	
 </div>
 <script type="text/JavaScript">
-  function CellToTable(tableID)
+var idTmr;
+
+function CellToTable(tableid)
 {
-   console.log("Output!");
-    try
-    {
-        // 加载ActiveX控件，获取Excel句柄
-        var exApp = new ActiveXObject("Excel.Application");
-        // 创建一个Excel文件
-        var ōWB = exApp.WorkBooks.add();
-        // 获取sheet1句柄CA
-        var exSheet = exApp.ActiveWorkBook.WorkSheets(1);
-        // 设置sheet1的名称
-        exSheet.name="演示复制表格到Excel中";
-        // copy指定的表格
-        var sel=document.body.createTextRange();
-        sel.moveToElementText(tableID);
-        sel.select();
-        sel.execCommand("Copy");
-        // 粘贴到sheet中
-        exSheet.Paste();
-        // 弹出保存对话框，保存Excel文件 
-        exApp.Save();
-        // 退出Excel实例
-        exApp.Quit();
-        exApp = null;
-        // 调用Cleanup（）进行垃圾回收
-        idTmr = window.setInterval("Cleanup();",10);
-    }catch(Exception)
-    {
-         //用户点击保存对话框中的取消按钮时会发生异常
+    console.log(tableid);
+    var curTbl = document.getElementById(tableid);
+    var oXL = new ActiveXObject("Excel.Application");
+    //创建AX对象excel 
+    var oWB = oXL.Workbooks.Add();
+    //获取workbook对象 
+    var xlsheet = oWB.Worksheets(1);
+    //激活当前sheet 
+    var sel = document.body.createTextRange();
+    sel.moveToElementText(curTbl);
+    //把表格中的内容移到TextRange中 
+    sel.select();
+    //全选TextRange中内容 
+    sel.execCommand("Copy");
+    //复制TextRange中内容  
+    xlsheet.Paste();
+    //粘贴到活动的EXCEL中       
+    oXL.Visible = true;
+    //设置excel可见属性
+
+    var course_name = "<%= course_name%>";
+    var course_time = "<%= course_time%>";
+    try {
+        var fname = oXL.Application.GetSaveAsFilename(course_name+".xls", "Excel Spreadsheets (*.xls), *.xls");
+    } catch (e) {
+        print("Nested catch caught " + e);
+    } finally {
+        oWB.SaveAs(fname);
+
+        oWB.Close(savechanges = false);
+        //xls.visible = false;
+        oXL.Quit();
+        oXL = null;
+        //结束excel进程，退出完成
+        //window.setInterval("Cleanup();",1);
+        idTmr = window.setInterval("Cleanup();", 1);
+
     }
 }
-// 函数功能：杀掉Excel进程
 function Cleanup() {
-          window.clearInterval(idTmr);
-          CollectGarbage();
+  window.clearInterval(idTmr);
+  CollectGarbage();
 }
   
 </script>
