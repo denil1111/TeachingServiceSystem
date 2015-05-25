@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var PersonModel = require('../db/group1db/PersonModel');
+var PersonModel = require('../../db/group1db/PersonModel');
 var formidable = require('formidable');
 var fs = require('fs');
 
@@ -18,7 +18,7 @@ var tmp={
 
 router.get('/personinsert', function(req, res,next) {
     if(!req.session.user){return res.redirect('login');}
-    res.render('personinsert',{
+    res.render('info/personinsert',{
         name: '程序员',
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
@@ -122,7 +122,7 @@ router.post('/personinsert',function(req,res,next){
         }
 
         if(userNameErr != '' || emailerr != '' || ageerr != '' || telerr != '' || passwordErr != '' || useridErr != ''){
-            res.render('personinsert',{
+            res.render('info/personinsert',{
                 name: '程序员',
                 image: 'images/avatars/avatar3.jpg',
                 total_a:'12',
@@ -152,7 +152,7 @@ router.post('/personinsert',function(req,res,next){
             if (err) {
                 res.locals.error = err;
                 console.log("Err:formidable.parse fail");
-                res.render('personinsert',{
+                res.render('info/personinsert',{
                     name: '程序员',
                     image: 'images/avatars/avatar3.jpg',
                     total_a:'12',
@@ -186,7 +186,7 @@ router.post('/personinsert',function(req,res,next){
             }
             if(extName.length == 0){
                 console.log("Err:invalid image type");
-                res.render('personinsert',{
+                res.render('info/personinsert',{
                     name: '程序员',
                     image: 'images/avatars/avatar3.jpg',
                     total_a:'12',
@@ -213,7 +213,7 @@ router.post('/personinsert',function(req,res,next){
             //console.log(files.fulAvatar);
             if(files.fulAvatar.size > 1000000){
                 console.log("Err:Too large image ");
-                res.render('personinsert',{
+                res.render('info/personinsert',{
                     name: '程序员',
                     image: 'images/avatars/avatar3.jpg',
                     total_a:'12',
@@ -262,7 +262,7 @@ router.post('/personinsert',function(req,res,next){
                 console.log('Perdata'+data);
                 if(err){
                     console.log("create err : "+err);
-                    res.render('personinsert',{
+                    res.render('info/personinsert',{
                         name: '程序员',
                         image: 'images/avatars/avatar3.jpg',
                         total_a:'12',
@@ -287,7 +287,7 @@ router.post('/personinsert',function(req,res,next){
                 else{
                     console.log('Saved by Model OK!');
                     console.log(doc.username);
-                    res.render('personinsert',{
+                    res.render('info/personinsert',{
                         name: '程序员',
                         image: 'images/avatars/avatar3.jpg',
                         total_a:'12',

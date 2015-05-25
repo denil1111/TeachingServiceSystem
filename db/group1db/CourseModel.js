@@ -6,6 +6,7 @@ var CourseSchema = new mongoose.Schema({
     courseterm  : {type : String},  //课程学期
     coursetime	: {type : String},	//上课时间
     coursescore	: {type : Number},	//课程学分
+    status      : {type : String, default : 'on'}, //课程状态，默认'on'，老师提交成绩后，为‘off’
     teacher     : {type : String},	//授课老师
     examtime	: {type : String},	//考试时间
     room        : {type : String},	//上课教室

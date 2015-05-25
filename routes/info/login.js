@@ -3,12 +3,11 @@ var router = express.Router();
 var mongoose = require('mongoose/');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var session = require('express-session');
 
-var PersonModel = require('../db/group1db/PersonModel');
+var PersonModel = require('../../db/group1db/PersonModel');
 
 router.get('/login',function(req,res,next){
-  res.render('login',{
+  res.render('info/login',{
     loginerror:""
   });
 });
@@ -16,12 +15,15 @@ router.get('/login',function(req,res,next){
 router.use(passport.initialize());
 router.use(passport.session());
 
+<<<<<<< HEAD:routes/login.js
 // router.use(session({
 //   secret: 'TeachingServerSystem',
 //   resave: false,
 //   saveUnintialized: false
 // }));
 
+=======
+>>>>>>> 12dd5ea16f203a71e7b043d708ffdae9e7df5eda:routes/info/login.js
 passport.use(new LocalStrategy(
     function(userid,password, done) {
       console.log('passport')

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var CourseModel = require('../db/group1db/CourseModel');
+var CourseModel = require('../../db/group1db/CourseModel');
 var tmp=[];
 // tmp.push({couresname:'initial_name',teacher:'initial_teacher',exametime:'initial_exametime',room:'initial_room',college:'initial_college'});
 
@@ -9,7 +9,7 @@ var tmp=[];
 
 router.get('/courseselect', function(req, res, next) {
 	if(!req.session.user){return res.redirect('login');}
-    res.render('courseselect',{
+    res.render('info/courseselect',{
     	name: '程序员', 
 		image: 'images/avatars/avatar3.jpg',
 		total_a:'12',
@@ -33,7 +33,7 @@ router.post('/courseselect',function(req, res, next){
 			console.log('find ok!'+data);
 		}
 		console.log('data : '+data.length);
-		res.render('courseselect',{
+		res.render('info/courseselect',{
 			name: '程序员', 
 			image: 'images/avatars/avatar3.jpg',
 			total_a:'12',

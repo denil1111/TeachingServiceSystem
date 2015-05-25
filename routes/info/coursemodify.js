@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose'); 
-var CourseModel = require('../db/group1db/CourseModel');
+var CourseModel = require('../../db/group1db/CourseModel');
 var tmp = {
     courseid2 : "123456",
     coursename : "软件工程",
@@ -12,9 +12,9 @@ var tmp = {
     college : "计算机学院"
 };
 
-router.get('/courseinsert', function(req, res,next) {
+router.get('/coursemodify', function(req, res,next) {
     if(!req.session.user){return res.redirect('login');}
-    res.render('courseinsert',{
+    res.render('info/coursemodify',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
@@ -25,12 +25,11 @@ router.get('/courseinsert', function(req, res,next) {
         credits:'4,6,2,4,6,2,0',
 
         data : tmp,
-        insertresult:'请提交表单'
+        modifyresult:'请提交表单'
     });
 });
 
-router.post('/courseinsert',function(req,res,next){
-    console.log("post:courseinsert");
+router.post('/coursemodify',function(req,res,next){
     var doc = {
             courseid2: req.body.courseid2,
             coursename  : req.body.coursename,
@@ -44,18 +43,13 @@ router.post('/courseinsert',function(req,res,next){
             college : req.body.college,
         };
 
-    console.log("doc length : "+doc.length);
-
-    console.log("doc : "+doc);
-    console.log("doc courseid2: "+doc.courseid2);
-    CourseModel.create(doc,function(err,data){
+    CourseModel.modifybyid(doc,function(err,data){
         if(err){
-            console.log("create err : "+err);
+            console.log("modify err : "+err);
         }
         else{
-            console.log('Saved by Model OK!');
             console.log(data);
-            res.render('courseinsert',{
+            res.render('info/coursemodify',{
                 name: '程序员', 
                 image: 'images/avatars/avatar3.jpg',
                 total_a:'12',
@@ -66,7 +60,7 @@ router.post('/courseinsert',function(req,res,next){
                 credits:'4,6,2,4,6,2,0',
 
                 data : doc,
-                insertresult:'表单提交成功！'
+                modifyresult:'表单提交成功！'
             });
         }
     });

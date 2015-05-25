@@ -4,33 +4,11 @@ var mongoose = require('mongoose/');
 
 var tmp=[];
 
-var PersonModel = require('../db/group1db/PersonModel');
+var PersonModel = require('../../db/group1db/PersonModel');
 
 router.get('/personselect', function(req, res, next) {
 	if(!req.session.user){return res.redirect('login');}
-	// console.log(req.session.user);
-	// console.log(req.session.user[0].username);
-	// PersonModel.findbyid(req.session.user[0].userid,function (err, user) {
- //        if (err) {
- //            console.log('find error!'+error);
- //        }
- //        if (!user) {
- //            console.log('user not found!');
- //        }
- //        res.render('personselect',{
-	// 		name: '程序员', 
-	// 		image: 'images/avatars/avatar3.jpg',
-	// 		total_a:'12',
-	// 		a:'2,3,1,2,3,1,0',
-	// 		total_b:'24',
-	// 		b:'4,6,2,4,6,2,0',
-	// 		total_credits:'24',
-	// 		credits:'4,6,2,4,6,2,0',
-
-	// 		person_data: user
-	// 	});
- //    }); 
-    res.render('personselect',{
+    res.render('info/personselect',{
 		name: '程序员', 
 		image: 'images/avatars/avatar3.jpg',
 		total_a:'12',
@@ -55,7 +33,7 @@ router.post('/personselect',function(req, res, next){
 		}
 		console.log("user : "+user.length);
 		console.log('user : '+user);
-		res.render('personselect',{
+		res.render('info/personselect',{
 			name: '程序员', 
 			image: 'images/avatars/avatar3.jpg',
 			total_a:'12',
