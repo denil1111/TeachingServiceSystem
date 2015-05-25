@@ -1,25 +1,32 @@
 <!doctype html>
 <html>
 <head>
-  <% include head.html %>
+  <% include ../head.html %>
+  <style>
+  .action-nav-button{
+    width: 15%;
+  }
+  </style>
+  <script>
+  $(document).ready(function(){
+    $('#stu1').editable();
+    $('#stu2').editable();
+    $('#stu3').editable();
+  });
+
+  </script>
 </head>
 <body>
 <!-- 上方选择条 navbar-top-->
-<% include navbar.html %>
+<% include ../navbar.html %>
 <!-- 侧边框 -->
-<% include slide.html%>
+<% include slide_course.html%>
 <script type="text/javascript">
    function setActive(){
     var active=document.getElementById('resource_share');
     active.className='active';
   }
   setActive();
-  
-  $(function() {
-    $( "tbody" ).sortable();
-    $( "tbody" ).disableSelection();
-  });
-
 </script>
 <!-- 主要内容 -->
 <div class="main-content">
@@ -34,10 +41,10 @@
     </div>
   </div>
 
-<div class="span10" style="margin-top:10px;">
+<div class="span10">
   <div class="box">
       <div class="box-header">
-        <div class="title">资源管理</div>
+        <div class="title">学生作业批改</div>
       </div>
 
       <div class="box-content padded">
@@ -52,26 +59,25 @@
                   </select>
                 </div>
               </div>
-
               <div class="control-group">
-                <label class="control-label span2" style="margin-top:20px;">课程名称</label>
+                <label class="control-label span2" style="margin-top:20px;">作业名称</label>
                 <div class="span6" style="margin-top:20px;">
                   <select class="chzn-select"  name="colors">
-                    <option value="周一12">周一12</option>
-                    <option value="周二12">周二12</option>
-                    <option value="周三12">周三12</option>
+                    <option value="ch1">第一章作业</option>
+                    <option value="ch2">第二章作业</option>
+                    <option value="ch3">第三章作业</option>
                   </select>
                 </div>
               </div>
       </form>
-      <table id="sortable" class="table table-normal">
+
+      <table class="table table-normal" style="margin-top:50px;">
       <thead>
       <tr>
         <td></td>
-        <td>资源名称</td>
-        <td style="width: 60px">资源类型</td>
-        <td style="width: 60px">资源大小</td>
-        <td>下载数</td>
+        <td>学号</td>
+        <td>姓名</td>
+        <td>分数</td>
         <td style="width: 40px"></td>
       </tr>
       </thead>
@@ -79,51 +85,43 @@
       <tbody>
       <tr>
         <td class="icon"><i class="icon-file"></i></td>
-        <td><a href="#">软件工程ch1</a></td>
-        <td><b>pdf</b></td>
-        <td><b>1.2M</b></td>
-        <td><b>100</b></td>
+        <td><a href="#">3120101284</a></td>
+        <td><b>李逸婷</b></td>
+        <td><a href="#" id="stu1" data-type="text" data-pk="1" data-name="username" data-original-title="Enter score">null</a></td>
         <td>
           <div class="btn-group">
-            <button class="btn btn-xs btn-default"><i class="icon-remove-sign"></i></button>
-            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
+            <a href="#" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="保存分数"><i class="icon-save"></i></a>
+            <a href="#" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="下载作业"><i class="icon-download-alt"></i></a>
           </div>
         </td>
       </tr>
 
       <tr>
         <td class="icon"><i class="icon-file"></i></td>
-        <td><a href="#">软件工程ch2</a></td>
-        <td><b>pdf</b></td>
-        <td><b>1.2M</b></td>
-        <td><b>20</b></td>
+        <td><a href="#">3120000575</a></td>
+        <td><b>张宇昊</b></td>
+        <td><a href="#" id="stu2" data-type="text" data-pk="1" data-original-title="Enter score">90</a></td>
         <td>
           <div class="btn-group">
-            <button class="btn btn-xs btn-default"><i class="icon-remove-sign"></i></button>
-            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
+            <a href="#" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="保存分数"><i class="icon-save"></i></a>
+            <a href="#" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="下载作业"><i class="icon-download-alt"></i></a>
           </div>
         </td>
       </tr>
             <tr>
         <td class="icon"><i class="icon-file"></i></td>
-        <td><a href="#">软件工程ch3</a></td>
-        <td><b>pdf</b></td>
-        <td><b>1.2M</b></td>
-        <td><b>50</b></td>
+        <td><a href="#">3120101273</a></td>
+        <td><b>冯喆</b></td>
+        <td><a href="#" id="stu3" data-type="text" data-pk="2" data-original-title="Enter score">90</a></td>
         <td>
           <div class="btn-group">
-            <button class="btn btn-xs btn-default"><i class="icon-remove-sign"></i></button>
-            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
+            <a href="#" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="保存分数"><i class="icon-save"></i></a>
+            <a href="#" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="下载作业"><i class="icon-download-alt"></i></a>
           </div>
         </td>
       </tr>
     </tbody>
   </table>
-
-  <button type="submit" class="btn btn-default" style="margin-top:20px;margin-left:20px;">保存设置</button>
-
-  <p style="font-size:12px;margin-top:20px;margin-left:20px;"><i class="icon-info-sign"></i>&nbsp拖动可以移动资源顺序</p>
-      
       </div>
   </div>
 </div>
