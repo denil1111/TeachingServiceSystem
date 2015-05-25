@@ -18,7 +18,12 @@ router.use(session({
   saveUnintialized: false
 }));
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5efbb34d2a0f93be6bc0703e02278442d2db1b2a
 /* GET home page. */
+router.all('/',isLoggedIn);
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
@@ -30,5 +35,12 @@ router.use('/', select);
 // router.get('/score', score);
 router.use('/grades', grades);
 
+function isLoggedIn(req, res, next) {
+	console.log("isLoggedIn");
+    if (req.isAuthenticated())
+        return next();
+
+    res.redirect('/info/login');
+}
 
 module.exports = router;

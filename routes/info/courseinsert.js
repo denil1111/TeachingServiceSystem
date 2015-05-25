@@ -35,7 +35,7 @@ router.post('/courseinsert',function(req,res,next){
             courseid2: req.body.courseid2,
             coursename  : req.body.coursename,
             courseterm : req.body.courseterm,
-            coursetime : req.body.coursetime,
+            coursetime : req.body.time,
             coursescore : req.body.coursescore,
             teacher : req.body.teacher,
             examtime : req.body.examtime,

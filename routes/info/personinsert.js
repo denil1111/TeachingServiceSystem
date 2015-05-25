@@ -17,6 +17,7 @@ var tmp={
 };
 
 router.get('/personinsert', function(req, res,next) {
+    // if (!req.isAuthenticated()){return res.redirect('/info/login');}
     if(!req.session.user){return res.redirect('login');}
     res.render('info/personinsert',{
         name: '程序员',

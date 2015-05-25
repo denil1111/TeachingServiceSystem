@@ -37,6 +37,7 @@ CourseSchema.statics.modifybyid = function(req, callback) {
                 courseterm : req.courseterm,
                 coursetime :req.coursetime,
                 coursescore : req.coursescore,
+                status : req.status,
                 teacher : req.teacher,
                 examtime : req.examtime,
                 room : req.room,
@@ -49,7 +50,18 @@ CourseSchema.statics.modifybyid = function(req, callback) {
 
 //给出cstlist = ['1234','3120'],返回所有id符合cstlist(中一条)的course
 CourseSchema.statics.findbylist = function(cstlist, callback) {
+    
     return this.model('CourseModel').find({courseid: {$in:cstlist}}, callback);
+}
+
+CourseSchema.statics.statusoff = function(courseid, callback) {
+    return this.model('CourseModel').update(
+        {courseid: courseid},
+        {
+            $set:{ status : 'off' }
+        },
+        callback);
+
 }
 
 var CourseModel = mongoose.model('CourseModel',CourseSchema,CollectionName);
