@@ -64,8 +64,9 @@
       <tbody>
     <% for(i=0;i<cliston.length;i++) { %> 
       <% if(cliston[i].status=="on"){ %>
+      <form name="input" action="classManagement" method="post">
       <tr class="status-pending">
-        <td><%=cliston[i].courseid %></a></td>
+        <td><input name="courseid"  value=<%=cliston[i].courseid %> readonly></td>
         <td><%=cliston[i].coursename %></td>
         <td><%=cliston[i].coursetime %></td>
         <td><%=cliston[i].courseterm %></td>
@@ -73,14 +74,12 @@
         <td> 90</td>
         <td>
           <div class="btn-group">
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><a href="classManagement">学生信息与成绩</a></li>
-            </ul>
+            <button class="btn btn-xs btn-default dropdown-toggle" type="submit" ><i class="icon-cog"></i></button>
           </div>
         </td>
       </tr>
-        <% } }%>
+         </form>
+        <% }}%>
       </tbody>
 
     </table>
@@ -116,7 +115,7 @@
        <%  if(clistoff[i].status=="off") { %>
       <form name="input" action="classManagement" method="post">
       <tr class="status-pending">
-        <td><input type="text" name="courseid"  value=<%=clistoff[i].courseid %>></td>
+        <td><input name="courseid"  value=<%=clistoff[i].courseid %> readonly ></td>
         <td><%=clistoff[i].coursename %></td>
         <td><%=clistoff[i].coursetime %></td>
         <td><%=clistoff[i].courseterm %></td>
@@ -124,10 +123,7 @@
         <td> 90</td>
         <td>
           <div class="btn-group">
-            <button  class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><button type="submit">学生信息与成绩<button></li>
-            </ul>
+            <button class="btn btn-xs btn-default dropdown-toggle" type="submit" ><i class="icon-cog"></i></button>
           </div>
         </td>
       </tr>

@@ -17,20 +17,20 @@ var CourseSchema = new mongoose.Schema({
 });
 var CollectionName = 'courses';
 
-CourseSchema.statics.findbyid = function(courseid2, callback) {
-    return this.model('CourseModel').find({courseid2: courseid2}, callback);
+CourseSchema.statics.findbyid = function(courseid, callback) {
+    return this.model('CourseModel').find({courseid: courseid}, callback);
 }
 CourseSchema.statics.findbyname = function(coursename, callback) {
     return this.model('CourseModel').find({coursename: coursename}, callback);
 }
 
-CourseSchema.statics.deletebyid = function(courseid2, callback) {
-    return this.model('CourseModel').remove({courseid2: courseid2}, callback);
+CourseSchema.statics.deletebyid = function(courseid, callback) {
+    return this.model('CourseModel').remove({courseid: courseid}, callback);
 }
 
 CourseSchema.statics.modifybyid = function(req, callback) {
     return this.model('CourseModel').update(
-        {courseid2: req.courseid2},
+        {courseid: req.courseid},
         {
             $set:{
                 coursename : req.coursename,

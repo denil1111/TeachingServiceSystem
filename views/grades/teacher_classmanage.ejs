@@ -39,9 +39,14 @@
 <div class="span10">
 <div class="box">
   <div class="box-header">
-    <span class="title">微积分I, 2014-2015学年, 春夏学期</span>
+    
+    <span class="title"><%=courses[0].coursename%></span>
     <ul class="box-toolbar">
+      <%if(courses[0].status=="on"){%>
       <li><span class="label label-green">进行中</span></li>
+       <%} else if(courses[0].status=="off"){%>
+       <li><span class="label label-red">已完结</span></li>
+        <%}%>
     </ul>
   </div>
   <div class="box-content">
@@ -56,188 +61,26 @@
       </tr>
       </thead>
 
-      <tbody>
+      <tbody>   
+       <% for(i=0;i<data.length;i++){%>
+      <form name="input" action="classManagement" method="post">
       <tr class="status-pending">
-        <td>3120102222</a></td>
-        <td>张亮</td>
-        <td>计算机科学与技术</td>
-        <td></td>
+        <td><%=studentslist[i].userid%></a></td>
+        <td><%=studentslist[i].username%></td>
+        <td><%=studentslist[i].major%></td>
+        <td><input type="text" name="score" value=<%=data[i].score%>></td>
         <td>
           <div class="btn-group">
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><a href="#">录入成绩</a></li>
-            </ul>
+            <button class="btn btn-xs btn-default dropdown-toggle" type="submit"><i class="icon-cog"> 修改</i></button>
           </div>
         </td>
       </tr>
+      </form>
+      <%}%>
       </tbody>
     </table>
   </div>
 </div>
-
-
-
-</div>
-
-<div class="span10">
-<div class="box">
-  <div class="box-header">
-    <span class="title">微积分I, 2013-2014学年, 春夏学期</span>
-    <ul class="box-toolbar">
-      <li><span class="label label-red">已完结</span></li>
-    </ul>
-  </div>
-  <div class="box-content">
-    <table class="table table-normal">
-      <thead>
-      <tr>
-        <td>学号</td>
-        <td>姓名</td>
-        <td>专业</td>
-        <td>成绩</td>
-        <td style="width: 40px"></td>
-      </tr>
-      </thead>
-
-      <tbody>
-      <tr class="status-pending">
-        <td>3120102222</a></td>
-        <td>张亮</td>
-        <td>计算机科学与技术</td>
-        <td>90</td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><a href="#">修改成绩</a></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-
-        <tr class="status-pending">
-        <td>3120102322</a></td>
-        <td>白客</td>
-        <td>计算机科学与技术</td>
-        <td>95</td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><a href="#">修改成绩</a></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-
-        <tr class="status-pending">
-        <td>3120102111</a></td>
-        <td>孔女神</td>
-        <td>计算机科学与技术</td>
-        <td>80</td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><a href="#">修改成绩</a></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-
-      <tr class="status-pending">
-        <td>3120102111</a></td>
-        <td>孔女神</td>
-        <td>计算机科学与技术</td>
-        <td>75</td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><a href="#">修改成绩</a></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-
-      <tr class="status-pending">
-        <td>3120102111</a></td>
-        <td>孔女神</td>
-        <td>计算机科学与技术</td>
-        <td>55</td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><a href="#">修改成绩</a></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-
-      <tr class="status-pending">
-        <td>3120102111</a></td>
-        <td>孔女神</td>
-        <td>计算机科学与技术</td>
-        <td>90</td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><a href="#">修改成绩</a></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-
-      <tr class="status-pending">
-        <td>3120102111</a></td>
-        <td>孔女神</td>
-        <td>计算机科学与技术</td>
-        <td>97</td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><a href="#">修改成绩</a></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-
-      <tr class="status-pending">
-        <td>3120102111</a></td>
-        <td>孔女神</td>
-        <td>计算机科学与技术</td>
-        <td>95</td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><a href="#">修改成绩</a></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-
-      <tr class="status-pending">
-        <td>3120102111</a></td>
-        <td>孔女神</td>
-        <td>计算机科学与技术</td>
-        <td>90</td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><a href="#">修改成绩</a></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
 </div>
 </div>
 

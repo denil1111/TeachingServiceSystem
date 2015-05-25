@@ -230,25 +230,23 @@ gradesDB.find(criteria,function(error,grades){
         return;
     }
     
-//    console.log("should below this line ---------");
-//    console.log(docs);
-   var studentlist=[]; 
+    var studentList=[];
     
-   for(var i=0;i<grades.length;i++){  
-     PersonModel.find({userid:grades[i].userid},function(error,persons){
-        if(error){
-        console.log(error);
-        return;
-        }
-       studentlist.push(persons[0]);  
-       //console.log(persons[0]);
-     });
+    for(var i=0;i<grades.length;i++){
+      studentList.push(grades[i].userid);
+    }
+    
+    
+   PersonModel.findbylist(studentList,function(error,persons){
      
-   }
-   
-    console.log("what is" + studentlist[0]);
-  
-  res.render('grades/teacher_classmanage', {
+        // console.log("what is" + persons);
+   CourseModel.findbyid(req.body.courseid,function(error,courses){
+     
+     
+     // console.log("what is persons:" + persons);
+      //console.log("what is courses:" + courses);
+      //console.log("what is grades:" + grades);
+    res.render('grades/teacher_classmanage', {
   	name: '程序员', 
   	image: 'images/avatars/avatar1.jpg',
   	total_a:'12',
@@ -258,8 +256,12 @@ gradesDB.find(criteria,function(error,grades){
   	total_credits:'24',
   	credits:'4,6,2,4,6,2,0',
     data:grades,
-    studentslist:studentlist
-  });
+    studentslist:persons,
+    courses:courses
+  });   
+   });
+   });
+    
   }); 
 }); 
 

@@ -18,10 +18,7 @@ router.use(session({
   saveUnintialized: false
 }));
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 5efbb34d2a0f93be6bc0703e02278442d2db1b2a
 /* GET home page. */
 router.all('/',isLoggedIn);
 router.get('/', function(req, res, next) {
