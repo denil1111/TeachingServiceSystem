@@ -22,7 +22,8 @@ passport.use(new LocalStrategy(
      if (err) {
        return done(err);
      }
-     if (!user) {
+     if (!user || user == '') {
+      console.log('user empty!');
        return done(null, false);
      }
      console.log("user.password : "+user.password);
@@ -39,7 +40,7 @@ router.post('/login',function(req, res, next){
     if(err){return(err);}
     if(user=="" | !user){
       console.log("user : NULL");
-      res.render('login',{
+      res.render('info/login',{
         loginerror:"学号/密码错误"
       });
     }
