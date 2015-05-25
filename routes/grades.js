@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose=require('mongoose');
 
+//这里require数据库
 var gradesDB = require('../db/group6db/gradesDB.js');
 var PersonModel = require('../db/group1db/PersonModel');
 var CourseModel = require('../db/group1db/CourseModel');
@@ -22,7 +23,7 @@ criteria.userid = req.session.user[0].userid;
 // console.log(req.session.user[0].userid);
 
 if(req.session.user[0].status=="student"){
-
+//这里使用数据库
  gradesDB.find(criteria,function(error,docs){
      if(error){
          console.log(error);
@@ -43,7 +44,8 @@ if(req.session.user[0].status=="student"){
  });
 }
 else if (req.session.user[0].status=="teacher"){
-  
+ 
+ 
   res.render('grades/teacher_classlist', {
     name: '程序员', 
     image: 'images/avatars/avatar1.jpg',
@@ -54,6 +56,7 @@ else if (req.session.user[0].status=="teacher"){
     total_credits:'24',
     credits:'4,6,2,4,6,2,0'
    });
+ 
 }
 
 else if(req.session.user[0].status=="admin"){
