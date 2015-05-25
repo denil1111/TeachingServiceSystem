@@ -11,8 +11,8 @@ var mongoose = require('mongoose');
 
 
 var studentGradeSchema = new mongoose.Schema({
-courseid    : String,  //¿Î³Ìid
-userid      : String,  //Ñ§¹¤ºÅ unique
+courseid    : String,  
+userid      : String,  
 score       : Number,
 gradePoint  : Number,
 secondScore : Number

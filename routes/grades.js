@@ -45,8 +45,24 @@ if(req.session.user[0].status=="student"){
 }
 else if (req.session.user[0].status=="teacher"){
  
- 
-  res.render('grades/teacher_classlist', {
+ CourseModel.findbylist(req.session.user[0].cstlist,function(error,clist){
+    if(error){
+         console.log(error);
+         return;
+     }
+    var cliston=[];
+    var clistoff=[]; 
+    
+    for(var i=0;i<clist.length;i++){
+      if(clist[i].status=="on"){
+        cliston.push(clist[i]);
+      }
+      else if(clist[i].status=="off"){
+        clistoff.push(clist[i]);
+      }
+    }
+   
+    res.render('grades/teacher_classlist', {
     name: '程序员', 
     image: 'images/avatars/avatar1.jpg',
     total_a:'12',
@@ -54,8 +70,14 @@ else if (req.session.user[0].status=="teacher"){
     total_b:'24',
     b:'4,6,2,4,6,2,0',
     total_credits:'24',
-    credits:'4,6,2,4,6,2,0'
-   });
+    credits:'4,6,2,4,6,2,0',
+    cliston: cliston,
+    clistoff:clistoff
+   });  
+   
+ });
+ 
+
  
 }
 
@@ -158,37 +180,73 @@ router.get('/classLists',function(req, res, next) {
 if(!req.session.user){return res.redirect('../info/login');}
 
 
-gradesDB.find(function(error,docs){
+CourseModel.findbylist(req.session.user[0].cstlist,function(error,clist){
     if(error){
-        console.log(error);
-        return;
+         console.log(error);
+         return;
+     }
+    var cliston=[];
+    var clistoff=[]; 
+    
+    for(var i=0;i<clist.length;i++){
+      if(clist[i].status=="on"){
+        cliston.push(clist[i]);
+      }
+      else if(clist[i].status=="off"){
+        clistoff.push(clist[i]);
+      }
     }
-  
-  res.render('grades/teacher_classlist', {
-  	name: '程序员', 
-  	image: 'images/avatars/avatar1.jpg',
-  	total_a:'12',
-  	a:'2,3,1,2,3,1,0',
-  	total_b:'24',
-  	b:'4,6,2,4,6,2,0',
-  	total_credits:'24',
-  	credits:'4,6,2,4,6,2,0',
-    data:docs
-  });
-  }); 
+   
+    res.render('grades/teacher_classlist', {
+    name: '程序员', 
+    image: 'images/avatars/avatar1.jpg',
+    total_a:'12',
+    a:'2,3,1,2,3,1,0',
+    total_b:'24',
+    b:'4,6,2,4,6,2,0',
+    total_credits:'24',
+    credits:'4,6,2,4,6,2,0',
+    cliston: cliston,
+    clistoff:clistoff
+   });  
+   
+ });
 }); 
 
 
-router.get('/classManagement',function(req, res, next) {
+router.post('/classManagement',function(req, res, next) {
 
 if(!req.session.user){return res.redirect('../info/login');}
 
+var criteria = {courseid : req.body.courseid};
 
-gradesDB.find(function(error,docs){
+   // console.log("what is req:"+req.body.courseid);
+
+
+
+gradesDB.find(criteria,function(error,grades){
     if(error){
         console.log(error);
         return;
     }
+    
+//    console.log("should below this line ---------");
+//    console.log(docs);
+   var studentlist=[]; 
+    
+   for(var i=0;i<grades.length;i++){  
+     PersonModel.find({userid:grades[i].userid},function(error,persons){
+        if(error){
+        console.log(error);
+        return;
+        }
+       studentlist.push(persons[0]);  
+       //console.log(persons[0]);
+     });
+     
+   }
+   
+    console.log("what is studentlist" + studentlist[0]);
   
   res.render('grades/teacher_classmanage', {
   	name: '程序员', 
@@ -199,7 +257,8 @@ gradesDB.find(function(error,docs){
   	b:'4,6,2,4,6,2,0',
   	total_credits:'24',
   	credits:'4,6,2,4,6,2,0',
-    data:docs
+    data:grades,
+    studentslist:studentlist
   });
   }); 
 }); 

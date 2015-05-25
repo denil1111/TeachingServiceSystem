@@ -37,9 +37,12 @@
   </div>
 
 <div class="span10">
+  
+
+
 <div class="box">
   <div class="box-header">
-    <span class="title">成绩修改申请</span>
+    <span class="title">进行中课程</span>
     <ul class="box-toolbar">
       <li><span class="label label-green">进行中</span></li>
     </ul>
@@ -59,13 +62,15 @@
       </thead>
 
       <tbody>
+    <% for(i=0;i<cliston.length;i++) { %> 
+      <% if(cliston[i].status=="on"){ %>
       <tr class="status-pending">
-        <td>212312321</a></td>
-        <td>微积分I</td>
-        <td>周三1、2节</td>
-        <td>春夏</td>
-        <td>曹楼201</td>
-        <td>90</td>
+        <td><%=cliston[i].courseid %></a></td>
+        <td><%=cliston[i].coursename %></td>
+        <td><%=cliston[i].coursetime %></td>
+        <td><%=cliston[i].courseterm %></td>
+        <td><%=cliston[i].room %></td>
+        <td> 90</td>
         <td>
           <div class="btn-group">
             <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
@@ -75,29 +80,65 @@
           </div>
         </td>
       </tr>
-      <tr class="status-pending">
-        <td>212312321</a></td>
-        <td>微积分II</td>
-        <td>周三3、4节</td>
-        <td>春夏</td>
-        <td>曹楼201</td>
-        <td>90</td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><a href="classManagement">学生信息与成绩</a></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-
-        
+        <% } }%>
       </tbody>
+
     </table>
   </div>
 </div>
 
+
+  
+
+
+<div class="box">
+  <div class="box-header">
+    <span class="title">已完结课程</span>
+    <ul class="box-toolbar">
+      <li><span class="label label-red">已完结</span></li>
+    </ul>
+  </div>
+  <div class="box-content">
+    <table class="table table-normal">
+      <thead>
+      <tr>
+        <td>课程编号</td>
+        <td>课程名称</td>
+        <td>上课时间</td>
+        <td>学期</td>
+        <td>上课地点</td>
+        <td>教学班人数</td>
+        <td>教学班管理</td>
+      </tr>
+      </thead>
+      <tbody>
+       <% for(i=0;i<clistoff.length;i++) { %> 
+       <%  if(clistoff[i].status=="off") { %>
+      <form name="input" action="classManagement" method="post">
+      <tr class="status-pending">
+        <td><input type="text" name="courseid"  value=<%=clistoff[i].courseid %>></td>
+        <td><%=clistoff[i].coursename %></td>
+        <td><%=clistoff[i].coursetime %></td>
+        <td><%=clistoff[i].courseterm %></td>
+        <td><%=clistoff[i].room %></td>
+        <td> 90</td>
+        <td>
+          <div class="btn-group">
+            <button  class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
+            <ul class="dropdown-menu">
+              <li><button type="submit">学生信息与成绩<button></li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+       </form>
+       <%}%>
+       <%}%>
+
+      </tbody>
+    </table>
+  </div>
+</div>
 
 
 </div>
