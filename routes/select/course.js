@@ -17,7 +17,7 @@ course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', s
 router.get('/course', function(req, res, next) {
   console.log(course.ejs);
   res.render('select/course', {
-    type:1,//tearcher
+    type:2,//manager
   	name: '程序员', 
   	image: 'images/avatars/avatar3.jpg',
   	total_a:'12',
@@ -40,7 +40,7 @@ router.post('/course_search', function(req, res, next) {
       }
       //关闭数据库链接
       res.render('select/course', {
-        type:1,//tearcher
+        type:2,//manager
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
@@ -74,7 +74,7 @@ my_course.push({course_id:"000001",ID:"00002",name:'软件工程',teacher:'XX2',
 router.get('/my_course', function(req, res, next) {
   console.log(my_course.ejs);
   res.render('select/my_course', {
-    type:1,//tearcher
+    type:2,//manager
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
@@ -102,7 +102,7 @@ router.post('/my_course_search', function(req, res, next) {
   //     }
       //关闭数据库链接
   res.render('select/my_course', {
-    type:1,//tearcher
+    type:2,//manager
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
@@ -149,7 +149,7 @@ major.push("自动化控制");
 router.get('/dev_plan', function(req, res, next) {
   console.log(course.ejs);
   res.render('select/dev_plan', {
-    type:1,//tearcher
+    type:2,//manager
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
@@ -169,7 +169,7 @@ router.get('/dev_plan', function(req, res, next) {
 router.post('/dev_plan', function(req, res, next) {
   console.log(req.body);
   res.render('select/dev_plan', {
-    type:1,//tearcher
+    type:2,//manager
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
@@ -196,7 +196,7 @@ my_dev_plan_gen.push({ID:"0015345",name:"B/S软件设计",time:"大三 夏",cred
 router.get('/my_dev_plan', function(req, res, next) {
   console.log(course.ejs);
   res.render('select/my_dev_plan', {
-    type:1,//tearcher
+    type:2,//manager
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
@@ -217,7 +217,7 @@ router.get('/my_dev_plan', function(req, res, next) {
 router.post('/my_dev_plan_add', function(req, res, next) {
     console.log(req.body);
     res.render('select/my_dev_plan', {
-        type:1,//tearcher 
+        type:2,//manager 
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
@@ -238,7 +238,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
 router.post('/choose', function(req, res, next) {
   console.log(req.body);
   res.render('select/choose', {
-    type:1,//tearcher
+    type:2,//manager
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
