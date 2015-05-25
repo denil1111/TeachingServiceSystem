@@ -59,7 +59,7 @@ router.post('/personinsert',function(req,res,next){
             photo: '',
             userid  : fields.userid,
             username : fields.username,
-            userpassword : fields.password1,
+            password : fields.password1,
             status : fields.status,
             sex : fields.sex,
             age : fields.age,
@@ -278,7 +278,7 @@ router.post('/personinsert',function(req,res,next){
                     //     tel : fields.tel,
                     //     email : fields.email
                     // };
-                    console.log("doc:"+doc.username);
+                    console.log("doc password:"+doc.password);
                     PersonModel.create(doc,function(err,data){
                         console.log('err'+err);
                         console.log('Perdata'+data);
