@@ -190,7 +190,7 @@ major.push("自动化控制");
 router.get('/dev_plan', function(req, res, next) {
   console.log(course.ejs);
   res.render('select/dev_plan', {
-    type:1,//tearcher
+    type:0,//tearcher
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
@@ -237,7 +237,7 @@ my_dev_plan_gen.push({ID:"0015345",name:"B/S软件设计",time:"大三 夏",cred
 router.get('/my_dev_plan', function(req, res, next) {
   console.log(course.ejs);
   res.render('select/my_dev_plan', {
-    type:1,//tearcher
+    type:0,//tearcher
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
