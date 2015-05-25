@@ -67,10 +67,8 @@
                 <table width="100%" class="table table-normal" style="text-align:center;">
                   <thead>
                     <tr>
-                      <td style="width:50%">通识课所属类别</td>
-                      <td style="width:15%">毕业最低学分</td>
-                      <td style="width:15%">已修学分</td>
-                      <td style="width:20%">是否满足要求</td>
+                      <td style="width:70%">通识课所属类别</td>
+                      <td style="width:30%">毕业最低学分</td>
                     </tr>
                   </thead>
                   <tbody>
@@ -78,13 +76,6 @@
                     <tr>
                       <td><%= dev_plan_gen[i].name %></td>
                       <td><%= dev_plan_gen[i].min_credits %></td>
-                      <td><%= dev_plan_gen[i].credits %></td>
-                      <%if(dev_plan_gen[i].min_credits<=dev_plan_gen[i].credits) {%>
-                      <td><i class="icon-ok" style="color:green;"></i></td>
-                      <%}%>
-                      <%if(dev_plan_gen[i].min_credits>dev_plan_gen[i].credits) {%>
-                      <td><i class="icon-remove" style="color:red;"></i></td>
-                      <%}%>
                     </tr>
                     <%}%>
                   </tbody>  
@@ -105,8 +96,7 @@
                           <td style="width:20%">课程序号</td>
                           <td style="width:35%">课程名称</td>
                           <td style="width:15%">推荐完成学期</td>
-                          <td style="width:10%">课程学分</td>
-                          <td style="width:10%">完成</td>
+                          <td style="width:20%">课程学分</td>
                         </tr>
                       </thead>
                       <tbody>
@@ -116,12 +106,6 @@
                           <td><a href="/select/course/<%= dev_plan_req[i].ID%>" target="view_window"><%= dev_plan_req[i].name %></a></td>
                           <td><%= dev_plan_req[i].time %></td>
                           <td><%= dev_plan_req[i].credit %></td>
-                          <%if(dev_plan_req[i].complete) {%>
-                          <td><i class="icon-ok" style="color:green;"></i></td>
-                          <%}%>
-                          <%if(!dev_plan_req[i].complete) {%>
-                          <td><i class="icon-remove" style="color:red;"></i></td>
-                          <%}%>
                         </tr>
                         <%}%>
                       </tbody>  
@@ -139,22 +123,15 @@
                 <ul>
                   <% for(var i=0;i<dev_plan_elec_class.length;i++){%>
                   <li style="margin-bottom:25px;">
-                    <span><%=dev_plan_elec_class[i].classification%> (最低 <%= dev_plan_elec_class[i].min_credits %> 学分,已完成 <%=dev_plan_elec_class[i].credits %> 学分) 
+                    <span><%=dev_plan_elec_class[i].classification%> (最低 <%= dev_plan_elec_class[i].min_credits %> 学分) 
                     </span>
-                    <%if(dev_plan_elec_class[i].min_credits<=dev_plan_elec_class[i].credits) {%>
-                    <i class="icon-ok" style="color:green;"></i>
-                    <%}%>
-                    <%if(dev_plan_elec_class[i].min_credits>dev_plan_elec_class[i].credits) {%>
-                    <i class="icon-remove" style="color:red;"></i>
-                    <%}%>
                     <table width="100%" class="table table-normal" style="text-align:center;">
                       <thead>
                         <tr>
                           <td style="width:20%">课程序号</td>
                           <td style="width:35%">课程名称</td>
                           <td style="width:15%">推荐完成学期</td>
-                          <td style="width:10%">课程学分</td>
-                          <td style="width:10%">完成</td>
+                          <td style="width:20%">课程学分</td>
                         </tr>
                       </thead>
                       <tbody>
@@ -164,12 +141,6 @@
                           <td><a href="/select/course/<%= dev_plan_elec[i][j].ID%>" target="view_window"><%= dev_plan_elec[i][j].name %></a></td>
                           <td><%= dev_plan_elec[i][j].time %></td>
                           <td><%= dev_plan_elec[i][j].credit %></td>
-                          <%if(dev_plan_elec[i][j].complete) {%>
-                          <td><i class="icon-ok"></i></td>
-                          <%}%>
-                          <%if(!dev_plan_elec[i][j].complete) {%>
-                          <td><i class="icon-remove"></i></td>
-                          <%}%>
                         </tr>
                         <%}%>
                       </tbody>  

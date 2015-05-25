@@ -17,7 +17,7 @@ course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', s
 router.get('/course', function(req, res, next) {
   console.log(course.ejs);
   res.render('select/course', {
-    type:1,//tearcher
+    type:2,//manager
   	name: '程序员', 
   	image: 'images/avatars/avatar3.jpg',
   	total_a:'12',
@@ -79,7 +79,7 @@ router.post('/course_search', function(req, res, next) {
       console.log(result);
       //关闭数据库链接
       res.render('select/course', {
-        type:1,//tearcher
+        type:2,//manager
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
@@ -115,7 +115,7 @@ my_course.push({course_id:"000001",ID:"00002",name:'软件工程',teacher:'XX2',
 router.get('/my_course', function(req, res, next) {
   console.log(my_course.ejs);
   res.render('select/my_course', {
-    type:1,//tearcher
+    type:1,//manager
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
@@ -143,7 +143,7 @@ router.post('/my_course_search', function(req, res, next) {
   //     }
       //关闭数据库链接
   res.render('select/my_course', {
-    type:1,//tearcher
+    type:2,//manager
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
@@ -190,7 +190,7 @@ major.push("自动化控制");
 router.get('/dev_plan', function(req, res, next) {
   console.log(course.ejs);
   res.render('select/dev_plan', {
-    type:0,//tearcher
+    type:2,//manager
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
@@ -210,7 +210,7 @@ router.get('/dev_plan', function(req, res, next) {
 router.post('/dev_plan', function(req, res, next) {
   console.log(req.body);
   res.render('select/dev_plan', {
-    type:1,//tearcher
+    type:2,//manager
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
@@ -258,7 +258,7 @@ router.get('/my_dev_plan', function(req, res, next) {
 router.post('/my_dev_plan_add', function(req, res, next) {
     console.log(req.body);
     res.render('select/my_dev_plan', {
-        type:1,//tearcher 
+        type:2,//manager 
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
@@ -279,7 +279,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
 router.post('/choose', function(req, res, next) {
   console.log(req.body);
   res.render('select/choose', {
-    type:1,//tearcher
+    type:2,//manager
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
@@ -448,5 +448,29 @@ router.get('/course_list/:courseID', function(req, res, next){
     students:students,
     name: '程序员', 
     image: '../images/avatars/avatar3.jpg'
+  });
+});
+
+//选课时间确定
+choose_time=[];
+choose_time.push({start_time:"2015/01/01",end_time:"2015/02/02",isChoose:true,isCancell:true,ID:1});
+choose_time.push({start_time:"2015/03/01",end_time:"2015/04/02",isChoose:true,isCancell:false,ID:2});
+//ID为主键
+router.get('/time', function(req, res, next) {
+  console.log(course.ejs);
+  res.render('select/time', {
+    type:2,//manager
+    name: '程序员', 
+    image: 'images/avatars/avatar3.jpg',
+    choose_time:choose_time
+  });
+});
+router.post('/time', function(req, res, next) {
+  console.log(req.body);
+  res.render('select/time', {
+    type:2,//manager
+    name: '程序员', 
+    image: 'images/avatars/avatar3.jpg',
+    choose_time:choose_time
   });
 });
