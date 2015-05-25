@@ -251,7 +251,7 @@
     <td style="width:50px;text-align:center;"><input type="checkbox" name="choose"></td>
     <td><a href="{{if isFolder}}javascript:void(0){{else}}#{{/if}}" {{if isFolder}} data-view="enterFolder" name="${text}" {{/if}}>${text}</a></td>
     <td><b>${ext}</b></td>
-    <td><b>${size}</b></td>
+    <td><b>${formsize}</b></td>
     <td><b>${courseName}</b></td>
     <td>
         <div class="btn-group">
@@ -300,7 +300,7 @@
             $("#fileList").empty();
             for(var i=0;i<_nowDir.length;i++){
                 _nowDir[i].order=i;
-                _nowDir[i].size=formSize(_nowDir[i].size);
+                _nowDir[i].formsize=formSize(_nowDir[i].size);
                 $("#fileListTpl").tmpl(_nowDir[i]).appendTo("#fileList");
             }
         };
