@@ -56,5 +56,10 @@ PersonSchema.statics.modifybyid = function(req, callback) {
         callback);
 }
 
+PersonSchema.statics.findbylist = function(stulist, callback) {
+    return this.model('PersonModel').find({userid: {$in:stulist}}, callback);
+}
+
+
 var PersonModel = mongoose.model('PersonModel',PersonSchema,CollectionName);
 module.exports=PersonModel;
