@@ -25,7 +25,6 @@ PersonSchema.statics.findbyid = function(userid, callback) {
      return this.model('PersonModel').find({userid: userid}, callback);
 }
 
-
 PersonSchema.statics.findbyname = function(username, callback) {
      return this.model('PersonModel').find({username: username}, callback);
 }
@@ -56,8 +55,24 @@ PersonSchema.statics.modifybyid = function(req, callback) {
         callback);
 }
 
-PersonSchema.statics.findbylist = function(stulist, callback) {
-    return this.model('PersonModel').find({userid: {$in:stulist}}, callback);
+PersonSchema.statics.findbylist = function(userlist, callback) {
+    return this.model('PersonModel').find({userid: {$in:userlist}}, callback);
+}
+
+PersonSchema.statics.findbyorderlist = function(userlist, callback) {
+    var list=[];
+    for(var i=0;i<userlist.length;i++){
+        this.model('PersonModel').find({userid:userlist[i].userid},function(err,data){
+            if(err){
+                console.log(err);
+                return NULL;
+            }
+            else{
+                list.push(data);
+            }
+        });
+    }
+    return list;
 }
 
 
