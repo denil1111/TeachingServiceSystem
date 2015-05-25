@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var formidable = require('formidable');
 var fs = require('fs');
-var PersonModel = require('../db/group1db/PersonModel');
+var PersonModel = require('../../db/group1db/PersonModel');
 
 var tmp={
     userid:"3120",
@@ -18,7 +18,7 @@ var tmp={
 
 router.get('/personmodify', function(req, res,next) {
     if(!req.session.user){return res.redirect('login');}
-    res.render('personmodify',{
+    res.render('info/personmodify',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
@@ -119,7 +119,7 @@ router.post('/personmodify',function(req,res,next){
         }
 
         if(userNameErr != '' || emailerr != '' || ageerr != '' || telerr != '' || passwordErr != '' || useridErr != ''){
-            res.render('personinsert',{
+            res.render('info/personinsert',{
                 name: '程序员',
                 image: 'images/avatars/avatar3.jpg',
                 total_a:'12',
@@ -147,7 +147,7 @@ router.post('/personmodify',function(req,res,next){
             if (err) {
                 res.locals.error = err;
                 console.log("Err:formidable.parse fail");
-                res.render('personmodify',{
+                res.render('info/personmodify',{
                     name: '程序员',
                     image: 'images/avatars/avatar3.jpg',
                     total_a:'12',
@@ -180,7 +180,7 @@ router.post('/personmodify',function(req,res,next){
             }
             if(extName.length == 0){
                 console.log("Err:invalid image type");
-                res.render('personmodify',{
+                res.render('info/personmodify',{
                     name: '程序员',
                     image: 'images/avatars/avatar3.jpg',
                     total_a:'12',
@@ -205,7 +205,7 @@ router.post('/personmodify',function(req,res,next){
             //console.log(files.fulAvatar);
             if(files.fulAvatar.size > 1000000){
                 console.log("Err:Too large image ");
-                res.render('personmodify',{
+                res.render('info/personmodify',{
                     name: '程序员',
                     image: 'images/avatars/avatar3.jpg',
                     total_a:'12',
@@ -247,7 +247,7 @@ router.post('/personmodify',function(req,res,next){
             PersonModel.modifybyid(doc,function(err,data){
                 if(err){
                     console.log("modify err : "+err);
-                    res.render('personmodify',{
+                    res.render('info/personmodify',{
                         name: '程序员',
                         image: 'images/avatars/avatar3.jpg',
                         total_a:'12',
@@ -271,7 +271,7 @@ router.post('/personmodify',function(req,res,next){
                     console.log('data'+data);
                     console.log('Update Model OK!');
                     console.log(doc.username);
-                    res.render('personmodify',{
+                    res.render('info/personmodify',{
                         name: '程序员',
                         image: 'images/avatars/avatar3.jpg',
                         total_a:'12',

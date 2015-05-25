@@ -4,10 +4,10 @@ var mongoose = require('mongoose/');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-var PersonModel = require('../db/group1db/PersonModel');
+var PersonModel = require('../../db/group1db/PersonModel');
 
 router.get('/login',function(req,res,next){
-  res.render('login',{
+  res.render('info/login',{
     loginerror:""
   });
 });

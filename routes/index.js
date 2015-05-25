@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var session = require('express-session');
 
-var info = require('./info');
+var info = require('./info/info');
 // var arrange = require()
 var select = require("./course")
 // var resource = require()

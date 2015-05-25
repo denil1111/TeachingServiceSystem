@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var PersonModel = require('../db/group1db/PersonModel');
+var PersonModel = require('../../db/group1db/PersonModel');
 
 router.get('/personpassword', function(req, res,next) {
     if(!req.session.user){return res.redirect('login');}
-    res.render('personpassword',{
+    res.render('info/personpassword',{
 	    name: '程序员', 
 	    image: 'images/avatars/avatar3.jpg',
 	    total_a:'12',
@@ -33,7 +33,7 @@ router.post('/personpassword', function(req, res,next) {
 
     if(passwordErr != '' || password1Err != '' || password1Err != ''){
     	console.log("输入信息有误");
-    	res.render('personpassword',{
+    	res.render('info/personpassword',{
 		    name: '程序员', 
 		    image: 'images/avatars/avatar3.jpg',
 		    total_a:'12',
@@ -54,7 +54,7 @@ router.post('/personpassword', function(req, res,next) {
     	PersonModel.findbyid(localuser.userid,function (err, user) {
 	        if(err){
 	        	console.log("根据id查找错误");
-	        	res.render('personpassword',{
+	        	res.render('info/personpassword',{
 		            name: '程序员', 
 		            image: 'images/avatars/avatar3.jpg',
 		            total_a:'12',
@@ -72,7 +72,7 @@ router.post('/personpassword', function(req, res,next) {
 	        }
 	        else if(!user){
 	        	console.log("找不到对应id用户");
-	        	res.render('personpassword',{
+	        	res.render('info/personpassword',{
 		            name: '程序员', 
 		            image: 'images/avatars/avatar3.jpg',
 		            total_a:'12',
@@ -96,7 +96,7 @@ router.post('/personpassword', function(req, res,next) {
 	        	if(req.body.password != localuser.password){
 	        		console.log("原密码错误");
 	        		passwordErr="原密码错误";
-	        		res.render('personpassword',{
+	        		res.render('info/personpassword',{
 			            name: '程序员', 
 			            image: 'images/avatars/avatar3.jpg',
 			            total_a:'12',
@@ -118,7 +118,7 @@ router.post('/personpassword', function(req, res,next) {
 	        		PersonModel.modifybyid(localuser,function(err,data){
 		                if(err){
 		                	console.log("密码修改错误");
-		                    res.render('personpassword',{
+		                    res.render('info/personpassword',{
 		                        name: '程序员',
 		                        image: 'images/avatars/avatar3.jpg',
 		                        total_a:'12',
@@ -136,7 +136,7 @@ router.post('/personpassword', function(req, res,next) {
 		                }
 		                else{
 		                	console.log("密码修改成功");
-		                    res.render('personpassword',{
+		                    res.render('info/personpassword',{
 		                        name: '程序员',
 		                        image: 'images/avatars/avatar3.jpg',
 		                        total_a:'12',

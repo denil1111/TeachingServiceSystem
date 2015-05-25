@@ -13,7 +13,7 @@ var coursedelete = require('./coursedelete');
 var coursemodify = require('./coursemodify');
 
 var login =require('./login');
-var group = require('./group');
+// var group = require('./group');
 
 info.use('/',login);
 info.use('/', personinsert);
@@ -26,7 +26,7 @@ info.use('/', courseinsert);
 info.use('/', courseselect);
 info.use('/', coursedelete);
 info.use('/', coursemodify);
-info.use('/',group);
+// info.use('/',group);
 
 
 module.exports = info;
