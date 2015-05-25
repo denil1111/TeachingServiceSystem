@@ -43,9 +43,9 @@ router.get('/personinsert', function(req, res,next) {
 router.post('/personinsert',function(req,res,next){
     console.log("post:personinsert/test");
     var form = new formidable.IncomingForm(); //创建上传表单
-    form.encoding = 'utf-8';		//设置编辑
+    form.encoding = 'utf-8';        //设置编辑
     form.uploadDir = 'public/images';//设置上传目录
-    form.keepExtensions = true;	 // 保留后缀
+    form.keepExtensions = true;  // 保留后缀
     form.maxFieldsSize = 2 * 1024 * 1024;//文件大小
     form.parse(req, function(err, fields, files)
     {
@@ -56,7 +56,7 @@ router.post('/personinsert',function(req,res,next){
         var ageerr = '';
         var telerr ='';
         var doc = {
-            photo: b64data,
+            photo: '',
             userid  : fields.userid,
             username : fields.username,
             userpassword : fields.password1,
@@ -78,12 +78,7 @@ router.post('/personinsert',function(req,res,next){
                 break;
             }
         }
-        PersonModel.findbyid(userid,function (err, user) {
-            if (err) {console.log('find error!'+error);}
-            if (user) {useridErr = "ID used!";}
-        }); 
 
-        //userNameErr
         if(doc.username == ''){userNameErr = 'username empty!';}
 
         //paswwordErr
@@ -142,127 +137,16 @@ router.post('/personinsert',function(req,res,next){
 
                 data: doc,
                 insertresult:'表单解析失败'
-
             });
             fs.unlink(files.fulAvatar.path);
             return;
         }
         else{
+            PersonModel.findbyid(userid,function (err, user) {
+                if (err) {console.log('find error!'+error);}
+                if (user | user != '') {useridErr = "ID used!";}
 
-
-            if (err) {
-                res.locals.error = err;
-                console.log("Err:formidable.parse fail");
-                res.render('info/personinsert',{
-                    name: '程序员',
-                    image: 'images/avatars/avatar3.jpg',
-                    total_a:'12',
-                    a:'2,3,1,2,3,1,0',
-                    total_b:'24',
-                    b:'4,6,2,4,6,2,0',
-                    total_credits:'24',
-                    credits:'4,6,2,4,6,2,0',
-
-                    useridErr: useridErr,
-                    userNameErr: userNameErr,
-                    passwordErr: passwordErr,
-                    emailerr: emailerr,
-                    ageerr: ageerr,
-                    telerr: telerr, 
-
-                    data: doc,
-                    insertresult:'表单解析失败'
-
-                });
-                fs.unlink(files.fulAvatar.path);
-                return;
-            }
-            var extName = '';//后缀名
-            switch (files.fulAvatar.type)
-            {
-                case 'image/pjpeg':				extName = 'jpg';break;
-                case 'image/jpeg':				extName = 'jpg';break;
-                case 'image/png':				extName = 'png';break;
-                case 'image/x-png':				extName = 'png';break;
-            }
-            if(extName.length == 0){
-                console.log("Err:invalid image type");
-                res.render('info/personinsert',{
-                    name: '程序员',
-                    image: 'images/avatars/avatar3.jpg',
-                    total_a:'12',
-                    a:'2,3,1,2,3,1,0',
-                    total_b:'24',
-                    b:'4,6,2,4,6,2,0',
-                    total_credits:'24',
-                    credits:'4,6,2,4,6,2,0',
-
-                    useridErr: useridErr,
-                    userNameErr: userNameErr,
-                    passwordErr: passwordErr,
-                    emailerr: emailerr,
-                    ageerr: ageerr,
-                    telerr: telerr,
-
-                    data: doc,
-                    insertresult:'只支持png和jpg格式图片'
-
-                });
-                fs.unlink(files.fulAvatar.path);
-                return;
-            }
-            //console.log(files.fulAvatar);
-            if(files.fulAvatar.size > 1000000){
-                console.log("Err:Too large image ");
-                res.render('info/personinsert',{
-                    name: '程序员',
-                    image: 'images/avatars/avatar3.jpg',
-                    total_a:'12',
-                    a:'2,3,1,2,3,1,0',
-                    total_b:'24',
-                    b:'4,6,2,4,6,2,0',
-                    total_credits:'24',
-                    credits:'4,6,2,4,6,2,0',
-
-                    useridErr: useridErr,
-                    userNameErr: userNameErr,
-                    passwordErr: passwordErr,
-                    emailerr: emailerr,
-                    ageerr: ageerr,
-                    telerr: telerr,
-
-                    data: doc,
-                    insertresult:'图片大小不能超过1000,000'
-
-                });
-                fs.unlink(files.fulAvatar.path);
-                return;
-            }
-            //var avatarName = Math.random() + '.' + extName;
-            //var newPath = form.uploadDir + avatarName ;;
-            //fs.renameSync(files.fulAvatar.path, files.fulAvatar.path);//重命名
-            var data = fs.readFileSync(files.fulAvatar.path);
-            var b64data="data:image/gif;base64,"+data.toString('base64');
-            fs.unlink(files.fulAvatar.path);
-            doc.photo = b64data;
-            // var doc = {
-            //     photo: b64data,
-            //     username : fields.username,
-            //     status : fields.status,
-            //     sex : fields.sex,
-            //     age : fields.age,
-            //     major : fields.major,
-            //     college : fields.college,
-            //     title : fields.title,
-            //     tel : fields.tel,
-            //     email : fields.email
-            // };
-            console.log("doc:"+doc.username);
-            PersonModel.create(doc,function(err,data){
-                console.log('err'+err);
-                console.log('Perdata'+data);
-                if(err){
-                    console.log("create err : "+err);
+                if(useridErr != ''){
                     res.render('info/personinsert',{
                         name: '程序员',
                         image: 'images/avatars/avatar3.jpg',
@@ -280,38 +164,177 @@ router.post('/personinsert',function(req,res,next){
                         ageerr: ageerr,
                         telerr: telerr,
 
-                        data : doc,
-                        insertresult:'表单提交失败！'
-
-                    })
+                        data: doc,
+                        insertresult:'表单解析失败'
+                    });
+                    fs.unlink(files.fulAvatar.path);
+                    return;
                 }
                 else{
-                    console.log('Saved by Model OK!');
-                    console.log(doc.username);
-                    res.render('info/personinsert',{
-                        name: '程序员',
-                        image: 'images/avatars/avatar3.jpg',
-                        total_a:'12',
-                        a:'2,3,1,2,3,1,0',
-                        total_b:'24',
-                        b:'4,6,2,4,6,2,0',
-                        total_credits:'24',
-                        credits:'4,6,2,4,6,2,0',
+                    // if (err) {
+                    //     res.locals.error = err;
+                    //     console.log("Err:formidable.parse fail");
+                    //     res.render('info/personinsert',{
+                    //         name: '程序员',
+                    //         image: 'images/avatars/avatar3.jpg',
+                    //         total_a:'12',
+                    //         a:'2,3,1,2,3,1,0',
+                    //         total_b:'24',
+                    //         b:'4,6,2,4,6,2,0',
+                    //         total_credits:'24',
+                    //         credits:'4,6,2,4,6,2,0',
 
-                        useridErr: useridErr,
-                        userNameErr: userNameErr,
-                        passwordErr: passwordErr,
-                        emailerr: emailerr,
-                        ageerr: ageerr,
-                        telerr: telerr,
+                    //         useridErr: useridErr,
+                    //         userNameErr: userNameErr,
+                    //         passwordErr: passwordErr,
+                    //         emailerr: emailerr,
+                    //         ageerr: ageerr,
+                    //         telerr: telerr, 
 
-                        data : doc,
-                        insertresult:'表单提交成功！'
+                    //         data: doc,
+                    //         insertresult:'表单解析失败'
 
+                    //     });
+                    //     fs.unlink(files.fulAvatar.path);
+                    //     return;
+                    // }
+                    var extName = '';//后缀名
+                    switch (files.fulAvatar.type)
+                    {
+                        case 'image/pjpeg':             extName = 'jpg';break;
+                        case 'image/jpeg':              extName = 'jpg';break;
+                        case 'image/png':               extName = 'png';break;
+                        case 'image/x-png':             extName = 'png';break;
+                    }
+                    if(extName.length == 0){
+                        console.log("Err:invalid image type");
+                        res.render('info/personinsert',{
+                            name: '程序员',
+                            image: 'images/avatars/avatar3.jpg',
+                            total_a:'12',
+                            a:'2,3,1,2,3,1,0',
+                            total_b:'24',
+                            b:'4,6,2,4,6,2,0',
+                            total_credits:'24',
+                            credits:'4,6,2,4,6,2,0',
+
+                            useridErr: useridErr,
+                            userNameErr: userNameErr,
+                            passwordErr: passwordErr,
+                            emailerr: emailerr,
+                            ageerr: ageerr,
+                            telerr: telerr,
+
+                            data: doc,
+                            insertresult:'只支持png和jpg格式图片'
+
+                        });
+                        fs.unlink(files.fulAvatar.path);
+                        return;
+                    }
+                    //console.log(files.fulAvatar);
+                    if(files.fulAvatar.size > 1000000){
+                        console.log("Err:Too large image ");
+                        res.render('info/personinsert',{
+                            name: '程序员',
+                            image: 'images/avatars/avatar3.jpg',
+                            total_a:'12',
+                            a:'2,3,1,2,3,1,0',
+                            total_b:'24',
+                            b:'4,6,2,4,6,2,0',
+                            total_credits:'24',
+                            credits:'4,6,2,4,6,2,0',
+
+                            useridErr: useridErr,
+                            userNameErr: userNameErr,
+                            passwordErr: passwordErr,
+                            emailerr: emailerr,
+                            ageerr: ageerr,
+                            telerr: telerr,
+
+                            data: doc,
+                            insertresult:'图片大小不能超过1000,000'
+
+                        });
+                        fs.unlink(files.fulAvatar.path);
+                        return;
+                    }
+                    //var avatarName = Math.random() + '.' + extName;
+                    //var newPath = form.uploadDir + avatarName ;;
+                    //fs.renameSync(files.fulAvatar.path, files.fulAvatar.path);//重命名
+                    var data = fs.readFileSync(files.fulAvatar.path);
+                    var b64data="data:image/gif;base64,"+data.toString('base64');
+                    fs.unlink(files.fulAvatar.path);
+                    doc.photo = b64data;
+                    // var doc = {
+                    //     photo: b64data,
+                    //     username : fields.username,
+                    //     status : fields.status,
+                    //     sex : fields.sex,
+                    //     age : fields.age,
+                    //     major : fields.major,
+                    //     college : fields.college,
+                    //     title : fields.title,
+                    //     tel : fields.tel,
+                    //     email : fields.email
+                    // };
+                    console.log("doc:"+doc.username);
+                    PersonModel.create(doc,function(err,data){
+                        console.log('err'+err);
+                        console.log('Perdata'+data);
+                        if(err){
+                            console.log("create err : "+err);
+                            res.render('info/personinsert',{
+                                name: '程序员',
+                                image: 'images/avatars/avatar3.jpg',
+                                total_a:'12',
+                                a:'2,3,1,2,3,1,0',
+                                total_b:'24',
+                                b:'4,6,2,4,6,2,0',
+                                total_credits:'24',
+                                credits:'4,6,2,4,6,2,0',
+
+                                useridErr: useridErr,
+                                userNameErr: userNameErr,
+                                passwordErr: passwordErr,
+                                emailerr: emailerr,
+                                ageerr: ageerr,
+                                telerr: telerr,
+
+                                data : doc,
+                                insertresult:'表单提交失败！'
+
+                            })
+                        }
+                        else{
+                            console.log('Saved by Model OK!');
+                            console.log(doc.username);
+                            res.render('info/personinsert',{
+                                name: '程序员',
+                                image: 'images/avatars/avatar3.jpg',
+                                total_a:'12',
+                                a:'2,3,1,2,3,1,0',
+                                total_b:'24',
+                                b:'4,6,2,4,6,2,0',
+                                total_credits:'24',
+                                credits:'4,6,2,4,6,2,0',
+
+                                useridErr: useridErr,
+                                userNameErr: userNameErr,
+                                passwordErr: passwordErr,
+                                emailerr: emailerr,
+                                ageerr: ageerr,
+                                telerr: telerr,
+
+                                data : doc,
+                                insertresult:'表单提交成功！'
+
+                            });
+                        }
                     });
                 }
             });
-        }
+        } 
     });
 });
 module.exports = router;
