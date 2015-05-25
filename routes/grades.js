@@ -246,7 +246,7 @@ gradesDB.find(criteria,function(error,grades){
      
    }
    
-    console.log("what is studentlist" + studentlist[0]);
+    console.log("what is" + studentlist[0]);
   
   res.render('grades/teacher_classmanage', {
   	name: '程序员', 
