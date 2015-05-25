@@ -396,6 +396,10 @@ router.get('/search', function(req, res, next) {
   res.render('resource/search', {});
 });
 
+router.get('/hwtest', function(req, res, next) {
+    res.render('resource/homework', {});
+});
+
 router.get('/admin_changeinfo', function(req, res, next) {
   res.render('resource/admin_changeInfo', {});
 });

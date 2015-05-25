@@ -54,7 +54,6 @@
 
             }
 
-
             //jquery 1.6以后
             function chooseAll(){
                 //            console.log("in chooseAll");
@@ -117,11 +116,11 @@
             <div class="action-nav-normal action-nav-line">
                 <div class="row action-nav-row" style="margin-top:20px;">
                     <div class="action-nav-button">
-                        <a data-toggle="modal" href="#modal-upload" class="btn btn-blue"><i class="icon-plus"></i><span>上传新文件</span></a>
+                        <a data-toggle="modal" href="#modal-upload"><i class="icon-plus"></i><span>上传新文件</span></a>
                     </div>
 
                     <div class="col-sm-2 action-nav-button">
-                            <a data-toggle="modal" href="#modal-newfolder" class="btn btn-blue"><i class="icon-folder-open-alt"></i><span>新建文件夹</span></a>
+                            <a data-toggle="modal" href="#modal-newfolder"><i class="icon-folder-open-alt"></i><span>新建文件夹</span></a>
                     </div>
 
                     <div class="col-sm-2 action-nav-button" data-view="backFolder">
@@ -242,6 +241,37 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal --><!-- find me in partials/modal_form -->
 
+    <div id="modal-share" class="modal fade hide">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">请选择将文件分享到哪些课程</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="fileShareForm">
+                        <div>
+                            <input type="checkbox" class="icheck" id="cid1" name="cid1">
+                            <label for="cid1">计算机网络基础</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" class="icheck" id="cid2" name="cid2">
+                            <label for="cid2">计算机体系结构</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" class="icheck" id="cid3" name="cid3">
+                            <label for="cid3">软件工程</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                    <button id="fileShareSubmit" type="button" class="btn btn-blue">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal --><!-- find me in partials/modal_form -->
+
 
 </div>
 
@@ -255,10 +285,14 @@
     <td><b>${courseName}</b></td>
     <td>
         <div class="btn-group">
-            <button class="btn btn-xs btn-default" data-src="${text}" func="delete-btn"><i class="icon-remove-sign"></i>删除</button>
-            <button class="btn btn-xs btn-default" data-src="${text}" func="rename-btn"> <i class="icon-cog"></i> 重命名</button>
-            <button class="btn btn-xs btn-default" data-src="${text}" func="move-btn"> <i class="icon-cog"></i> 移动至</button>
-             {{if !isFolder}}<button class="btn btn-xs btn-default" func="download-btn" onclick="downloadByUrl('${fid}','${text}')"><i class="icon-download-alt"></i>下载</button>{{/if}}
+            <button class="btn btn-xs btn-default" data-src="${text}" func="share-btn"> <i class="icon-share"></i>分享</button>
+            <button class="btn btn-xs btn-lightblue dropdown-toggle" data-toggle="dropdown" data-src="${text}"> <i class="icon-cog"></i>操作<span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a data-src="${text}" func="delete-btn"><i class="icon-remove-sign"></i> 删除</a></li>
+                <li><a data-src="${text}" func="rename-btn"> <i class="icon-cog"></i> 重命名</a></li>
+                <li><a data-src="${text}" func="move-btn"> <i class="icon-cog"></i> 移动至</a></li>
+            </ul>
+            {{if !isFolder}}<button class="btn btn-xs btn-blue" func="download-btn" onclick="downloadByUrl('${fid}','${text}')"><i class="icon-download-alt"></i>下载</button>{{/if}}
         </div>
     </td>
 </tr>
@@ -501,7 +535,37 @@
             }
         });
         
-        
+        //分享资源接口 course
+        $("#fileList").delegate("[func=share-btn]","click",function(_e){
+            var _name = _e.target.getAttribute("data-src");
+            $("#modal-share").modal("show");
+            $("#fileShareSubmit").attr("data-src",_name);
+        });
+
+        $("#fileShareSubmit").bind("click",function(_e){
+            _e.preventDefault();
+            var _form=$("#fileShareForm");
+            var _name=$("#fileShareSubmit").attr("data-src");
+//            console.log(_form.serialize());
+            $.post(
+                    "/resource/cloud/api",
+                    {
+                        course:_form.serializeArray(),
+                        url:_nowUrl,
+                        name:_name
+                    },
+                    function(_data){
+                        if(_data.code==200){
+                            alert("操作成功");
+                            refreshFileList(_data.newTree);
+                        }else{
+                            alert("操作失败");
+                        }
+                    }
+            ).error(function(){
+                        alert("请求失败");
+                    });
+        })
 
 
 
