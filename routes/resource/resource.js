@@ -12,7 +12,6 @@ var Tree = require("./basictreeop");
 var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 var fs = require('fs');
 
-
 // TODO: wait to split those routes into separate files
 router.get('/', function(req, res, next) {
   res.redirect('/resource/cloud');
@@ -55,7 +54,7 @@ router.get('/cloud', function(req, res, next) {
       req.session.treeD = result[0].tree;
       req.session.treeP = result[0].tree;
       console.log(req.session.treeP);
-      res.render('myresource', {
+      res.render('resource/myresource', {
         title: 'Cloud',
         fileTree: req.session.treeP
       });
@@ -131,10 +130,6 @@ router.get('/cloud/upload', function(req, res, next) {
     '<input type="file" name="file" size="40" multiple="multiple">  ' +
     '<div> <input type="submit" > </div> </form>';
   res.send(html);
-  res.end();
-});
-router.get('/cloud/upload2', function(req, res, next) {
- res.render("testup")
   res.end();
 });
 /*
@@ -230,7 +225,7 @@ router.post('/cloud/deletenode', function(req, res, next) {
 });
 
 /*
-   move file
+   move file or folder
 */
 
 router.post('/cloud/movenode', function(req, res, next) {
@@ -249,15 +244,34 @@ router.post('/cloud/movenode', function(req, res, next) {
     });  
   });
 });
+/*
+  rename file or folder
+*/
 
+router.post('/cloud/renamenode', function(req, res, next) {
+  Tree.renamenode(req.body.url, req.body.oldName, req.body.newName, req.session.treeD, req.session.treeP, function() {
+     var newdata = {
+      uid : req.session.user.userid,
+      tree : req.session.treeD
+    };
+    fileTree.update(req.session.user.userid, newdata, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(req.session.treeP);
+        res.json({code:200,newTree: req.session.treeP});
+      }
+    });  
+  });
+})
 router.get('/course', function(req, res, next) {
-  res.render('index', {
+  res.render('resource/index', {
     title: 'Course'
   });
 });
 
 router.get('/config', function(req, res, next) {
-  res.render('index', {
+  res.render('resource/index', {
     title: 'Config'
   });
 });
@@ -273,15 +287,15 @@ router.post('/tree_data', function(req, res, next) {
 
 */
 router.get('/myresource', function(req, res, next) {
-  res.render('myresource', {});
+  res.render('resource/myresource', {});
 });
 
 router.get('/info', function(req, res, next) {
-  res.render('courseInfo', {});
+  res.render('resource/courseInfo', {});
 });
 
 router.get('/feedback', function(req, res, next) {
-  res.render('feedback', {});
+  res.render('resource/feedback', {});
 });
 
 router.get('/homework', function(req, res, next) {
@@ -328,14 +342,14 @@ router.get('/homework', function(req, res, next) {
       homework = result;
       console.log(result);
     }
-    res.render('homework', {
+    res.render('resource/homework', {
       homeWorkList: homework
     });
   });
 });
 
 router.get('/homeworkupload/:homework', function(req, res, next) {
-  res.render('homeworkupload', {});
+  res.render('resource/homeworkupload', {});
 });
 
 router.get('/coursewares', function(req, res, next) {
@@ -363,7 +377,7 @@ router.get('/coursewares', function(req, res, next) {
             if (num >= cws.length) {
               console.log(coursewares);
               console.log('read file ok!');
-              res.render('coursewares', {
+              res.render('resource/coursewares', {
                 coursewares: coursewares
               });
             }
@@ -375,27 +389,27 @@ router.get('/coursewares', function(req, res, next) {
 });
 
 router.get('/resource', function(req, res, next) {
-  res.render('resource', {});
+  res.render('resource/resource', {});
 });
 
 router.get('/search', function(req, res, next) {
-  res.render('search', {});
+  res.render('resource/search', {});
 });
 
 router.get('/admin_changeinfo', function(req, res, next) {
-  res.render('admin_changeInfo', {});
+  res.render('resource/admin_changeInfo', {});
 });
 
 router.get('/admin_feedback', function(req, res, next) {
-  res.render('admin_feedback', {});
+  res.render('resource/admin_feedback', {});
 });
 
 router.get('/admin_homework', function(req, res, next) {
-  res.render('admin_homework', {});
+  res.render('resource/admin_homework', {});
 });
 
 router.get('/admin_resource', function(req, res, next) {
-  res.render('admin_resource', {});
+  res.render('resource/admin_resource', {});
 });
 
 

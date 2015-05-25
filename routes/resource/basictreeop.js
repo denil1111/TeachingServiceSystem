@@ -120,7 +120,15 @@ Tree.delnode = function(path, name, treeD, treeP, callback) {
       }
       else
       {
-          
+        File.removebyid(nowtree[index].fid, function(error) {
+          if (error){
+            console.log(error);
+          } else {
+            nowtree.remove(index);
+            nowtreeP.remove(index);
+            callback(null);
+          }
+        });
       }     
     };
 Tree.move = function(oldpath, name, newpath, treeD, treeP, callback) {
@@ -183,6 +191,44 @@ Tree.move = function(oldpath, name, newpath, treeD, treeP, callback) {
       nowtreeP2.push(nowtreeP[index]);
       nowtree.remove(index); 
       nowtreeP.remove(index);
+      callback(null);
+    };
+Tree.renamenode = function(path, oname, nname, treeD, treeP, callback) {
+      console.log("new node");
+      var nowtree = treeD;
+      var nowtreeP = treeP;
+      path.split('\.').forEach(function(foldername) {
+        var nexttree = nowtree;
+        var nexttreeP = nowtreeP;
+        console.log("in splite")
+        console.log(foldername)
+        console.log(nowtreeP);
+        nowtree.forEach(function(node) {
+          if (node.text == foldername) {
+            nexttree = node.children;
+          }
+        });
+        nowtreeP.forEach(function(node) {
+          if (node.text == foldername) {
+            nexttreeP = node.children;
+          }
+        });
+        nowtree = nexttree;
+        nowtreeP = nexttreeP;
+      });
+      var indexx=0,index;
+      nowtree.forEach(function(node) {
+        indexx++;
+        if (node.text == oname) {
+            console.log('find');
+            index=indexx-1;
+            return true;
+        } 
+      });
+      console.log(index);
+      console.log(nowtree);
+      nowtree[index].text = nname;
+      nowtreeP[index].text = nname;
       callback(null);
     };
 Tree.buildPrint = function(treeD,callback){
