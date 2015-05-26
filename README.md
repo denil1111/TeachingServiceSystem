@@ -12,6 +12,9 @@ npm start
 <<<<<<< HEAD
 可以运行网站
 
+## 默认的用户名和密码
+ID:02
+password:123456
 
 ## 选课
 /course 访问选课页面
