@@ -52,7 +52,7 @@
     <div class="box-header">
           <span class="title">大类必修课程</span>
            <ul class="box-toolbar">
-      <li><span class="label label-green">已完成 10/15.5 学分</span></li>
+      <li><span class="label label-green">已完成 <%= getpoint %>/<%= total_point %> 学分</span></li>
     </ul>
     </div>
     <table class="table table-normal">
@@ -69,25 +69,18 @@
       </thead>
 
       <tbody>
-      <tr class="status-success">
-        <td class="icon"><i class="icon-ok"></i></td>
-        <td><a href="#">211B0010</td>
-        <td>离散数学及其应用</td>
-        <td>4.0</td>
-        <td>4.0-0.0</td>
-        <td>一</td>
-        <td>春夏</td>
-      </tr>
-
-      <tr class="status-success">
-        <td class="icon"><i class="icon-ok"></i></td>
-        <td><a href="#">211C0020</td>
-        <td>数据结构基础</td>
-        <td>2.5</td>
-        <td>2.0-1.0</td>
-        <td>二</td>
-        <td>秋</td>
-      </tr>
+         <% for(var i=0;i<dev_plan.length;i++){%>
+         <tr class="status-success">
+         <td class="icon"><i class="icon-ok"></i></td>
+         <td><%= dev_plan[i].courseid %></td>
+         <td><%= dev_plan[i].coursename %></td>
+         <td><%= dev_plan[i].coursescore%></td>
+         <td><%= dev_plan[i].coursetime %></td>
+         <td>一</td>         
+         <td><%= dev_plan[i].courseterm %></td>
+         </tr>
+         <%}%>
+         
       </tbody>
     </table>
   </div>
@@ -147,6 +140,172 @@
 </div>
 </div>
 </div>
+
+<div class="span10">
+<div class="col-md-6">
+    <!-- find me in partials/tasks_table -->
+<div class="box">
+  <div class="box-header">  
+    <span class="title">通识课程</span>
+    <ul class="box-toolbar">
+      <li><span class="label label-red">已完成 0/3.5 学分</span></li>
+    </ul>
+  </div>
+  <div class="box-content">
+    
+    <table class="table table-normal">
+      <thead>
+      <tr>
+        <td>状态</td>
+        <td>课程号</td>
+        <td>课程名称</td>
+        <td>学分</td>
+        <td>周学时</td>
+        <td>年级</td>
+        <td>学期</td>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr class="status-pending">
+        <td class="icon"><i class="icon-check-empty"></i></td>
+        <td><a href="#">211B0010</td>
+        <td>概率论与数理统计</td>
+        <td>4.0</td>
+        <td>4.0-0.0</td>
+        <td>一</td>
+        <td>春夏</td>
+      </tr>
+
+      <tr class="status-pending">
+        <td class="icon"><i class="icon-check-empty"></i></td>
+        <td><a href="#">211C0020</td>
+        <td>复变函数与积分变换</td>
+        <td>2.5</td>
+        <td>2.0-1.0</td>
+        <td>二</td>
+        <td>秋</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="span10">
+<div class="col-md-6">
+    <!-- find me in partials/tasks_table -->
+
+<div class="box">
+  <div class="box-header">  
+    <span class="title">主页课程</span>
+    <ul class="box-toolbar">
+      <li><span class="label label-green">已完成 32/42 学分</span></li>
+    </ul>
+  </div>
+  <div class="box-content">
+    <div class="box-header">
+          <span class="title">专业必修课程</span>
+           <ul class="box-toolbar">
+      <li><span class="label label-green">已完成 10/15.5 学分</span></li>
+    </ul>
+    </div>
+    <table class="table table-normal">
+      <thead>
+      <tr>
+        <td>状态</td>
+        <td>课程号</td>
+        <td>课程名称</td>
+        <td>学分</td>
+        <td>周学时</td>
+        <td>年级</td>
+        <td>学期</td>
+      </tr>
+      </thead>
+
+      <tbody>
+         <% for(var i=0;i<dev_plan.length;i++){%>
+         <tr class="status-success">
+         <td class="icon"><i class="icon-ok"></i></td>
+         <td><%= dev_plan[i].courseid %></td>
+         <td><%= dev_plan[i].coursename %></td>
+         <td><%= dev_plan[i].coursescore%></td>
+         <td><%= dev_plan[i].coursetime %></td>
+         <td>一</td>         
+         <td><%= dev_plan[i].courseterm %></td>
+         </tr>
+         <%}%>
+         
+        <tr class="status-success">
+        <td class="icon"><i class="icon-ok"></i></td>
+        <td><a href="#">211C0020</td>
+        <td>数据结构基础</td>
+        <td>2.5</td>
+        <td>2.0-1.0</td>
+        <td>二</td>
+        <td>秋</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+
+
+
+<div class="col-md-6">
+    <!-- find me in partials/tasks_table -->
+<div class="box">
+  <div class="box-header">  
+    <span class="title">专业选修课程</span>
+    <ul class="box-toolbar">
+      <li><span class="label label-red">已完成 0/3.5 学分</span></li>
+    </ul>
+  </div>
+  <div class="box-content">
+    
+    <table class="table table-normal">
+      <thead>
+      <tr>
+        <td>状态</td>
+        <td>课程号</td>
+        <td>课程名称</td>
+        <td>学分</td>
+        <td>周学时</td>
+        <td>年级</td>
+        <td>学期</td>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr class="status-pending">
+        <td class="icon"><i class="icon-check-empty"></i></td>
+        <td><a href="#">211B0010</td>
+        <td>概率论与数理统计</td>
+        <td>4.0</td>
+        <td>4.0-0.0</td>
+        <td>一</td>
+        <td>春夏</td>
+      </tr>
+
+      <tr class="status-pending">
+        <td class="icon"><i class="icon-check-empty"></i></td>
+        <td><a href="#">211C0020</td>
+        <td>复变函数与积分变换</td>
+        <td>2.5</td>
+        <td>2.0-1.0</td>
+        <td>二</td>
+        <td>秋</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+</div>
+
 
 
 
