@@ -63,3 +63,13 @@ Course使用数据库 'mongodb://127.0.0.1:27017/info'下的courses collections
 在mongo里手动添加用户的collection是persons
 
 
+#hook 方法！
+如果想在哪个数据插入的同时插入自己的数据，比如user，可以这样做
+```js
+	var person=require("../db/group1db/PersonModel");
+   	person.schema.post('save',function()
+   	{
+		//内容写在这里
+    	console.log("我成功了！！");
+  	});
+```
