@@ -49,16 +49,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  secret: 'TeachingServerSystem',
-  resave: false,
-  saveUnintialized: false
-}));
-app.use(session({
-  secret: 'TeachingServerSystem',
-  resave: false,
-  saveUnintialized: false
-}));
 
 
 app.use('/', routes);

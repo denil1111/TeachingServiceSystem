@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var person = require('../group1db/PersonModel');
 // Schema 结构
 var mongooseSchema = new mongoose.Schema({
     uid : {type : String},
@@ -21,4 +22,12 @@ mongooseSchema.statics.updatetree = function(uid, newtree, callback) {
     return this.model('tree').updatate(conditions,update,options,callback);
 };
 var mongooseModel = mongoose.model('tree', mongooseSchema);
+person.schema.post('save', function(doc) {
+   console.log("hook");
+   console.log(doc);
+   mongooseModel.create({
+       uid : doc.userid,
+       tree : []
+   }); 
+});
 module.exports=mongooseModel;

@@ -39,9 +39,6 @@ router.get('/', function(req, res, next) {
   created by zyh
 */
 router.get('/cloud', function(req, res, next) {
-  req.session.user = {
-    userid: "zyh"
-  };
   var nowUserId = req.session.user.userid;
   console.log("ok");
   fileTree.findbyuser(nowUserId, function(err, result) {
