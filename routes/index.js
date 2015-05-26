@@ -14,7 +14,7 @@ var login = require("./basic/login");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.redirec('/login');
+  res.redirect('/login');
 });
 router.use('/', login);
 router.use('/info', auth.isLoggedIn, info);
