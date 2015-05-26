@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 // Schema 结构
 var PersonSchema = new mongoose.Schema({
+    photo       : {type :Buffer},//头像
     userid      : {type : String},  //学工号 unique
     username	: {type : String, default : '匿名用户'},   //用户名
     status		: {type : String, default : '学生'},      //用户身份 系统管理员/教务管理员/教师/学生
@@ -30,6 +31,7 @@ PersonSchema.statics.modifybyname = function(req, callback) {
         {
             $set:{
                 status : req.status,
+                photo :req.photo,
                 sex : req.sex,
                 age : req.age,
                 major : req.major,
