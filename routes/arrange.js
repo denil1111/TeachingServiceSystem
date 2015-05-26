@@ -27,7 +27,6 @@ var Schema = new mongoose.Schema({
        secondScore:Number
 });*/
 
-
 router.get('/arrange', function(req, res, next) {
 
 var gradesDB = global.db.model('classroom',Schema);
