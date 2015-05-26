@@ -5,6 +5,8 @@ course=[];
 course.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,courseid:1});
 course.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,courseid:2});
 course.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,courseid:3});
+stu_data=[];
+stu_data.push({stu_name:"Henry",major:"计算机科学与技术"});
 
 router.get('/manual_add', function(req, res, next) {
   console.log(course.ejs);

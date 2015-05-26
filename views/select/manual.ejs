@@ -46,8 +46,8 @@
 			<span>课程号:&nbsp;&nbsp;</span>
 	  		<input type="text" style="margin-top:10px;" name="course_id" id="course_id">	
 	  		<button class="btn btn-blue" style="margin-left:10px;" onclick="search()">搜索</button>
-	  		<hr/>
 	  		<% if(course.length!=0){%>
+	  		<hr/>
 	  		<table width="100%" class="table table-normal" style="text-align:center;">
 	  		<thead>
                 <tr>
@@ -76,13 +76,15 @@
 			  <%}%>
             </tbody>  
             </table>
-            <div style="width:100%;text-align:cenrer">
-				<span>学号:&nbsp;&nbsp;</span>
-	  			<input type="text" style="margin-top:10px;" name="student_id" id="student_id">
-	  			<button class="btn btn-blue" style="margin-left:10px;" onclick="add_course()">选课</button>
-	  			<button class="btn btn-blue" style="margin-left:10px;" onclick="delete_course()">退课</button>
-            </div>
-	  		<%}%>	
+            <hr/>
+            <%}%>	
+			<span>学号ID:&nbsp;&nbsp;</span>
+	  		<input type="text" style="margin-top:10px;" name="student_id" id="student_id">
+	  		<button class="btn btn-blue" style="margin-left:10px;" onclick="search_stu()">搜索</button>
+      		<br/>
+            <button class="btn btn-blue" style="margin-left:10px;" onclick="add_course()">选课</button>
+	  		<button class="btn btn-blue" style="margin-left:10px;" onclick="delete_course()">退课</button>
+	  		
 		</div>
       </div>
     </div>
@@ -99,7 +101,7 @@ function search(){
     var request = $.ajax({  
         	url: "/select/manual_add",  
         	type: "POST",  
-        	async: false,  
+        	async: false,  €
         	data: _json, //不能直接写成 {id:"123",code:"tomcat"}  
         	dataType: "json",  
         	// contentType: "charset=utf-8",  
