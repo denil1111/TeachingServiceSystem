@@ -16,7 +16,7 @@ userid      : String,
 score       : Number,
 gradePoint  : Number,
 secondScore : Number
-})
+});
 
 
 var gradesModel = mongoose.model('grades',studentGradeSchema);

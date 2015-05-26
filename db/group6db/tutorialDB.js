@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 
 var tutorialSchema = new mongoose.Schema({
-    courseid       : {type :String},//课程号
-    type      : {type : Number},  //模块类型
-    year	: {type : String},   //修读年份
-})
+    courseid  : String,
+    type      : Number,  
+    year	  : String
+});
 
-var tutorialModel = mongoose.model('tutorial',tutorialSchema);
+var tutorialModel = mongoose.model('tutorials',tutorialSchema);
 module.exports=tutorialModel;
