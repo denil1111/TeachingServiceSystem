@@ -44,7 +44,7 @@ function isLoggedIn(req, res, next) {
 }
 
 router.use('/', grades);
-router.use('/', arrange);
+router.use('/arrange', arrange);
 
 
 module.exports = router;
