@@ -72,7 +72,7 @@ Course使用数据库 'mongodb://127.0.0.1:27017/info'下的courses collections
   module.exports = {
     db : {
       // modify the line below
-      connect : 'mongodb://segroup2:segroup2@ds041168.mongolab.com:41168/group2'
+      connect : 'mongodb://127.0.0.1:27017/info'
     }
   }
 ```
