@@ -22,6 +22,6 @@
     "passport": "0.2.1",
     "passport-local": "1.0.0",
     "express-session": "1.11.1",
-      "formidable" : "latest"
+    "formidable" : "latest"
   }
 }

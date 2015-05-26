@@ -56,3 +56,22 @@ CourseModel的使用：
 
 Person使用数据库 'mongodb://127.0.0.1:27017/info'下的persons collections
 Course使用数据库 'mongodb://127.0.0.1:27017/info'下的courses collections
+
+
+#login具体使用
+首先 我给各位所有的基本路由上都判定了是否登陆，所以大家这个可以不用加了，如果需要取消，可以在index.js里改！
+其次，大家想保证登陆用户的类型的话，验证函数在routes／basic／auth里都有，请自己选择。
+如果想获取当前用户的信息，就在req.session.user里。
+在mongo里手动添加用户的collection是persons
+
+
+#hook 方法！
+如果想在哪个数据插入的同时插入自己的数据，比如user，可以这样做
+```js
+	var person=require("../db/group1db/PersonModel");
+   	person.schema.post('save',function()
+   	{
+		//内容写在这里
+    	console.log("我成功了！！");
+  	});
+```

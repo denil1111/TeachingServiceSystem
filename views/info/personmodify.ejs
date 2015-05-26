@@ -1,13 +1,13 @@
 <!doctype html>
 <html>
 <head>
-<% include head.html %>
+<% include ../head.html %>
 </head>
 <body>
 <!-- 上方选择条 navbar-top-->
-<% include navbar.html %>
+<% include ../navbar.html %>
 <!-- 侧边框 -->
-<% include slide_person.html%>
+<% include slide_info.html%>
 <script type="text/javascript">
    function setNavActive(){
        var active=document.getElementById('infomanage');
@@ -48,10 +48,28 @@
             <!-- 条件选框 -->
               <ul>
                 <li class="input">
-                  <label>用户名</label>
-                  <input type="text" placeholder="e.g. Tom" name="username">
+                  <label>学工号</label>
+                  <input type="text" placeholder="e.g. 123456" name="userid" value=<%= data.userid %>>
+                  <font><%= useridErr %><font>
                 </li>
-                  <li class="input">
+
+                <li class="input">
+                  <label>姓名</label>
+                  <input type="text" placeholder="e.g. Tom" name="username" value=<%= data.username %>>
+                  <font><%= userNameErr %><font>
+                </li>
+
+                <li class="input">
+                  <label>密码</label>
+                  <input type="password" placeholder="e.g. 123456" name="password1">
+                </li>
+                <li class="input">
+                  <label>确认密码</label>
+                  <input type="password" placeholder="e.g. 123456" name="password2">
+                  <font><%= passwordErr %><font>
+                </li>
+
+                <li class="input">
                       <label>从本地选择照片</label>
                       <input id="fulAvatar" name="fulAvatar"  style="WIDTH: 150px; HEIGHT: 22px" size="33"  type="file" class="form-control"/>
                   </li>
@@ -78,27 +96,35 @@
                 </li>
                 <li class="input">
                   <label>年龄</label>
-                  <input type="text" placeholder="e.g. 20" name="age">
+                  <input type="text" placeholder="e.g. 20" name="age" value=<%= data.age %>>
+                  <font><%= ageerr %></font>
                 </li>
                 <li class="input">
                   <label>专业</label>
-                  <input type="text" placeholder="e.g. 计算机科学与技术" name="major">
+                  <input type="text" placeholder="e.g. 计算机科学与技术" name="major" value=<%= data.major %>>
                 </li>
                 <li class="input">
                   <label>学院</label>
-                  <input type="text" placeholder="e.g. 计算机学院" name="college">
+                  <input type="text" placeholder="e.g. 计算机学院" name="college" value=<%= data.college %>>
                 </li>
                 <li class="input">
                   <label>职称</label>
-                  <input type="text" placeholder="e.g. 教授" name="title">
+                  <select name="title">
+                    <option value="无" selected="selected">无</option>
+                    <option value="讲师">讲师</option>
+                    <option value="副教授">副教授</option>
+                    <option value="教授">教授</option>
+                  </select>
                 </li>
                 <li class="input">
                   <label>Tel</label>
-                  <input type="text" placeholder="e.g. 18868101234" name="tel">
+                  <input type="text" placeholder="e.g. 18868101234" name="tel" value=<%= data.tel %>>
+                  <font><%= telerr %></font>
                 </li>
                 <li class="input">
                   <label>Email</label>
-                  <input type="text" placeholder="e.g. email@zju.edu.cn" name="email">
+                  <input type="text" placeholder="e.g. email@zju.edu.cn" name="email" value=<%= data.email %>>
+                  <font><%= emailerr %></font>
                 </li>
               </ul>
               </div>
