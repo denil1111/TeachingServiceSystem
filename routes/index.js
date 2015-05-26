@@ -9,6 +9,7 @@ var select = require("./course")
 // var test = require()
 // var score = require()
 var grades = require("./grades")
+var arrange = require('./arrange/arrange')
 
 //session initial
 router.use(session({
