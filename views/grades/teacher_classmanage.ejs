@@ -21,7 +21,15 @@
      setSlideActive();
 </script>
 
-
+<script type="text/javascript">
+function disp_alert()
+{
+        if (!confirm("确认提交？提交后再次修改需要向管理员申请")) { 
+            window.event.returnValue = false; 
+        } 
+    
+}
+</script>
 
 
 <!-- 主要内容 -->
@@ -73,7 +81,11 @@
             <input type="hidden" name="userid" value=<%=studentslist[i].userid%>>
         <td>
           <div class="btn-group">
+            <%if(courses[0].status=="on"){%>
             <button class="btn btn-xs btn-default dropdown-toggle" type="submit"><i class="icon-cog"> 修改</i></button>
+            <%} else if(courses[0].status=="off"){%>
+            <button class="btn btn-xs btn-default dropdown-toggle" type="submit"><i class="icon-cog"> 提交申请</i></button>
+            <%}%>
           </div>
         </td>
       </tr>
@@ -83,7 +95,16 @@
     </table>
   </div>
 </div>
+
+<%if(courses[0].status=="on"){%>
+<form action="gradesSubmit" target="_blank" method="post"> 
+<input type="hidden" name="courseid" value=<%=courses[0].courseid%>>
+<input class="btn btn-lg btn-green" type="submit" value="确认提交" onClick="disp_alert()" />
+</form> 
+<%}%>
+  
 </div>
+
 </div>
 
 
