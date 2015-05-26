@@ -49,7 +49,7 @@ router.post('/personpassword', function(req, res,next) {
 		});
     }
     else{
-    	var localuser=req.session.user[0];
+    	var localuser=req.session.user;
     	PersonModel.findbyid(localuser.userid,function (err, user) {
 	        if(err){
 	        	console.log("根据id查找错误");
