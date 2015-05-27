@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var course=[];
+var course = [];
 course.push({name:'程序员的自我修养',complete:true, teacher:'XX1', semaster:'春',time:'周一 123',campus:'玉泉',room:'曹西-204',id:'000001'});
 course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', semaster:'春夏',time:'周一 123 周二 345',campus:'玉泉',room:'曹西-101',id:'000002'});
 course.push({name:'程序员的自我修养',complete:true, teacher:'XX1', semaster:'春',time:'周一 123',campus:'玉泉',room:'曹西-204',id:'000001'});
@@ -12,6 +12,15 @@ course.push({name:'程序员的自我修养',complete:true, teacher:'XX1', semas
 course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', semaster:'春夏',time:'周一 123 周二 345',campus:'玉泉',room:'曹西-101',id:'000002'});
 course.push({name:'程序员的自我修养',complete:true, teacher:'XX1', semaster:'春',time:'周一 123',campus:'玉泉',room:'曹西-204',id:'000001'});
 course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', semaster:'春夏',time:'周一 123 周二 345',campus:'玉泉',room:'曹西-101',id:'000002'});
+
+var Time_Dictionary = {"11":"周一 1 2","12":"周一 3 4","13":"周一 6 7","14":"周一 9 10","15":"周一 11 12",
+                       "21":"周二 1 2","22":"周二 3 4","23":"周二 6 7","24":"周二 9 10","25":"周二 11 12",
+                       "31":"周三 1 2","32":"周三 3 4","33":"周三 6 7","34":"周三 9 10","35":"周三 11 12",
+                       "41":"周四 1 2","42":"周四 3 4","43":"周四 6 7","44":"周四 9 10","45":"周四 11 12",
+                       "51":"周五 1 2","52":"周五 3 4","53":"周五 6 7","54":"周五 9 10","55":"周五 11 12",
+                       "61":"周六 1 2","62":"周六 3 4","63":"周六 6 7","64":"周六 9 10","65":"周六 11 12",
+                       "71":"周日 1 2","72":"周日 3 4","73":"周日 6 7","74":"周日 9 10","75":"周日 11 12"};
+
 router.get('/course', function(req, res, next) {
   console.log(course.ejs);
   res.render('select/course', {
@@ -34,8 +43,33 @@ router.post('/course_search', function(req, res, next) {
   teacher_list = id.course_teacher.split(',');
   cond = [];
   all = [];
+
+  // Add time condition
+  if (id["time"]==undefined){
+    console.log("No time require!");
+  }
+  else {
+    timeall = [];
+    if (id.time[0].length==1){
+        console.log(Time_Dictionary[id.time]);
+        timeall.push({coursetime: new RegExp(Time_Dictionary[id.time], 'i')});
+    }
+    else
+        for (i=id.time.length-1; i>=0; i--){
+        timeall.push({coursetime: new RegExp(Time_Dictionary[id.time[i]], 'i')});
+        console.log(Time_Dictionary[id.time[i]]);
+    }
+    if (id.time_check=="and")
+        all.push({"$and":timeall});
+    else
+        all.push({"$or":timeall});
+  }
+
+  // Add id condition
   if (id.course_number!="")
     all.push({courseid:id.course_number});
+
+  // Add name condition
   nameall = [];
   for (var i=3; i>=0; i--)
   {
@@ -47,6 +81,8 @@ router.post('/course_search', function(req, res, next) {
     else 
       all.push({"$or":nameall});
   }
+
+  // Add teacher condition
   teacherall = [];
   for (var i=3; i>=0; i--)
   {
