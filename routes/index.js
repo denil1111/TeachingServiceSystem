@@ -4,7 +4,7 @@ var auth = require('./basic/auth');
 
 var info = require('./info/info');
 // var arrange = require()
-var select = require("./course");
+var select = require("./select/course")
 // var resource = require()
 // var test = require()
 // var score = require()

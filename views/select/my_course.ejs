@@ -1,13 +1,22 @@
 <!doctype html>
 <html>
 <head>
-  <% include test.html %>
+  <% include ../head.html %>
 </head>
 <body>
 <!-- 上方选择条 navbar-top-->
-<% include navbar.html %>
+<% include ../navbar.html %>
 <!-- 侧边框 -->
+<%if(type==0) {%>
 <% include slide.html%>
+<% }%>
+<%if(type==1) {%>
+<% include slide_teacher.html%>
+<% }%>
+<%if(type==2) {%>
+<% include slide_manager.html%>
+<% }%>
+<!--侧边框结束-->
 <script type="text/javascript">
   function setActive(){
     var active=document.getElementById('my_course');
@@ -99,20 +108,31 @@
               <td style="width:%10">学期</td>
               <td style="width:15%">上课时间</td>
               <td style="width:10%">上课校区</td>   
-              <td style="width:15%">上课地点</td>
+              <%if(type==1) {%>
+              <td style="width:8%">上课地点</td>
+              <td style="width:7%">名单</td>
+              <% }%>
+              <%if(type!=1) {%>
+              <td style="width:10%">上课地点</td>
+              <% }%> 
             </tr>
           </thead>
           <tbody>
             <% for(var i=0; i<course_data.length;i++) {%>
 
             <tr>
-              <td><a href='#'><%= course_data[i].ID %></a></td>
-              <td><a href='#'><%= course_data[i].name %></a></td>
-              <td><a href='#'><%= course_data[i].teacher %></a></td>
-              <td><a href='#'><%= course_data[i].semaster %></a></td>
-              <td><a href='#'><%= course_data[i].time %></a></td>
-              <td><a href='#'><%= course_data[i].campus %></a></td>
-              <td><a href='#'><%= course_data[i].room %></a></td>
+              <td><%= course_data[i].ID %></td>
+              <td><a href='/select/course/<%= course_data[i].ID %>' target="view_window"><%= course_data[i].name %></a></td>
+              <td><%= course_data[i].teacher %></td>
+              <td><%= course_data[i].semaster %></td>
+              <td><%= course_data[i].time %></td>
+              <td><%= course_data[i].campus %></td>
+              <td><%= course_data[i].room %></td>
+              <%if(type==1) {%>
+              <td>
+                <a href="/select/course_list/<%=course_data[i].course_id%>" target="view_window" style="color:blue;">查看</a>
+              </td>
+              <% }%>
             </tr>
             <% }%>
           </tbody>  
@@ -224,7 +244,7 @@
       var course_name="<%=course_data[i].name%>";
       var course_teacher="<%=course_data[i].teacher%>";
       var course_room="<%=course_data[i].room%>";
-      var data=course_name+'</br>'+course_teacher+'</br>'+course_room;
+      var data='<a href=\'/select/course/<%= course_data[i].ID %>\' target="view_window">'+course_name+'</a>'+'</br>'+course_teacher+'</br>'+course_room;
       console.log(data);
       console.log(time);
       for(var j=0;j<time_arr.length;j=j+2){
@@ -293,7 +313,7 @@
     //ajax传输
     var _json = jQuery.param ({year:data_year,sem:data_sem});  
     var request = $.ajax({  
-        url: "/my_course_search",  
+        url: "/select/my_course_search",  
         type: "POST",  
         async: false,  
         data: _json,   
@@ -313,7 +333,7 @@
     //ajax传输
     var _json = jQuery.param ({year:data_year,sem:data_sem});
     var request = $.ajax({  
-        url: "/my_course_search",  
+        url: "/select/my_course_search",  
         type: "POST",  
         async: false,  
         data: _json,   
@@ -335,14 +355,15 @@
     //ajax传输
     var _json = jQuery.param ({year:data_year,sem:data_sem});  
     var request = $.ajax({  
-        url: "/my_course_search",  
+        url: "/select/my_course_search",  
         type: "POST",  
         async: false,  
         data: _json, //不能直接写成 {id:"123",code:"tomcat"}  
         dataType: "json",  
         // contentType: "charset=utf-8",  
         cache: false,
-    });  
+    });
+    location.reload();  
   }
   show_table_content();
 </script>
