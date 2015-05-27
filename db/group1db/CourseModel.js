@@ -32,7 +32,7 @@ CourseSchema.statics.findbyteacher = function(teacher,callback){
     return this.model('CourseModel').find({teacher: teacher}, callback);
 }
 
-CourseSchema.statics.findbyclassroom = function(campus,room callback){
+CourseSchema.statics.findbyclassroom = function(campus,room,callback){
     return this.model('CourseModel').find({campus: campus , room: room}, callback);
 }
 
