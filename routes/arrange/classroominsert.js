@@ -26,7 +26,7 @@ router.post('/classroominsert',function(req,res,next){
             classid2 : req.body.classid2,
             campus : req.body.campus,
             capacity : req.body.capacity,
-            facility : req.body.facility
+            facility : req.body.facility,
         };
 
     console.log("doc length : "+doc.length);
