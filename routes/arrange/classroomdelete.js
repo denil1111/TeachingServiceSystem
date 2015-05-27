@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose'); 
-var CourseModel = require('../../db/group1db/CourseModel');
+var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
-router.get('/coursedelete', function(req, res,next) {
+router.get('/classroomdelete', function(req, res,next) {
     if(!req.session.user){return res.redirect('login');}
-    res.render('info/coursedelete',{
+    res.render('/classroomdelete',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
@@ -19,15 +19,15 @@ router.get('/coursedelete', function(req, res,next) {
     });
 });
 
-router.post('/coursedelete',function(req,res,next){
-    CourseModel.deletebyid(req.body.courseid2, function(error, data){
+router.post('/classroomdelete',function(req,res,next){
+    ClassroomModel.deletebyid(req.body.classid2, function(error, data){
         if(error) {
             console.log('find error!'+error);
         } else {
             console.log('find ok!'+data);
         }
         console.log('data : '+data);
-        res.render('info/coursedelete',{
+        res.render('classroomdelete',{
             name: '程序员', 
             image: 'images/avatars/avatar3.jpg',
             total_a:'12',
@@ -37,7 +37,7 @@ router.post('/coursedelete',function(req,res,next){
             total_credits:'24',
             credits:'4,6,2,4,6,2,0',
 
-            deleteresult:'课程删除成功'
+            deleteresult:'教室删除成功'
         });
     });
 });

@@ -1,20 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose'); 
-var CourseModel = require('../../db/group1db/CourseModel');
-var tmp = {
-    courseid2 : "123456",
-    coursename : "软件工程",
-    coursetime : "周一第1、2节",
-    teacher : "王章野",
-    examtime : "2015.07.01 8:00-10:00",
-    room : "教7-602",
-    college : "计算机学院"
-};
+var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
-router.get('/coursemodify', function(req, res,next) {
+router.get('/classroommodify', function(req, res,next) {
     if(!req.session.user){return res.redirect('login');}
-    res.render('info/coursemodify',{
+    res.render('/classroommodify',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
@@ -29,27 +20,21 @@ router.get('/coursemodify', function(req, res,next) {
     });
 });
 
-router.post('/coursemodify',function(req,res,next){
+router.post('/classroommodify',function(req,res,next){
     var doc = {
-            courseid2: req.body.courseid2,
-            coursename  : req.body.coursename,
-            courseterm : req.body.courseterm,
-            coursetime : req.body.time,
-            coursescore : req.body.coursescore,
-            teacher : req.body.teacher,
-            examtime : req.body.examtime,
-            room : req.body.room,
+            classid2 : req.body.classid2,
             campus : req.body.campus,
-            college : req.body.college,
+            capacity : req.body.capacity,
+            facility : req.body.facility,
         };
 
-    CourseModel.modifybyid(doc,function(err,data){
+    ClassroomModel.modifybyid(doc,function(err,data){
         if(err){
             console.log("modify err : "+err);
         }
         else{
             console.log(data);
-            res.render('info/coursemodify',{
+            res.render('/classroommodify',{
                 name: '程序员', 
                 image: 'images/avatars/avatar3.jpg',
                 total_a:'12',

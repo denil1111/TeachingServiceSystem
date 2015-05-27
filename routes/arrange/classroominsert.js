@@ -1,20 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose'); 
-var CourseModel = require('../../db/group2db/ClassroomModel');
-var tmp = {
-    courseid2 : "123456",
-    coursename : "软件工程",
-    coursetime : "周一第1、2节",
-    teacher : "王章野",
-    examtime : "2015.07.01 8:00-10:00",
-    room : "教7-602",
-    college : "计算机学院"
-};
+var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
-router.get('/courseinsert', function(req, res,next) {
+router.get('/classroominsert', function(req, res,next) {
     if(!req.session.user){return res.redirect('login');}
-    res.render('info/courseinsert',{
+    res.render('classroominsert',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
@@ -29,33 +20,27 @@ router.get('/courseinsert', function(req, res,next) {
     });
 });
 
-router.post('/courseinsert',function(req,res,next){
-    console.log("post:courseinsert");
+router.post('/classroominsert',function(req,res,next){
+    console.log("post:classroominsert");
     var doc = {
-            courseid2: req.body.courseid2,
-            coursename  : req.body.coursename,
-            courseterm : req.body.courseterm,
-            coursetime : req.body.time,
-            coursescore : req.body.coursescore,
-            teacher : req.body.teacher,
-            examtime : req.body.examtime,
-            room : req.body.room,
+            classid2 : req.body.classid2,
             campus : req.body.campus,
-            college : req.body.college,
+            capacity : req.body.capacity,
+            facility : req.body.facility
         };
 
     console.log("doc length : "+doc.length);
 
     console.log("doc : "+doc);
-    console.log("doc courseid2: "+doc.courseid2);
-    CourseModel.create(doc,function(err,data){
+    console.log("doc courseid2: "+doc.classid2);
+    ClassroomModel.create(doc,function(err,data){
         if(err){
             console.log("create err : "+err);
         }
         else{
             console.log('Saved by Model OK!');
             console.log(data);
-            res.render('info/courseinsert',{
+            res.render('classroominsert',{
                 name: '程序员', 
                 image: 'images/avatars/avatar3.jpg',
                 total_a:'12',
