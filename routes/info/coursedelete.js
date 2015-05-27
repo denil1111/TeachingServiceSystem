@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var CourseModel = require('../../db/group1db/CourseModel');
 
 router.get('/coursedelete', function(req, res,next) {
-    if(!req.session.user){return res.redirect('login');}
     res.render('info/coursedelete',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
