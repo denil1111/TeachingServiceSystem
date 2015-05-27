@@ -28,6 +28,14 @@ CourseSchema.statics.deletebyid = function(courseid2, callback) {
     return this.model('CourseModel').remove({courseid2: courseid2}, callback);
 }
 
+CourseSchema.statics.findbyteacher = function(teacher,callback){
+    return this.model('CourseModel').find({teacher: teacher}, callback);
+}
+
+CourseSchema.statics.findbyclassroom = function(campus,room callback){
+    return this.model('CourseModel').find({campus: campus , room: room}, callback);
+}
+
 CourseSchema.statics.modifybyid = function(req, callback) {
     return this.model('CourseModel').update(
         {courseid2: req.courseid2},
