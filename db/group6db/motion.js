@@ -1,14 +1,5 @@
 var mongoose = require('mongoose');
 
-// var Schema = new mongoose.Schema({
-// courseNumber: String,
-// courseName:String,
-// score:Number,
-// credit:Number,
-// gradePoint:Number,
-// secondScore:Number
-// });
-
 
 var motionSchema = new mongoose.Schema({
 teacherid   : String,  
