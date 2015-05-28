@@ -10,10 +10,10 @@ var mongoose = require('mongoose');
 // });
 
 
-var motionsSchema = new mongoose.Schema({
+var motionSchema = new mongoose.Schema({
 teacherid   : String,  
 studentid   : String,  
-courseid    : Number,
+courseid    : String,
 time        :{ type: Date, default: Date.now },
 oldvalue    : Number,
 newvalue    : Number,
@@ -22,7 +22,8 @@ status      : String,
 feedback    : { admin : String, comment : String}
 });
 
-motionsSchema.statics.findbyid = function(req, callback) {
+motionSchema.statics.findbyid = function(req, callback) {
+    console.log("Motion:findbyid");
     return this.model('motions').find(
         { 
             teacherid: req.teacherid, 
@@ -31,39 +32,57 @@ motionsSchema.statics.findbyid = function(req, callback) {
         }, 
         callback);
 }
-motionsSchema.statics.findbyteacherid = function(req, callback) {
+motionSchema.statics.findbyteacherid = function(req, callback) {
+    console.log("Motion:findbyteacherid");
     return this.model('motions').find(
         { 
             teacherid: req.teacherid
         }, 
         callback);
 }
-motionsSchema.statics.findbystatus = function(status, callback) {
-    return this.model('motions').find({ status: status}, callback);
+motionSchema.statics.findbystatus = function(req, callback) {
+    console.log("Motion:findbystatus");
+    return this.model('motions').find(
+            { 
+                status: req.status
+            }, 
+            callback);
 }
-motionsSchema.statics.acceptbyid = function(req, callback) {
-    this.model('motions').update(
-        {teacherid:req.teacherid, studentid:req.studentid, courseid:req.courseid},
+motionSchema.statics.acceptbyid = function(req, callback) {
+    console.log("Motion:accepbyid");
+    return this.model('motions').update(
+        {
+            teacherid:req.teacherid, 
+            studentid:req.studentid, 
+            courseid:req.courseid
+        },
         {
             $set:{
                 status:"accepted",
                 feedback:{admin:req.admin,comment: req.comment}
             }
-        }
+        },
+        callback
     )
-    return this.model('grades').update(
-         {studentid:req.id},
+    /*return this.model('motions').update(
+         {
+            studentid:req.id
+         },
          {
             $set:{
                 grade: req.val
             }
          },
-         callback);
+         callback);*/
 }
 
-motionsSchema.statics.rejectbyid = function(req, callback) {
+motionSchema.statics.rejectbyid = function(req, callback) {
+    console.log("Motion:rejectbyid");
     return this.model('motions').update(
-        {teacherid:req.teacherid, studentid:req.studentid, couresid:req.course.id},
+        {
+            teacherid:req.teacherid, 
+            studentid:req.studentid, 
+            courseid:req.courseid},
         {
             $set:{
                 status:"rejected",
@@ -73,8 +92,9 @@ motionsSchema.statics.rejectbyid = function(req, callback) {
         callback);
 }
 
-motionsSchema.statics.create = function(req, callbck) {
-    return this.model('motions').insert(
+motionSchema.statics.insert = function(req, callback) {
+    console.log("Motion:create");
+    return this.model('motions').create(
         {
             teacherid:req.teacherid,
             studentid:req.studentid,
@@ -89,7 +109,7 @@ motionsSchema.statics.create = function(req, callbck) {
         callback);
 }
 
-motionsSchema.statics.removebyid = function(req, callback) {
+motionSchema.statics.removebyid = function(req, callback) {
     return this.model('motions').remove(
         { 
             teacherid: req.teacherid, 
@@ -98,5 +118,5 @@ motionsSchema.statics.removebyid = function(req, callback) {
         }, 
         callback);
 }
-var motionsModel = mongoose.model('grades',motionsSchema);
-module.exports=motionsModel;
+var motionModel = mongoose.model('motions',motionSchema);
+module.exports=motionModel;

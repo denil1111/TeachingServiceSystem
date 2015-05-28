@@ -13,10 +13,10 @@ var CourseModel = require('../db/group1db/CourseModel');
 
 
 
+    
 
 router.get('/grades', function(req, res, next) {
 if(!req.session.user){return res.redirect('../info/login');}
-
 var criteria = {userid : '3120102300'};
 criteria.userid = req.session.user[0].userid;
 
