@@ -6,7 +6,7 @@ var CourseModel = require('../../db/gourp1db/CourseModel');
 var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
 router.get('arrange/teachercourse',function(req,res,next){
-	if(!req.session.user){return res.redirect('login');}
+	if(!req.session.user){return res.redirect('../info/login');}
 	var localuser=req.session.user[0];
 	CourseModel.findbyteacher(localuser.username,function(error,data){
 		if(error){

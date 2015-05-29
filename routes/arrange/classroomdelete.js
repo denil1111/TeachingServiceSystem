@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
 router.get('arrange/classroomdelete', function(req, res,next) {
-    if(!req.session.user){return res.redirect('login');}
+    if(!req.session.user){return res.redirect('../info/login');}
     res.render('/classroomdelete',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
