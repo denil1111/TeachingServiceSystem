@@ -45,14 +45,22 @@
   <div class="box-header">  
     <span class="title">大类课程</span>
     <ul class="box-toolbar">
-      <li><span class="label label-green">已完成 32/42 学分</span></li>
+      <% if((parseInt(getpoint1)+parseInt(getpoint2))==(parseInt(total_point1)+parseInt(total_point2))){%>
+      <li><span class="label label-green">已完成 <%= parseInt(getpoint1)+parseInt(getpoint2) %>/<%= parseInt(total_point1)+parseInt(total_point2) %> 学分</span></li>
+      <% } else {%>
+      <li><span class="label label-red">已完成 <%= parseInt(getpoint1)+parseInt(getpoint2) %>/<%= parseInt(total_point1)+parseInt(total_point2) %> 学分</span></li>
+      <% } %>  
     </ul>
   </div>
   <div class="box-content">
     <div class="box-header">
           <span class="title">大类必修课程</span>
            <ul class="box-toolbar">
-      <li><span class="label label-green">已完成 <%= getpoint %>/<%= total_point %> 学分</span></li>
+       <% if((parseInt(getpoint1))==(parseInt(total_point1))){%>
+      <li><span class="label label-green">已完成 <%= getpoint1 %>/<%= total_point1 %> 学分</span></li>
+      <% } else {%>
+      <li><span class="label label-red">已完成 <%= getpoint1 %>/<%= total_point1 %> 学分</span></li>
+      <% } %>
     </ul>
     </div>
     <table class="table table-normal">
@@ -69,26 +77,140 @@
       </thead>
 
       <tbody>
-         <% for(var i=0;i<dev_plan.length;i++){%>
-         <% if(complete[i]==1){%>
+         <% for(var i=0;i<dev_plan1.length;i++){%>
+         <% if(complete1[i]==1){%>
          <tr class="status-success">
          <td class="icon"><i class="icon-ok"></i></td>
-         <td><%= dev_plan[i].courseid %></td>
-         <td><%= dev_plan[i].coursename %></td>
-         <td><%= dev_plan[i].coursescore%></td>
-         <td><%= dev_plan[i].coursetime %></td>
+         <td><%= dev_plan1[i].courseid %></td>
+         <td><%= dev_plan1[i].coursename %></td>
+         <td><%= dev_plan1[i].coursescore%></td>
+         <td><%= dev_plan1[i].coursetime %></td>
          <td><%= year1[i] %></td>         
-         <td><%= dev_plan[i].courseterm %></td>
+         <td><%= dev_plan1[i].courseterm %></td>
          </tr>
          <% } else {%>    
          <tr class="status-success">
          <td class="icon"><i class="icon-check-empty"></i></td>
-         <td><%= dev_plan[i].courseid %></td>
-         <td><%= dev_plan[i].coursename %></td>
-         <td><%= dev_plan[i].coursescore%></td>
-         <td><%= dev_plan[i].coursetime %></td>
+         <td><%= dev_plan1[i].courseid %></td>
+         <td><%= dev_plan1[i].coursename %></td>
+         <td><%= dev_plan1[i].coursescore%></td>
+         <td><%= dev_plan1[i].coursetime %></td>
          <td><%= year1[i] %></td>         
-         <td><%= dev_plan[i].courseterm %></td>
+         <td><%= dev_plan1[i].courseterm %></td>
+         </tr>
+         <% }} %>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<div class="col-md-6">
+    <!-- find me in partials/tasks_table -->
+
+<div class="box">
+  <div class="box-content">
+    <div class="box-header">
+          <span class="title">大类选修课程</span>
+           <ul class="box-toolbar">
+             <% if((parseInt(getpoint2))==(parseInt(total_point2))){%>
+      <li><span class="label label-green">已完成 <%= getpoint2 %>/<%= total_point2 %> 学分</span></li>
+      <% } else {%>}
+      <li><span class="label label-red">已完成 <%= getpoint2 %>/<%= total_point2 %> 学分</span></li>
+      <% } %>
+    </ul>
+    </div>
+    <table class="table table-normal">
+      <thead>
+      <tr>
+        <td>状态</td>
+        <td>课程号</td>
+        <td>课程名称</td>
+        <td>学分</td>
+        <td>周学时</td>
+        <td>年级</td>
+        <td>学期</td>
+      </tr>
+      </thead>
+
+      <tbody>
+         <% for(var i=0;i<dev_plan2.length;i++){%>
+         <% if(complete2[i]==1){%>
+         <tr class="status-success">
+         <td class="icon"><i class="icon-ok"></i></td>
+         <td><%= dev_plan2[i].courseid %></td>
+         <td><%= dev_plan2[i].coursename %></td>
+         <td><%= dev_plan2[i].coursescore%></td>
+         <td><%= dev_plan2[i].coursetime %></td>
+         <td><%= year2[i] %></td>         
+         <td><%= dev_plan2[i].courseterm %></td>
+         </tr>
+         <% } else {%>    
+         <tr class="status-success">
+         <td class="icon"><i class="icon-check-empty"></i></td>
+         <td><%= dev_plan2[i].courseid %></td>
+         <td><%= dev_plan2[i].coursename %></td>
+         <td><%= dev_plan2[i].coursescore%></td>
+         <td><%= dev_plan2[i].coursetime %></td>
+         <td><%= year2[i] %></td>         
+         <td><%= dev_plan2[i].courseterm %></td>
+         </tr>
+         <% }} %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="col-md-6">
+    <!-- find me in partials/tasks_table -->
+<div class="box">
+  <div class="box-header">  
+    <span class="title">通识课程</span>
+    <ul class="box-toolbar">
+      <% if((parseInt(getpoint3))==(parseInt(total_point3))){%>
+      <li><span class="label label-green">已完成 <%= getpoint3 %>/<%= total_point3 %> 学分</span></li>
+      <% } else {%>}
+      <li><span class="label label-red">已完成 <%= getpoint3 %>/<%= total_point3 %> 学分</span></li>
+      <% } %>
+    </ul>
+  </div>
+  <div class="box-content">
+    
+    <table class="table table-normal">
+      <thead>
+      <tr>
+        <td>状态</td>
+        <td>课程号</td>
+        <td>课程名称</td>
+        <td>学分</td>
+        <td>周学时</td>
+        <td>年级</td>
+        <td>学期</td>
+      </tr>
+      </thead>
+
+      <tbody>
+         <% for(var i=0;i<dev_plan3.length;i++){%>
+         <% if(complete3[i]==1){%>
+         <tr class="status-success">
+         <td class="icon"><i class="icon-ok"></i></td>
+         <td><%= dev_plan3[i].courseid %></td>
+         <td><%= dev_plan3[i].coursename %></td>
+         <td><%= dev_plan3[i].coursescore%></td>
+         <td><%= dev_plan3[i].coursetime %></td>
+         <td><%= year3[i] %></td>         
+         <td><%= dev_plan3[i].courseterm %></td>
+         </tr>
+         <% } else {%>    
+         <tr class="status-success">
+         <td class="icon"><i class="icon-check-empty"></i></td>
+         <td><%= dev_plan3[i].courseid %></td>
+         <td><%= dev_plan3[i].coursename %></td>
+         <td><%= dev_plan3[i].coursescore%></td>
+         <td><%= dev_plan3[i].coursetime %></td>
+         <td><%= year3[i] %></td>         
+         <td><%= dev_plan3[i].courseterm %></td>
          </tr>
          <% }} %>
       </tbody>
@@ -98,127 +220,29 @@
 </div>
 
 
-
-
-<div class="col-md-6">
-    <!-- find me in partials/tasks_table -->
-<div class="box">
-  <div class="box-header">  
-    <span class="title">大类选修课程</span>
-    <ul class="box-toolbar">
-      <li><span class="label label-red">已完成 0/3.5 学分</span></li>
-    </ul>
-  </div>
-  <div class="box-content">
-    
-    <table class="table table-normal">
-      <thead>
-      <tr>
-        <td>状态</td>
-        <td>课程号</td>
-        <td>课程名称</td>
-        <td>学分</td>
-        <td>周学时</td>
-        <td>年级</td>
-        <td>学期</td>
-      </tr>
-      </thead>
-
-      <tbody>
-      <tr class="status-pending">
-        <td class="icon"><i class="icon-check-empty"></i></td>
-        <td><a href="#">211B0010</td>
-        <td>概率论与数理统计</td>
-        <td>4.0</td>
-        <td>4.0-0.0</td>
-        <td>一</td>
-        <td>春夏</td>
-      </tr>
-
-      <tr class="status-pending">
-        <td class="icon"><i class="icon-check-empty"></i></td>
-        <td><a href="#">211C0020</td>
-        <td>复变函数与积分变换</td>
-        <td>2.5</td>
-        <td>2.0-1.0</td>
-        <td>二</td>
-        <td>秋</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-</div>
-</div>
-
-<div class="span10">
-<div class="col-md-6">
-    <!-- find me in partials/tasks_table -->
-<div class="box">
-  <div class="box-header">  
-    <span class="title">通识课程</span>
-    <ul class="box-toolbar">
-      <li><span class="label label-red">已完成 0/3.5 学分</span></li>
-    </ul>
-  </div>
-  <div class="box-content">
-    
-    <table class="table table-normal">
-      <thead>
-      <tr>
-        <td>状态</td>
-        <td>课程号</td>
-        <td>课程名称</td>
-        <td>学分</td>
-        <td>周学时</td>
-        <td>年级</td>
-        <td>学期</td>
-      </tr>
-      </thead>
-
-      <tbody>
-      <tr class="status-pending">
-        <td class="icon"><i class="icon-check-empty"></i></td>
-        <td><a href="#">211B0010</td>
-        <td>概率论与数理统计</td>
-        <td>4.0</td>
-        <td>4.0-0.0</td>
-        <td>一</td>
-        <td>春夏</td>
-      </tr>
-
-      <tr class="status-pending">
-        <td class="icon"><i class="icon-check-empty"></i></td>
-        <td><a href="#">211C0020</td>
-        <td>复变函数与积分变换</td>
-        <td>2.5</td>
-        <td>2.0-1.0</td>
-        <td>二</td>
-        <td>秋</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-</div>
-</div>
-
-<div class="span10">
 <div class="col-md-6">
     <!-- find me in partials/tasks_table -->
 
 <div class="box">
   <div class="box-header">  
-    <span class="title">主页课程</span>
+    <span class="title">专业课程</span>
     <ul class="box-toolbar">
-      <li><span class="label label-green">已完成 32/42 学分</span></li>
+      <% if((parseInt(getpoint4)+parseInt(getpoint5))==(parseInt(total_point4)+parseInt(total_point5))){%>
+      <li><span class="label label-green">已完成 <%= parseInt(getpoint4)+parseInt(getpoint5) %>/<%= parseInt(total_point4)+parseInt(total_point5) %> 学分</span></li>
+      <% } else {%>}
+      <li><span class="label label-red">已完成 <%= parseInt(getpoint4)+parseInt(getpoint5) %>/<%= parseInt(total_point4)+parseInt(total_point5) %> 学分</span></li>
+      <% } %>  
     </ul>
   </div>
   <div class="box-content">
     <div class="box-header">
           <span class="title">专业必修课程</span>
            <ul class="box-toolbar">
-      <li><span class="label label-green">已完成 10/15.5 学分</span></li>
+            <% if((parseInt(getpoint4))==(parseInt(total_point4))){%>
+      <li><span class="label label-green">已完成 <%= getpoint4 %>/<%= total_point4 %> 学分</span></li>
+      <% } else {%>}
+      <li><span class="label label-red">已完成 <%= getpoint4 %>/<%= total_point4 %> 学分</span></li>
+      <% } %>
     </ul>
     </div>
     <table class="table table-normal">
@@ -235,35 +259,33 @@
       </thead>
 
       <tbody>
-         <% for(var i=0;i<dev_plan.length;i++){%>
+      <% for(var i=0;i<dev_plan4.length;i++){%>
+         <% if(complete4[i]==1){%>
          <tr class="status-success">
          <td class="icon"><i class="icon-ok"></i></td>
-         <td><%= dev_plan[i].courseid %></td>
-         <td><%= dev_plan[i].coursename %></td>
-         <td><%= dev_plan[i].coursescore%></td>
-         <td><%= dev_plan[i].coursetime %></td>
-         <td>一</td>         
-         <td><%= dev_plan[i].courseterm %></td>
+         <td><%= dev_plan4[i].courseid %></td>
+         <td><%= dev_plan4[i].coursename %></td>
+         <td><%= dev_plan4[i].coursescore%></td>
+         <td><%= dev_plan4[i].coursetime %></td>
+         <td><%= year4[i] %></td>         
+         <td><%= dev_plan4[i].courseterm %></td>
          </tr>
-         <%}%>
-         
-        <tr class="status-success">
-        <td class="icon"><i class="icon-ok"></i></td>
-        <td><a href="#">211C0020</td>
-        <td>数据结构基础</td>
-        <td>2.5</td>
-        <td>2.0-1.0</td>
-        <td>二</td>
-        <td>秋</td>
-        </tr>
+         <% } else {%>    
+         <tr class="status-success">
+         <td class="icon"><i class="icon-check-empty"></i></td>
+         <td><%= dev_plan4[i].courseid %></td>
+         <td><%= dev_plan4[i].coursename %></td>
+         <td><%= dev_plan4[i].coursescore%></td>
+         <td><%= dev_plan4[i].coursetime %></td>
+         <td><%= year4[i] %></td>         
+         <td><%= dev_plan4[i].courseterm %></td>
+         </tr>
+         <% }} %>
       </tbody>
     </table>
   </div>
 </div>
 </div>
-
-
-
 
 <div class="col-md-6">
     <!-- find me in partials/tasks_table -->
@@ -271,7 +293,11 @@
   <div class="box-header">  
     <span class="title">专业选修课程</span>
     <ul class="box-toolbar">
-      <li><span class="label label-red">已完成 0/3.5 学分</span></li>
+            <% if((parseInt(getpoint5))==(parseInt(total_point5))){%>
+      <li><span class="label label-green">已完成 <%= getpoint5 %>/<%= total_point5 %> 学分</span></li>
+      <% } else {%>}
+      <li><span class="label label-red">已完成 <%= getpoint5 %>/<%= total_point5 %> 学分</span></li>
+      <% } %>
     </ul>
   </div>
   <div class="box-content">
@@ -290,38 +316,36 @@
       </thead>
 
       <tbody>
-      <tr class="status-pending">
-        <td class="icon"><i class="icon-check-empty"></i></td>
-        <td><a href="#">211B0010</td>
-        <td>概率论与数理统计</td>
-        <td>4.0</td>
-        <td>4.0-0.0</td>
-        <td>一</td>
-        <td>春夏</td>
-      </tr>
-
-      <tr class="status-pending">
-        <td class="icon"><i class="icon-check-empty"></i></td>
-        <td><a href="#">211C0020</td>
-        <td>复变函数与积分变换</td>
-        <td>2.5</td>
-        <td>2.0-1.0</td>
-        <td>二</td>
-        <td>秋</td>
-      </tr>
+         <% for(var i=0;i<dev_plan5.length;i++){%>
+         <% if(complete5[i]==1){%>
+         <tr class="status-success">
+         <td class="icon"><i class="icon-ok"></i></td>
+         <td><%= dev_plan5[i].courseid %></td>
+         <td><%= dev_plan5[i].coursename %></td>
+         <td><%= dev_plan5[i].coursescore%></td>
+         <td><%= dev_plan5[i].coursetime %></td>
+         <td><%= year5[i] %></td>         
+         <td><%= dev_plan5[i].courseterm %></td>
+         </tr>
+         <% } else {%>    
+         <tr class="status-success">
+         <td class="icon"><i class="icon-check-empty"></i></td>
+         <td><%= dev_plan5[i].courseid %></td>
+         <td><%= dev_plan5[i].coursename %></td>
+         <td><%= dev_plan5[i].coursescore%></td>
+         <td><%= dev_plan5[i].coursetime %></td>
+         <td><%= year5[i] %></td>         
+         <td><%= dev_plan5[i].courseterm %></td>
+         </tr>
+         <% }} %>
       </tbody>
     </table>
   </div>
 </div>
 </div>
+
+
 </div>
-
-
-
-
-
-
-
 </div>
 </body>
 </html>

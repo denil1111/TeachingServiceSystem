@@ -8,11 +8,7 @@ var router = express.Router();
 var home = require('./home');
 var student_analysis = require('./student_analysis');
 var student_test = require('./student_test');
-var student_guide1= require('./tutorial1');
-var student_guide2= require('./tutorial2');
-var student_guide3= require('./tutorial3');
-var student_guide4= require('./tutorial4');
-var student_guide5= require('./tutorial5');
+var student_guide= require('./tutorial');
 var teacher_classlist = require('./teacher_classlist');
 var teacher_classmanage = require('./teacher_classmanage');
 var teacher_gradesfix = require('./teacher_gradesfix');
@@ -28,11 +24,7 @@ router.use('/',teacher_classmanage);
 router.use('/',teacher_gradesfix);
 router.use('/',teacher_gradessubmit);
 router.use('/',admin_gradesaudit);
-router.use('/',student_guide1);
-router.use('/',student_guide2);
-router.use('/',student_guide3);
-router.use('/',student_guide4);
-router.use('/',student_guide5);
+router.use('/',student_guide);
 
 
 
