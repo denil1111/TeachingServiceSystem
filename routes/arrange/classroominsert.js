@@ -3,9 +3,16 @@ var router = express.Router();
 var mongoose = require('mongoose'); 
 var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
+var tmp = {
+    classid2 : "教7-201",
+    campus : "玉泉",
+    capacity : "100",
+    facility : "习近平"    
+};
+
 router.get('/classroominsert', function(req, res,next) {
     if(!req.session.user){return res.redirect('login');}
-    res.render('classroominsert',{
+    res.render('arrange/classroominsert',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
@@ -40,7 +47,7 @@ router.post('/classroominsert',function(req,res,next){
         else{
             console.log('Saved by Model OK!');
             console.log(data);
-            res.render('classroominsert',{
+            res.render('arrange/classroominsert',{
                 name: '程序员', 
                 image: 'images/avatars/avatar3.jpg',
                 total_a:'12',
