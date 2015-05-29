@@ -27,7 +27,8 @@ gradesDB.find(function(error,docs){
   	total_b:'24',
   	b:'4,6,2,4,6,2,0',
   	total_credits:'24',
-  	credits:'4,6,2,4,6,2,0'
+  	credits:'4,6,2,4,6,2,0',
+    data:docs
   });
   }); 
 });  

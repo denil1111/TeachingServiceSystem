@@ -1,3 +1,5 @@
+//审核表
+
 var mongoose = require('mongoose');
 
 // var Schema = new mongoose.Schema({

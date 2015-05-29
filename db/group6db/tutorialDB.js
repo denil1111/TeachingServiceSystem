@@ -1,3 +1,4 @@
+//培养方案表
 var mongoose = require('mongoose');
 
 var tutorialSchema = new mongoose.Schema({
