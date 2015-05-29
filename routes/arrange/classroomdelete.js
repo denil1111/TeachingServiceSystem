@@ -3,9 +3,9 @@ var router = express.Router();
 var mongoose = require('mongoose'); 
 var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
-router.get('arrange/classroomdelete', function(req, res,next) {
+router.get('/classroomdelete', function(req, res,next) {
     if(!req.session.user){return res.redirect('../info/login');}
-    res.render('/classroomdelete',{
+    res.render('arrange/classroomdelete',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
@@ -27,7 +27,7 @@ router.post('/classroomdelete',function(req,res,next){
             console.log('find ok!'+data);
         }
         console.log('data : '+data);
-        res.render('classroomdelete',{
+        res.render('arrange/classroomdelete',{
             name: '程序员', 
             image: 'images/avatars/avatar3.jpg',
             total_a:'12',

@@ -3,9 +3,16 @@ var router = express.Router();
 var mongoose = require('mongoose'); 
 var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
+var tmp = {
+    classid2 : "教7-201",
+    campus : "玉泉",
+    capacity : "100",
+    facility : "习近平"    
+};
+
 router.get('/classroommodify', function(req, res,next) {
     if(!req.session.user){return res.redirect('../info/login');}
-    res.render('/classroommodify',{
+    res.render('arrange/classroommodify',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
@@ -34,7 +41,7 @@ router.post('/classroommodify',function(req,res,next){
         }
         else{
             console.log(data);
-            res.render('/classroommodify',{
+            res.render('arrange/classroommodify',{
                 name: '程序员', 
                 image: 'images/avatars/avatar3.jpg',
                 total_a:'12',
