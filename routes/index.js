@@ -9,7 +9,7 @@ var select = require("./course")
 // var resource = require()
 var lhtest = require("./lhtest")
 // var score = require()
-var grades = require("./grades")
+var grades = require("./grades/grades")
 
 
 router.use(session({
