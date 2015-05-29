@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose'); 
 var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
-router.get('/classroomdelete', function(req, res,next) {
+router.get('arrange/classroomdelete', function(req, res,next) {
     if(!req.session.user){return res.redirect('login');}
     res.render('/classroomdelete',{
         name: '程序员', 

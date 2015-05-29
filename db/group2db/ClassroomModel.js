@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var ClassroomSchema = new mongoose.Schema({
     classid2     : {type : String},
     campus      : {type : String},	//校区
-    capacity    : {type : Integer},  //教室容量
+    capacity    : {type : Number},  //教室容量
     facility    : {type : String},  //负责人
 });
 
@@ -13,8 +13,8 @@ ClassroomSchema.statics.findall = function (callback){
     return this.model('ClassroomSchema').find(callback);
 }
 
-ClassroomSchema.statics.findbyid = function (classid2, callback) {
-    return this.model('ClassroomModel').find({classid2,classid2},callback);
+ClassroomSchema.statics.findbyid = function (classid2,callback) {
+    return this.model('ClassroomModel').find({classid2 : classid2},callback);
 }
 
 ClassroomSchema.statics.findbycampus = function (campus, callback) {
