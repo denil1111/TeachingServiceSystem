@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 
 var tutorialSchema = new mongoose.Schema({
-    courseid  : String,
-    type      : Number,  
-    year	  : String
+    courseid:String,//课程号
+    type:Number,  //模块类型
+    year:String  //修读年份
 
 });
 
