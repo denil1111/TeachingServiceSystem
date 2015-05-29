@@ -27,7 +27,12 @@ var Schema = new mongoose.Schema({
        secondScore:Number
 });*/
 
+
 router.get('/arrange', function(req, res, next) {
+  res.redirect('arrange_arrange_course');
+});
+
+router.get('/arrange_arrange_course', function(req, res, next) {
 
 var gradesDB = global.db.model('classroom',Schema);
 gradesDB.find(function(error,docs){
@@ -36,7 +41,7 @@ gradesDB.find(function(error,docs){
         return;
     }
 
-  res.render('arrange/arrange', {
+  res.render('arrange/arrange_arrange_course', {
     name: '程序员', 
     image: 'images/avatars/avatar2.jpg',
     total_a:'12',
@@ -48,7 +53,7 @@ gradesDB.find(function(error,docs){
     data:docs
   });
 });
-});  
+});
 
 
 router.get('/arrange_course_information',function(req, res, next) {
@@ -99,7 +104,7 @@ gradesDB.find(function(error, docs){
 }); 
 
 
-router.get('/arrange_classroom_information',function(req, res, next) {
+router.get('/arrange_classroom_management',function(req, res, next) {
 
 var gradesDB = global.db.model('classroom', Schema);
 gradesDB.find(function(error, docs){
@@ -110,7 +115,7 @@ gradesDB.find(function(error, docs){
 
 //console.log(docs);
 
-  res.render('arrange/arrange_classroom_information', {
+  res.render('arrange/arrange_classroom_management', {
     name: '程序员', 
     image: 'images/avatars/avatar2.jpg',
     total_a:'12',
