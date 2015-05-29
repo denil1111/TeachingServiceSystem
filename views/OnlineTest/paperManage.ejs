@@ -19,33 +19,27 @@
           <div class="box-content">
             <form method='post'>
               <input type='text', style="margin-top:10px;", name='paperTitle', placeholder='请输入试卷标题'/>
-
               <button type='submit', class="btn btn-blue">创建</button>
             </form>
           </div>
         </div>
       </div>
       <div class="span12">
-        <div class="box">
-          <div class="box-header">
-            <div class="title">试卷列表</div>
-          </div>
-        </div>
-      </div>
-
-      <% for(var i = 0; i < papers.length; i++){
-        var paper = papers[i];
-      %>
-      <div class="span10">
-        <div class="box">
-          <div class="box-header">
-            <div class="title"><%= paper.title %></div>
-          </div>
-          <div class="box-content">
-                发布班级：<%= paper.deliver %>
-                <br/>
-                <a href="/OnlineTest/paperManage/delete/<%= paper._id %>">删除</a> <a href="/OnlineTest/paperManage/update/<%= paper._id %>">修改</a>
-                <a href="/OnlineTest/paperManage/deliver/<%= paper._id %>">发布</a>
+        <div class="col-md-6">
+          <div class="box">
+            <div class="box-header">
+              <div class="title">试卷列表</div>
+            </div>
+            <% for(var i = 0; i < papers.length; i++){
+              var paper = papers[i];
+            %>    
+            <div class="page-header">
+              <div class="title"><h3><%= paper.title %>#<%= paper.deliver %></h3></div>
+            </div>
+            <div class="box-content padded">
+                  <a class="btn btn-blue", href="/OnlineTest/paperManage/delete/<%= paper._id %>">删除</a> <a class="btn btn-red", href="/OnlineTest/paperManage/update/<%= paper._id %>">修改</a>
+                  <a class="btn btn-green", href="/OnlineTest/paperManage/deliver/<%= paper._id %>">发布</a>
+            </div>
           </div>
         </div>
       </div>
