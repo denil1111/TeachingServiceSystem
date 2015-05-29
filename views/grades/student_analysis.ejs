@@ -1,5 +1,6 @@
 <!doctype html>
 <% include ../head.html %>
+<script src="/javascripts/echarts/dist/echarts.js"></script>
 </head>
 <body>
 <!-- 上方选择条 navbar-top-->
@@ -21,6 +22,115 @@
      setSlideActive();
 </script>
 
+<script type="text/javascript">
+        require.config({
+            paths: {
+                echarts: '/javascripts/echarts/dist'
+            }
+        });
+        require(
+            [
+                'echarts',
+                'echarts/chart/line',   // 按需加载所需图表，如需动态类型切换功能，别忘了同时加载相应图表
+                'echarts/chart/bar'
+            ],
+            function (ec) {
+                var myChart = ec.init(document.getElementById('main'));
+            var   option = {
+    title : {
+        text: '绩点统计图'
+      
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['学年主修专业绩点','学年课程平均绩点','总绩点']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {show: true, type: ['line', 'bar']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,   
+            data : ['2012-2013','2013-2014','2014-2015','2015-2016']
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+            min:0,
+            max:5,
+            axisLabel : {
+                formatter: '{value} '
+            }
+        }
+    ],
+    series : [
+        {
+            name:'学年主修专业绩点',
+            type:'line',
+            data:[4.7,4.5,4.6,4.4],
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name: '平均值'}
+                ]
+            }
+        },
+        {
+            name:'学年课程平均绩点',
+            type:'line',
+            data:[3.7,4.2,4.5,4.2],
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name: '平均值'}
+                ]
+            }
+        },
+        {
+            name:'总绩点',
+            type:'line',
+            data:[3.9,4.0,4.3,4.6],
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name: '平均值'}
+                ]
+            }
+        }
+
+    ]
+};
+                myChart.setOption(option);
+            }
+        );
+    </script>
 
 
 
@@ -41,10 +151,8 @@
 <div class="row">
   <div class="col-md-4">
     <div class="box">
-      <div class="box-header"><span class="title">More xCharts</span></div>
-      <div class="box-content padded">
-        <div class="xcharts-line-dotted" style="width: 100%; height: 300px"></div>
-      </div>
+      <div class="box-header"><span class="title">charts1</span></div>
+        <div id="main" style="height:400px"></div>
     </div>
   </div>
 
@@ -52,11 +160,9 @@
 
     <div class="box">
       <div class="box-header">
-        <span class="title">More xCharts</span>
-        <ul class="box-toolbar">
-          <li><a id="randomize-bar-chart" class="btn btn-blue btn-xs">Randomize!</a></li>
-        </ul>
+        <span class="title">charts2</span>
       </div>
+      
       <div class="box-content padded">
         <div class="xcharts-bar" style="width: 100%; height: 300px"></div>
       </div>
