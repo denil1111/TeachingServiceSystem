@@ -4,10 +4,10 @@ var router = express.Router();
 var mongoose=require('mongoose');
 
 //这里require数据库
-var gradesDB = require('../db/group6db/gradesDB.js');
-var tutorialDB= require('../db/group6db/tutorialDB.js');
-var PersonModel = require('../db/group1db/PersonModel');
-var CourseModel = require('../db/group1db/CourseModel');
+var gradesDB = require('../../db/group6db/gradesDB.js');
+var tutorialDB= require('../../db/group6db/tutorialDB.js');
+var PersonModel = require('../../db/group1db/PersonModel');
+var CourseModel = require('../../db/group1db/CourseModel');
 
 router.get('/tutorial',function(req, res, next) {
 

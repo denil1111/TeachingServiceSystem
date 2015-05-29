@@ -1,13 +1,13 @@
-//´óÀà±ØÐÞÄ£¿é
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½
 var express = require('express');
 var router = express.Router();
 var mongoose=require('mongoose');
 
-//ÕâÀïrequireÊý¾Ý¿â
-var gradesDB = require('../db/group6db/gradesDB.js');
-var tutorialDB= require('../db/group6db/tutorialDB.js');
-var PersonModel = require('../db/group1db/PersonModel');
-var CourseModel = require('../db/group1db/CourseModel');
+//ï¿½ï¿½ï¿½ï¿½requireï¿½ï¿½ï¿½Ý¿ï¿½
+var gradesDB = require('../../db/group6db/gradesDB.js');
+var tutorialDB= require('../../db/group6db/tutorialDB.js');
+var PersonModel = require('../../db/group1db/PersonModel');
+var CourseModel = require('../../db/group1db/CourseModel');
 
 router.get('/tutorial',function(req, res, next) {
 
@@ -18,10 +18,10 @@ tutorialDB.find(function(error, tData){
       console.log(error);
       return;
   }
-  //µÃµ½tutorial±íÖÐµÄËùÓÐÊý¾Ý
+  //ï¿½Ãµï¿½tutorialï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-    var courseid1=[];//´óÀà±ØÐÞid
-    var courseyear1=[];//´óÀà±ØÐÞyear
+    var courseid1=[];//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½id
+    var courseyear1=[];//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½year
     for (var i = 0; i < tData.length; i++) {
       var courseid = tData[i].courseid;
       var type=tData[i].type;
@@ -35,7 +35,7 @@ tutorialDB.find(function(error, tData){
     console.log(courseid1);
     var id1={courseid: {$in: courseid1}};
 
-    //²é¿´B±íÖÐÕâÌõÊý¾Ý  
+    //ï¿½é¿´Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
     CourseModel.find(id1,{},function(error,dev_plan){
        if(error){
           console.log(error);
@@ -64,7 +64,7 @@ tutorialDB.find(function(error, tData){
        }
 
          res.render('grades/student_guide', {
-          name: '³ÌÐòÔ±', 
+          name: 'ï¿½ï¿½ï¿½ï¿½Ô±', 
           image: 'images/avatars/avatar1.jpg',
           total_a:'12',
           a:'2,3,1,2,3,1,0',
