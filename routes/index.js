@@ -3,13 +3,13 @@ var router = express.Router();
 var session = require('express-session');
 
 var info = require('./info/info');
+var arrange = require('./arrange/arrange')
 // var arrange = require()
-var select = require("./course")
+// var select = require("./course")
 // var resource = require()
 // var test = require()
 // var score = require()
-var grades = require("./grades")
-var arrange = require('./arrange/arrange')
+// var grades = require("./grades")
 
 //session initial
 router.use(session({
@@ -18,23 +18,19 @@ router.use(session({
   saveUnintialized: false
 }));
 
-
-var arrange = require("./arrange")
-
-
 /* GET home page. */
 router.all('/',isLoggedIn);
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
+
 router.use('/info', info);
-// router.get('/arrange', arrange);
-router.use('/', select);
+router.use('/arrange', arrange);
+// router.use('/select', select);
 // router.get('/resource', resource);
 // router.get('/test', test);
 // router.get('/score', score);
-
-router.use('/grades', grades);
+// router.use('/grades', grades);
 
 function isLoggedIn(req, res, next) {
 	console.log("isLoggedIn");
@@ -43,9 +39,5 @@ function isLoggedIn(req, res, next) {
 
     res.redirect('/info/login');
 }
-
-router.use('/', grades);
-router.use('/', arrange);
-
 
 module.exports = router;
