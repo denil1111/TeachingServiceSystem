@@ -13,10 +13,10 @@ var CourseModel = require('../db/group1db/CourseModel');
 
 
 
+    
 
 router.get('/grades', function(req, res, next) {
 if(!req.session.user){return res.redirect('../info/login');}
-
 var criteria = {userid : '3120102300'};
 criteria.userid = req.session.user[0].userid;
 
@@ -155,29 +155,6 @@ router.get('/tutorial',function(req, res, next) {
 
 if(!req.session.user){return res.redirect('../info/login');}
 
-/*gradesDB.find(function(error,docs){
-    if(error){
-        console.log(error);
-        return;
-    }
-    var dev_plan_req=[];//必修课变量
-    dev_plan_req.push({ID:"0011345",name:"如何正确的把妹",time:"大三 秋冬",credit:"4.5",complete:false});
-    dev_plan_req.push({ID:"0011346",name:"如何正确的犯蠢",time:"大三 秋冬",credit:"4.5",complete:false});
-
-  res.render('grades/student_guide', {
-  	name: '程序员', 
-  	image: 'images/avatars/avatar1.jpg',
-  	total_a:'12',
-  	a:'2,3,1,2,3,1,0',
-  	total_b:'24',
-  	b:'4,6,2,4,6,2,0',
-  	total_credits:'24',
-  	credits:'4,6,2,4,6,2,0',
-    data:docs,
-	dev_plan:dev_plan_req
-  });
-  }); 
-*/
 
 tutorialDB.find(function(error, tData){
   if(error){
@@ -185,7 +162,7 @@ tutorialDB.find(function(error, tData){
       return;
   }
   //得到tutorial表中的所有数据
-
+    console.log(tData);
     var courseid1=[];//大类必修id
     var courseid2=[];//大类选修id
     var courseid3=[];//通识id
@@ -361,6 +338,126 @@ gradesDB.find(criteria,function(error,grades){
     
   }); 
 }); 
+
+
+router.post('/gradesfix',function(req, res, next) {
+
+if(!req.session.user){return res.redirect('../info/login');}
+
+var criteria = {courseid : req.body.courseid};
+
+   // console.log("what is req:"+req.body.courseid);
+
+console.log("userid"+req.body.userid);
+console.log("courseid"+req.body.courseid);
+console.log("score"+req.body.score);
+console.log((req.body.score-45)/10);
+
+
+
+gradesDB.update({userid:req.body.userid,courseid:req.body.courseid},{$set:{score:req.body.score,gradePoint:(req.body.score-45)/10}},function(error,lol){
+  if(error){
+        console.log(error);
+        return;
+    }
+    
+  gradesDB.find(criteria,function(error,grades){
+    if(error){
+        console.log(error);
+        return;
+    }
+    
+    var studentList=[];
+    
+    for(var i=0;i<grades.length;i++){
+      studentList.push(grades[i].userid);
+    }
+    
+    
+   PersonModel.findbylist(studentList,function(error,persons){
+     
+        // console.log("what is" + persons);
+   CourseModel.findbyid(req.body.courseid,function(error,courses){
+     
+     
+     // console.log("what is persons:" + persons);
+      //console.log("what is courses:" + courses);
+      //console.log("what is grades:" + grades);
+    res.render('grades/teacher_classmanage', {
+  	name: '程序员', 
+  	image: 'images/avatars/avatar1.jpg',
+  	total_a:'12',
+  	a:'2,3,1,2,3,1,0',
+  	total_b:'24',
+  	b:'4,6,2,4,6,2,0',
+  	total_credits:'24',
+  	credits:'4,6,2,4,6,2,0',
+    data:grades,
+    studentslist:persons,
+    courses:courses
+  });   
+   });
+   });
+    
+  }); 
+  
+  
+  
+});
+
+
+
+}); 
+
+
+router.post('/gradesSubmit',function(req, res, next) {
+
+if(!req.session.user){return res.redirect('../info/login');}
+
+console.log(req.body.courseid);
+
+CourseModel.update({courseid:req.body.courseid},{$set:{status:"off"}},function(error,back){
+    if(error){
+        console.log(error);
+        return;
+    }
+  
+        
+CourseModel.findbylist(req.session.user[0].cstlist,function(error,clist){
+    if(error){
+         console.log(error);
+         return;
+     }
+    var cliston=[];
+    var clistoff=[]; 
+    
+    for(var i=0;i<clist.length;i++){
+      if(clist[i].status=="on"){
+        cliston.push(clist[i]);
+      }
+      else if(clist[i].status=="off"){
+        clistoff.push(clist[i]);
+      }
+    }
+   
+    res.render('grades/teacher_classlist', {
+    name: '程序员', 
+    image: 'images/avatars/avatar1.jpg',
+    total_a:'12',
+    a:'2,3,1,2,3,1,0',
+    total_b:'24',
+    b:'4,6,2,4,6,2,0',
+    total_credits:'24',
+    credits:'4,6,2,4,6,2,0',
+    cliston: cliston,
+    clistoff:clistoff
+   });  
+   
+ });
+ });
+ }); 
+
+
 
 router.get('/gradesAudit',function(req, res, next) {
 

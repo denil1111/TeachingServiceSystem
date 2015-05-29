@@ -7,7 +7,7 @@ var info = require('./info/info');
 // var arrange = require()
 var select = require("./course")
 // var resource = require()
-// var test = require()
+var lhtest = require("./lhtest")
 // var score = require()
 var grades = require("./grades")
 
@@ -28,7 +28,7 @@ router.use('/info', info);
 // router.get('/arrange', arrange);
 router.use('/', select);
 // router.get('/resource', resource);
-// router.get('/test', test);
+router.use('/lhtest', lhtest);
 // router.get('/score', score);
 router.use('/grades', grades);
 
