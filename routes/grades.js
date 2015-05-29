@@ -200,10 +200,10 @@ tutorialDB.find(function(error, tData){
       var courseid = tData[i].courseid;
       var type=tData[i].type;
       var year=tData[i].year;
- /*     if(type==1){*/
+      if(type==1){
         courseid1.push(courseid);
         courseyear1.push(year);
-/*      }else if(type==2){
+      }else if(type==2){
       	courseid1.push(courseid);
       	courseyear2.push(year);
       }else if(type==3){
@@ -216,7 +216,7 @@ tutorialDB.find(function(error, tData){
       	courseid1.push(courseid);
       	courseyear5.push(year);
       }
-*/    }
+    }
 
     console.log(courseid1);
     var id1={courseid: {$in: courseid1}};
@@ -240,13 +240,12 @@ tutorialDB.find(function(error, tData){
        var complete=[];
        var getPoint=0;
        for (var i = 0; i < gradeData.length; i++) {
-            var item = gradeData[i];
-            var grade=item._id.score;
+            var grade=gradeData[i].score;
             if(grade>=60){
-              complete.push(true);
-              getPoint+=item._id.courseid.gradePoint;
+              complete.push(1);
+              getPoint+=dev_plan[i].coursescore;
             }else{
-              complete.push(false);
+              complete.push(0);
             }
        }
 
@@ -264,7 +263,7 @@ tutorialDB.find(function(error, tData){
           gradeData:gradeData,
           complete:complete,
           getpoint:getPoint,
-          data:tData
+          year1:courseyear1
          });
      }); 
 

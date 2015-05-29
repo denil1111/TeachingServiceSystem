@@ -70,17 +70,27 @@
 
       <tbody>
          <% for(var i=0;i<dev_plan.length;i++){%>
+         <% if(complete[i]==1){%>
          <tr class="status-success">
          <td class="icon"><i class="icon-ok"></i></td>
          <td><%= dev_plan[i].courseid %></td>
          <td><%= dev_plan[i].coursename %></td>
          <td><%= dev_plan[i].coursescore%></td>
          <td><%= dev_plan[i].coursetime %></td>
-         <td>一</td>         
+         <td><%= year1[i] %></td>         
          <td><%= dev_plan[i].courseterm %></td>
          </tr>
-         <%}%>
-         
+         <% } else {%>    
+         <tr class="status-success">
+         <td class="icon"><i class="icon-check-empty"></i></td>
+         <td><%= dev_plan[i].courseid %></td>
+         <td><%= dev_plan[i].coursename %></td>
+         <td><%= dev_plan[i].coursescore%></td>
+         <td><%= dev_plan[i].coursetime %></td>
+         <td><%= year1[i] %></td>         
+         <td><%= dev_plan[i].courseterm %></td>
+         </tr>
+         <% }} %>
       </tbody>
     </table>
   </div>
