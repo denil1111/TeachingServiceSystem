@@ -1,3 +1,5 @@
+//成绩表
+
 var mongoose = require('mongoose');
 
 var studentGradeSchema = new mongoose.Schema({
