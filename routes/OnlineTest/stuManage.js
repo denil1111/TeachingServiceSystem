@@ -38,7 +38,8 @@ router.get('/', function(req, res, next) {
 					}
 				}
 			}
-			res.render('OnlineTest/stuManage', {papers: papers_valid, records: records, titles: titles});
+			res.render('OnlineTest/stuManage', {papers: papers_valid, records: records, titles: titles, name: '老程序猿',
+		image: 'images/avatars/avatar1.jpg'});
 		});
 		
 	});
@@ -129,13 +130,13 @@ router.get('/answer=:paperId', function(req, res, next) {
 				mongooseModel_pro.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
 					if(err)
 						return next(err);
-					res.render('OnlineTest/paperAnswer', {done: done, point: point, paper: paper, problemsInPaper: problemsInPaper, time:time});
+					res.render('OnlineTest/paperAnswer', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', done: done, point: point, paper: paper, problemsInPaper: problemsInPaper, time:time});
 				});	
 			});
 		}
 		//查询到答题记录，用户不能再次答题
 		else{
-			res.render('OnlineTest/paperAnswer', {done: true, point: result.point, paper: result.paperId, problemsInPaper: [], time: result.time});
+			res.render('OnlineTest/paperAnswer', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', done: true, point: result.point, paper: result.paperId, problemsInPaper: [], time: result.time});
 		}
 	});
 });

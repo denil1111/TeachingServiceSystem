@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Online Test - Answer</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <% include ../head.html %>
   </head>
   <body>
 
@@ -44,52 +43,67 @@
       }
     </script>
 
-    <h1>答题: <%= paper.title %></h1>
-    <%
-      if(done){
-    %>
-      <h1>您已完成答题。您的分数：<%= point %>，答题时间：<%= time %></h1>
-    <%
-      }
-      else{
-    %>
-    <ul>
-      <form method="post">
-      <input type="button" value="开始答题" onclick="timeCount()" />
-      <br/>
-      <p>计时：</p>
-      <input name="clock" type="text" id="txt" readonly/>
-      
-      <div id="problems" style="display:none;">
-      <% for(var i = 0; i < problemsInPaper.length; i++){
-          var problem = problemsInPaper[i];
-          if(problem.type == 0){
-      %>
-        <li>
-        <%= problem.stem %>
-        <br/>
-        <input type="radio" name="<%= problem._id %>" value="1" />A.<%= problem.choice[0] %>
-        <br/>
-        <input type="radio" name="<%= problem._id %>" value="2" />B.<%= problem.choice[1] %>
-        <br/>
-        <input type="radio" name="<%= problem._id %>" value="3" />C.<%= problem.choice[2] %>
-        <br/>
-        <input type="radio" name="<%= problem._id %>" value="4" />D.<%= problem.choice[3] %>
-        </li>
-      <% }else{ %>
-      <li>
-        <%= problem.stem %>
-        <br/>
-        <input type="radio" name="<%= problem._id %>" value="1" />Ture
-        <br/>
-        <input type="radio" name="<%= problem._id %>" value="0" />False
-        </li>
-      <% }} %>
-      <input type='submit', value='确认提交'/>
-      </div>
+    <% include ../navbar.html %>
+    <% include slide_student.html %>
 
-      </form>
-    </ul>
-    <% } %>
+    <div class="main-content">
+       <div class="span12">
+        <div class="box">
+          <div class="box-header">
+            <div class="title">答题: <%= paper.title %></div>
+          </div>
+          <%
+            if(done){
+          %>
+          <div class="box-content">
+              <h1>您已完成答题。您的分数：<%= point %>，答题时间：<%= time %></h1>
+          <%
+            }
+            else{
+          %>
+          
+          <ul>
+            <form method="post">
+            <input type="button" value="开始答题" onclick="timeCount()" />
+            <br/>
+            <p>计时：</p>
+            <input name="clock" type="text" id="txt" readonly/>
+            
+            <div id="problems" style="display:none;">
+            <% for(var i = 0; i < problemsInPaper.length; i++){
+                var problem = problemsInPaper[i];
+                if(problem.type == 0){
+            %>
+              <li>
+              <%= problem.stem %>
+              <br/>
+              <input type="radio" name="<%= problem._id %>" value="1" />A.<%= problem.choice[0] %>
+              <br/>
+              <input type="radio" name="<%= problem._id %>" value="2" />B.<%= problem.choice[1] %>
+              <br/>
+              <input type="radio" name="<%= problem._id %>" value="3" />C.<%= problem.choice[2] %>
+              <br/>
+              <input type="radio" name="<%= problem._id %>" value="4" />D.<%= problem.choice[3] %>
+              </li>
+            <% }else{ %>
+            <li>
+              <%= problem.stem %>
+              <br/>
+              <input type="radio" name="<%= problem._id %>" value="1" />Ture
+              <br/>
+              <input type="radio" name="<%= problem._id %>" value="0" />False
+              </li>
+            <% }} %>
+            </br>
+            <input type='submit', value='确认提交'/>
+            </div>
+
+            </form>
+          </ul>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
   </body>
 </html>

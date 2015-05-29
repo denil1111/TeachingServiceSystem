@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 	mongooseModel.find({}, function(err, papers){
 		if(err)
 			return next(err);
-		res.render('OnlineTest/paperManage', {papers: papers});
+		res.render('OnlineTest/paperManage', {papers: papers, name: '老程序猿', image: 'images/avatars/avatar1.jpg'});
 		//db.close();
 	});
   //res.render('teaTestManage', { title: 'Online Test System - Teacher' });

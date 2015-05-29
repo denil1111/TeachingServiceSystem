@@ -1,29 +1,55 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Online Test - Paper Manage</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <% include ../head.html %>
   </head>
+
   <body>
-    <h1>创建空白试卷</h1>
-    <form method='post'>
-    	<p><input type='text', name='paperTitle', placeholder='Stem'/></p>
-    	<p><input type='submit', value='Submit'/></p>
-    </form>
-    <br/>
-    <h1>试卷列表</h1>
-    <ul>
+    <!-- 上方选择条 navbar-top-->
+    <% include ../navbar.html %>
+    <!-- 侧边框 -->
+    <% include slide_teacher.html%>    
+
+    <div class="main-content">
+       <div class="span12">
+        <div class="box">
+          <div class="box-header">
+            <div class="title">创建空白试卷</div>
+          </div>
+          <div class="box-content">
+            <form method='post'>
+              <input type='text', style="margin-top:10px;", name='paperTitle', placeholder='请输入试卷标题'/>
+
+              <button type='submit', class="btn btn-blue">创建</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="span12">
+        <div class="box">
+          <div class="box-header">
+            <div class="title">试卷列表</div>
+          </div>
+        </div>
+      </div>
+
       <% for(var i = 0; i < papers.length; i++){
-          var paper = papers[i];
+        var paper = papers[i];
       %>
-        <li>
-        <h1><%= paper.title %></h1>
-        发布班级：<%= paper.deliver %>
-        <br/>
-        <a href="/OnlineTest/paperManage/delete/<%= paper._id %>">删除</a> <a href="/OnlineTest/paperManage/update/<%= paper._id %>">修改</a>
-        <a href="/OnlineTest/paperManage/deliver/<%= paper._id %>">发布</a> 
-        </li>
+      <div class="span10">
+        <div class="box">
+          <div class="box-header">
+            <div class="title"><%= paper.title %></div>
+          </div>
+          <div class="box-content">
+                发布班级：<%= paper.deliver %>
+                <br/>
+                <a href="/OnlineTest/paperManage/delete/<%= paper._id %>">删除</a> <a href="/OnlineTest/paperManage/update/<%= paper._id %>">修改</a>
+                <a href="/OnlineTest/paperManage/deliver/<%= paper._id %>">发布</a>
+          </div>
+        </div>
+      </div>
       <% } %>
-    </ul>
+    </div>
   </body>
 </html>
