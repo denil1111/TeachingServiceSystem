@@ -1,14 +1,6 @@
+//成绩表
+
 var mongoose = require('mongoose');
-
-// var Schema = new mongoose.Schema({
-// courseNumber: String,
-// courseName:String,
-// score:Number,
-// credit:Number,
-// gradePoint:Number,
-// secondScore:Number
-// });
-
 
 var studentGradeSchema = new mongoose.Schema({
 courseid    : String,  
@@ -17,7 +9,9 @@ score       : Number,
 gradePoint  : Number,
 secondScore : Number
 });
+studentGradeSchema.statics.findbyid = function(courseid, callback) {
+    return this.model('gradesDB').find({courseid: courseid}, callback);
+}
 
-
-var gradesModel = mongoose.model('grades',studentGradeSchema);
+var gradesModel = mongoose.model('gradesDB',studentGradeSchema,'grades');
 module.exports=gradesModel;
