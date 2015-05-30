@@ -2,12 +2,12 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose/');
 var PersonModel = require('../../db/group1db/PersonModel');
-var CourseModel = require('../../db/gourp1db/CourseModel');
+var CourseModel = require('../../db/group1db/CourseModel');
 var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
 router.get('/classroomcourse',function(req,res,next){
 	if(!res.session.user){return res.redirect('../info/login');}
-	var localuser=req.session.user[0];
+	var classroom=req.session.user[0];
 	ClassroomModel.findall(function(err,classroom_total_info){
 		classroom = classroom_total_info;
 		res.render('arrange/classroomcourse',{
