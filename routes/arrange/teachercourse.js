@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose/');
 var PersonModel = require('../../db/group1db/PersonModel');
-var CourseModel = require('../../db/gourp1db/CourseModel');
+var CourseModel = require('../../db/group1db/CourseModel');
 var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
 router.get('arrange/teachercourse',function(req,res,next){
