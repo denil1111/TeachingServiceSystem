@@ -7,7 +7,7 @@ var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
 var tmp=[];
 router.get('/classroomcourse',function(req,res,next){
-	if(!req.session.user){return req.redirect('../info/login');}
+	if(!req.session.user){return res.redirect('../info/login');}
 //	var classroom;//=req.session.user[0];
 //	ClassroomModel.findall(function(err,classroom_total_info){
 //		classroom = classroom_total_info;

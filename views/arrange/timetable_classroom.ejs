@@ -53,14 +53,13 @@
                 <input type="text" name="classid2">
               </li>
            </ul>
-          <button type="submit" class="btn btn-blue"><a href="javascript:show_list()">查询(列表显示)</button>
-          <button type="submit" class="btn btn-blue"><a href="javascript:show_table()">查询(表格显示)</button>
+          <button type="submit" class="btn btn-blue">查询(列表显示)</button>
         </ul>
        </form>
       </div>
      </div>
     <!-- 显示列表状态课表 -->
-    <div class="box-content padded" style="text-align:center;" id="list_layout">
+    <div class="box-content padded" style="text-align:center;">
         <table width="100%" class="table table-normal">
         <thead>
           <tr>
@@ -89,8 +88,8 @@
         </tbody>  
         </table>
       </div>
-      <!-- 显示表格状课表 -->
-      <div class="box-content padded" style="text-align:center; top:-440px; position:relative;" id="table_layout" hidden="">
+      
+<!--      <div class="box-content padded" style="text-align:center; top:-440px; position:relative;" id="table_layout" hidden="">
           <table width="100%" class="table table-normal">
           <thead>
             <tr>
@@ -176,77 +175,7 @@
               <td id="Sun_night">&nbsp;</td>
             </tr>
           </tbody>  
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+          </table>-->
 </div>
-<!-- 主要内容的js -->
-<script type="text/javascript">
-  function show_table_content(){
-    //预先处理文件，隐藏btn_table
-    $("#btn_table").hide();
-    //处理字符串 找到相应位置 添加课程
-    <% for(var i=0; i<course_data.length;i++) { %>
-      var data= course-data[i];
-      console.log(data);
-      console.log(time);
-      for(var j=0;j<time_arr.length;j=j+2){
-        var str;
-        switch(time_arr[j]){
-          case "周一": str="Mon";break; 
-          case "周二": str="Tue";break;
-          case "周三": str="Web";break; 
-          case "周四": str="Thu";break; 
-          case "周五": str="Fri";break; 
-          case "周六": str="Sat";break; 
-          case "周日": str="Sun";break;
-        }
-        switch(time_arr[j+1]){
-          case "12":
-            document.getElementById(str+'12').innerHTML=data;
-            break;
-          case "34":
-            document.getElementById(str+'34').innerHTML=data;
-            break;
-          case "345":
-            document.getElementById(str+'34').innerHTML=data;
-            document.getElementById(str+'5').innerHTML=data;
-            break;
-          case "67":
-            document.getElementById(str+'67').innerHTML=data;
-            break;
-          case "678":
-            document.getElementById(str+'67').innerHTML=data;
-            document.getElementById(str+'8').innerHTML=data;
-            break;
-          case "910":
-            document.getElementById(str+'910').innerHTML=data;
-            break;
-          case "night":
-            document.getElementById(str+'_night').innerHTML=data;
-            break;
-        }
-        console.log(str);
-      }
-    <% } %>
-  }
-  function show_list(){
-    document.getElementById('layout').innerHTML="列表显示";
-    $("#list_layout").fadeIn();
-    $("#table_layout").fadeOut();
-    $("#btn_list").show();
-    $("#btn_table").hide();
-  }
-  function show_table(){
-    document.getElementById('layout').innerHTML="表格显示";
-    $("#list_layout").fadeOut();
-    $("#table_layout").fadeIn();
-    $("#btn_list").hide();
-    $("#btn_table").show(); 
-  }
-  show_table_content();
-</script>
 </body>
 </html>
