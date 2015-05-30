@@ -41,6 +41,13 @@ router.get('/', function(req, res, next) {
 */
 router.use('/cloud', cloud);
 
+/*
+  route: "/resource/course"
+  authored by Gong Deli <Gnnnnng@gmail.com>
+ */
+router.use('/course', require('./course'));
+
+
 router.get('/config', function(req, res, next) {
   res.render('resource/index', {
     title: 'Config'
@@ -160,33 +167,33 @@ router.get('/coursewares', function(req, res, next) {
   });
 });
 
-router.get('/resource', function(req, res, next) {
-  res.render('resource/resource', {});
-});
-
-router.get('/search', function(req, res, next) {
-  res.render('resource/search', {});
-});
-
-router.get('/hwtest', function(req, res, next) {
-    res.render('resource/homework', {});
-});
-
-router.get('/admin_changeinfo', function(req, res, next) {
-  res.render('resource/admin_changeInfo', {});
-});
-
-router.get('/admin_feedback', function(req, res, next) {
-  res.render('resource/admin_feedback', {});
-});
-
-router.get('/admin_homework', function(req, res, next) {
-  res.render('resource/admin_homework', {});
-});
-
-router.get('/admin_resource', function(req, res, next) {
-  res.render('resource/admin_resource', {});
-});
+//router.get('/resource', function(req, res, next) {
+//  res.render('resource/resource', {});
+//});
+//
+//router.get('/search', function(req, res, next) {
+//  res.render('resource/search', {});
+//});
+//
+//router.get('/hwtest', function(req, res, next) {
+//    res.render('resource/homework', {});
+//});
+//
+//router.get('/admin_changeinfo', function(req, res, next) {
+//  res.render('resource/admin_changeInfo', {});
+//});
+//
+//router.get('/admin_feedback', function(req, res, next) {
+//  res.render('resource/admin_feedback', {});
+//});
+//
+//router.get('/admin_homework', function(req, res, next) {
+//  res.render('resource/admin_homework', {});
+//});
+//
+//router.get('/admin_resource', function(req, res, next) {
+//  res.render('resource/admin_resource', {});
+//});
 
 
 

@@ -3,28 +3,17 @@
 </div>
 <div class="primary-sidebar">
   <!--侧边选择框 -->
-  <ul class="nav nav-collapse collapse nav-collapse-primary">    
+  <ul class="nav nav-collapse collapse nav-collapse-primary">
+    <% var courses = []; if (courseList) courses = courseList; %>
+    <% for(var i = 0; i < courses.length; i++) {%>
     <li>
       <span class="glow"></span>
-      <a href="/resource/info">
+      <a href="/resource/course/data">
         <i class="icon-tag icon-2x"></i>
-        <span style="font-size:15px">软件工程</span>
+        <span style="font-size:15px"><%= courses[i].coursename %></span>
       </a>
     </li>
-    <li>
-      <span class="glow"></span>
-      <a href="/resource/info">
-        <i class="icon-tag icon-2x"></i>
-        <span style="font-size:15px">计算机网络基础</span>
-      </a>
-    </li>
-    <li>
-      <span class="glow"></span>
-      <a href="/resource/info">
-        <i class="icon-tag icon-2x"></i>
-        <span style="font-size:15px">计算机体系结构</span>
-      </a>
-    </li>
+    <% }%>
 
     <!--
     <li id="resource_search">
@@ -44,7 +33,7 @@
         <i class="icon-user-md icon-2x"></i>
         <span style="font-size:15px">管理员操作<i class="icon-caret-down"></i></span>
       </a>
-      <ul id="admin_toggle" class="collapse">            
+      <ul id="admin_toggle" class="collapse">
         <li class="" style="margin:10px;font-size:13px;">
           <a href="/resource/admin_changeinfo"><i class="icon-tag"></i>修改课程信息</a>
         </li>
