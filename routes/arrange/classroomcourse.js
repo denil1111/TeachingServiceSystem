@@ -5,7 +5,7 @@ var PersonModel = require('../../db/group1db/PersonModel');
 var CourseModel = require('../../db/gourp1db/CourseModel');
 var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
-router.get('arrange/classroomcourse',function(req,res,next){
+router.get('/classroomcourse',function(req,res,next){
 	if(!res.session.user){return res.redirect('../info/login');}
 	var localuser=req.session.user[0];
 	ClassroomModel.findall(function(err,classroom_total_info){
@@ -26,7 +26,7 @@ router.get('arrange/classroomcourse',function(req,res,next){
 	});
 });
 
-router.post('arrange/classroomcourse',function(req,res,next){
+router.post('/classroomcourse',function(req,res,next){
 	console.log("post:classroomcourse");
 	CourseModel.findbyclassroom(req.body.campus,req.body.classroom,function(error,data){
 		if(error){

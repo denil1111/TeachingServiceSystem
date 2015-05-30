@@ -1,5 +1,5 @@
 var express = require('express');
-var router = exress.Router();
+var router = express.Router();
 var mongoose = require('mongoose/');
 var PersonModel = require('../../db/group1db/PersonModel');
 var CourseModel = require('../../db/gourp1db/CourseModel');
@@ -47,7 +47,8 @@ router.get('arrange/teachercourse',function(req,res,next){
 				var index2;
 				if(item[0]=="O"){
 					index2=item[1];
-					if(item[4]!="1"){
+					if(item[4]!="1")
+					{
 						if(item[3]=="1"){
 							index3=0;
 						}
@@ -63,6 +64,7 @@ router.get('arrange/teachercourse',function(req,res,next){
 						else{
 							index3=4;
 						}
+					}
 					else{
 						if(item[10]=="3"){			//Ox-11,12,13
 							index3=5;
