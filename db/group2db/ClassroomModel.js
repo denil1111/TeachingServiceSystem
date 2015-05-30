@@ -27,7 +27,7 @@ ClassroomSchema.statics.deletebyid = function(classid2, callback) {
 
 ClassroomSchema.statics.modifybyid = function(req, callback) {
     return this.model('ClassroomModel').update(
-        {userid: req.classid2},
+        {classid2: req.classid2},
         {
             $set:{
                 classid2 : req.classid2,
