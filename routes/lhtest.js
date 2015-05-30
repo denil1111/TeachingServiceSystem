@@ -19,6 +19,7 @@ function f1(req, res, next) {
 router.get('/', f1, function(req, res) {
 
 // console.log(req.session.user[0].userid);
+    console.log(req.session);
     console.log("Hello");
     req.teacherid = '10000';
     req.status = 'pending'
@@ -29,7 +30,7 @@ router.get('/', f1, function(req, res) {
     req.reason = 'This is a test, for fun'
     req.admin = '123456'
     req.comment = 'This is also a test'
-    motionModel.removebyid(req, function(error, motion) {
+    motionModel.findbyid(req, function(error, motion) {
         console.log(motion);
         if(error) {
             console.log(error);
