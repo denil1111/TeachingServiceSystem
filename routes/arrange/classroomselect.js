@@ -18,7 +18,6 @@ router.get('/classroomselect', function(req, res, next) {
 		b:'4,6,2,4,6,2,0',
 		total_credits:'24',
 		credits:'4,6,2,4,6,2,0',
-
     	classroom_data:tmp,
     });
 });
@@ -27,9 +26,11 @@ router.post('/classroomselect',function(req, res, next){
 	console.log("post:classroomselect");
 
 	ClassroomModel.findbyid(req.body.classid2, function(error, data){
-		if(error) {
+		if(error)
+		{
 			console.log('find error!'+error);
-		} else {
+		}
+		else{
 			console.log('find ok!'+data);
 		}
 		console.log('data : '+data.length);
