@@ -20,8 +20,8 @@ router.get('/classroomcourse',function(req,res,next){
         total_credits:'24',
         credits:'4,6,2,4,6,2,0',
 
-        classroom_data: classroom;
-        classroom_arrange:
+        classroom_data: classroom,
+        classroom_arrange:'',
     	});
 	});
 });
@@ -40,23 +40,18 @@ router.post('/classroomcourse',function(req,res,next){
 			var classroom = classroom_total_info;
     	});
 
-		var classroomcourse_info = new array[2];	//classroomcourse_info[0]\[1] means single week or double week
-		classroomcourse_info[0] = new array[7];		//classroomcourse_info[0][0] the second index means the day
-		classroomcourse_info[1] = new array[7];		//classroomcourse_info[0][0][0] the third index means the time
-		classroomcourse_info[0][0]= new array[7];	//the times is {1,2,3},{4,5},{6,7,8},{7,8},{9,10},{11,12,13},{11,12}
-		classroomcourse_info[0][1]= new array[7];
-		classroomcourse_info[0][2]= new array[7];
-		classroomcourse_info[0][3]= new array[7];
-		classroomcourse_info[0][4]= new array[7];
-		classroomcourse_info[0][5]= new array[7];
-		classroomcourse_info[0][6]= new array[7];
-		classroomcourse_info[1][0]= new array[7];
-		classroomcourse_info[1][1]= new array[7];
-		classroomcourse_info[1][2]= new array[7];
-		classroomcourse_info[1][3]= new array[7];
-		classroomcourse_info[1][4]= new array[7];
-		classroomcourse_info[1][5]= new array[7];
-		classroomcourse_info[1][6]= new array[7];
+		var classroomcourse_info = new Array(2);	//classroomcourse_info[0]\[1] means single week or double week
+		//classroomcourse_info[0][0] the second index means the day
+		//classroomcourse_info[0][0][0] the third index means the time
+		//the times is {1,2,3},{4,5},{6,7,8},{7,8},{9,10},{11,12,13},{11,12}
+
+
+		for(var i=0;i<classroomcourse_info.length;i++)
+			classroomcourse_info[i]=new Array(7);
+		for(i=0;i<classroomcourse_info[0].length;i++)
+			classroomcourse_info[0][i]=new Array(7);
+		for(i=0;i<classroomcourse_info[1].length;i++)
+			classroomcourse_info[1][i]=new Array(7);
 
 		data.each(function(err,doc){
 			assert.equal(err,null);
@@ -83,6 +78,7 @@ router.post('/classroomcourse',function(req,res,next){
 						else{
 							index3=4;
 						}
+					}
 					else{
 						if(item[10]=="3"){			//Ox-11,12,13
 							index3=5;
@@ -152,8 +148,8 @@ router.post('/classroomcourse',function(req,res,next){
 					classroomcourse_info[1][index2][index3]=doc.coursename+doc.room;
 					classroomcourse_info[0][index2][index3]=doc.coursename+doc.room;
 				}
-			})
-		res.render('arrange/classroomcourse',{
+			});
+			res.render('arrange/classroomcourse',{
         	name: '程序员', 
         	image: 'images/avatars/avatar3.jpg',
        		total_a:'12',
@@ -163,8 +159,9 @@ router.post('/classroomcourse',function(req,res,next){
         	total_credits:'24',
         	credits:'4,6,2,4,6,2,0',
 
-        	classroom_data: classroom;
-        	classroom_arrange: classroomcourse_info;
+        	classroom_data: classroom,
+        	classroom_arrange: classroomcourse_info,
+			});
 		});
 	});
 });
