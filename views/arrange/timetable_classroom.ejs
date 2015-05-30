@@ -53,11 +53,8 @@
                 <input type="text" name="classid2">
               </li>
            </ul>
-          <button type="submit" class="btn btn-blue">查询</button>
-          <ul class="dropdown-menu">
-            <li><a href="javascript:show_list()">列表显示</a></li>
-            <li><a href="javascript:show_table()">表格显示</a></li>
-          </ul>
+          <button type="submit" class="btn btn-blue"><a href="javascript:show_list()">查询(列表显示)</button>
+          <button type="submit" class="btn btn-blue"><a href="javascript:show_table()">查询(表格显示)</button>
         </ul>
        </form>
       </div>
@@ -192,12 +189,7 @@
     $("#btn_table").hide();
     //处理字符串 找到相应位置 添加课程
     <% for(var i=0; i<course_data.length;i++) { %>
-      var time="<%=course_data[i].coursetime%>";
-      var time_arr=time.split(' ');
-      var course_name="<%=course_data[i].coursename%>";
-      var course_teacher="<%=course_data[i].teacher%>";
-      var course_room="<%=course_data[i].room%>";
-      var data='<a href=\'/select/course/<%= course_data[i].ID %>\' target="view_window">'+course_name+'</a>'+'</br>'+course_teacher+'</br>'+course_room;
+      var data= course-data[i];
       console.log(data);
       console.log(time);
       for(var j=0;j<time_arr.length;j=j+2){
