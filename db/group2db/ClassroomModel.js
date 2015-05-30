@@ -9,9 +9,9 @@ var ClassroomSchema = new mongoose.Schema({
 
 var CollectionName = 'classrooms';
 
-ClassroomSchema.statics.findall = function (callback){
-    return this.model('ClassroomSchema').find(callback);
-}
+//ClassroomSchema.statics.findall = function (callback){
+//    return this.model('ClassroomSchema').find(callback);
+//}
 
 ClassroomSchema.statics.findbyid = function (classid2,callback) {
     return this.model('ClassroomModel').find({classid2 : classid2},callback);
