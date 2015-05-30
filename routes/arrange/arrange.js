@@ -6,7 +6,7 @@ var classroomdelete = require('./classroomdelete');
 var classroommodify = require('./classroommodify');
 var classroomselect = require('./classroomselect');
 var classroomcourse = require('./classroomcourse');
-var teachercourse = require('./teachercourse');
+//var teachercourse = require('./teachercourse');
 
 var login =require('../info/login');
 // var group = require('./group');
@@ -17,7 +17,7 @@ arrange.use('/', classroomdelete);
 arrange.use('/', classroommodify);
 arrange.use('/', classroomselect);
 arrange.use('/', classroomcourse);
-arrange.use('/', teachercourse);
+//arrange.use('/', teachercourse);
 // arrange.use('/',group);
 
 
