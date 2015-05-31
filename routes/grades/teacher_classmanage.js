@@ -29,7 +29,7 @@ function classmanage(req, res, next) {
                 "newvalue":req.body.score,
                 "reason":req.body.reason
                 }
-            result = motionModel.insert(motion, function(error, instance) {
+            motionModel.insert(motion, function(error, instance) {
                 if(error) {
                     console.log(error);
                 } 
