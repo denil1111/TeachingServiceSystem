@@ -73,7 +73,7 @@ router.get('/choose_course/:courseID', function(req, res, next){
               choice=i;
               oldPoint=selectedCourseP[index];
           }
-          course.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].time,room:result[i].room,remain:20,all:40,waiting:30});
+         // course.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].time,room:result[i].room,remain:20,all:40,waiting:30});
       }
      
       var render=function(){
