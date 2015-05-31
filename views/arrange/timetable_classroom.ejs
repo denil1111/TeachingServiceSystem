@@ -39,19 +39,32 @@
       <div class="box-header">
         <span class="title">教室信息填写</span>
       </div>
-       <form name="input" action="/arrange/timetable_classroom" method="post">
+       <form name="input" action="/arrange/search_sem" method="post">
         <ul class="box-toolbar">
           <ul>
             <li class="input">
               <label>校区</label>
-              <input type="text" name="campus">
+              <select name="campus">
+                <option value="紫金港校区" selected="selected">紫金港校区</option>
+                <option value="玉泉校区">玉泉校区</option>
+                <option value="西溪校区">西溪校区</option>
+                <option value="华家池校区">华家池校区</option>
+                <option value="之江校区">之江校区</option>
+              </select>
             </li>
-          </ul>
-          <ul>
-              <li class="input">
-                <label>教室名称</label>
-                <input type="text" name="classid2">
-              </li>
+            <li class="input">
+              <label>教室名称</label>
+              <input type="text" name="classid2">
+            </li>
+            <li class="input">
+              <label>学期</label>
+              <select name="term">
+                <option value="春" selected="selected">春</option>
+                <option value="夏">夏</option>
+                <option value="秋">秋</option>
+                <option value="冬">冬</option>
+              </select>
+            </li>
            </ul>
           <button type="submit" class="btn btn-blue"><a href="javascript:show_list()">查询(列表显示)</a></button>
           <button type="submit" class="btn btn-blue"><a href="javascript:show_table()">查询(表格显示)</a></button>
@@ -189,8 +202,9 @@
       var course_teacher="<%=course_data[i].teacher%>";
       var course_room="<%=course_data[i].room %>";
       var course_campus="<%=course_data[i].campus %>";
-      var data = course_name + " " + course_teacher + " " + course_campus + " " + course_room;
-      
+      var course_term= "<%=course_data[i].courseterm%>";
+      var data = course_name + '</br>' + course_teacher +'</br>' + course_campus + '</br>' + course_room;
+      console.log(data);
       console.log(time);
       for(var j=0;j<time_arr.length;j++){
         var str;

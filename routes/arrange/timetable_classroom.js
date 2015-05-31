@@ -47,4 +47,30 @@ router.post('/timetable_classroom', function(req, res, next) {
     });
 });
 
+router.post('/search_sem',function(req,res,next){
+    console.log("search_sem");
+    CourseModel.findbyterm(req.body.campus,req.body.classid2,req.body.term,function (error,data) {
+        if(error)
+    	{
+    		console.log('find error!'+error);
+    	}
+    	else{
+    		console.log('find ok!'+data);
+    	}
+    	console.log('data : '+data.length);
+        res.render('arrange/timetable_classroom', {
+            name: '程序员', 
+            image: 'images/avatars/avatar3.jpg',
+            total_a:'12',
+            a:'2,3,1,2,3,1,0',
+            total_b:'24',
+            b:'4,6,2,4,6,2,0',
+            total_credits:'24',
+            credits:'4,6,2,4,6,2,0',
+            course_data: data
+        });
+    });
+});
+
+    
 module.exports = router;
