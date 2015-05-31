@@ -53,7 +53,8 @@
                 <input type="text" name="classid2">
               </li>
            </ul>
-          <button type="submit" class="btn btn-blue">查询(列表显示)</button>
+          <button type="submit" class="btn btn-blue"><a href="javascript:show_list()">查询(列表显示)</a></button>
+          <button type="submit" class="btn btn-blue"><a href="javascript:show_table()">查询(表格显示)</a></button>
         </ul>
        </form>
       </div>
@@ -89,93 +90,93 @@
         </table>
       </div>
       <div class="box-content padded" style="text-align:center; top:-440px; position:relative;" id="table_layout" hidden="">
-          <table width="100%" class="table table-normal">
-          <thead>
-            <tr>
-              <td style="width:9%">&nbsp;</td>
-              <td style="width:13%">周一</td>
-              <td style="width:13%">周二</td>
-              <td style="width:13%">周三</td>
-              <td style="width:13%">周四</td>
-              <td style="width:13%">周五</td>
-              <td style="width:13%">周六</td>   
-              <td style="width:13%">周日</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr height="100px">
-              <td>第1、2节</br>8:30~9:35</td>
-              <td id="Mon12">&nbsp;</td>
-              <td id="Tue12">&nbsp;</td>
-              <td id="Web12">&nbsp;</td>
-              <td id="Thu12">&nbsp;</td>
-              <td id="Fri12">&nbsp;</td>
-              <td id="Sat12">&nbsp;</td>   
-              <td id="Sun12">&nbsp;</td>
-            </tr>
-            <tr height="100px">
-              <td>第3、4节</br>9:50~11:25</td>
-              <td id="Mon34">&nbsp;</td>
-              <td id="Tue34">&nbsp;</td>
-              <td id="Web34">&nbsp;</td>
-              <td id="Thu34">&nbsp;</td>
-              <td id="Fri34">&nbsp;</td>
-              <td id="Sat34">&nbsp;</td>   
-              <td id="Sun34">&nbsp;</td>
-            </tr>
-            <tr height="100px">
-              <td>第5节</br>11:30~12:15</td>
-              <td id="Mon5">&nbsp;</td>
-              <td id="Tue5">&nbsp;</td>
-              <td id="Web5">&nbsp;</td>
-              <td id="Thu5">&nbsp;</td>
-              <td id="Fri5">&nbsp;</td>
-              <td id="Sat5">&nbsp;</td>   
-              <td id="Sun5">&nbsp;</td>
-            </tr>
-            <tr height="100px">
-              <td>第6节</br>13:15~14:00</td>
-              <td id="Mon6">&nbsp;</td>
-              <td id="Tue6">&nbsp;</td>
-              <td id="Web6">&nbsp;</td>
-              <td id="Thu6">&nbsp;</td>
-              <td id="Fri6">&nbsp;</td>
-              <td id="Sat6">&nbsp;</td>   
-              <td id="Sun6">&nbsp;</td>
-            </tr>
-            <tr height="100px">
-              <td>第7、8节</br>14:05~15:40</td>
-              <td id="Mon78">&nbsp;</td>
-              <td id="Tue78">&nbsp;</td>
-              <td id="Web78">&nbsp;</td>
-              <td id="Thu78">&nbsp;</td>
-              <td id="Fri78">&nbsp;</td>
-              <td id="Sat78">&nbsp;</td>   
-              <td id="Sun78">&nbsp;</td>
-            </tr>
-            <tr height="100px">
-              <td>第9、10节</br>15:55~17:30</td>
-              <td id="Mon910">&nbsp;</td>
-              <td id="Tue910">&nbsp;</td>
-              <td id="Web910">&nbsp;</td>
-              <td id="Thu910">&nbsp;</td>
-              <td id="Fri910">&nbsp;</td>
-              <td id="Sat910">&nbsp;</td>   
-              <td id="Sun910">&nbsp;</td>
-            </tr>
-            <tr height="100px">
-              <td>晚上</br>18:30~21:30</td>
-              <td id="Mon_night">&nbsp;</td>
-              <td id="Tue_night">&nbsp;</td>
-              <td id="Web_night">&nbsp;</td>
-              <td id="Thu_night">&nbsp;</td>
-              <td id="Fri_night">&nbsp;</td>
-              <td id="Sat_night">&nbsp;</td>   
-              <td id="Sun_night">&nbsp;</td>
-            </tr>
-          </tbody>  
-          </table>
-         </div>
+        <table width="100%" class="table table-normal">
+        <thead>
+          <tr>
+            <td style="width:9%">&nbsp;</td>
+            <td style="width:13%">周一</td>
+            <td style="width:13%">周二</td>
+            <td style="width:13%">周三</td>
+            <td style="width:13%">周四</td>
+            <td style="width:13%">周五</td>
+            <td style="width:13%">周六</td>   
+            <td style="width:13%">周日</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr height="100px">
+            <td>第1、2节</br>8:30~9:35</td>
+            <td id="Mon12">&nbsp;</td>
+            <td id="Tue12">&nbsp;</td>
+            <td id="Web12">&nbsp;</td>
+            <td id="Thu12">&nbsp;</td>
+            <td id="Fri12">&nbsp;</td>
+            <td id="Sat12">&nbsp;</td>   
+            <td id="Sun12">&nbsp;</td>
+          </tr>
+          <tr height="100px">
+            <td>第3、4节</br>9:50~11:25</td>
+            <td id="Mon34">&nbsp;</td>
+            <td id="Tue34">&nbsp;</td>
+            <td id="Web34">&nbsp;</td>
+            <td id="Thu34">&nbsp;</td>
+            <td id="Fri34">&nbsp;</td>
+            <td id="Sat34">&nbsp;</td>   
+            <td id="Sun34">&nbsp;</td>
+          </tr>
+          <tr height="100px">
+            <td>第5节</br>11:30~12:15</td>
+            <td id="Mon5">&nbsp;</td>
+            <td id="Tue5">&nbsp;</td>
+            <td id="Web5">&nbsp;</td>
+            <td id="Thu5">&nbsp;</td>
+            <td id="Fri5">&nbsp;</td>
+            <td id="Sat5">&nbsp;</td>   
+            <td id="Sun5">&nbsp;</td>
+          </tr>
+          <tr height="100px">
+            <td>第6节</br>13:15~14:00</td>
+            <td id="Mon6">&nbsp;</td>
+            <td id="Tue6">&nbsp;</td>
+            <td id="Web6">&nbsp;</td>
+            <td id="Thu6">&nbsp;</td>
+            <td id="Fri6">&nbsp;</td>
+            <td id="Sat6">&nbsp;</td>   
+            <td id="Sun6">&nbsp;</td>
+          </tr>
+          <tr height="100px">
+            <td>第7、8节</br>14:05~15:40</td>
+            <td id="Mon78">&nbsp;</td>
+            <td id="Tue78">&nbsp;</td>
+            <td id="Web78">&nbsp;</td>
+            <td id="Thu78">&nbsp;</td>
+            <td id="Fri78">&nbsp;</td>
+            <td id="Sat78">&nbsp;</td>   
+            <td id="Sun78">&nbsp;</td>
+          </tr>
+          <tr height="100px">
+            <td>第9、10节</br>15:55~17:30</td>
+            <td id="Mon910">&nbsp;</td>
+            <td id="Tue910">&nbsp;</td>
+            <td id="Web910">&nbsp;</td>
+            <td id="Thu910">&nbsp;</td>
+            <td id="Fri910">&nbsp;</td>
+            <td id="Sat910">&nbsp;</td>   
+            <td id="Sun910">&nbsp;</td>
+          </tr>
+          <tr height="100px">
+            <td>晚上</br>18:30~21:30</td>
+            <td id="Mon_night">&nbsp;</td>
+            <td id="Tue_night">&nbsp;</td>
+            <td id="Web_night">&nbsp;</td>
+            <td id="Thu_night">&nbsp;</td>
+            <td id="Fri_night">&nbsp;</td>
+            <td id="Sat_night">&nbsp;</td>   
+            <td id="Sun_night">&nbsp;</td>
+          </tr>
+        </tbody>  
+        </table>
+       </div>
 <script type="text/javascript">
   function show_table_content(){
     //预先处理文件，隐藏btn_table
@@ -187,40 +188,35 @@
       var course_name="<%=course_data[i].coursename%>";
       var course_teacher="<%=course_data[i].teacher%>";
       var course_room="<%=course_data[i].room %>";
+      var course_campus="<%=course_data[i].campus %>";
+      var data = course_name + " " + course_teacher + " " + course_campus + " " + course_room;
+      
       console.log(time);
       for(var j=0;j<time_arr.length;j++){
         var str;
-        switch(time_arr[j]){
-          case "1": str="Mon";break; 
-          case "2": str="Tue";break;
-          case "3": str="Web";break; 
-          case "4": str="Thu";break; 
-          case "5": str="Fri";break; 
-          case "6": str="Sat";break; 
-          case "7": str="Sun";break;
+        switch(time_arr[j][0]){
+          case '1': str="Mon";break; 
+          case '2': str="Tue";break;
+          case '3': str="Web";break; 
+          case '4': str="Thu";break; 
+          case '5': str="Fri";break; 
+          case '6': str="Sat";break; 
+          case '7': str="Sun";break;
         }
-        switch(time_arr[j+1]){
-          case "1":
+        switch(time_arr[j][1]){
+          case '1':
             document.getElementById(str+'12').innerHTML=data;
             break;
-          case "34":
-            document.getElementById(str+'34').innerHTML=data;
+          case '2':
+            document.getElementById(str+'345').innerHTML=data;
             break;
-          case "345":
-            document.getElementById(str+'34').innerHTML=data;
-            document.getElementById(str+'5').innerHTML=data;
+          case '3':
+            document.getElementById(str+'678').innerHTML=data;
             break;
-          case "67":
-            document.getElementById(str+'67').innerHTML=data;
-            break;
-          case "678":
-            document.getElementById(str+'67').innerHTML=data;
-            document.getElementById(str+'8').innerHTML=data;
-            break;
-          case "910":
+          case '4':
             document.getElementById(str+'910').innerHTML=data;
             break;
-          case "night":
+          case '5':
             document.getElementById(str+'_night').innerHTML=data;
             break;
         }
@@ -228,6 +224,7 @@
       }
     <% } %>
   }
+  
   function show_list(){
     document.getElementById('layout').innerHTML="列表显示";
     $("#list_layout").fadeIn();
@@ -241,7 +238,6 @@
     $("#table_layout").fadeIn();
     $("#btn_list").hide();
     $("#btn_table").show();
-  
   }
   show_table_content();
 </script>
