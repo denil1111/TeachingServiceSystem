@@ -7,7 +7,7 @@ var gradesDB = require('../../db/group6db/gradesDB.js');
 var motionModel = require('../../db/group6db/motion.js');
 
 function handler(req, res, next) {
-
+    //feedback of modifing db
     if(!req.session.user){return res.redirect('../info/login');}
     if(typeof req.body.cmd !== 'undefined') {
         if( req.body.cmd == 'accept' ) {
@@ -18,6 +18,7 @@ function handler(req, res, next) {
                 "courseid":req.body.courseid,
                 "newvalue":req.body.newvalue,
                 "admin":req.session.user[0].userid,
+                "newvalue":req.body.newvalue,
                 "comment":"accept"
             }
             motionModel.acceptbyid(detail, function(error, other) {
@@ -33,6 +34,7 @@ function handler(req, res, next) {
                 "studentid":req.body.studentid,
                 "courseid":req.body.courseid,
                 "admin":req.session.user[0].userid,
+                "newvalue":req.body.newvalue
             }
             motionModel.rejectbyid(detail, function(error, other) {
                 if(error){
@@ -51,6 +53,7 @@ function handler(req, res, next) {
             console.log(error);
             return;
         }
+        
         res.render('grades/admin_gradesaudit', {
   	        name: '程序员', 
   	        image: 'images/avatars/avatar1.jpg',

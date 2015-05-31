@@ -9,7 +9,8 @@ var gradesfix = require('./teacher_gradesfix.js');
 function classmanage(req, res, next) {
 
     if(!req.session.user){return res.redirect('../info/login');}
-
+    //result of modifing db
+    var result = true;
     var criteria = {courseid : req.body.courseid};
     //console.log("coursestatus:" + req.body.coursestatus);
     if(typeof req.body.userid !== 'undefined') {
@@ -28,12 +29,10 @@ function classmanage(req, res, next) {
                 "newvalue":req.body.score,
                 "reason":req.body.reason
                 }
-            motionModel.insert(motion, function(error, instance) {
+            result = motionModel.insert(motion, function(error, instance) {
                 if(error) {
                     console.log(error);
-                } else {
-                    console.log('create succeed');
-                }
+                } 
             });
             
         }
@@ -63,6 +62,8 @@ gradesDB.find(criteria,function(error,grades){
      // console.log("what is persons:" + persons);
       //console.log("what is courses:" + courses);
       //console.log("what is grades:" + grades);
+    warning = !result;
+    console.log("isWarning:" + warning);
     res.render('grades/teacher_classmanage', {
   	name: '程序员', 
   	image: 'images/avatars/avatar1.jpg',
@@ -74,7 +75,8 @@ gradesDB.find(criteria,function(error,grades){
   	credits:'4,6,2,4,6,2,0',
     data:grades,
     studentslist:persons,
-    courses:courses
+    courses:courses,
+    warning:warning
   });   
    });
    });
