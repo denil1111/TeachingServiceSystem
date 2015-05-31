@@ -2,7 +2,7 @@
 <% include ../head.html %>
 <script src="/javascripts/echarts/dist/echarts.js"></script>
 </head>
-<body>
+<body >
 <!-- 上方选择条 navbar-top-->
 <% include ../navbar.html %>
 <!-- 侧边框 -->
@@ -36,6 +36,12 @@ function input_reason()
     reason.value = prompt("请输入申请理由 ","");
     document.getElementById("form_id").submit();
 }
+function show_warning(){
+    if(<%=warning%>) {
+        alert("申请失败,请不要在同一门课上对同一位同学的成绩多次修改!");
+    }
+}
+window.onload = show_warning;
 </script>
   <script type="text/javascript">
         require.config({
