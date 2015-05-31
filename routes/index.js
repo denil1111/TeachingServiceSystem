@@ -17,6 +17,7 @@ router.get('/', function(req, res, next) {
   res.redirect('/login');
 });
 router.use('/', login);
+//router.use('/info', info);
 router.use('/info', auth.isLoggedIn, info);
 // router.get('/arrange', auth.isLoggedIn, arrange);
 router.use('/select', auth.isLoggedIn, select);
