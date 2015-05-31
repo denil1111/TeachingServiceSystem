@@ -1,19 +1,11 @@
 //审核表
 
 var mongoose = require('mongoose');
-
-// var Schema = new mongoose.Schema({
-// courseNumber: String,
-// courseName:String,
-// score:Number,
-// credit:Number,
-// gradePoint:Number,
-// secondScore:Number
-// });
-
+var gradesDB = require('./gradesDB');
 
 var motionSchema = new mongoose.Schema({
 teacherid   : String,  
+teachername : String,
 studentid   : String,  
 courseid    : String,
 time        :{ type: Date, default: Date.now },
@@ -52,6 +44,21 @@ motionSchema.statics.findbystatus = function(req, callback) {
 }
 motionSchema.statics.acceptbyid = function(req, callback) {
     console.log("Motion:accepbyid");
+    gradesDB.update(
+    {
+        userid:req.studentid,
+        courseid:req.courseid
+    },
+    {
+        $set:{
+           score:req.body.newvalue,
+           gradePoint:(req.newvalue-45)/10
+        }
+    },function(error,other){
+        if(error)
+            console.log(error)
+    }
+                                                                                                                                      );
     return this.model('motions').update(
         {
             teacherid:req.teacherid, 
@@ -65,7 +72,8 @@ motionSchema.statics.acceptbyid = function(req, callback) {
             }
         },
         callback
-    )
+    );
+    
     /*return this.model('motions').update(
          {
             studentid:req.id
@@ -95,18 +103,19 @@ motionSchema.statics.rejectbyid = function(req, callback) {
 }
 
 motionSchema.statics.insert = function(req, callback) {
-    console.log("Motion:create");
+    console.log("Motion:" + req.teacherid + " "+ req.oldvalue + " " + req.newvalue );
     return this.model('motions').create(
         {
             teacherid:req.teacherid,
+            teachername:req.teachername,
             studentid:req.studentid,
             courseid:req.courseid,
-            time: req.time,
+            time: new Date(),
             oldvalue: req.oldvalue,
             newvalue:req.newvalue,
             reason:req.reason,
             status:"pending",
-            feedback:{}
+            feedback:{"admin":"","comment":""}
         },
         callback);
 }

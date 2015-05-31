@@ -1,18 +1,43 @@
 var express = require('express');
 var router = express.Router();
-
+var motionModel = require('../../db/group6db/motion.js');
 var PersonModel = require('../../db/group1db/PersonModel');
 var CourseModel = require('../../db/group1db/CourseModel');
 var gradesDB = require('../../db/group6db/gradesDB.js');
+var gradesfix = require('./teacher_gradesfix.js');
 
+function classmanage(req, res, next) {
 
-router.post('/classManagement',function(req, res, next) {
+    if(!req.session.user){return res.redirect('../info/login');}
 
-if(!req.session.user){return res.redirect('../info/login');}
-
-var criteria = {courseid : req.body.courseid};
-
-   // console.log("what is req:"+req.body.courseid);
+    var criteria = {courseid : req.body.courseid};
+    //console.log("coursestatus:" + req.body.coursestatus);
+    if(typeof req.body.userid !== 'undefined') {
+        if( req.body.coursestatus == "on")
+            gradesfix(req, res);
+        else {
+            
+            console.log('create a motion:' + req.body.reason)
+            console.log('user:' + req.session.user[0].userid)
+            var motion = {
+                "teacherid" : req.session.user[0].userid,
+                "teachername" : req.session.user[0].username,
+                "studentid":req.body.userid,
+                "courseid": req.body.courseid,
+                "oldvalue": req.body.oldvalue,
+                "newvalue":req.body.score,
+                "reason":req.body.reason
+                }
+            motionModel.insert(motion, function(error, instance) {
+                if(error) {
+                    console.log(error);
+                } else {
+                    console.log('create succeed');
+                }
+            });
+            
+        }
+    }
 
 
 
@@ -55,6 +80,8 @@ gradesDB.find(criteria,function(error,grades){
    });
     
   }); 
-}); 
+}
+
+router.post('/classManagement', classmanage);
 
 module.exports = router;

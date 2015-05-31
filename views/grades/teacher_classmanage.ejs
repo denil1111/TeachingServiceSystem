@@ -30,6 +30,12 @@ function disp_alert()
         } 
     
 }
+function input_reason()
+{
+    var reason = document.getElementById('reason_id');
+    reason.value = prompt("请输入申请理由 ","");
+    document.getElementById("form_id").submit();
+}
 </script>
   <script type="text/javascript">
         require.config({
@@ -151,20 +157,23 @@ function disp_alert()
 
       <tbody>   
        <% for(i=0;i<data.length;i++){%>
-      <form name="input" action="gradesfix" method="post">
+      <form name="input" action="classManagement" id = "form_id" method="post">
       <tr class="status-pending">
         <td><%=studentslist[i].userid%></a></td>
         <td><%=studentslist[i].username%></td>
         <td><%=studentslist[i].major%></td>
         <td><input type="text" name="score" value=<%=data[i].score%>></td>
+          <input type="hidden" name="oldvalue" value=<%=data[i].score%>>
           <input type="hidden" name="courseid" value=<%=courses[0].courseid%>>
             <input type="hidden" name="userid" value=<%=studentslist[i].userid%>>
         <td>
+            <input type="hidden" name = "coursestatus" value = <%=courses[0].status%> >
+            <input type="hidden" name = "reason" id = "reason_id" value = "no reason" >
           <div class="btn-group">
             <%if(courses[0].status=="on"){%>
             <button class="btn btn-xs btn-default dropdown-toggle" type="submit"><i class="icon-cog"> 修改</i></button>
             <%} else if(courses[0].status=="off"){%>
-            <button class="btn btn-xs btn-default dropdown-toggle" type="submit"><i class="icon-cog"> 提交申请</i></button>
+            <button class="btn btn-xs btn-default dropdown-toggle" type="button" onClick="input_reason()"><i class="icon-cog"> 提交申请</i></button>
             <%}%>
           </div>
         </td>
