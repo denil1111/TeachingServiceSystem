@@ -17,12 +17,29 @@ router.get('/', function(req, res, next) {
   res.redirect('/login');
 });
 router.use('/', login);
-router.use('/info', auth.isLoggedIn, info);
-// router.get('/arrange', auth.isLoggedIn, arrange);
-router.use('/select', auth.isLoggedIn, select);
-// router.get('/resource', auth.isLoggedIn, resource);
-// router.get('/test', auth.isLoggedIn, test);
-// router.get('/score', auth.isLoggedIn, score);
-router.use('/grades', auth.isLoggedIn, grades);
+router.use('/info', function setStatus(req, res, next){
+  res.locals.Navstatus = 1;
+  next();
+}, auth.isLoggedIn, info);
+// router.get('/arrange', function setStatus(req, res, next){
+//  res.locals.Navstatus = 2;
+//  next();
+//}, auth.isLoggedIn, arrange);
+router.use('/select', function setStatus(req, res, next){
+  res.locals.Navstatus = 3;
+  next();
+}, auth.isLoggedIn, select);
+// router.get('/resource', function setStatus(req, res, next){
+//  res.locals.Navstatus = 4;
+//  next();
+//}, auth.isLoggedIn, resource);
+//// router.get('/test', function setStatus(req, res, next){
+//  res.locals.Navstatus = 5;
+//  next();
+//}, auth.isLoggedIn, test);
+router.use('/grades', function setStatus(req, res, next){
+  res.locals.Navstatus = 6;
+  next();
+}, auth.isLoggedIn, grades);
 
 module.exports = router;
