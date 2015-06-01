@@ -4,19 +4,22 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+
 var passport = require('passport');
 var session = require('express-session');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var debug = require('./routes/debug');
 var initP = require('./initPassport');
-
 
 var app = express();
 
 var settings = require('./settings');
 var mongoose = require('mongoose');
 mongoose.connect(settings.db.connect);
+global.db = mongoose.createConnection(settings.db.connect);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
