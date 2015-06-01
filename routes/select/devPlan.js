@@ -117,4 +117,44 @@ router.post('/my_dev_plan_add', function(req, res, next) {
         is_checked:true //该培养方案是否通过审核
       });
 });
+
+//修改培养方案
+router.get('/edit_dev_plan', function(req, res, next) {
+  console.log(course.ejs);
+  res.render('select/edit_dev_plan', {
+    type:2,//manager
+    name: '程序员', 
+    image: 'images/avatars/avatar3.jpg',
+    total_a:'12',
+    a:'2,3,1,2,3,1,0',
+    total_b:'24',
+    b:'4,6,2,4,6,2,0',
+    total_credits:'24',
+    credits:'4,6,2,4,6,2,0',
+    major:major,
+    dev_plan_gen:dev_plan_gen,
+    dev_plan_elec:dev_plan_elec,
+    dev_plan_elec_class:dev_plan_elec_class,
+    dev_plan_req:dev_plan_req
+  });
+});
+router.post('/edit_dev_plan', function(req, res, next) {
+  console.log(req.body);
+  res.render('select/dev_plan', {
+    type:2,//manager
+    name: '程序员', 
+    image: 'images/avatars/avatar3.jpg',
+    total_a:'12',
+    a:'2,3,1,2,3,1,0',
+    total_b:'24',
+    b:'4,6,2,4,6,2,0',
+    total_credits:'24',
+    credits:'4,6,2,4,6,2,0',
+    major:major,
+    dev_plan_gen:dev_plan_gen,
+    dev_plan_elec:dev_plan_elec,
+    dev_plan_elec_class:dev_plan_elec_class,
+    dev_plan_req:dev_plan_req
+  });
+});
 module.exports = router;
