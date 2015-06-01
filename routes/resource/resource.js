@@ -6,10 +6,12 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Grid = require('gridfs-stream');
 var debug = require('debug')('resource');
-var fileTree = require("../../db/resource/pan")
+var fileTree = require("../../db/resource/pan");
+var homeworkModel = require("../../db/resource/homeWorkModel");
+var coursewareModel = require("../../db/resource/courseWareModel");
 var File = require("./basicfileop");
 var Tree = require("./basictreeop");
-var cloud = require('./cloud')
+var cloud = require('./cloud');
 var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 var fs = require('fs');
 
@@ -61,11 +63,6 @@ router.get('/feedback', function(req, res, next) {
 
 router.get('/homework', function(req, res, next) {
   var homework = [];
-  var db = mongoose.connection;
-  var homeWorkSchema = require('./module/homeWorkModule');
-  var homeworkModel = db.model('homework', homeWorkSchema);
-  var idd = mongoose.Schema.Types.ObjectId;
-
   homework.push({
     homework: 'work5',
     ddl: Date.now(),
@@ -116,9 +113,6 @@ router.get('/homeworkupload/:homework', function(req, res, next) {
 router.get('/coursewares', function(req, res, next) {
   var course = 'course1';
   var coursewares = [];
-  var db = mongoose.connection;
-  var courseWareSchema = require('./module/courseWareModule');
-  var courseWareModel = db.model('coursewares', courseWareSchema);
   //TODO req.course                                          
   courseWareModel.findbycourse(course, function(error, result) {
     if (error) {
