@@ -39,7 +39,7 @@ router.get('/my_course', function(req, res, next) {
   });
 });
 
-router.post('/my_course_search', function(req, res, next) {
+router.post('/my_course', function(req, res, next) {
     console.log(req.body);
     // var db     = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
     // var mongooseSchema = require('../db/courseDB/courseSchema');  

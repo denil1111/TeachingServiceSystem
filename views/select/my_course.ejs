@@ -313,7 +313,7 @@
     //ajax传输
     var _json = jQuery.param ({year:data_year,sem:data_sem});  
     var request = $.ajax({  
-        url: "/select/my_course_search",  
+        url: "/select/my_course",  
         type: "POST",  
         async: false,  
         data: _json,   
@@ -333,7 +333,7 @@
     //ajax传输
     var _json = jQuery.param ({year:data_year,sem:data_sem});
     var request = $.ajax({  
-        url: "/select/my_course_search",  
+        url: "/select/my_course",  
         type: "POST",  
         async: false,  
         data: _json,   
@@ -363,7 +363,6 @@
         // contentType: "charset=utf-8",  
         cache: false,
     });
-    location.reload();  
   }
   show_table_content();
 </script>

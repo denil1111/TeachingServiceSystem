@@ -18,7 +18,6 @@
 	        </ul>
 	      </div>
 		  <div class="box-content padded">
-			 <form name="input" action="/select/choose_course/<%=course_id %>" method="post">
 			 <table width="100%" class="table table-normal" style="text-align:center;">
               <thead>
                 <tr>
@@ -41,12 +40,7 @@
 				  <td><%=course[i].remain %>/<%=course[i].all%></td>
 				  <td><%=course[i].waiting %></td>
 				  <td>
-					<% if(i!=my_choice) {%>
 					<input type="radio" name="choose" class="icheck" id="iradio<%=i%>" value="<%=i%>">
-					<%}%>
-					<% if(i==my_choice) {%>
-					<input type="radio" name="choose" class="icheck" checked="" id="iradio<%=i%>" value="<%=i%>">
-					<%}%>
 				  </td>
 			  </tr>
 			  <%}%>
@@ -56,6 +50,7 @@
               <label class="control-label col-lg-2" style="float:left;padding-top:5px;">分配点数：</label>
               <div class="col-lg-10">
               	<select class="uniform" name="points" id="points">
+              		<option value="0">0</option>
 					<option value="5">5</option>
 					<option value="10">10</option>
 					<option value="15">15</option>
@@ -71,15 +66,83 @@
               </div>
             </div>
 			 <div style="width:100%;text-align:center; padding-top:10px;">
-				 <button type="submit" class="btn btn-blue" style="width:80px;">提交</button>
+				 <button onclick="submit_choose()" class="btn btn-blue" style="width:80px;">提交</button>
+			 </div>
+		  </div>
+		</div>
+	</div>
+	<div class="span12" style="margin-top:20px">
+		<div class="box">
+		  <div class="box-header">
+	        <span class="title">我的志愿</span>
+	        <ul class="box-toolbar">
+	          <li>
+				<span class="label label-blue">
+				  课程名称：<%= course_name%>&nbsp;&nbsp;&nbsp;学分：<%= credits%>
+				</span>
+			  </li>
+	        </ul>
+	      </div>
+		  <div class="box-content padded">
+			 <form name="input" action="/select/choose_course/<%=course_id %>" method="post">
+			 <table width="100%" class="table table-normal" style="text-align:center;">
+              <thead>
+                <tr>
+                  <td>教师</td>
+                  <td>上课时间</td>
+                  <td>校区</td>
+                  <td>教室</td>
+				  <td>余量/容量</td>
+				  <td>待定人数</td>
+				  <td>分配点数</td>
+                </tr>
+              </thead>
+              <tbody>
+			  <tr>
+				  <td><%=course[my_choice].teacher %></td>
+				  <td><%=course[my_choice].time %></td>
+				  <td><%=course[my_choice].campus %></td>
+				  <td><%=course[my_choice].room %></td>
+				  <td><%=course[my_choice].remain %>/<%=course[my_choice].all%></td>
+				  <td><%=course[my_choice].waiting %></td>
+				  <td><%=old_point %></td>
+			  </tr>
+              </tbody>  
+             </table>
+			 <div style="width:100%;text-align:center; padding-top:10px;">
+				 <button onclick="cancel()" class="btn btn-blue" style="width:80px;">退课</button>
 			 </div>
 			 </form>
 		  </div>
 		</div>
 	</div>
 	<script type="text/javascript">
-		var select=document.getElementById("points");
-		var i=<%=old_point%>/5-1;
-		select[i].selected=true;
+	function submit_choose(){
+	var choice=document.getElementsByName('choose');
+	for(var i=0;i<choice.length;i++){
+		if(choice[i].checked) break;
+	}
+	console.log(i);
+	if(i==choice.length) {
+		alert("请选择志愿!");
+		return;
+	}
+	var points=document.getElementById("points").value;
+	if(points==0){
+		alert("分配点数不能为0!");
+		return;
+	}
+	var _json = jQuery.param ({type:"choose",choice:i,points:points});  
+    var request = $.ajax({  
+        url: "/select/choose_course/<%=course_id %>",  
+        type: "POST",  
+        async: false,  
+        data: _json, //不能直接写成 {id:"123",code:"tomcat"}  
+        dataType: "json",  
+        // contentType: "charset=utf-8",  
+        cache: false
+    });
+
+	}
 	</script>
 </body>
