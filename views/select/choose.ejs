@@ -40,7 +40,7 @@
 				  <td><%=course[i].remain %>/<%=course[i].all%></td>
 				  <td><%=course[i].waiting %></td>
 				  <td>
-					<input type="radio" name="choose" class="icheck" id="iradio<%=i%>" value="<%=i%>">
+					<input type="radio" name="choose" class="icheck" id="iradio<%=i%>" value="<%=course[i]._id%>">
 				  </td>
 			  </tr>
 			  <%}%>
@@ -132,7 +132,7 @@
 		alert("分配点数不能为0!");
 		return;
 	}
-	var _json = jQuery.param ({type:"choose",choice:i,points:points});  
+	var _json = jQuery.param ({type:"choose",choice:choice[i].value,points:points});  
     var request = $.ajax({  
         url: "/select/choose_course/<%=course_id %>",  
         type: "POST",  
@@ -143,6 +143,18 @@
         cache: false
     });
 
+	}
+	function cancel(){
+	var _json = jQuery.param ({type:"cancel"});  
+    var request = $.ajax({  
+        url: "/select/choose_course/<%=course_id %>",  
+        type: "POST",  
+        async: false,  
+        data: _json, //不能直接写成 {id:"123",code:"tomcat"}  
+        dataType: "json",  
+        // contentType: "charset=utf-8",  
+        cache: false
+    });
 	}
 	</script>
 </body>
