@@ -8,7 +8,7 @@
     <% for(var i = 0; i < courses.length; i++) {%>
     <li>
       <span class="glow"></span>
-      <a href="/resource/course/data">
+      <a href="/resource/course/data/<%= courses[i].coursename %>">
         <i class="icon-tag icon-2x"></i>
         <span style="font-size:15px"><%= courses[i].coursename %></span>
       </a>
