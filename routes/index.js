@@ -6,12 +6,12 @@ var session = require('express-session');
 var info = require('./info/info');
 var arrange = require('./arrange/arrange')
 // var arrange = require()
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
 // var select = require("./course")
-=======
+//=======
 var select = require("./select/course")
->>>>>>> master
+//>>>>>>> master
 // var resource = require()
 // var test = require()
 // var score = require()
