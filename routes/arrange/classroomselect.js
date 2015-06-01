@@ -8,7 +8,7 @@ var tmp=[];
 
 
 router.get('/classroomselect', function(req, res, next) {
-	if(!req.session.user){return res.redirect('../info/login');}
+//	if(!req.session.user){return res.redirect('../info/login');}
     res.render('arrange/classroomselect',{
     	name: '程序员', 
 		image: 'images/avatars/avatar3.jpg',

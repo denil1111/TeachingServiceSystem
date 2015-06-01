@@ -11,7 +11,7 @@ var tmp = {
 };
 
 router.get('/classroominsert', function(req, res,next) {
-    if(!req.session.user){return res.redirect('../info/login');}
+//    if(!req.session.user){return res.redirect('../info/login');}
     res.render('arrange/classroominsert',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
