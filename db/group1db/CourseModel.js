@@ -24,8 +24,8 @@ CourseSchema.statics.findbyname = function(coursename, callback) {
     return this.model('CourseModel').find({coursename: coursename}, callback);
 }
 
-CourseSchema.statics.findbyterm = function (campus,room,term , callback) {
-    return this.model ('CourseModel').find({campus: campus , room: room , courseterm : term},callback);
+CourseSchema.statics.findbyterm = function (term , callback) {
+    return this.model ('CourseModel').find({courseterm : term},callback);
 }
 
 CourseSchema.statics.deletebyid = function(courseid2, callback) {
