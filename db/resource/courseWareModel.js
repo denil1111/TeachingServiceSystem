@@ -8,5 +8,5 @@ var mongooseSchema = new mongoose.Schema({
 mongooseSchema.statics.findbycourse = function (course, callback) {
     return this.model('coursewares').find({course: course}, callback);
 }
-var mongooseModel = mongoose.modul('coursewares', mongooseSchema);
+var mongooseModel = mongoose.model('coursewares', mongooseSchema);
 module.exports=mongooseModel;

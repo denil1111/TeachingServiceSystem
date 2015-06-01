@@ -5,5 +5,5 @@ var mongooseSchema = new mongoose.Schema({
     course   : {type : String},
     homework : [],
 });
-var mongooseModel = mongoose.modul('homework',mongooseSchema);
+var mongooseModel = mongoose.model('homework',mongooseSchema);
 module.exports=mongooseModel;
