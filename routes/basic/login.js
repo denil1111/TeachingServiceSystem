@@ -16,8 +16,8 @@ router.get('/login',function(req,res,next){
     passport.authenticate('local',function(err,user2,info){
       //use your own admin account here
       var user={
-        userid:'3120000567',
-        password:'123456'
+        userid:'312',
+        password:'wtf'
       };
       // var user;
       // PersonModel.findbyid(localuser.userid,function (err, user) {
