@@ -16,15 +16,9 @@ router.get('/login',function(req,res,next){
     passport.authenticate('local',function(err,user2,info){
       //use your own admin account here
       var user={
-        userid:'3120000567',
+        userid:'3120',
         password:'123456'
       };
-      // var user;
-      // PersonModel.findbyid(localuser.userid,function (err, user) {
-      //   if(err){console.log("development router login findbyid error!")}
-      //   else if(!user | user == ''){console.log("development router login findbyid find NULL!")}
-      //   else {user = user[0];console.log("user : "+user);}
-      // }); 
 
       if(err){return(err);}
       
@@ -36,9 +30,9 @@ router.get('/login',function(req,res,next){
       }
       else{
         req.logIn(user, function(err){
-          console.log(user);
+          // console.log(user);
           req.session.user=user;
-          console.log(req.isAuthenticated());
+          // console.log(req.isAuthenticated());
           if(user.status == "系统管理员"){
             res.redirect('/info/personinsert');
           }
@@ -67,9 +61,9 @@ router.post('/login',function(req, res, next){
     }
     else{
       req.logIn(user, function(err){
-        console.log(user);
+        // console.log(user);
         req.session.user=user;
-        console.log(req.isAuthenticated());
+        // console.log(req.isAuthenticated());
         if(user.status == "系统管理员"){
           res.redirect('/info/personinsert');
         }
