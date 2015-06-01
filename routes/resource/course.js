@@ -5,27 +5,44 @@ var router = require('express').Router();
 var modelPath = '../../db/group1db/';
 var debug = require('debug')('resource');
 var Course = require(modelPath + 'CourseModel');
-var Pesron = require(modelPath + 'PersonModel');
+var Person = require(modelPath + 'PersonModel');
 
 router.get('/', function (req, res, next) {
-  res.redirect('/resource/course/data');
+  res.redirect('/resource/course/info');
 });
 
-router.get('/data', function (req, res, next) {
-  var courseList = req.user && req.user.cstlist ? req.user.cstlist : [];
+function isValidCourseID(req, res, next) {
+  var courseID = req.params['courseID'];
+  if (!(courseID in req.session.user.cstlist)) {
+    return next(Error("Invalid course ID"));
+  }
+  next();
+}
 
-  courseList = courseList.concat(['Software Engineer', 'Design Pattern', 'Principal of Programming Language'].map(function(val){return {coursename: val}}));
-  debug(courseList);
+function getCourseNames(userid, callback) {
+  Person.findbyid(userid, function (err, user) {
+    debug('user is ' + user);
+    var cstlist = user[0].cstlist;
+    debug('cstlist is ' + cstlist);
+    Course.findbylist(cstlist, function (err, _courseList) {
+      var courseList = _courseList ? _courseList : [];
+      debug(courseList);
+      callback(err, courseList);
+    })
+  })
+}
 
-  res.render('resource/courseInfo', {courseList: courseList});
+router.get('/data/:courseID', isValidCourseID, function (req, res, next) {
+  res.render('resource/courseInfo', {});
 });
 
 router.get('/info', function (req, res, next) {
-
-  res.render('resource/')
+  getCourseNames(req.session.user.userid, function (err, courseNames) {
+    res.render('resource/courseInfo', {courseList: courseNames});
+  });
 });
 
-router.get('/homework', function (req, res, next) {
+router.get('/homework/:courseID', isValidCourseID, function (req, res, next) {
 
 });
 
@@ -33,4 +50,5 @@ router.get('/feedback', function (req, res, next) {
 
 });
 
-module.exports = router;
+exports.router = router;
+exports.getCourseNames = getCourseNames;

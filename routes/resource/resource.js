@@ -13,30 +13,12 @@ var cloud = require('./cloud')
 var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 var fs = require('fs');
 
-// TODO: wait to split those routes into separate files
 router.get('/', function(req, res, next) {
   res.redirect('/resource/cloud');
-  // res.render('courseInfo',{});
 });
 
-//TODO: simply find all files from gfs.files and display them
-// router.get('/cloud', function(req, res, next) {
-//   gfs.files.find({}).toArray(function (err, files) {
-//     if (err)
-//       return next(err);
-//     res.render('myresource', { title: 'Cloud' , fileList: files.map(function (val) {
-//       return {//FIXME: require ext and courseName
-//         name: val.filename,
-//         size: val.length + 'B',
-//         ext: '',
-//         courseName: '软工'
-//       }
-//     })});
-//   });
-
-// });
 /*
-  show cloud file 
+  show cloud file
   created by zyh
 */
 router.use('/cloud', cloud);
@@ -45,7 +27,7 @@ router.use('/cloud', cloud);
   route: "/resource/course"
   authored by Gong Deli <Gnnnnng@gmail.com>
  */
-router.use('/course', require('./course'));
+router.use('/course', require('./course').router);
 
 
 router.get('/config', function(req, res, next) {
@@ -54,13 +36,13 @@ router.get('/config', function(req, res, next) {
   });
 });
 
-
+//TODO: lines below need to be removed
 // file tree post data
 router.post('/tree_data', function(req, res, next) {
 
   res.send(req.session.treeP);
 });
-/* 
+/*
 
   These routes below are under test
 
