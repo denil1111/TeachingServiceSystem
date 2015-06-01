@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var session = require('express-session');
+var auth = require('./basic/auth');
 
 var info = require('./info/info');
 var arrange = require('./arrange/arrange')
 // var arrange = require()
+<<<<<<< HEAD
 // var select = require("./course")
 // var resource = require()
 // var test = require()
@@ -17,12 +18,20 @@ router.use(session({
   resave: false,
   saveUnintialized: false
 }));
+=======
+var select = require("./course");
+// var resource = require()
+// var test = require()
+// var score = require()
+var grades = require("./grades");
+var login = require("./basic/login");
+>>>>>>> master
 
 /* GET home page. */
-router.all('/',isLoggedIn);
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.redirect('/login');
 });
+<<<<<<< HEAD
 
 router.use('/info', info);
 router.use('/arrange', arrange);
@@ -39,5 +48,15 @@ function isLoggedIn(req, res, next) {
 
     res.redirect('/info/login');
 }
+=======
+router.use('/', login);
+router.use('/info', auth.isLoggedIn, info);
+// router.get('/arrange', auth.isLoggedIn, arrange);
+router.use('/select', auth.isLoggedIn, select);
+// router.get('/resource', auth.isLoggedIn, resource);
+// router.get('/test', auth.isLoggedIn, test);
+// router.get('/score', auth.isLoggedIn, score);
+router.use('/grades', auth.isLoggedIn, grades);
+>>>>>>> master
 
 module.exports = router;

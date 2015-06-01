@@ -12,10 +12,8 @@ var courseselect = require('./courseselect');
 var coursedelete = require('./coursedelete');
 var coursemodify = require('./coursemodify');
 
-var login =require('./login');
 // var group = require('./group');
 
-info.use('/',login);
 info.use('/', personinsert);
 info.use('/', personselect);
 info.use('/', persondelete);

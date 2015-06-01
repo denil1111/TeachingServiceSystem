@@ -7,7 +7,6 @@ var tmp=[];
 var PersonModel = require('../../db/group1db/PersonModel');
 
 router.get('/personselect', function(req, res, next) {
-	if(!req.session.user){return res.redirect('login');}
     res.render('info/personselect',{
 		name: '程序员', 
 		image: 'images/avatars/avatar3.jpg',
@@ -26,7 +25,7 @@ router.post('/personselect',function(req, res, next){
 	console.log("post:personselect");
 	PersonModel.findbyid(req.body.userid,function (err, user) {
 		if (err) {
-			console.log('find error!'+error);
+			console.log('find error!'+ err);
 		}
 		if (!user) {
 			console.log('user not found!');

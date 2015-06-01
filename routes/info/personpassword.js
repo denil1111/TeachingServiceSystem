@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var PersonModel = require('../../db/group1db/PersonModel');
 
 router.get('/personpassword', function(req, res,next) {
-    if(!req.session.user){return res.redirect('login');}
     res.render('info/personpassword',{
 	    name: '程序员', 
 	    image: 'images/avatars/avatar3.jpg',
@@ -50,7 +49,7 @@ router.post('/personpassword', function(req, res,next) {
 		});
     }
     else{
-    	var localuser=req.session.user[0];
+    	var localuser=req.session.user;
     	PersonModel.findbyid(localuser.userid,function (err, user) {
 	        if(err){
 	        	console.log("根据id查找错误");
