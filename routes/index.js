@@ -19,12 +19,12 @@ router.use(session({
   resave: false,
   saveUnintialized: false
 }));
-
-var select = require("./course");
-// var resource = require()
-// var test = require()
-// var score = require()
-var grades = require("./grades");
+//
+//var select = require("./course");
+//// var resource = require()
+//// var test = require()
+//// var score = require()
+//var grades = require("./grades");
 var login = require("./basic/login");
 
 
@@ -47,16 +47,16 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
 
-    res.redirect('/info/login');
+    res.redirect('/basic/login');
 }
 
 router.use('/', login);
 router.use('/info', auth.isLoggedIn, info);
-// router.get('/arrange', auth.isLoggedIn, arrange);
-router.use('/select', auth.isLoggedIn, select);
-// router.get('/resource', auth.isLoggedIn, resource);
-// router.get('/test', auth.isLoggedIn, test);
-// router.get('/score', auth.isLoggedIn, score);
-router.use('/grades', auth.isLoggedIn, grades);
+router.get('/arrange', auth.isLoggedIn, arrange);
+//router.use('/select', auth.isLoggedIn, select);
+//// router.get('/resource', auth.isLoggedIn, resource);
+//// router.get('/test', auth.isLoggedIn, test);
+//// router.get('/score', auth.isLoggedIn, score);
+//router.use('/grades', auth.isLoggedIn, grades);
 
 module.exports = router;
