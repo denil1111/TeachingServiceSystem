@@ -9,7 +9,7 @@ var classroomcourse = require('./classroomcourse');
 var timetable_classroom = require('./timetable_classroom');
 //var teachercourse = require('./teachercourse');
 
-var login =require('../info/login');
+var login =require('../basic/login');
 // var group = require('./group');
 
 arrange.use('/',login);

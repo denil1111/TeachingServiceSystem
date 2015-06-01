@@ -4,11 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-<<<<<<< HEAD
-=======
+
+
 var passport = require('passport');
 var session = require('express-session');
->>>>>>> master
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var debug = require('./routes/debug');
