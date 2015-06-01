@@ -3,12 +3,13 @@ var router = express.Router();
 var auth = require('./basic/auth');
 
 var info = require('./info/info');
+var arrange = require('./arrange/arrange')
 // var arrange = require()
 var select = require("./select/course")
 // var resource = require()
 // var test = require()
 // var score = require()
-var grades = require("./grades");
+ var grades = require("./grades")
 var login = require("./basic/login");
 
 
@@ -21,10 +22,10 @@ router.use('/info', function setStatus(req, res, next){
   res.locals.Navstatus = 1;
   next();
 }, auth.isLoggedIn, info);
-// router.get('/arrange', function setStatus(req, res, next){
-//  res.locals.Navstatus = 2;
-//  next();
-//}, auth.isLoggedIn, arrange);
+ router.use('/arrange', function setStatus(req, res, next){
+  res.locals.Navstatus = 2;
+  next();
+}, auth.isLoggedIn, arrange);
 router.use('/select', function setStatus(req, res, next){
   res.locals.Navstatus = 3;
   next();
