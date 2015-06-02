@@ -9,7 +9,6 @@ npm install
 ### 2.运行
 
 npm start
-<<<<<<< HEAD
 可以运行网站
 
 ## 默认的用户名和密码
@@ -96,9 +95,6 @@ Course使用数据库 'mongodb://127.0.0.1:27017/info'下的courses collections
 
 * routes/arrange.js  处理后端数据库连接与路由
 * settings.js 连接数据库
->>>>>>> c4b3da3247712db836a7ab3297e916fd5c270869
-=======
-
 
 #login具体使用
 首先 我给各位所有的基本路由上都判定了是否登陆，所以大家这个可以不用加了，如果需要取消，可以在index.js里改！
