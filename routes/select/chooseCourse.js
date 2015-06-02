@@ -27,9 +27,9 @@ router.post('/choose', function(req, res, next) {
 
 //进入选课系统
 var course1=[];//该课程号对应的所有不同老师、时间段的课程
-course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30});
-course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30});
-course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30});
+course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,_id:1});
+course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,_id:2});
+course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,_id:3});
 router.get('/choose_course/:courseID', function(req, res, next){
 	//课程号
 	var course_id = req.params.courseID;
@@ -106,7 +106,7 @@ router.get('/choose_course/:courseID', function(req, res, next){
                   console.log(nresult);
               }              
               if (nresult.length!=0)
-                  course.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].coursetime,room:result[i].room,remain:nresult[0].remain,all:nresult[0].all,waiting:nresult[0].waiting});
+                  course.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].coursetime,room:result[i].room,remain:nresult[0].remain,all:nresult[0].all,waiting:nresult[0].waiting,_id:i});
               console.log(i);
               console.log(i==result.length);
               if (i==result.length-1)
