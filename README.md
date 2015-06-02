@@ -64,8 +64,6 @@ CourseModel的使用：
 
 Person使用数据库 'mongodb://127.0.0.1:27017/info'下的persons collections
 Course使用数据库 'mongodb://127.0.0.1:27017/info'下的courses collections
-<<<<<<< HEAD
-=======
 
 ### 3.运行前将下面的内容复制到目录下的settings.js文件
 
@@ -119,4 +117,3 @@ Course使用数据库 'mongodb://127.0.0.1:27017/info'下的courses collections
     	console.log("我成功了！！");
   	});
 ```
->>>>>>> master
