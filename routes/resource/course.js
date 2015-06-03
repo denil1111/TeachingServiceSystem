@@ -7,26 +7,11 @@ var debug = require('debug')('resource');
 var Course = require(modelPath + 'CourseModel');
 var Person = require(modelPath + 'PersonModel');
 
-router.get('/', function (req, res, next) {
-  res.redirect('/resource/course/info');
-});
 
-//检查数组中是否有相应的字符串
-Array.prototype.S=String.fromCharCode(2);
-Array.prototype.in_array=function(e){
-  var r=new RegExp(this.S+e+this.S);
-  return (r.test(this.S+this.join(this.S)+this.S));
-}
-
-function isValidCourseID(req, res, next) {
-  var courseID = req.params['courseID'];
-  if (!req.session.user.cstlist.in_array(courseID)) {
-    return next(Error("Invalid course ID"));
-  }
-  next();
-}
-
-function getCourseNames(userid, callback) {
+/*
+  functions
+ */
+function getCourseList(userid, callback) {
   Person.findbyid(userid, function (err, user) {
     debug('user is ' + user);
     var cstlist = user[0].cstlist;
@@ -39,32 +24,124 @@ function getCourseNames(userid, callback) {
   })
 }
 
-router.get('/data/:courseID', isValidCourseID, function (req, res, next) {
-  res.render('resource/courseInfo', {});
-});
 
-router.get('/info', function (req, res, next) {
-  getCourseNames(req.session.user.userid, function (err, courses) {
-    var courseNames=[];
-    var num=0;
-    courses.forEach(function (course) {
-      num++;
-      courseNames.push(course.coursename);
-      if(num >= courses.length){
-        req.session.user.cstlist=courseNames;
-        res.render('resource/courseInfo', {courseList: courses});
+function isValidCourseID(req, res, next) {
+  if (!('cid' in req.query)) {
+    // has no query of cid, default access at first course
+    req.query.cid = encodeURIComponent(req.session.courseList[0].courseid2);
+  } else {
+    //has a query of cid, then check validation
+    debug(JSON.stringify(req.session.courseList));
+    var cList = req.session.courseList;
+    var in_flag = false;
+    for(var i = 0; i < cList.length; i++) {
+      if (req.query.cid === cList[i].courseid2) {
+        in_flag = true;
+        break;
+      }
+    }
+    if (!in_flag)
+      next(Error("Invalid course id"));
+  }
+
+  // finish and next
+  next();
+}
+
+/*
+  routes
+ */
+
+router.use(
+  function cache_courseList(req, res, next) {
+    debug('cache_courseList');
+    if ('courseList' in req.session) {
+      next();
+    } else {
+      getCourseList(req.session.user.userid, function(err, courseList) {
+        if (err)
+          next(err);
+        else {
+          //debug(courseList);
+          req.session.courseList = courseList;
+          next();
+        }
+      })
+    }
+  },
+  function cache_slide_course_data(req, res, next) {
+    debug('cache_slide_course_data');
+    if (!('slide_course' in req.session)) {
+      var arr = [];
+      debug('arr length is ' + arr.length);
+      for(var i = 0; i < req.session.courseList.length; i++) {
+        var c = req.session.courseList[i];
+        debug('arr at ' + i + ' is ' + c);
+        arr.push({
+          courseid: c.courseid2,
+          coursename: c.coursename
+        });
+      }
+      debug('arr length is ' + arr.length);
+      req.session.slide_course = {
+        courses: arr
       };
-    });
-  });
+      debug('slide_course is ' + JSON.stringify(req.session.slide_course));
+    }
+    next();
+  }
+);
+
+router.get('/', function (req, res, next) {
+  res.redirect('/resource/course/data');
 });
 
-router.get('/homework/:courseID', isValidCourseID, function (req, res, next) {
+router.get('/data', isValidCourseID, function (req, res, next) {
+  var render_data = {
+    current_cid   : decodeURIComponent(req.query.cid),
+    slide_course  : req.session.slide_course,
+    path_prefix   : 'data'
+  };
+  debug(render_data);
+  res.render('resource/course_data', render_data);
+});
 
+router.get('/info', isValidCourseID, function (req, res, next) {
+  var render_data = {
+    current_cid   : decodeURIComponent(req.query.cid),
+    slide_course  : req.session.slide_course,
+    path_prefix   : 'info'
+  };
+
+  res.render('resource/course_info', render_data);
+});
+
+router.get('/homework/', isValidCourseID, function (req, res, next) {
+  var render_data = {
+    current_cid   : decodeURIComponent(req.query.cid),
+    slide_course  : req.session.slide_course,
+    path_prefix   : 'homework'
+  };
+
+  res.render('resource/course_homework', render_data);
 });
 
 router.get('/feedback', function (req, res, next) {
+  var render_data = {
+    current_cid   : decodeURIComponent(req.query.cid),
+    slide_course  : req.session.slide_course,
+    path_prefix   : 'feedback'
+  };
+
+  res.render('resource/course_feedback', render_data);
 
 });
 
+
+
+/*
+  exports
+ */
 exports.router = router;
-exports.getCourseNames = getCourseNames;
+
+exports.getCourseList = getCourseList;
