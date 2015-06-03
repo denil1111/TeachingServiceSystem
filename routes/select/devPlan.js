@@ -140,7 +140,7 @@ router.get('/edit_dev_plan', function(req, res, next) {
 });
 router.post('/edit_dev_plan', function(req, res, next) {
   console.log(req.body);
-  res.render('select/dev_plan', {
+  res.render('select/edit_dev_plan', {
     type:2,//manager
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
