@@ -173,8 +173,9 @@ router.post('/choose_course/:courseID', function(req, res, next){
                         userModel.update({id:"u001"},{$set:{points:user.points-point}},function(err,re){if (err) console.log(err); else console.log(re);});
                         userModel.update({id:"u001"},{$push:{selectedCourse:{id:req.body.choose,points:point}}},function(err,re){if (err) console.log(err); else console.log(re);});
                         for (var i=0;i<course.length;i++)
-                            if (course._id==req.body.choose)
+                            if (course[i]._id==req.body.choose)
                                 choice=i;
+                        console.log(choice);
                         oldPoint=point;
                         remainedP=remainedP-point;
                   }
