@@ -23,7 +23,7 @@ time []
 campus
 */
 
-CourseSchema.statics.insert = function(req, callback) {
+courseSchema_hyx.statics.insert = function(req, callback) {
 	var doc = {
 		id : req.id, 
 		name : req.name, 

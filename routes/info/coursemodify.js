@@ -6,6 +6,9 @@ var tmp = {
     courseid2 : "123456",
     coursename : "软件工程",
     coursetime : "周一第1、2节",
+    all : 100,
+    remain : 100,
+    waiting : 0,
     teacher : "王章野",
     examtime : "2015.07.01 8:00-10:00",
     room : "教7-602",
@@ -35,6 +38,10 @@ router.post('/coursemodify',function(req,res,next){
             courseterm : req.body.courseterm,
             coursetime : req.body.time,
             coursescore : req.body.coursescore,
+            year : req.body.year,
+            all : req.body.all,
+            remain : req.body.remain,
+            waiting : req.body.waiting,
             teacher : req.body.teacher,
             examtime : req.body.examtime,
             room : req.body.room,
@@ -42,6 +49,7 @@ router.post('/coursemodify',function(req,res,next){
             college : req.body.college,
         };
 
+        console.log("doc.year"+doc.year);
     CourseModel.modifybyid(doc,function(err,data){
         if(err){
             console.log("modify err : "+err);

@@ -6,6 +6,10 @@ var CourseSchema = new mongoose.Schema({
     courseterm  : {type : String},  //课程学期
     coursetime	: {type : String},	//上课时间
     coursescore	: {type : Number},	//课程学分
+    year        : {type : String},  //课程年份
+    all         : {type : Number},  //课程容量
+    remain      : {type : Number},  //课程余量
+    waiting     : {type : Number},  //待选人数
     status      : {type : String, default : 'on'}, //课程状态，默认'on'，老师提交成绩后，为‘off’
     teacher     : {type : String},	//授课老师
     examtime	: {type : String},	//考试时间
@@ -37,7 +41,11 @@ CourseSchema.statics.modifybyid = function(req, callback) {
                 courseterm : req.courseterm,
                 coursetime :req.coursetime,
                 coursescore : req.coursescore,
+                year : req.year,
+                all : req.all,
+                remain : req.remain,
                 status : req.status,
+                waiting : req.waiting,
                 teacher : req.teacher,
                 examtime : req.examtime,
                 room : req.room,
