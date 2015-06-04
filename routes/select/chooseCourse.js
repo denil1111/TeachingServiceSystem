@@ -116,7 +116,7 @@ router.post('/choose_course/:courseID', function(req, res, next){
           selectedCourseP.push(uresult[0].selectedCourse[i].points);
       }
       console.log(req.params);
-      courseModel.find({ courseid2:'c001' }, function(error,result){
+      courseModel.find({ courseid2:req.params.courseID}, function(error,result){
           if(error) {
               console.log(error);
           } else {
