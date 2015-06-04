@@ -20,7 +20,7 @@ router.use('/', login);
 //router.use('/info', info);
 router.use('/info', auth.isLoggedIn, info);
 // router.get('/arrange', auth.isLoggedIn, arrange);
-router.use('/select', auth.isLoggedIn, select);
+router.use('/select'/*, auth.isLoggedIn*/, select);
 // router.get('/resource', auth.isLoggedIn, resource);
 // router.get('/test', auth.isLoggedIn, test);
 // router.get('/score', auth.isLoggedIn, score);
