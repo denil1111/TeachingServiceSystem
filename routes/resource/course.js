@@ -6,7 +6,8 @@ var modelPath = '../../db/group1db/';
 var debug = require('debug')('resource');
 var Course = require(modelPath + 'CourseModel');
 var Person = require(modelPath + 'PersonModel');
-
+var homeworkModel = require("../../db/resource/homework");
+var File = require("./basicfileop");
 
 /*
   functions
@@ -116,8 +117,78 @@ router.get('/info', isValidCourseID, function (req, res, next) {
   res.render('resource/course_info', render_data);
 });
 
+router.get('/homework/upload', function(req, res, next) {
+  var html = '<form action="/resource/cloud/upload"enctype="multipart/form-data" method="post"> ' +
+    '<h1> Upload your file </h1> ' +
+    'Please specify a file, or a set of files:<br> ' +
+    '<input type="file" name="file" size="40" multiple="multiple">  ' +
+    '<div> <input type="submit" > </div> </form>';
+  res.send(html);
+  res.end();
+});
+/*
+
+  file upload api
+
+ */
+router.post('/homework/upload', function(req, res, next) {
+  File.upload(req,function (id) {
+    console.log(id);
+  });
+  console.log(req);
+//  req.busboy.on('file', function(fieldname, readStream, filename, encoding, mimetype) {
+//    debug('a file is posted: ' + filename);
+//    var ws = gfs.createWriteStream({
+//      mode: 'w',
+//      content_type: mimetype,
+//      filename: filename,
+//      metadata: {}
+//    });
+//    console.log(ws.id);
+//    readStream.pipe(ws);
+//  });
+
+  //TODO: should not allow any other field to be post to the upload route
+  req.busboy.on('field', function(key, value, keyTruncated, valueTruncated) {
+    debug('Field is ' + key + value);
+  });
+
+  req.busboy.on('finish', function() {
+    res.redirect('/resource/cloud');
+  });
+//
+//  req.pipe(req.busboy);
+});
+
 router.get('/homework/', isValidCourseID, function (req, res, next) {
+  var cid = decodeURIComponent(req.query.cid);
+  var homeworkName = [];
+  var filelist = [];
+  var thisfilelist = [];
+  Person.findbyid(req.session.user.userid, function (err, user) {
+    homeworkModel.findbycourseid(cid, function (error,result) {
+      var homeworkList=result.homework;
+      for (var i=0; i<homeworkList.length; i++) {
+        homeworkName.push(homeworkList.homework);
+        var uploadfile=homeworkList.uploadfile;
+        thisfilelist=[];
+        for (var j=0;j<uploadfile.length;j++){
+          if (user.status == '学生') {
+            if (uploadfile.stid == user.userid){
+              thisfilelist.push(uploadfile.fileid);
+            }
+          } else {
+            thisfilelist.push(uploadfile.fileid);
+          }
+        }
+        filelist.push(thisfilelist);
+      }
+    });
+      //课程名单放在了homeworkName,上传的文件在fileidlist中   
+  });
   var render_data = {
+    homewokeLisr  : homeworkName,
+    uploadfile    : filelist,//是一个二维数组
     current_cid   : decodeURIComponent(req.query.cid),
     slide_course  : req.session.slide_course,
     path_prefix   : 'homework'
