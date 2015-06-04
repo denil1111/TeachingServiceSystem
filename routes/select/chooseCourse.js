@@ -170,8 +170,8 @@ router.post('/choose_course/:courseID', function(req, res, next){
                   else
                   {
                         var user=uresult[0];
-                        userModel.update({id:"u001"},{$set:{points:user.points-point}},function(err,re){if (err) console.log(err); else console.log(re);});
-                        userModel.update({id:"u001"},{$push:{selectedCourse:{id:req.body.choose,points:point}}},function(err,re){if (err) console.log(err); else console.log(re);});
+                        userModel.update({id:"u001"},{$set:{points:user.points-point}},function(err,re){if (err) console.log(err);});
+                        userModel.update({id:"u001"},{$push:{selectedCourse:{id:req.body.choose,points:point}}},function(err,re){if (err) console.log(err);});
                         for (var i=0;i<course.length;i++)
                             if (course[i]._id==req.body.choose)
                                 choice=i;
@@ -195,8 +195,8 @@ router.post('/choose_course/:courseID', function(req, res, next){
                     var cpo=oldPoint;
                     var user=uresult[0];
                     console.log(cid,cpo);
-                    userModel.update({id:"u001"},{$set:{points:user.points+cpo}},function(err,re){if (err) console.log(err); else console.log(re);});
-                    userModel.update({id:"u001"},{$pull:{selectedCourse:{id:cid,points:cpo}}},function(err,re){if (err) console.log(err); else console.log(re);});
+                    userModel.update({id:"u001"},{$set:{points:user.points+cpo}},function(err,re){if (err) console.log(err);});
+                    userModel.update({id:"u001"},{$pull:{selectedCourse:{id:cid,points:cpo}}},function(err,re){if (err) console.log(err);});
                     remainedP=remainedP+oldPoint;
                     choice=-1;
               }
@@ -216,4 +216,5 @@ module.exports = router;
  db.users.update({id:"u001"},{$set:{points:56}) 
  db.users.update({id:"u001"},{$push:{selectedCourse:{id:'hehe',points:15}}}) add
  db.users.update({id:"u001"},{$pull:{selectedCourse:{id:'hehe',points:15}}}) delete
+ function(err,re){if (err) console.log(err); else console.log(re);}
  */
