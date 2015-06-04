@@ -61,6 +61,7 @@ router.get('/choose_course/:courseID', function(req, res, next){
           var course=[];
           var choice=-1;
           var oldPoint=0;
+          var error="";
           var render=function(){
             res.render('select/choose', {
             course_id:req.params.courseID,
@@ -71,7 +72,8 @@ router.get('/choose_course/:courseID', function(req, res, next){
             remain_points:remainedP,//该学生剩余的点数
             old_point:oldPoint,//该学生原来分配的点数
             name: '程序员', 
-            image: '../images/avatars/avatar3.jpg'
+            image: '../images/avatars/avatar3.jpg',
+            error:error
             });
           }
           for (var i=0;i<result.length;i++)
@@ -85,7 +87,8 @@ router.get('/choose_course/:courseID', function(req, res, next){
               console.log(result[i]._id);
               course.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].coursetime,room:result[i].room,remain:result[i].remain,all:result[i].all,waiting:result[i].waiting,_id:result[i]._id}); 
           }
-          console.log(course);
+          //console.log(course);
+         // console.log(choice);
           render();
       });
   });
@@ -125,6 +128,7 @@ router.post('/choose_course/:courseID', function(req, res, next){
           var course=[];
           var choice=-1;
           var oldPoint=0;
+          var error="";
           var render=function(){
             res.render('select/choose', {
             course_id:req.params.courseID,
@@ -135,7 +139,8 @@ router.post('/choose_course/:courseID', function(req, res, next){
             remain_points:remainedP,//该学生剩余的点数
             old_point:oldPoint,//该学生原来分配的点数
             name: '程序员', 
-            image: '../images/avatars/avatar3.jpg'
+            image: '../images/avatars/avatar3.jpg',
+            error:error
             });
           }
           for (var i=0;i<result.length;i++)
@@ -146,41 +151,53 @@ router.post('/choose_course/:courseID', function(req, res, next){
                   choice=i;
                   oldPoint=selectedCourseP[index];
               }
-              console.log(result[i]._id);
+             //console.log(result[i]._id);
               course.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].coursetime,room:result[i].room,remain:result[i].remain,all:result[i].all,waiting:result[i].waiting,_id:result[i]._id}); 
           }
-          console.log(choice);
-          if (req.body.type=='choose')
+          if ('choose' in req.body)
           {
+              console.log('choose-sect');
               var point=parseInt(req.body.points);
               if (point>remainedP){
-                  //fen bu gou
+                  error="点数不够";
               }
               else
               {
                   if (choice!=-1)
                   {
-                    //yi jing xuan le
+                        error="已经选课";
                   }
                   else
                   {
-                        var user;
-                        var index=selectedCourse.indexOf(result[choice]._id.toString());
-                        user.points=user.points-point;
-                        //user.selectedCourse.push({id:})
-                        //userModel.update({id:"u001"},)
+                        var user=uresult[0];
+                        userModel.update({id:"u001"},{$set:{points:user.points-point}},function(err,re){if (err) console.log(err); else console.log(re);});
+                        userModel.update({id:"u001"},{$push:{selectedCourse:{id:req.body.choose,points:point}}},function(err,re){if (err) console.log(err); else console.log(re);});
+                        for (var i=0;i<course.length;i++)
+                            if (course._id==req.body.choose)
+                                choice=i;
+                        oldPoint=point;
+                        remainedP=remainedP-point;
                   }
               }
           }
-          if (req.body.type=='cancel')
+          if ('cancel_course' in req.body)
           {
+              console.log('cancel-sect');
               if (choice==-1)
               {
-                    //meixuan
+                    error="没有选课";
               }
               else
               {
-
+                    console.log('cancel-update-sect');
+                    var cid=result[choice]._id;
+                    var cpo=oldPoint;
+                    var user=uresult[0];
+                    console.log(cid,cpo);
+                    userModel.update({id:"u001"},{$set:{points:user.points+cpo}},function(err,re){if (err) console.log(err); else console.log(re);});
+                    userModel.update({id:"u001"},{$pull:{selectedCourse:{id:cid,points:cpo}}},function(err,re){if (err) console.log(err); else console.log(re);});
+                    remainedP=remainedP+oldPoint;
+                    choice=-1;
               }
           }
           render();
@@ -195,6 +212,7 @@ module.exports = router;
   points: '10' }
 */
 /*
+ db.users.update({id:"u001"},{$set:{points:56}) 
  db.users.update({id:"u001"},{$push:{selectedCourse:{id:'hehe',points:15}}}) add
  db.users.update({id:"u001"},{$pull:{selectedCourse:{id:'hehe',points:15}}}) delete
  */
