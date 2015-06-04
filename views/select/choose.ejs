@@ -18,6 +18,7 @@
 	        </ul>
 	      </div>
 		  <div class="box-content padded">
+		  	<form name="choose_course" id="choose_course" method="post" action="/select/choose_course/<%=course_id%>">
 			 <table width="100%" class="table table-normal" style="text-align:center;">
               <thead>
                 <tr>
@@ -67,8 +68,9 @@
               </div>
             </div>
 			 <div style="width:100%;text-align:center; padding-top:10px;">
-				 <button onclick="submit_choose()" class="btn btn-blue" style="width:80px;">提交</button>
+				 <button  type="button" onclick="submit_choose()" class="btn btn-blue" style="width:80px;">提交</button>
 			 </div>
+			</form>
 		  </div>
 		</div>
 	</div>
@@ -85,7 +87,7 @@
 	        </ul>
 	      </div>
 		  <div class="box-content padded">
-			 <form name="input" action="/select/choose_course/<%=course_id %>" method="post">
+			 <form name="cancel_input" id="cancel_input" action="/select/choose_course/<%=course_id %>" method="post">
 			 <table width="100%" class="table table-normal" style="text-align:center;">
               <thead>
                 <tr>
@@ -98,6 +100,7 @@
 				  <td>分配点数</td>
                 </tr>
               </thead>
+              <%if(my_choice>0) {%>
               <tbody>
 			  <tr>
 				  <td><%=course[my_choice].teacher %></td>
@@ -108,17 +111,23 @@
 				  <td><%=course[my_choice].waiting %></td>
 				  <td><%=old_point %></td>
 			  </tr>
-              </tbody>  
+              </tbody> 
+              <%}%> 
              </table>
+             <%if(my_choice>0) {%>
+             <div hidden=""><input type="text" name="cancel_course" value="<%=course[my_choice]._id%>"></div>
 			 <div style="width:100%;text-align:center; padding-top:10px;">
-				 <button onclick="cancel()" class="btn btn-blue" style="width:80px;">退课</button>
+				 <button type="submit" class="btn btn-blue" style="width:80px;">退课</button>
 			 </div>
+			 <%}%>
 			 </form>
 		  </div>
 		</div>
 	</div>
-	<script type="text/javascript">
-	function submit_choose(){
+<script type="text/javascript">
+console.log("course_id");
+console.log("<%=course_id%>");
+function submit_choose(){
 	var choice=document.getElementsByName('choose');
 	for(var i=0;i<choice.length;i++){
 		if(choice[i].checked) break;
@@ -133,29 +142,7 @@
 		alert("分配点数不能为0!");
 		return;
 	}
-	var _json = jQuery.param ({type:"choose",choice:choice[i].value,points:points});  
-    var request = $.ajax({  
-        url: "/select/choose_course/<%=course_id %>",  
-        type: "POST",  
-        async: false,  
-        data: _json, //不能直接写成 {id:"123",code:"tomcat"}  
-        dataType: "json",  
-        // contentType: "charset=utf-8",  
-        cache: false
-    });
-
-	}
-	function cancel(){
-	var _json = jQuery.param ({type:"cancel"});  
-    var request = $.ajax({  
-        url: "/select/choose_course/<%=course_id %>",  
-        type: "POST",  
-        async: false,  
-        data: _json, //不能直接写成 {id:"123",code:"tomcat"}  
-        dataType: "json",  
-        // contentType: "charset=utf-8",  
-        cache: false
-    });
-	}
-	</script>
+	document.getElementById("choose_course").submit();
+}
+</script>
 </body>
