@@ -17,7 +17,14 @@
 			  </li>
 	        </ul>
 	      </div>
+	      <%if(error!="")%>
 		  <div class="box-content padded">
+		  	<div style="width:90%;height:35px;background-color:#ffd4d4; padding:10px;">
+		  		<span style="color:red;font-size:15px;line-height:15px;">error:</span>
+		  		</br>
+		  		<span style="color:red;font-size:15px;line-height:15px;"><%= error%></span>
+		  	</div>
+		  	<%}%>
 		  	<form name="choose_course" id="choose_course" method="post" action="/select/choose_course/<%=course_id%>">
 			 <table width="100%" class="table table-normal" style="text-align:center;">
               <thead>
