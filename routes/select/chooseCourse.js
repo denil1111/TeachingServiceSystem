@@ -63,7 +63,7 @@ router.get('/choose_course/:courseID', function(req, res, next){
           var oldPoint=0;
           var render=function(){
             res.render('select/choose', {
-            course_id:id,
+            course_id:req.params.courseID,
             course_name:name,
             credits:credits,
             course:course,
@@ -113,7 +113,7 @@ router.post('/choose_course/:courseID', function(req, res, next){
           selectedCourseP.push(uresult[0].selectedCourse[i].points);
       }
       console.log(req.params);
-      courseModel.find({ courseid2: req.params.courseID }, function(error,result){
+      courseModel.find({ courseid2:'c001' }, function(error,result){
           if(error) {
               console.log(error);
           } else {
@@ -127,7 +127,7 @@ router.post('/choose_course/:courseID', function(req, res, next){
           var oldPoint=0;
           var render=function(){
             res.render('select/choose', {
-            course_id:id,
+            course_id:req.params.courseID,
             course_name:name,
             credits:credits,
             course:course,
@@ -194,3 +194,7 @@ module.exports = router;
   choice: '55575464feaeea682b000004',
   points: '10' }
 */
+/*
+ db.users.update({id:"u001"},{$push:{selectedCourse:{id:'hehe',points:15}}}) add
+ db.users.update({id:"u001"},{$pull:{selectedCourse:{id:'hehe',points:15}}}) delete
+ */
