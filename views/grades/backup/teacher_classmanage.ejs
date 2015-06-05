@@ -1,0 +1,113 @@
+<!doctype html>
+<% include ../head.html %>
+</head>
+<body>
+<!-- 上方选择条 navbar-top-->
+<% include ../navbar.html %>
+<!-- 侧边框 -->
+<% include teacher_slide.html%>
+<script type="text/javascript">
+   function setNavActive(){
+       var active=document.getElementById('grades');
+           active.className='active';
+    }
+
+   function setSlideActive(){
+        var slide = document.getElementById('classManagement');
+            slide.className='active';
+   }
+
+     setNavActive();
+     setSlideActive();
+</script>
+
+<script type="text/javascript">
+function disp_alert()
+{
+        if (!confirm("确认提交？提交后再次修改需要向管理员申请")) { 
+            window.event.returnValue = false; 
+        } 
+    
+}
+</script>
+
+
+<!-- 主要内容 -->
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="area-top clearfix">
+        <div class="pull-left header">
+          <h3 class="title"><i class="icon-search"></i>课程管理</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="span10">
+<div class="box">
+  <div class="box-header">
+    
+    <span class="title"><%=courses[0].coursename%></span>
+    <ul class="box-toolbar">
+      <%if(courses[0].status=="on"){%>
+      <li><span class="label label-green">进行中</span></li>
+       <%} else if(courses[0].status=="off"){%>
+       <li><span class="label label-red">已完结</span></li>
+        <%}%>
+    </ul>
+  </div>
+  <div class="box-content">
+    <table class="table table-normal">
+      <thead>
+      <tr>
+        <td>学号</td>
+        <td>姓名</td>
+        <td>专业</td>
+        <td>成绩</td>
+        <td style="width: 40px"></td>
+      </tr>
+      </thead>
+
+      <tbody>   
+       <% for(i=0;i<data.length;i++){%>
+      <form name="input" action="gradesfix" method="post">
+      <tr class="status-pending">
+        <td><%=studentslist[i].userid%></a></td>
+        <td><%=studentslist[i].username%></td>
+        <td><%=studentslist[i].major%></td>
+        <td><input type="text" name="score" value=<%=data[i].score%>></td>
+          <input type="hidden" name="courseid" value=<%=courses[0].courseid%>>
+            <input type="hidden" name="userid" value=<%=studentslist[i].userid%>>
+        <td>
+          <div class="btn-group">
+            <%if(courses[0].status=="on"){%>
+            <button class="btn btn-xs btn-default dropdown-toggle" type="submit"><i class="icon-cog"> 修改</i></button>
+            <%} else if(courses[0].status=="off"){%>
+            <button class="btn btn-xs btn-default dropdown-toggle" type="submit"><i class="icon-cog"> 提交申请</i></button>
+            <%}%>
+          </div>
+        </td>
+      </tr>
+      </form>
+      <%}%>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%if(courses[0].status=="on"){%>
+<form action="gradesSubmit" target="_blank" method="post"> 
+<input type="hidden" name="courseid" value=<%=courses[0].courseid%>>
+<input class="btn btn-lg btn-green" type="submit" value="确认提交" onClick="disp_alert()" />
+</form> 
+<%}%>
+  
+</div>
+
+</div>
+
+
+
+</body>
+</html>

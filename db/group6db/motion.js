@@ -1,19 +1,11 @@
 //审核表
 
 var mongoose = require('mongoose');
-
-// var Schema = new mongoose.Schema({
-// courseNumber: String,
-// courseName:String,
-// score:Number,
-// credit:Number,
-// gradePoint:Number,
-// secondScore:Number
-// });
-
+var gradesDB = require('./gradesDB');
 
 var motionSchema = new mongoose.Schema({
 teacherid   : String,  
+teachername : String,
 studentid   : String,  
 courseid    : String,
 time        :{ type: Date, default: Date.now },
@@ -52,10 +44,24 @@ motionSchema.statics.findbystatus = function(req, callback) {
 }
 motionSchema.statics.acceptbyid = function(req, callback) {
     console.log("Motion:accepbyid");
+    gradesDB.update(
+    {
+        userid:req.studentid,
+        courseid:req.courseid
+    },
+    {
+        $set:{
+           score:req.newvalue,
+           gradePoint:(req.newvalue-45)/10
+        }
+    },function(error,other){
+        if(error)
+            console.log(error)
+    });
     return this.model('motions').update(
         {
             teacherid:req.teacherid, 
-            studentid:req.studentid, 
+            studentid:req.studentid,
             courseid:req.courseid
         },
         {
@@ -63,54 +69,83 @@ motionSchema.statics.acceptbyid = function(req, callback) {
                 status:"accepted",
                 feedback:{admin:req.admin,comment: req.comment}
             }
-        },
-        callback
-    )
-    /*return this.model('motions').update(
-         {
-            studentid:req.id
-         },
-         {
-            $set:{
-                grade: req.val
-            }
-         },
-         callback);*/
+        },function(error,motion){
+            if(error)
+                console.log(error);
+            else
+                console.log(motion);
+       });
+    
 }
 
 motionSchema.statics.rejectbyid = function(req, callback) {
     console.log("Motion:rejectbyid");
+    console.log(req);
     return this.model('motions').update(
         {
             teacherid:req.teacherid, 
-            studentid:req.studentid, 
-            courseid:req.courseid},
+            studentid:req.studentid,
+            courseid:req.courseid
+        },
         {
             $set:{
                 status:"rejected",
                 feedback:{admin:req.admin,comment: req.comment}
             }
         },
-        callback);
+        function(error,motion){
+            if(error)
+                console.log(error)
+            else
+                console.log(motion);
+        }
+        );
 }
 
 motionSchema.statics.insert = function(req, callback) {
-    console.log("Motion:create");
-    return this.model('motions').create(
-        {
-            teacherid:req.teacherid,
-            studentid:req.studentid,
-            courseid:req.courseid,
-            time: req.time,
-            oldvalue: req.oldvalue,
-            newvalue:req.newvalue,
-            reason:req.reason,
-            status:"pending",
-            feedback:{}
-        },
-        callback);
+    console.log("Motion:" + req.teacherid + " "+ req.oldvalue + " " + req.newvalue );
+    var exist = 0;
+    var origin = this
+    this.model('motions').find(
+        { 
+            teacherid: req.teacherid, 
+            studentid: req.studentid, 
+            courseid: req.courseid
+        }, function(error, motion) {
+            if(error) {
+                console.log(error);
+                return false
+            } else {
+                console.log("exist:" + motion.length)
+                if(motion.length){
+                    return false;
+                } else {
+                    motionSchema.statics.doinsert(req, origin,callback);
+                    return true;
+                }
+            }
+        });
 }
 
+motionSchema.statics.doinsert = function(req,origin,callback) {
+
+    console.log("Start create" )
+    origin.model('motions').create(
+    {
+        teacherid:req.teacherid,
+        teachername:req.teachername,
+        studentid:req.studentid,
+        courseid:req.courseid,
+        time: new Date(),
+        oldvalue: req.oldvalue,
+        newvalue:req.newvalue,
+        reason:req.reason,
+        status:"pending",
+        feedback:{"admin":"","comment":""}
+    },
+    callback);
+    
+}
 motionSchema.statics.removebyid = function(req, callback) {
     return this.model('motions').remove(
         { 

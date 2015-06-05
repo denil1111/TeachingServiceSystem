@@ -20,7 +20,25 @@
      setNavActive();
      setSlideActive();
 </script>
+<script type="text/javascript">
+    function accept(){
+        if(confirm("请确认同意")) {
+            var cmd = document.getElementById('cmd_id');
+            cmd.value = "accept"
+            document.getElementById("form_id").submit();
+        }
+    }
 
+    function reject(){
+        if(confirm("请确认拒绝") ) {
+            var cmd = document.getElementById('cmd_id');
+            cmd.value = "reject"
+            var reason = document.getElementById('reason_id');
+            reason.value = prompt("请输入拒绝理由 ","");
+            document.getElementById("form_id").submit();
+        }
+    }
+</script>
 
 
 
@@ -60,42 +78,34 @@
       </thead>
 
       <tbody>
+      <% for(i=0;i<data.length;i++){%>
+      <form name = "motion" action = "gradesAudit" id = "form_id" method = "post">
       <tr class="status-pending">
-        <td>212312321</a></td>
-        <td>张亮</td>
-        <td>321031231</td>
-        <td>80</td>
-        <td>90</td>
-        <td>登记错误</td>
+        <td><%=data[i].courseid%></a></td>
+        <td><%=data[i].teachername%></td>
+        <td><%=data[i].studentid%></td>
+        <td><%=data[i].oldvalue%></td>
+        <td><%=data[i].newvalue%></td>
+        <td><%=data[i].reason%></td>
+        <input type="hidden" name="cmd" id ="cmd_id" value="" >
+        <input type="hidden" name = "teacherid"  value =<%=data[i].teacherid%> >
+        <input type="hidden" name = "studentid"  value =<%=data[i].studentid%> >
+        <input type="hidden" name = "courseid"   value =<%=data[i].courseid%> >
+        <input type="hidden" name = "newvalue"   value =<%=data[i].newvalue%> >
+
+        <input type="hidden" name = "reason" id = "reason_id" value ="" >
         <td>
           <div class="btn-group">
             <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
             <ul class="dropdown-menu">
-              <li><a href="#">同意修改</a></li>
-              <li><a href="#">反对修改</a></li>
+              <li><a  onClick="accept()">同意修改</a></li>
+              <li><a  onClick="reject()">反对修改</a></li>
             </ul>
           </div>
         </td>
       </tr>
-
-        <tr class="status-pending">
-        <td>21201022</a></td>
-        <td>张三</td>
-        <td>32132222</td>
-        <td>90</td>
-        <td>80</td>
-        <td>登记错误</td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><a href="#">同意修改</a></li>
-              <li><a href="#">反对修改</a></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-
+      </form>
+     <%}%>
         
       </tbody>
     </table>
