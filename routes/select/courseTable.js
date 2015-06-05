@@ -102,20 +102,92 @@ router.post('/my_course_search', function(req, res, next) {
 });
 
 //课程人员列表
-var students=[];
+/*var students=[];
 students.push({sId:"3130000027",sname:"桓神",classNo:"启真1301",major:"计算机科学与技术"});
-students.push({sId:"3130000017",sname:"闻神",classNo:"启真1301",major:"计算机科学与技术"});
+students.push({sId:"3130000017",sname:"闻神",classNo:"启真1301",major:"计算机科学与技术"});*/
 router.get('/course_list/:courseID', function(req, res, next){
   //课程号
   var course_id = req.params.courseID;
-  res.render('select/course_list', {
-    course_id:"000002",//注意这个课程ID不是这个主键ID 而是每一门课所对应的ID
-    course_name:"软件工程",
-    credits:2.5,
-    course_time:"周一12 周二345",
-    students:students,
-    name: '程序员', 
-    image: '../images/avatars/avatar3.jpg'
+  var courseStudentModel=require('../../db/courseDB/courseStudentSchema');
+  var courseModel = require('../../db/group1db/CourseModel');
+  var userModel = require('../../db/group1db/PersonModel'); 
+  var student=[];
+  var courseid,coursename,coursecredits;
+  var error="";
+  var render=function(){
+                res.render('select/course_list', {
+                    course_id:courseid,//re[0].courseid2,
+                    course_name:courseid,//re[0].coursename,
+                    credits:coursecredits,//re[0].coursescore ,
+                    course_time:"",
+                    students:student,
+                    name: '程序员', 
+                    image: '../images/avatars/avatar3.jpg',
+                    error:error
+                }); 
+              }
+  courseModel.find({_id:course_id},function(err,re){
+        if (err)
+        {
+            console.log(err);
+            error='错误课程号';
+            render();
+        }            
+        else
+            console.log(re);
+        if (re.length==0)
+        {
+            error='错误课程号';
+            render();
+        }
+        else
+        {
+            courseStudentModel.find({id:course_id},function(err,cre){
+                if (err)
+                {
+                    error="错误课程号";
+                    render();
+                }                    
+                else
+                    console.log(cre);
+                if (cre.length==0)
+                {
+                    error="错误课程号";
+                    render();
+                }
+                else
+                for (var i=0;i<cre[0].confirmedStudent.length;i++)
+                {
+                    (function(i){
+                        userModel.find({userid:cre[0].confirmedStudent[i].id.toString()},function(err,ure){
+                            console.log(cre[0].confirmedStudent[i].id);
+                            if (err)
+                            {
+                                console.log(err);
+                                error="错误用户";
+                                render();
+                            }                                
+                            else
+                                console.log(ure);                           
+                            student.push({sId:ure[0].userid,sname:ure[0].username,classNo:"启真1301",major:ure[0].major});
+                            if (student.length==cre[0].confirmedStudent.length)
+                            {
+                                courseid=re[0].courseid2;
+                                courseid=re[0].coursename;
+                                coursecredits=re[0].coursescore;
+                                render();
+                                //console.log(student);
+                            }
+
+                        });       
+                    })(i);    
+          
+                }
+            });
+        }
   });
+  
+  
+
 });
 module.exports = router;

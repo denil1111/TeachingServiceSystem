@@ -170,11 +170,16 @@ router.post('/choose_course/:courseID', function(req, res, next){
                   else
                   {
                         var user=uresult[0];
+                        courseModel.update({_id:req.body.choose},{$inc:{waiting:1}},function(err,re){if (err) console.log(err);});
                         userModel.update({id:"u001"},{$set:{points:user.points-point}},function(err,re){if (err) console.log(err);});
                         userModel.update({id:"u001"},{$push:{selectedCourse:{id:req.body.choose,points:point}}},function(err,re){if (err) console.log(err);});
                         for (var i=0;i<course.length;i++)
                             if (course[i]._id==req.body.choose)
+                            {
                                 choice=i;
+                                course[i].waiting+=1;
+                            }
+                                
                         console.log(choice);
                         oldPoint=point;
                         remainedP=remainedP-point;
@@ -195,9 +200,11 @@ router.post('/choose_course/:courseID', function(req, res, next){
                     var cpo=oldPoint;
                     var user=uresult[0];
                     console.log(cid,cpo);
+                    courseModel.update({_id:req.body.choose},{$inc:{waiting:-1}},function(err,re){if (err) console.log(err);});
                     userModel.update({id:"u001"},{$set:{points:user.points+cpo}},function(err,re){if (err) console.log(err);});
                     userModel.update({id:"u001"},{$pull:{selectedCourse:{id:cid,points:cpo}}},function(err,re){if (err) console.log(err);});
                     remainedP=remainedP+oldPoint;
+                    course[choice].waiting-=1;
                     choice=-1;
               }
           }

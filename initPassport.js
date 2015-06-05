@@ -32,7 +32,7 @@ module.exports = function(passport) {
       console.log("in de",userid);
       PersonModel.findbyid(userid, function (err, user) {
         
-        console.log(user[0]);
+        //console.log(user[0]);
         done(null, user[0]);
       });
     });
