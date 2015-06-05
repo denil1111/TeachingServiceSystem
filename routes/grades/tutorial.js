@@ -49,7 +49,7 @@ var total_point5=0;//大类总学分
 var complete5=[];//大类修读状态
 
 var my_major=req.session.user[0].major;
-
+var my_userid=req.session.user[0].userid;
 tutorialDB.find({"major":my_major},{},function(error, tData){
   if(error){
       console.log(error);
@@ -91,7 +91,6 @@ CourseModel.find(id1,function(error,dev_plan1){
   for (var i = 0; i < dev_plan1.length; i++){
     total_point1+=dev_plan1[i].coursescore;
   }
-  console.log(dev_plan1);
  gradesDB.find(id1,function(error,gradeData1){
   if(error){
       console.log(error);
@@ -99,7 +98,7 @@ CourseModel.find(id1,function(error,dev_plan1){
    }
    for (var i = 0; i < gradeData1.length; i++) {
        var grade1=gradeData1[i].score;
-       console.log(grade1);
+       
        if(grade1>=60){
          complete1.push(1);
          getPoint1+=dev_plan1[i].coursescore;
@@ -123,7 +122,7 @@ CourseModel.find(id2,{},function(error,dev_plan2){
    }
    for (var i = 0; i < gradeData2.length; i++) {
        var grade2=gradeData2[i].score;
-       if(grade2>=60){
+       if(grade2>=60 ){
          complete2.push(1);
          getPoint2+=dev_plan2[i].coursescore;
        }else{
@@ -136,6 +135,7 @@ CourseModel.find(id2,{},function(error,dev_plan2){
     console.log(error);
     return;
   }
+  console.log(dev_plan3);
   for (var i = 0; i < dev_plan3.length; i++){
     total_point3+=dev_plan3[i].coursescore;
   }
@@ -144,6 +144,7 @@ CourseModel.find(id2,{},function(error,dev_plan2){
       console.log(error);
       return;
    }
+   console.log(gradeData3);
    for (var i = 0; i < gradeData3.length; i++) {
        var grade3=gradeData3[i].score;
        if(grade3>=60){
@@ -234,15 +235,15 @@ CourseModel.find(id2,{},function(error,dev_plan2){
   getpoint5:getPoint5,
   year5:courseyear5
   });
-}).sort( {"courseid":1} ); 
+}).sort( {"courseid":1} ).where("userid").equals(my_userid); 
 }).sort( {"courseid":1} );
-}).sort( {"courseid":1} ); 
+}).sort( {"courseid":1} ).where("userid").equals(my_userid); 
 }).sort( {"courseid":1} );
+}).sort( {"courseid":1} ).where("userid").equals(my_userid);
 }).sort( {"courseid":1} );
+}).sort( {"courseid":1} ).where("userid").equals(my_userid);
 }).sort( {"courseid":1} );
-}).sort( {"courseid":1} );
-}).sort( {"courseid":1} );
-}).sort( {"courseid":1} );
+}).sort( {"courseid":1} ).where("userid").equals(my_userid);
 }).sort( {"courseid":1} );
 }).sort( {"courseid":1} );
 });
