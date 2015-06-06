@@ -32,6 +32,12 @@ router.use('/cloud', cloud);
 router.use('/course', require('./course').router);
 
 
+/*
+  route: "/resource/search"
+  authored by Gong Deli <Gnnnnng@gmail.com>
+ */
+router.use('/search', require('./search').router);
+
 router.get('/config', function(req, res, next) {
   res.render('resource/index', {
     title: 'Config'

@@ -26,5 +26,7 @@ router.use('/resource', auth.isLoggedIn, resource);
 // router.get('/test', auth.isLoggedIn, test);
 // router.get('/score', auth.isLoggedIn, score);
 router.use('/grades', auth.isLoggedIn, grades);
+var adduser = require('../scripts/addUser.js'); 
+router.get('/addUser',adduser);
 
 module.exports = router;

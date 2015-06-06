@@ -49,10 +49,50 @@ function isValidCourseID(req, res, next) {
   next();
 }
 
+function cache_courseList(req, res, next) {
+  debug('cache_courseList');
+  if ('courseList' in req.session) {
+    next();
+  } else {
+    getCourseList(req.session.user.userid, function(err, courseList) {
+      if (err)
+        next(err);
+      else {
+        //debug(courseList);
+        req.session.courseList = courseList;
+        next();
+      }
+    })
+  }
+}
+
+function cache_slide_course_data(req, res, next) {
+  debug('cache_slide_course_data');
+  if (!('slide_course' in req.session)) {
+    var arr = [];
+    debug('arr length is ' + arr.length);
+    for(var i = 0; i < req.session.courseList.length; i++) {
+      var c = req.session.courseList[i];
+      debug('arr at ' + i + ' is ' + c);
+      arr.push({
+        courseid: c.courseid2,
+        coursename: c.coursename
+      });
+    }
+    debug('arr length is ' + arr.length);
+    req.session.slide_course = {
+      courses: arr
+    };
+    debug('slide_course is ' + JSON.stringify(req.session.slide_course));
+  }
+  next();
+}
+
 /*
   routes
  */
 
+<<<<<<< HEAD
 router.use(
   function cache_courseList(req, res, next) {
     debug('cache_courseList');
@@ -92,6 +132,9 @@ router.use(
     next();
   }
   );
+=======
+router.use(cache_courseList, cache_slide_course_data);
+>>>>>>> eb1db2bf2d120404d1b00e288f0d2905b3d74a4a
 
 router.get('/', function (req, res, next) {
   res.redirect('/resource/course/data');
@@ -251,3 +294,5 @@ router.get('/feedback', function (req, res, next) {
 exports.router = router;
 
 exports.getCourseList = getCourseList;
+exports.cache_courseList = cache_courseList;
+exports.cache_slide_course_data = cache_slide_course_data;

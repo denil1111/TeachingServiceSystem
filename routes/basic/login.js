@@ -16,8 +16,10 @@ router.get('/login',function(req,res,next){
     passport.authenticate('local',function(err,user2,info){
       //use your own admin account here
       var user={
-        userid:'312',
-        password:'wtf'
+        userid:'3120000000',
+        password:'wtf',
+        username:"admin",
+        status:"系统管理员"
       };
       // var user;
       // PersonModel.findbyid(localuser.userid,function (err, user) {

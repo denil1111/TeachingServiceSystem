@@ -31,47 +31,46 @@
   <div class="span10">
     <div class="box">
       <div class="box-header">
-        <div class="title">筛选条件</div>
+        <div class="title">搜索</div>
       </div>
       <form name="input" action="/select/course_search" method="post">
         <div class="box-content padded">
           <div class="row-fluid">
             <div class="span9">
             <!-- 条件选框 -->
-              <ul>
-                <li class="input">
-                  <label>课程号</label>
-                  <input type="text" placeholder="课程号" name="course_number">
-                </li>
-                <li class="input" style="margin-bottom:10px">
-                    <label>课程名称:</label>
-                    <input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">
-                    <label for="iradio3" class="">AND &nbsp &nbsp</label>
-                    <input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">
-                    <label for="iradio3" class="">OR</label>
-                    <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_name">程序员</textarea>
-                </li>
-                <li class="input" style="margin-bottom:10px">
-                  <label>资源名称:</label>
-                    <input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">
-                    <label for="iradio3" class="">AND &nbsp &nbsp</label>
-                    <input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">
-                    <label for="iradio3" class="">OR</label>
-                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher"></textarea>search
-                </li>
-                <li class="input" style="margin-bottom:10px">
-                  <label>资源类型:</label>
-                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher">pdf</textarea>
-                </li>
-                <li class="input" style="margin-bottom:10px">
-                  <label>关键字:</label>
-                    <input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">
-                    <label for="iradio3" class="">AND &nbsp &nbsp</label>
-                    <input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">
-                    <label for="iradio3" class="">OR</label>
-                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher">XXX</textarea>
-                </li>
-              </ul>
+              <!--<ul>-->
+                <div class="input">
+                  <input type="text" placeholder="资源名称" name="search_condition">
+                </div>
+                <!--<li class="input" style="margin-bottom:10px">-->
+                    <!--<label>课程名称:</label>-->
+                    <!--<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">-->
+                    <!--<label for="iradio3" class="">AND &nbsp &nbsp</label>-->
+                    <!--<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">-->
+                    <!--<label for="iradio3" class="">OR</label>-->
+                    <!--<textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_name">程序员</textarea>-->
+                <!--</li>-->
+                <!--<li class="input" style="margin-bottom:10px">-->
+                  <!--<label>资源名称:</label>-->
+                    <!--<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">-->
+                    <!--<label for="iradio3" class="">AND &nbsp &nbsp</label>-->
+                    <!--<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">-->
+                    <!--<label for="iradio3" class="">OR</label>-->
+                  <!--<textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher"></textarea>search-->
+                <!--</li>-->
+                <!--<li class="input" style="margin-bottom:10px">-->
+                  <!--<label>资源类型:</label>-->
+                  <!--<textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher">pdf</textarea>-->
+                <!--</li>-->
+                <!--<li class="input" style="margin-bottom:10px">-->
+                  <!--<label>关键字:</label>-->
+                    <!--<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">-->
+                    <!--<label for="iradio3" class="">AND &nbsp &nbsp</label>-->
+                    <!--<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">-->
+                    <!--<label for="iradio3" class="">OR</label>-->
+                  <!--<textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher">XXX</textarea>-->
+                <!--</li>-->
+              <!--</ul>-->
             </div>
           </div>
         <button type="submit" class="btn btn-blue" style="">搜索</button>
@@ -84,9 +83,6 @@
     <div class="box">
       <div class="box-header">
         <span class="title">搜索结果</span>
-        <ul class="box-toolbar">
-          <li><span class="label label-blue">length</span></li>
-        </ul>
       </div>
     <div class="box-content" >
     <table class="table table-normal">
