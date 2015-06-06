@@ -25,7 +25,6 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <span>
                     <img class="menu-avatar" src="../<%= image%>" /> <span><%= name %><i class="icon-caret-down"></i></span>
-                  </span>
                 </a>
 
                 <ul class="dropdown-menu">
@@ -34,7 +33,7 @@
 
                   <li class="with-image">
                     <div class="avatar">
-                      <img src="../<%= image %>" />
+                      <img src="<%= image %>" />
                     </div>
                     <span><%= name %></span>
                   </li>
@@ -48,12 +47,15 @@
               </li>
             </ul>
             <ul class="nav pull-right">
-              <li id="infomanage"><a href="#" title="Profile"><i class="icon-home"></i>信息管理</a></li>
-              <li><a href="#" title="Resource"><i class="icon-user"></i>教学资源</a></li>
-              <li><a href="#" title="Courses"><i class="icon-table"></i>学生选课</a></li>
-              <li><a href="#" title="Share"><i class="icon-file-alt"></i>资源共享</a></li>
-              <li><a href="#" title="Judge"><i class="icon-edit"></i>在线测试</a></li>
-              <li id="grades"><a href="#" title="GPA"><i class="icon-bar-chart"></i>成绩管理</a></li>
+              <li id="infomanage" <%if Navstatus == 1{%>class="active"<%}%>><a href="/info" title="Profile"><i class="icon-home"></i>信息管理</a></li>
+
+              <li <%if Navstatus == 2{%>class="active"<%}%>><a href="/arrange" title="Resource"><i class="icon-user"></i>教学资源</a></li>
+
+              <li <%if Navstatus == 3{%>class="active"<%}%>><a href="/select" title="Courses"><i class="icon-table"></i>学生选课</a></li>
+
+              <li <%if Navstatus == 4{%>class="active"<%}%>><a href="/resource" title="Share"><i class="icon-file-alt"></i>资源共享</a></li>
+              <li <%if Navstatus == 5{%>class="active"<%}%>><a href="/test" title="Judge"><i class="icon-edit"></i>在线测试</a></li>
+              <li id="grades" <%if Navstatus == 6{%>class="active"<%}%>><a href="/grade" title="GPA"><i class="icon-bar-chart"></i>成绩管理</a></li>
             </ul>
           </div>
     </div>
