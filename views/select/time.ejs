@@ -243,9 +243,14 @@
         	// contentType: "charset=utf-8",  
         	cache: false,
         	success:function(data){
+        		//alert(data);
+        		console.log("success");
+        		console.log(data);
         		location.reload();
         	},
-        	error:function(error){
+        	err:function(error){
+        		console.log("error");
+        		console.log(error);
         		alert(error);
         	}
     	});  
