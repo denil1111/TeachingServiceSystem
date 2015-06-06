@@ -222,7 +222,10 @@
         	// contentType: "charset=utf-8",  
         	cache: false,
         	success:function(data){
-        		location.reload();
+        		if (data.status=='succ')
+        			location.reload();
+        		else
+        			alert(data.error);
         	},
         	error:function(error){
         		alert(error);
@@ -243,17 +246,12 @@
         	// contentType: "charset=utf-8",  
         	cache: false,
         	success:function(data){
-        		//alert(data);
-        		console.log("success");
-        		console.log(data);
-        		location.reload();
-        	},
-        	err:function(error){
-        		console.log("error");
-        		console.log(error);
-        		alert(error);
+        		if (data.status=='succ')
+        			location.reload();
+        		else
+        			alert(data.error);
         	}
-    	});  
+       	});  
 	}
 
 </script>
