@@ -13,14 +13,14 @@ var classId = "001";
 router.get('/', function(req, res, next) {
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
-	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
+	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
+	var paperModel = mongoose.model('PaperDB', paperSchema);
 
 	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
-	var recordModel = global.db.model('RecordDB', recordSchema);
+	var recordModel = mongoose.model('RecordDB', recordSchema);
 
 	//渲染页面，其中papers是数据库中查询得到的内容
-	mongooseModel.find({}, function(err, papers){
+	paperModel.find({}, function(err, papers){
 		if(err)
 			return next(err);
 		var papers_valid = [];
@@ -32,11 +32,7 @@ router.get('/', function(req, res, next) {
 		recordModel.find({student: student}, function(err, records){
 			var titles = [];
 			for(var i = 0; i < records.length; i++){
-				for(var j = 0; j < papers_valid.length; j++){
-					if(papers_valid[j]._id == records[i].paperId){
-						titles.push(papers_valid[j].title);
-					}
-				}
+				titles.push(records[i].title);
 			}
 			res.render('OnlineTest/stuManage', {papers: papers_valid, records: records, titles: titles, name: '老程序猿',
 		image: 'images/avatars/avatar1.jpg'});
@@ -56,20 +52,20 @@ router.post('/answer=:paperId', function(req, res, next) {
 
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
-	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
+	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
+	var paperModel = mongoose.model('PaperDB', paperSchema);
 
-	var mongooseSchema_pro = require('../../db/OnlineTestDB/problemSchema');	
-	var mongooseModel_pro = global.db.model('ProblemDB', mongooseSchema_pro);
+	var problemSchema = require('../../db/OnlineTestDB/problemSchema');	
+	var problemModel = mongoose.model('ProblemDB', problemSchema);
 
 	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
-	var recordModel = global.db.model('RecordDB', recordSchema);
+	var recordModel = mongoose.model('RecordDB', recordSchema);
 
 	//渲染页面，其中problems是数据库中查询得到的内容
-	mongooseModel.findOne({_id: thisId}, function(err, paper){
+	paperModel.findOne({_id: thisId}, function(err, paper){
 		if(err)
 			return next(err);
-		mongooseModel_pro.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
+		problemModel.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
 			if(err)
 				return next(err);
 			var getPoint = 0;
@@ -111,23 +107,23 @@ router.get('/answer=:paperId', function(req, res, next) {
 	var thisId = req.params.paperId;
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
-	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
+	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
+	var paperModel = mongoose.model('PaperDB', paperSchema);
 
-	var mongooseSchema_pro = require('../../db/OnlineTestDB/problemSchema');	
-	var mongooseModel_pro = global.db.model('ProblemDB', mongooseSchema_pro);
+	var problemSchema = require('../../db/OnlineTestDB/problemSchema');	
+	var problemModel = mongoose.model('ProblemDB', problemSchema_pro);
 
 	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
-	var recordModel = global.db.model('RecordDB', recordSchema);
+	var recordModel = mongoose.model('RecordDB', recordSchema);
 
 	//渲染页面，其中problems是数据库中查询得到的内容
 	recordModel.findOne({student: student, paperId: thisId}, function(err, result){
 		//没有查询到答题记录，渲染答题页面
 		if(!result){
-			mongooseModel.findOne({_id: thisId}, function(err, paper){
+			paperModel.findOne({_id: thisId}, function(err, paper){
 				if(err)
 					return next(err);
-				mongooseModel_pro.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
+				problemModel.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
 					if(err)
 						return next(err);
 					res.render('OnlineTest/paperAnswer', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', done: done, point: point, paper: paper, problemsInPaper: problemsInPaper, time:time});

@@ -38,6 +38,18 @@
                   <p><input type='text', name='choice2', placeholder='选项B'/>  <input class="icheck", type='radio', name='answer', value="2"></p>
                   <p><input type='text', name='choice3', placeholder='选项C'/>  <input class="icheck", type='radio', name='answer', value="3"></p>
                   <p><input type='text', name='choice4', placeholder='选项D'/>  <input class="icheck", type='radio', name='answer', value="4"></p>
+                  <p><select class="uniform", name='point'>
+                          <option value="1">
+                            1分题
+                          </option>
+                          <option value="2">
+                            2分题
+                          </option>
+                          <option value="3">
+                            3分题
+                          </option>
+                        </select>
+                  </p>
                   <p><input type='submit', value='提交', class="btn btn-default"/></p>
                   </ul>
                 </div>
@@ -55,6 +67,18 @@
                           </option>
                           <option value="0">
                             False
+                          </option>
+                        </select>
+                    </p>
+                    <p><select class="uniform", name='point'>
+                          <option value="1">
+                            1分题
+                          </option>
+                          <option value="2">
+                            2分题
+                          </option>
+                          <option value="3">
+                            3分题
                           </option>
                         </select>
                     </p>
@@ -107,6 +131,7 @@
                   </br>
                   <a class="btn btn-blue", href="/OnlineTest/probManage/delete/<%= problem._id %>">删除</a>
                 </li>
+                <%} else{%>
                 <li>
                   <%= problem.stem %>
                   <% if (problem.answer==1){ %>

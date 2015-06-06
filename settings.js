@@ -11,6 +11,6 @@
 module.exports = {
   db : {
     // modify the line below
-	connect : 'mongodb://127.0.0.1:27017/NodeJS'
+	connect : 'mongodb://127.0.0.1:27017/info'
   }
 }

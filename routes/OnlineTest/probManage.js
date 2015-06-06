@@ -6,11 +6,11 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
-	var mongooseSchema = require('../../db/OnlineTestDB/problemSchema');	
-	var mongooseModel = global.db.model('ProblemDB', mongooseSchema);
+	var problemSchema = require('../../db/OnlineTestDB/problemSchema');	
+	var problemModel = mongoose.model('ProblemDB', problemSchema);
 
 	//渲染页面，其中problems是数据库中查询得到的内容
-	mongooseModel.find({}, function(err, problems){
+	problemModel.find({}, function(err, problems){
 		if(err)
 			return next(err);
 		res.render('OnlineTest/probManage', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', problems: problems});
@@ -23,8 +23,8 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
-	var mongooseSchema = require('../../db/OnlineTestDB/problemSchema');	
-	var mongooseModel = global.db.model('ProblemDB', mongooseSchema);
+	var problemSchema = require('../../db/OnlineTestDB/problemSchema');	
+	var problemModel = mongoose.model('ProblemDB', problemSchema);
 	
 	if(req.body.choice1){
 		//获得表单内容
@@ -37,12 +37,12 @@ router.post('/', function(req, res, next) {
 		choice.push(req.body.choice4);
 
 		// 增加记录 基于 entity 操作
-	 	var mongooseEntity = new mongooseModel();
-	 	mongooseEntity.stem = stem;
-	 	mongooseEntity.answer = answer;
-	 	mongooseEntity.choice = choice;
-	 	mongooseEntity.type = 0;
-		mongooseEntity.save(function(error) {
+	 	var problemEntity = new problemModel();
+	 	problemEntity.stem = stem;
+	 	problemEntity.answer = answer;
+	 	problemEntity.choice = choice;
+	 	problemEntity.type = 0;
+		problemEntity.save(function(error) {
 		    if(error) {
 		        console.log(error);
 		    } else {
@@ -57,11 +57,11 @@ router.post('/', function(req, res, next) {
 		var answer = req.body.answer;
 
 		// 增加记录 基于 entity 操作
-	 	var mongooseEntity = new mongooseModel();
-	 	mongooseEntity.stem = stem;
-	 	mongooseEntity.answer = answer;
-	 	mongooseEntity.type = 1;
-		mongooseEntity.save(function(error) {
+	 	var problemEntity = new problemModel();
+	 	problemEntity.stem = stem;
+	 	problemEntity.answer = answer;
+	 	problemEntity.type = 1;
+		problemEntity.save(function(error) {
 		    if(error) {
 		        console.log(error);
 		    } else {
@@ -78,13 +78,13 @@ router.get('/delete/:id', function(req, res, next){
 	var thisId = req.params.id;
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
-	var mongooseSchema = require('../../db/OnlineTestDB/problemSchema');	
-	var mongooseModel = global.db.model('ProblemDB', mongooseSchema);
+	var problemSchema = require('../../db/OnlineTestDB/problemSchema');	
+	var problemModel = mongoose.model('ProblemDB', problemSchema);
 
 	//删除记录
 	//删除题目的时候要删除试卷的相应内容【还没有实现
 	var conditions = {_id: thisId};
-	mongooseModel.remove(conditions, function(error){
+	problemModel.remove(conditions, function(error){
 	    if(error) {
 	        console.log(error);
 	    } else {

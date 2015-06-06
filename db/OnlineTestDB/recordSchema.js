@@ -5,7 +5,9 @@ var mongooseSchema = new mongoose.Schema({
     paperId	: {type : String},
     choices : {type : [String]},
     point 	: {type : Number},
-    time 	: {type : String}
+    time 	: {type : String},
+
+    title 	: {type : String}
 });
 
 module.exports=mongooseSchema;

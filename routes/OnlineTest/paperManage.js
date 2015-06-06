@@ -8,11 +8,11 @@ var classId = "001";
 router.get('/', function(req, res, next) {
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
-	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
+	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
+	var paperModel = mongoose.model('PaperDB', paperSchema);
 
 	//渲染页面，其中papers是数据库中查询得到的内容
-	mongooseModel.find({}, function(err, papers){
+	paperModel.find({}, function(err, papers){
 		if(err)
 			return next(err);
 		res.render('OnlineTest/paperManage', {papers: papers, name: '老程序猿', image: 'images/avatars/avatar1.jpg'});
@@ -24,16 +24,16 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
-	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
+	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
+	var paperModel = mongoose.model('PaperDB', paperSchema);
 	
 	//获得表单内容
 	var title = req.body.paperTitle;
 
 	// 增加记录 基于 entity 操作
- 	var mongooseEntity = new mongooseModel();
- 	mongooseEntity.title = title;
-	mongooseEntity.save(function(error) {
+ 	var paperEntity = new paperModel();
+ 	paperEntity.title = title;
+	paperEntity.save(function(error) {
 	    if(error) {
 	        console.log(error);
 	    } else {
@@ -50,12 +50,12 @@ router.get('/delete/:id', function(req, res, next){
 	var thisId = req.params.id;
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
-	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
+	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
+	var paperModel = mongoose.model('PaperDB', paperSchema);
 
 	//删除记录
 	var conditions = {_id: thisId};
-	mongooseModel.remove(conditions, function(error){
+	paperModel.remove(conditions, function(error){
 	    if(error) {
 	        console.log(error);
 	    } else {
@@ -73,20 +73,20 @@ router.get('/update/:id', function(req, res, next){
 	var thisId = req.params.id;
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
-	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
+	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
+	var paperModel = mongoose.model('PaperDB', paperSchema);
 
-	var mongooseSchema_pro = require('../../db/OnlineTestDB/problemSchema');	
-	var mongooseModel_pro = global.db.model('ProblemDB', mongooseSchema_pro);
+	var problemSchema = require('../../db/OnlineTestDB/problemSchema');	
+	var problemModel = mongoose.model('ProblemDB', problemSchema);
 
 	//渲染页面，其中problems是数据库中查询得到的内容
-	mongooseModel.findOne({_id: thisId}, function(err, paper){
+	paperModel.findOne({_id: thisId}, function(err, paper){
 		if(err)
 			return next(err);
-		mongooseModel_pro.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
+		problemModel.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
 			if(err)
 				return next(err);
-			mongooseModel_pro.find({}, function(err, allProblems){
+			problemModel.find({}, function(err, allProblems){
 				if(err)
 					return next(err);
 				res.render('OnlineTest/paperEdit', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', paper: paper, problemsInPaper: problemsInPaper, allProblems: allProblems});
@@ -105,10 +105,10 @@ router.get('/add/:paperId/:problemId', function(req, res, next){
 
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
-	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
+	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
+	var paperModel = mongoose.model('PaperDB', paperSchema);
 
-	mongooseModel.findOne({_id: paperId}, function(err,paper){
+	paperModel.findOne({_id: paperId}, function(err,paper){
 		if(err)
 			return next(err);
 		
@@ -119,7 +119,7 @@ router.get('/add/:paperId/:problemId', function(req, res, next){
 		var conditions = {_id : paperId};
 		var update     = {$set : {problems : paper.problems}};
 		var options    = {upsert : true};
-		mongooseModel.update(conditions, update, options, function(error){
+		paperModel.update(conditions, update, options, function(error){
 	    	if(error) {
 	    	    console.log(error);
 	    	} else {
@@ -140,10 +140,10 @@ router.get('/deleteProblem/:paperId/:problemId', function(req, res, next){
 
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
-	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
+	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
+	var paperModel = mongoose.model('PaperDB', paperSchema);
 
-	mongooseModel.findOne({_id: paperId}, function(err,paper){
+	paperModel.findOne({_id: paperId}, function(err,paper){
 		if(err)
 			return next(err);
 
@@ -159,7 +159,7 @@ router.get('/deleteProblem/:paperId/:problemId', function(req, res, next){
 		var conditions = {_id : paperId};
 		var update     = {$set : {problems : paper.problems}};
 		var options    = {upsert : true};
-		mongooseModel.update(conditions, update, options, function(error){
+		paperModel.update(conditions, update, options, function(error){
 	    	if(error) {
 	    	    console.log(error);
 	    	} else {
@@ -175,10 +175,10 @@ router.get('/deleteProblem/:paperId/:problemId', function(req, res, next){
 
 router.get('/deliver/:paperId', function(req, res, next){
 	var paperId = req.params.paperId;
-	var mongooseSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var mongooseModel = global.db.model('PaperDB', mongooseSchema);
+	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
+	var paperModel = mongoose.model('PaperDB', paperSchema);
 
-	mongooseModel.findOne({_id: paperId}, function(err,paper){
+	paperModel.findOne({_id: paperId}, function(err,paper){
 		if(err)
 			return next(err);
 
@@ -189,7 +189,7 @@ router.get('/deliver/:paperId', function(req, res, next){
 		var conditions = {_id : paperId};
 		var update     = {$set : {deliver : paper.deliver}};
 		var options    = {upsert : true};
-		mongooseModel.update(conditions, update, options, function(error){
+		paperModel.update(conditions, update, options, function(error){
 	    	if(error) {
 	    	    console.log(error);
 	    	} else {
