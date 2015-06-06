@@ -17,6 +17,7 @@
               .table-normal tbody td{
                   padding:8px;
               }
+
           </style>
 
         <script>
@@ -100,21 +101,12 @@
 
 <!-- 主要内容 -->
 <div class="main-content">
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="area-top clearfix">
-        <div class="pull-left header">
-          <h3 class="title"><i class=" icon-briefcase"></i>资源管理系统</h3>
-          <h5>管理所有课程的资源</h5>
-        </div>
-      </div>
-    </div>
-  </div>
+    <%include current_title.html %>
 
-    <div class="span10" style="margin-left:50px;">
+    <div class="span10" style="">
         <div class="row">
             <div class="action-nav-normal action-nav-line">
-                <div class="row action-nav-row" style="margin-top:20px;">
+                <div class="row action-nav-row" style="margin-left: -10px;">
                     <div class="action-nav-button">
                         <a data-toggle="modal" href="#modal-upload"><i class="icon-plus"></i><span>上传新文件</span></a>
                     </div>
@@ -227,7 +219,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">新建文件夹</h4>
+                    <h4 class="modal-title">上传文件</h4>
                 </div>
                 <div class="modal-body">
                     <label>请选择要上传的文件</label>
