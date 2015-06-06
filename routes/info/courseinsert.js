@@ -50,8 +50,6 @@ router.post('/courseinsert',function(req,res,next){
             college : req.body.college,
         };
 
-    console.log("doc length : "+doc.length);
-    console.log("doc all : "+doc.all);
 
     console.log("doc : "+doc);
     console.log("doc courseid2: "+doc.courseid2);
