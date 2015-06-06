@@ -56,68 +56,136 @@
 
 
 <div class="span10">
-<div class="box">
-  <div class="box-header">
-    <span class="title">成绩修改申请</span>
-    <ul class="box-toolbar">
-      <li><span class="label label-green">进行中</span></li>
-    </ul>
-  </div>
-  <div class="box-content">
-    <table class="table table-normal">
-      <thead>
-      <tr>
-        <td>课程编号</td>
-        <td>教师姓名</td>
-        <td>学生学号</td>
-        <td>原成绩</td>
-        <td>修改后成绩</td>
-        <td>修改理由</td>
-        <td style="width: 40px">审核意见</td>
-      </tr>
-      </thead>
+    <div class="box">
+      <div class="box-header">
+        <span class="title">成绩修改申请</span>
+        <ul class="box-toolbar">
+          <li><span class="label label-green">进行中</span></li>
+        </ul>
+      </div>
+      <div class="box-content">
+        <table cellpadding="10" cellspacing="0" border="0" class="dTable responsive">
+          <thead>
+          <tr>
+            <td>课程编号</td>
+            <td>教师姓名</td>
+            <td>学生学号</td>
+            <td>原成绩</td>
+            <td>修改后成绩</td>
+            <td>修改理由</td>
+            <td style="width: 40px">审核意见</td>
+          </tr>
+          </thead>
 
-      <tbody>
-      <% for(i=0;i<data.length;i++){%>
-      <form name = "motion" action = "gradesAudit" id = "form_id" method = "post">
-      <tr class="status-pending">
-        <td><%=data[i].courseid%></a></td>
-        <td><%=data[i].teachername%></td>
-        <td><%=data[i].studentid%></td>
-        <td><%=data[i].oldvalue%></td>
-        <td><%=data[i].newvalue%></td>
-        <td><%=data[i].reason%></td>
-        <input type="hidden" name="cmd" id ="cmd_id" value="" >
-        <input type="hidden" name = "teacherid"  value =<%=data[i].teacherid%> >
-        <input type="hidden" name = "studentid"  value =<%=data[i].studentid%> >
-        <input type="hidden" name = "courseid"   value =<%=data[i].courseid%> >
-        <input type="hidden" name = "newvalue"   value =<%=data[i].newvalue%> >
+          <tbody>
+          <% for(i=0;i<pending.length;i++){%>
+          <form name = "motion" action = "gradesAudit" id = "form_id" method = "post">
+          <tr class="status-pending">
+            <td><%=pending[i].courseid%></a></td>
+            <td><%=pending[i].teachername%></td>
+            <td><%=pending[i].studentid%></td>
+            <td><%=pending[i].oldvalue%></td>
+            <td><%=pending[i].newvalue%></td>
+            <td><%=pending[i].reason%></td>
+            <input type="hidden" name="cmd" id ="cmd_id" value="" >
+            <input type="hidden" name = "teacherid"  value =<%=pending[i].teacherid%> >
+            <input type="hidden" name = "studentid"  value =<%=pending[i].studentid%> >
+            <input type="hidden" name = "courseid"   value =<%=pending[i].courseid%> >
+            <input type="hidden" name = "newvalue"   value =<%=pending[i].newvalue%> >
 
-        <input type="hidden" name = "reason" id = "reason_id" value ="" >
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-            <ul class="dropdown-menu">
-              <li><a  onClick="accept()">同意修改</a></li>
-              <li><a  onClick="reject()">反对修改</a></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-      </form>
-     <%}%>
+            <input type="hidden" name = "reason" id = "reason_id" value ="" >
+            <td>
+              <div class="btn-group">
+                <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
+                <ul class="dropdown-menu">
+                  <li><a  onClick="accept()">同意修改</a></li>
+                  <li><a  onClick="reject()">反对修改</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+          </form>
+         <%}%>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+      <div class="box">
+        <div class="box-header"><span class="title">Accepted</span></div>
+         <div class="box-content">
+         <div id="dataTables">
+
+          <table cellpadding="10" cellspacing="0" border="0" class="dTable responsive">
+          <thead>
+            <tr>
+              <th><div>课程编号</div></th>
+              <th><div>教师姓名</div></th>
+              <th><div>学生学号</div></th>
+              <th><div>原成绩</div></th>
+              <th><div>修改后成绩</div></th>
+              <th><div>修改理由</div></th>
+              <th><div>status</div></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(i = 0;i<accepted.length;i++){ %>    
+            <tr>
         
-      </tbody>
-    </table>
-  </div>
+              <td><%= accepted[i].courseid %></td>
+              <td><%= accepted[i].teachername %></td>
+              <td><%= accepted[i].studentid %></td>
+              <td><%= accepted[i].oldvalue %></td>
+              <td><%= accepted[i].newvalue %></td>
+              <td><%= accepted[i].reason %></td>
+              <td><%= accepted[i].status %></td>
+           </tr>
+            <%}%> 
+          </tbody>
+          </table>
+         </div>
+       </div>
+      </div>
+
+     <div class="box">
+        <div class="box-header"><span class="title">Rejected</span></div>
+         <div class="box-content">
+         <div id="dataTables">
+
+          <table cellpadding="10" cellspacing="0" border="0" class="dTable responsive">
+          <thead>
+            <tr>
+              <th><div>课程编号</div></th>
+              <th><div>教师姓名</div></th>
+              <th><div>学生学号</div></th>
+              <th><div>原成绩</div></th>
+              <th><div>修改后成绩</div></th>
+              <th><div>修改理由</div></th>
+              <th><div>status</div></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(i = 0;i<rejected.length;i++){ %>    
+            <tr>
+        
+              <td><%= rejected[i].courseid %></td>
+              <td><%= rejected[i].teachername %></td>
+              <td><%= rejected[i].studentid %></td>
+              <td><%= rejected[i].oldvalue %></td>
+              <td><%= rejected[i].newvalue %></td>
+              <td><%= rejected[i].reason %></td>
+              <td><%= rejected[i].status %></td>
+           </tr>
+            <%}%> 
+          </tbody>
+          </table>
+         </div>
+       </div>
+      </div>
+
+
 </div>
-
-
-
-</div>
-
-
-
 
 
 

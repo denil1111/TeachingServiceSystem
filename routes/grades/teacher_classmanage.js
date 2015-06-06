@@ -5,7 +5,6 @@ var PersonModel = require('../../db/group1db/PersonModel');
 var CourseModel = require('../../db/group1db/CourseModel');
 var gradesDB = require('../../db/group6db/gradesDB.js');
 var gradesfix = require('./teacher_gradesfix.js');
-
 function classmanage(req, res, next) {
 
     if(!req.session.user){return res.redirect('../info/login');}
@@ -38,7 +37,18 @@ function classmanage(req, res, next) {
         }
     }
 
-
+    var condition = {
+        "teacherid" : req.session.user[0].userid,
+        "courseid" : req.body.courseid,
+    }
+    motion = null;
+    motionModel.findbyteachercourse(condition,function(error,motions){
+        if(error){
+            console.log(error);
+            return;
+        }
+        motion = motions;
+    });
 
 gradesDB.find(criteria,function(error,grades){
     if(error){
@@ -76,7 +86,8 @@ gradesDB.find(criteria,function(error,grades){
     data:grades,
     studentslist:persons,
     courses:courses,
-    warning:warning
+    warning:warning,
+    motion:motion
   });   
    });
    });

@@ -73,14 +73,39 @@ else if (req.session.user[0].status=="teacher"){
 }
 
 else if(req.session.user[0].status=="admin"){
-    var query = { 
-            "status":"pending"
-    }   
+    var rejected = {
+        "status" : "rejected"
+    }
+
+    var accepted = {
+        "status" : "accepted"
+    }
+    resultOfrejected = null;
+    resultOfaccepted = null;
+    motionModel.findbystatus(rejected,function(error,motions){
+        if(error){
+            console.log(error);
+            return;
+        }
+        resultOfrejected = motions;
+    });
+    motionModel.findbystatus(accepted,function(error,motions){
+        if(error){
+            console.log(error);
+            return;
+        }
+        resultOfaccepted = motions;
+    });
+    var query = {
+        "status":"pending"
+    }
     motionModel.findbystatus(query, function(error,motions){
         if(error){
             console.log(error);
             return;
         }
+
+        console.log('Form admin_grades')
         res.render('grades/admin_gradesaudit', {
             name: '程序员', 
             image: 'images/avatars/avatar1.jpg',
@@ -88,11 +113,13 @@ else if(req.session.user[0].status=="admin"){
             a:'2,3,1,2,3,1,0',
             total_b:'24',
             b:'4,6,2,4,6,2,0',
-            total_credits:'24',
+          total_credits:'24',
             credits:'4,6,2,4,6,2,0',
-            data: motions
+            pending:motions,
+            accepted:resultOfaccepted,
+            rejected:resultOfrejected
         });
-    });
+    }); 
 }
 
 

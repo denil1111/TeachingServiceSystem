@@ -34,6 +34,15 @@ motionSchema.statics.findbyteacherid = function(req, callback) {
         }, 
         callback);
 }
+motionSchema.statics.findbyteachercourse = function(req, callback) {
+    console.log("Motion:findbyteachercourse");
+    return this.model('motions').find(
+        { 
+            teacherid: req.teacherid,
+            courseid:req.courseid
+        }, 
+        callback);
+}
 motionSchema.statics.findbystatus = function(req, callback) {
     console.log("Motion:findbystatus");
     return this.model('motions').find(
