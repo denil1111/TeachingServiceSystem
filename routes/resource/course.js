@@ -131,9 +131,12 @@ router.use(
     next();
   }
   );
+<<<<<<< HEAD
 
 router.use(cache_courseList, cache_slide_course_data);
 
+=======
+>>>>>>> 3a65bf45d802f14959a96e12de588587d8f862e4
 
 router.get('/', function (req, res, next) {
   res.redirect('/resource/course/data');
