@@ -221,9 +221,14 @@
         	dataType: "json",  
         	// contentType: "charset=utf-8",  
         	cache: false,
+        	success:function(data){
+        		location.reload();
+        	}
+        	error:function(error){
+        		alert(error);
+        	}
     	}); 
-    	location.reload();
-	}
+    }
 	function submit_del(id){
 		var _json = jQuery.param ({	
     		type:"delete",
@@ -237,8 +242,13 @@
         	dataType: "json",  
         	// contentType: "charset=utf-8",  
         	cache: false,
+        	success:function(data){
+        		location.reload();
+        	}
+        	error:function(error){
+        		alert(error);
+        	}
     	});  
-    	location.reload();
 	}
 
 </script>
