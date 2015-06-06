@@ -92,7 +92,6 @@ function cache_slide_course_data(req, res, next) {
   routes
  */
 
-<<<<<<< HEAD
 router.use(
   function cache_courseList(req, res, next) {
     debug('cache_courseList');
@@ -132,9 +131,9 @@ router.use(
     next();
   }
   );
-=======
+
 router.use(cache_courseList, cache_slide_course_data);
->>>>>>> eb1db2bf2d120404d1b00e288f0d2905b3d74a4a
+
 
 router.get('/', function (req, res, next) {
   res.redirect('/resource/course/data');
@@ -179,6 +178,17 @@ router.get('/homework/insertdemo', function (req, res, next) {
     console.log(doc);
   });
 })
+
+router.get('/homework/download', function(req,res,next){
+  var fileid = decodeURIComponent(req.query.fid);
+  var filename = decodeURIComponent(req.query.fname);
+  console.log(fileid);
+  console.log(filename);
+  File.dowloadbyid(fileid,filename,req,res,next,function (){
+    res.redirect('/resource/course');
+  });
+});
+
 router.post('/homework/upload', function (req, res, next) {
   var cid = decodeURIComponent(req.query.cid);
   var homework = decodeURIComponent(req.query.hw);
@@ -188,7 +198,8 @@ router.post('/homework/upload', function (req, res, next) {
       stid: req.session.user.userid,
       filename: fileinfo.name,
       contentType: fileinfo.options.content_type,
-      id: fileinfo.id
+      id: fileinfo.id,
+      uploadtime : new Date()
     };
     console.log("file");
     console.log(file);
@@ -219,59 +230,55 @@ router.post('/homework/upload', function (req, res, next) {
 
 router.get('/homework/', isValidCourseID, function (req, res, next) {
   var cid = decodeURIComponent(req.query.cid);
-  var homeworkName = [];
-  var filelist = [];
-  var thisfilelist = [];
-  var thisuploadfile = [];
-  var fileinfo;
+  var hw = decodeURIComponent(req.query.hw);
   Person.findbyid(req.session.user.userid, function (err, user) {
-    homeworkModel.findbycourseid(cid, function (error, result) {
-      if (error) {
-        console.log(error);
-      } else {
-        var homeworkList = result[0].homeworklist;
-        for (var i = 0; i < homeworkList.length; i++) {
-          homeworkName.push(homeworkList[i].homework);
-          debug('homeworkName:');
-          debug(homeworkName);
-          thisuploadfile = homeworkList[i].uploadfile;
-          debug('uploadfile:');
-          debug(thisuploadfile);
-          thisfilelist = [];
-          for (var j = 0; j < thisuploadfile.length; j++) {
-            fileinfo = {
-              filename: thisuploadfile[j].filename,
-              contentType: thisuploadfile[j].contentType,
-              id: thisuploadfile[j].id
-            };
-            if (user.status == '学生') {
-              if (thisuploadfile[j].stid == user.userid) {
-                thisfilelist.push(fileinfo);
+    if (!('hw' in req.query)) {
+      homeworkModel.findbycourseid(cid, function (error, result) {
+        if (error) {
+          console.log(error);
+        } else {
+          var homeworkList = result[0].homeworklist;
+          var render_data = {
+            homeworkLisr: homeworkList,
+            current_cid: decodeURIComponent(req.query.cid),
+            slide_course: req.session.slide_course,
+            path_prefix: 'homework'
+          };
+          res.render('resource/course_homework', render_data);
+        }
+      });
+    } else {
+      homeworkModel.findbycourseid(cid, function (error, result) {
+        if (error) {
+          console.log(error);
+        } else {
+          var homeworkList = result[0].homeworklist;
+          var filelist = [];
+          for (var i = 0; i < homeworkList.length; i++) {
+            if (homeworkList[i].homework == hw) {
+              var thisuploadfile = homeworkList[i].uploadfile;
+              if (user.status == '学生') {
+                for (var j = 0; j < thisuploadfile.length; j++) {
+                  if (thisuploadfile[j].stid == user.userid) {
+                    filelist.push(thisuploadfile[i]);
+                  }
+                }
+              } else {
+                filelist = thisuploadfile;
               }
-            } else {
-              thisfilelist.push(fileinfo);
             }
           }
-          filelist.push(thisfilelist);
-          if (i == homeworkList.length - 1) {
-            console.log('true');
-            var render_data = {
-              homewokeLisr: homeworkName,
-              uploadfile: filelist,//是一个二维数组
-              current_cid: decodeURIComponent(req.query.cid),
-              slide_course: req.session.slide_course,
-              path_prefix: 'homework'
-            };
-            debug('homework');
-            debug(filelist);
-            res.render('resource/course_homework', render_data);
-          } else {
-            console.log(i);
-          }
+          var render_data = {
+            homeworkname: hw,
+            filelist: filelist,
+            current_cid: decodeURIComponent(req.query.cid),
+            slide_course: req.session.slide_course,
+            path_prefix: 'homework'
+          };
+          res.render('resource/course_homework', render_data);
         }
-      }
-    });
-    //课程名单放在了homeworkName,上传的文件在fileidlist中   
+      });
+    }
   });
 });
 

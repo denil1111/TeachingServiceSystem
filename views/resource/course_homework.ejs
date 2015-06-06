@@ -1,111 +1,146 @@
 <!doctype html>
 <html>
+
 <head>
-  <% include ../head.html %>
-  <style>
-  .action-nav-button{
-    width: 15%;
-  }
-  </style>
+    <% include ../head.html %>
+    <style>
+        .action-nav-button {
+            width: 15%;
+        }
+    </style>
 </head>
+
 <body>
 <!-- 上方选择条 navbar-top-->
 <% include ../navbar.html %>
 <!-- 侧边框 -->
-<% include slide_course.html%>
+<% include slide_course.html %>
 <script type="text/javascript">
-   function setActive(){
-    var active=document.getElementById('resource_share');
-    active.className='active';
-  }
-  setActive();
+    function setActive() {
+        var active = document.getElementById('resource_share');
+        active.className = 'active';
+    }
+    setActive();
 </script>
 <!-- 主要内容 -->
 <div class="main-content">
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="area-top clearfix">
-        <div class="pull-left header">
-          <h3 class="title"><i class=" icon-briefcase"></i>资源管理系统</h3>
-          <h5>管理所有课程的资源与作业</h5>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="area-top clearfix">
+                <div class="pull-left header">
+                    <h3 class="title">
+                        <i class=" icon-briefcase"></i>资源管理系统</h3>
+                    <h5>管理所有课程的资源与作业</h5>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+    <% include resource_bar.html %>
+    <div class="span10">
+        <div class="box">
+            <div class="box-header">
+                <span class="title">作业提交</span>
+                <!--<ul class="box-toolbar">-->
+                <!--<li><span class="label label-blue">length</span></li>-->
+                <!--</ul>-->
+            </div>
+            <div class="box-content">
+                <table class="table table-normal">
+                    <% if (hasOwnProperty("homeworkLisr")) { %>
+                    <thead>
+                    <tr>
+                        <td></td>
+                        <td style="width: 150px">作业名称</td>
+                        <td style="width: 60px">截至时间</td>
+                        <td>作业描述</td>
+                        <td style="width: 40px"></td>
+                    </tr>
+                    </thead>
+                    <tbody>
 
+                    <% var hwlist = homeworkLisr ? homeworkLisr : []; %>
+                    <% for(var i = 0 ; i < hwlist.length; i++) { %>
+                    <tr>
+                        <td class="icon">
+                            <i class="icon-file"></i>
+                        </td>
+                        <td>
+                            <a href="?cid=<%= current_cid %>&hw=<%= hwlist[i].homework %>"><%= hwlist[i].homework %></a></a>
+                        </td>
+                        <td>
+                            <b><%= hwlist[i].ddl %> </b>
+                        </td>
+                        <td>
+                            <b><%= hwlist[i].describe %></b>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-default">
+                                    <i class="icon-info-sign"></i>
+                                </button>
+                                <button class="btn btn-xs btn-default">
+                                    <i class="icon-upload-alt"></i>
+                                </button>
+                                <button class="btn btn-xs btn-default">
+                                    <i class="icon-download-alt"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                    <% } else { %>
+                    <thead>
+                    <tr>
+                        <td></td>
+                        <td style="width: 150px">上传作业名称</td>
+                        <td style="width: 60px">上传时间</td>
+                        <td style="width: 60px">文件类型</td>
+                        <td style="width: 40px"></td>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-<%include resource_bar.html%>
+                    <% var filelist = filelist ? filelist : []; %>
+                    <% for(var i = 0 ; i < filelist.length; i++) { %>
+                    <tr>
+                        <td class="icon">
+                            <i class="icon-file"></i>
+                        </td>
+                        <td>
+                            <a href="download?fid=<%= filelist[i].id%>&fname=<%= filelist[i].filename%>">
+                                <%= filelist[i].filename %>
+                            </a>
+                        </td>
+                        <td>
+                            <b><%= filelist[i].uploadtime%></b>
+                        </td>
+                        <td>
+                            <b><%= filelist[i].contentType %></b>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-default">
+                                    <i class="icon-info-sign"></i>
+                                </button>
+                                <button class="btn btn-xs btn-default">
+                                    <i class="icon-upload-alt"></i>
+                                </button>
+                                <button class="btn btn-xs btn-default">
+                                    <i class="icon-download-alt"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                    <% } %>
 
-
-<div class="span10">
-    <div class="box">
-      <div class="box-header">
-        <span class="title">作业提交</span>
-        <!--<ul class="box-toolbar">-->
-          <!--<li><span class="label label-blue">length</span></li>-->
-        <!--</ul>-->
-      </div>
-    <div class="box-content" >
-    <table class="table table-normal">
-      <thead>
-      <tr>
-        <td></td>
-        <td style="width: 150px">名称</td>
-        <td style="width: 60px">截止时间</td>
-        <td>作业描述</td>
-        <td style="width: 40px"></td>
-      </tr>
-      </thead>
-
-      <tbody>
-      <tr>
-        <td class="icon"><i class="icon-file"></i></td>
-        <td><a href="#">软件工程ch1作业</a></td>
-        <td><b>2016.1.1</b></td>
-        <td><b>简答题</b></td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default"><i class="icon-info-sign"></i></button>
-            <button class="btn btn-xs btn-default"><i class="icon-upload-alt"></i></button>
-            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
-          </div>
-        </td>
-      </tr>
-
-      <tr>
-        <td class="icon"><i class="icon-file"></i></td>
-        <td><a href="#">软件工程ch2作业</a></td>
-        <td><b>2016.1.1</b></td>
-        <td><b>简答题</b></td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default"><i class="icon-info-sign"></i></button>
-            <button class="btn btn-xs btn-default"><i class="icon-upload-alt"></i></button>
-            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
-          </div>
-        </td>
-      </tr>
-            <tr>
-        <td class="icon"><i class="icon-file"></i></td>
-        <td><a href="#">软件工程ch3作业</a></td>
-        <td><b>2016.1.1</b></td>
-        <td><b>简答题</b></td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default"><i class="icon-info-sign"></i></button>
-            <button class="btn btn-xs btn-default"><i class="icon-upload-alt"></i></button>
-            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-
-
-
 </div>
 </body>
+
 </html>
