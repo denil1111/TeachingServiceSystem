@@ -74,7 +74,7 @@ router.post('/answer=:paperId', function(req, res, next) {
 				//console.log(thisAnswer);
 				choices.push(thisAnswer);
 				if(thisAnswer == problemsInPaper[i].answer){
-					getPoint++;
+					getPoint = getPoint + problemsInPaper[i].point;
 				}
 			}
 			//db.close();
@@ -85,6 +85,7 @@ router.post('/answer=:paperId', function(req, res, next) {
 			recordEntity.choices = choices;
 			recordEntity.point = getPoint;
 			recordEntity.time = req.body.clock;
+			recordEntity.title = paper.title;
 
 			done = true;
 			point = getPoint;
@@ -111,7 +112,7 @@ router.get('/answer=:paperId', function(req, res, next) {
 	var paperModel = mongoose.model('PaperDB', paperSchema);
 
 	var problemSchema = require('../../db/OnlineTestDB/problemSchema');	
-	var problemModel = mongoose.model('ProblemDB', problemSchema_pro);
+	var problemModel = mongoose.model('ProblemDB', problemSchema);
 
 	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
 	var recordModel = mongoose.model('RecordDB', recordSchema);

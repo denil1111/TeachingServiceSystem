@@ -103,7 +103,7 @@
                   if(problem.type == 0){
               %>
                 <li>
-                  <%= problem.stem %>
+                  <%= problem.stem %>(<%= problem.point %>分)
                   <br/>
                   <% if (problem.answer==1){ %>
                     <b><i>A.<%= problem.choice[0] %></i></b>
@@ -133,7 +133,7 @@
                 </li>
                 <%} else{%>
                 <li>
-                  <%= problem.stem %>
+                  <%= problem.stem %>(<%= problem.point %>分)
                   <% if (problem.answer==1){ %>
                     <b><i>T</i></b>
                   <% }else{ %>

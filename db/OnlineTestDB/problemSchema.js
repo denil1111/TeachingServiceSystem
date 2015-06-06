@@ -6,7 +6,7 @@ var mongooseSchema = new mongoose.Schema({
     choice 	: {type : [String]},
     type	: {type : Number},//0 选择题， 1 判断题
 
-    point 	: {type : Number}
+    point 	: {type : Number}//题目的分值
 });
 
 module.exports=mongooseSchema;

@@ -42,6 +42,7 @@ router.post('/', function(req, res, next) {
 	 	problemEntity.answer = answer;
 	 	problemEntity.choice = choice;
 	 	problemEntity.type = 0;
+	 	problemEntity.point = req.body.point;
 		problemEntity.save(function(error) {
 		    if(error) {
 		        console.log(error);
@@ -61,6 +62,7 @@ router.post('/', function(req, res, next) {
 	 	problemEntity.stem = stem;
 	 	problemEntity.answer = answer;
 	 	problemEntity.type = 1;
+	 	problemEntity.point = req.body.point;
 		problemEntity.save(function(error) {
 		    if(error) {
 		        console.log(error);
