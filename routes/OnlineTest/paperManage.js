@@ -89,7 +89,7 @@ router.get('/update/:id', function(req, res, next){
 			mongooseModel_pro.find({}, function(err, allProblems){
 				if(err)
 					return next(err);
-				res.render('OnlineTest/paperEdit', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', paper: paper, problemsInPaper: problemsInPaper, allProblems: allProblems});
+				res.render('OnlineTest/paperEdit', {paper: paper, problemsInPaper: problemsInPaper, allProblems: allProblems});
 				//db.close();
 			});
 			
