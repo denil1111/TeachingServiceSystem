@@ -92,7 +92,6 @@ function cache_slide_course_data(req, res, next) {
   routes
  */
 
-<<<<<<< HEAD
 router.use(
   function cache_courseList(req, res, next) {
     debug('cache_courseList');
@@ -132,9 +131,6 @@ router.use(
     next();
   }
   );
-=======
-router.use(cache_courseList, cache_slide_course_data);
->>>>>>> eb1db2bf2d120404d1b00e288f0d2905b3d74a4a
 
 router.get('/', function (req, res, next) {
   res.redirect('/resource/course/data');
