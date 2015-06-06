@@ -34,7 +34,7 @@ router.get('/time', function(req, res, next) {
           console.log(err);
       else
           console.log(cre);
-      console.log("jinlaile2");
+      //console.log("jinlaile2");
       for (var i=0;i<cre.length;i++)
       {
           choose_time.push({start_time:cre[i].stTime.format('yyyy-MM-dd'),
@@ -73,68 +73,65 @@ router.post('/time', function(req, res, next) {
   }
   if (req.body.type=='add')
   {   
-      console.log("jinlaile");
       stDate=new Date(req.body.start_year,req.body.start_month.substring(0,req.body.start_month.length-1),req.body.start_day);
       edDate=new Date(req.body.end_year,req.body.end_month.substring(0,req.body.end_month.length-1),req.body.end_day);
+      stDate.setMonth(stDate.getMonth()-1);
+      edDate.setMonth(edDate.getMonth()-1);
       isChoose='true'==req.body.isChoose?true:false;
       isCancell='true'==req.body.isCancell?true:false;
       if (stDate>edDate)
       {
           error='时序错误';
-          render();
+          res.json({status:"err",error:error});
+          return;
       }
-      console.log(stDate,edDate);
       courseTimeModel.find({},function(err,cre){
           if (err)
           {
               console.log(err);
               error='搜索错误';
-              render();
+              res.json({status:"err",error:error});
+              return;
           }                  
           else
               console.log(cre);
-          console.log("jinlaile2");
           var flag=1;
           for (var i=0;i<cre.length;i++)
           {
-              choose_time.push({start_time:cre[i].stTime.format('yyyy-MM-dd'),
-                                end_time:cre[i].edTime.format('yyyy-MM-dd'),
-                                isChoose:cre[i].select,
-                                isCancell:cre[i].unselect,
-                                ID:cre[i]._id});
-              if (stDate>=cre[i].stTime && stDate<=cre[i].edTime ||edDate>=cre[i].stTime && edDate<=cre[i].edTime )
+              if ((stDate>=cre[i].stTime && stDate<=cre[i].edTime )||(edDate>=cre[i].stTime && edDate<=cre[i].edTime) )
                   flag=0;
           }
-          console.log(flag);
           if (flag==0)
           {
               error="时段交叉";
-              render();
+              res.json({status:"err",error:error});
+              return;
           }
           courseTimeModel.create({stTime:stDate,edTime:edDate,select:isChoose,unselect:isCancell},function(err,re){
               if (err)
               {
                   console.log(err);
                   error="搜索错误";
-                  render();
+                  res.json({status:"err",error:error});
+                  return;
               }              
               else
                   console.log(re);
-              choose_time.push({start_time:stDate.format('yyyy-MM-dd'),end_time:edDate.format('yyyy-MM-dd'),isChoose:isChoose,isCancell:isCancell,ID:re._id});
-              console.log(choose_time);
-              render();
+              res.json({status:"succ"});
           });         
 
       });     
   }
   else if (req.body.type=='delete')
   {
-      courseTimeModel.delete({_id:req.body.id},function(err,re){
+      console.log("jindelete");
+      courseTimeModel.remove({_id:req.body.id},function(err,re){
           if (err)
           {
               error="搜索错误";
               console.log(err);
-              render();
+              res.json({status:"err",error:error});
+              return;
           }
           else
             console.log(re);
@@ -143,26 +140,18 @@ router.post('/time', function(req, res, next) {
               {
                   console.log(err);
                   error='搜索错误';
-                  render();
+                  res.json({status:"err",error:error});
+                  return;
               }                  
               else
                   console.log(cre);             
-              for (var i=0;i<cre.length;i++)
-              {
-                  choose_time.push({start_time:cre[i].stTime.format('yyyy-MM-dd'),
-                                    end_time:cre[i].edTime.format('yyyy-MM-dd'),
-                                    isChoose:cre[i].select,
-                                    isCancell:cre[i].unselect,
-                                    ID:cre[i]._id});
-              }
-              console.log(choose_time);
-              render();
+              res.json({status:"succ"});
           });
 
       });
   }
   else
-  render();
+  res.json({status:"err",error:"操作错误"});
 
 
 });
