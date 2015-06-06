@@ -15,9 +15,16 @@ router.get('/login',function(req,res,next){
 
     passport.authenticate('local',function(err,user2,info){
       //use your own admin account here
+      // var user={
+      //   userid:'1234',
+      //   password:'1234',
+      //   status:'学生'
+      // };
+
       var user={
-        userid:'1234',
-        password:'1234'
+        userid:'4321',
+        password:'4321',
+        status:'教师'
       };
       // var user;
       // PersonModel.findbyid(localuser.userid,function (err, user) {

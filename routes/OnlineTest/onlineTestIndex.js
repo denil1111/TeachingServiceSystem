@@ -1,14 +1,25 @@
 var express = require('express');
 var router = express.Router();
+var auth = require('../basic/auth');
 
 var teaOnlineTestManage = require('./teaManage');
 var problemOnlineTest = require('./probManage');
 var paperOnlineTest = require('./paperManage');
 var stuOnlineTestManage = require('./stuManage');
 
-router.use('/teacher', teaOnlineTestManage);
-router.use('/probManage', problemOnlineTest);
-router.use('/paperManage', paperOnlineTest);
-router.use('/student', stuOnlineTestManage);
+router.get('/', function(req, res, next) {
+  	console.log(req.session.user.status);
+  	if(req.session.user.status == '学生'){
+  		res.redirect('/OnlineTest/student');	
+  	}
+  	else if(req.session.user.status == '教师'){
+  		res.redirect('/OnlineTest/teacher');
+	}
+});
+
+router.use('/teacher', auth.isTeacher, teaOnlineTestManage);
+router.use('/probManage', auth.isTeacher, problemOnlineTest);
+router.use('/paperManage', auth.isTeacher ,paperOnlineTest);
+router.use('/student', auth.isStudent ,stuOnlineTestManage);
 
 module.exports = router;
