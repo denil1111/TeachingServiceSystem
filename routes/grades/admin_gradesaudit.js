@@ -94,7 +94,7 @@ function handler(req, res, next) {
     }); 
 }
 
-router.get('/gradesAudit',handler);
+router.post('/gradesAudit',handler);
 
 
 module.exports = router;
