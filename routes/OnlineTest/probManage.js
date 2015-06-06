@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 	mongooseModel.find({}, function(err, problems){
 		if(err)
 			return next(err);
-		res.render('OnlineTest/probManage', {problems: problems});
+		res.render('OnlineTest/probManage', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', problems: problems});
 		//db.close();
 	});
   //res.render('teaTestManage', { title: 'Online Test System - Teacher' });

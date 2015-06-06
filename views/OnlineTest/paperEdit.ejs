@@ -1,71 +1,133 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Online Test - Paper Manage</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <% include ../head.html %>
   </head>
   <body>
-   <h1><%= paper.title %></h1>
-    <ul>
-      <% for(var i = 0; i < problemsInPaper.length; i++){
-          var problem = problemsInPaper[i];
-          if(problem.type == 0){
-      %>
-        <li>
-        <%= problem.stem %>
-        <br/>
-        Right Answer: <%= problem.answer %>
-        <br/>
-        A.<%= problem.choice[0] %>
-        <br/>
-        B.<%= problem.choice[1] %>
-        <br/>
-        C.<%= problem.choice[2] %>
-        <br/>
-        D.<%= problem.choice[3] %>
-        <br/>
-        <a href="/OnlineTest/paperManage/deleteProblem/<%= paper._id %>/<%= problem._id %>">删除</a>
-        </li>
-      <% }else{ %>
-       <li>
-        <%= problem.stem %>
-        <br/>
-        Right Answer: <%= problem.answer %>
-        <br/>
-        <a href="/OnlineTest/paperManage/deleteProblem/<%= paper._id %>/<%= problem._id %>">删除</a>
-      <% }} %>
-    </ul>
+    <!-- 上方选择条 navbar-top-->
+    <% include ../navbar.html %>
+    <!-- 侧边框 -->
+    <% include slide_teacher.html%>   
 
-    <h1>题库</h1>
-    <ul>
-      <% for(var i = 0; i < allProblems.length; i++){
-          var problem = allProblems[i];
-          if(problem.type == 0){
-      %>
-        <li>
-        <%= problem.stem %>
-        <br/>
-        Right Answer: <%= problem.answer %>
-        <br/>
-        A.<%= problem.choice[0] %>
-        <br/>
-        B.<%= problem.choice[1] %>
-        <br/>
-        C.<%= problem.choice[2] %>
-        <br/>
-        D.<%= problem.choice[3] %>
-        <br/>
-        <a href="/OnlineTest/paperManage/add/<%= paper._id %>/<%= problem._id %>">加入试卷</a>
-        </li>
-      <% }else{ %>
-      <li>
-        <%= problem.stem %>
-        <br/>
-        Right Answer: <%= problem.answer %>
-        <br/>
-        <a href="/OnlineTest/paperManage/add/<%= paper._id %>/<%= problem._id %>">加入试卷</a>
-      <% }} %>
-    </ul>
+    <div class="main-content">
+      <div class="container-fluid">
+        <div class="row-fluid">
+          
+            <div class="pull-left header">
+              <h3 class="title">编辑试卷</h3>
+            </div>
+          
+        </div>
+      </div>
+      <div class="box">
+        <div class="box-header">
+          <div class="title"><%= paper.title %></div>
+        </div>
+        <div class="box-content">
+          <ul>
+            <% for(var i = 0; i < problemsInPaper.length; i++){
+                var problem = problemsInPaper[i];
+                if(problem.type == 0){
+            %>
+              <li>
+                <%= problem.stem %>
+                <br/>
+                <% if (problem.answer==1){ %>
+                  <b><i>A.<%= problem.choice[0] %></i></b>
+                <% }else{ %>
+                  A.<%= problem.choice[0] %>
+                <% } %>
+                </br>
+                <% if (problem.answer==2){ %>
+                  <b><i>A.<%= problem.choice[1] %></i></b>
+                <% }else{ %>
+                  A.<%= problem.choice[1] %>
+                <% } %>
+                </br>
+                <% if (problem.answer==3){ %>
+                  <b><i>A.<%= problem.choice[2] %></i></b>
+                <% }else{ %>
+                  A.<%= problem.choice[2] %>
+                <% } %>
+                </br>
+                <% if (problem.answer==4){ %>
+                  <b><i>A.<%= problem.choice[3] %></i></b>
+                <% }else{ %>
+                  A.<%= problem.choice[3] %>
+                <% } %>
+                </br>
+                <a class="btn btn-blue", href="/OnlineTest/paperManage/deleteProblem/<%= paper._id %>/<%= problem._id %>">删除</a>
+              </li>
+            <% }else{ %>
+              <li>
+                <%= problem.stem %>
+                <% if (problem.answer==1){ %>
+                  <b><i>T</i></b>
+                <% }else{ %>
+                  <b><i>F</i></b>
+                <% } %>
+                <br/>
+                <a class="btn btn-blue", href="/OnlineTest/paperManage/deleteProblem/<%= paper._id %>/<%= problem._id %>">删除</a>
+              </li>
+            <% }} %>
+          </ul>
+        </div>
+      </div>
 
+      <div class="box">
+        <div class="box-header">
+          <div class="title">题库</div>
+        </div>
+        <div class="box-content">
+          <ul>
+            <% for(var i = 0; i < allProblems.length; i++){
+                var problem = allProblems[i];
+                if(problem.type == 0){
+            %>
+              <li>
+                <%= problem.stem %>
+                <br/>
+                <% if (problem.answer==1){ %>
+                  <b><i>A.<%= problem.choice[0] %></i></b>
+                <% }else{ %>
+                  A.<%= problem.choice[0] %>
+                <% } %>
+                </br>
+                <% if (problem.answer==2){ %>
+                  <b><i>A.<%= problem.choice[1] %></i></b>
+                <% }else{ %>
+                  A.<%= problem.choice[1] %>
+                <% } %>
+                </br>
+                <% if (problem.answer==3){ %>
+                  <b><i>A.<%= problem.choice[2] %></i></b>
+                <% }else{ %>
+                  A.<%= problem.choice[2] %>
+                <% } %>
+                </br>
+                <% if (problem.answer==4){ %>
+                  <b><i>A.<%= problem.choice[3] %></i></b>
+                <% }else{ %>
+                  A.<%= problem.choice[3] %>
+                <% } %>
+                </br>
+                <a class="btn btn-blue", href="/OnlineTest/paperManage/add/<%= paper._id %>/<%= problem._id %>">加入试卷</a>
+              </li>
+            <% }else{ %>
+              <li>
+                <%= problem.stem %>
+                <% if (problem.answer==1){ %>
+                  <b><i>T</i></b>
+                <% }else{ %>
+                  <b><i>F</i></b>
+                <% } %>
+                <br/>
+                <a class="btn btn-blue", href="/OnlineTest/paperManage/add/<%= paper._id %>/<%= problem._id %>">加入试卷</a>
+              </li>
+            <% }} %>
+          </ul>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
