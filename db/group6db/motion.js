@@ -127,6 +127,7 @@ motionSchema.statics.insert = function(req, callback) {
             } else {
                 console.log("exist:" + motion.length)
                 if(motion.length){
+                    motionSchema.statics.doupdate(req, origin,callback);
                     return false;
                 } else {
                     motionSchema.statics.doinsert(req, origin,callback);
@@ -154,6 +155,33 @@ motionSchema.statics.doinsert = function(req,origin,callback) {
     },
     callback);
     
+}
+motionSchema.statics.doupdate = function(req,origin,callback) {
+    console.log("Motion:update");
+    console.log(req);
+    origin.model('motions').update(
+        {
+            teacherid:req.teacherid, 
+            studentid:req.studentid,
+            courseid:req.courseid
+        },
+        {
+            $set:{
+                status:"pending",
+                oldvalue: req.oldvalue,
+                newvalue:req.newvalue,
+                reason:req.reason,
+                time: new Date(),
+                feedback:{"admin":"","comment":""}
+            }
+        },
+        function(error,motion){
+            if(error)
+                console.log(error)
+            else
+                console.log(motion);
+        }
+        );
 }
 motionSchema.statics.removebyid = function(req, callback) {
     return this.model('motions').remove(

@@ -24,7 +24,7 @@
 
 <script type="text/javascript">
 
-function checknum()
+function checknum(formid)
 {
     var score =  document.getElementById('score');
     var re = /^[0-9]*[0-9][0-9]*$/ ;
@@ -35,12 +35,12 @@ function checknum()
         alert("必须是0-100的数字");
     }
     else{
-        document.getElementById("form_id").submit();
+        document.getElementById(formid).submit();
     }
 }    
 
 
-function checknum2(){
+function checknum2(formid){
     var score =  document.getElementById('score');
     var re = /^[0-9]*[0-9][0-9]*$/ ;
     console.log("找你呢");
@@ -50,7 +50,7 @@ function checknum2(){
         alert("必须是0-100的数字");
     }
     else{
-        input_reason();
+        input_reason(formid);
     }
 }
     
@@ -62,11 +62,11 @@ function disp_alert()
         } 
     
 }
-function input_reason()
+function input_reason(formid)
 {
     var reason = document.getElementById('reason_id');
     reason.value = prompt("请输入申请理由 ","");
-    document.getElementById("form_id").submit();
+    document.getElementById(formid).submit();
 }
 function show_warning(){
     if(<%=warning%>) {
@@ -195,7 +195,7 @@ window.onload = show_warning;
 
       <tbody>   
        <% for(i=0;i<data.length;i++){%>
-      <form name="input" action="classManagement" id = "form_id" method="post">
+      <form name="input" action="classManagement" id = "form_id<%=i%>" method="post">
       <tr class="status-pending">
         <td><%=studentslist[i].userid%></a></td>
         <td><%=studentslist[i].username%></td>
@@ -209,9 +209,9 @@ window.onload = show_warning;
             <input type="hidden" name = "reason" id = "reason_id" value = "no reason" >
           <div class="btn-group">
             <%if(courses[0].status=="on"){%>
-            <button class="btn btn-xs btn-default dropdown-toggle" type="button" onClick="checknum()"><i class="icon-cog"> 修改</i></button>
+            <button class="btn btn-xs btn-default dropdown-toggle" type="button" onClick="checknum('form_id<%=i%>')"><i class="icon-cog"> 修改</i></button>
             <%} else if(courses[0].status=="off"){%>
-            <button class="btn btn-xs btn-default dropdown-toggle" type="button" onClick="checknum2()"><i class="icon-cog"> 提交申请</i></button>
+            <button class="btn btn-xs btn-default dropdown-toggle" type="button" onClick="checknum2('form_id<%=i%>')"><i class="icon-cog"> 提交申请</i></button>
             <%}%>
           </div>
         </td>

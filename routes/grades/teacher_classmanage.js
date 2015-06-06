@@ -31,68 +31,79 @@ function classmanage(req, res, next) {
             motionModel.insert(motion, function(error, instance) {
                 if(error) {
                     console.log(error);
-                } 
+                }
+                return;
+                
             });
             
         }
-    }
 
-    var condition = {
-        "teacherid" : req.session.user[0].userid,
-        "courseid" : req.body.courseid,
-    }
-    motion = null;
-    motionModel.findbyteachercourse(condition,function(error,motions){
-        if(error){
-            console.log(error);
-            return;
+    } 
+  
+      display(req, res,criteria,result);
+
+}
+
+function display(req, res,result){
+        var criteria = {courseid : req.body.courseid};
+          var condition = {
+            "teacherid" : req.session.user[0].userid,
+            "courseid" : req.body.courseid,
         }
-        motion = motions;
-    });
+        motion = null;
+        motionModel.findbyteachercourse(condition,function(error,motions){
+            if(error){
+                console.log(error);
+                return;
+            }
+            console.log("Find:" + condition.courseid + " " + condition.teacherid);
+            //console.log(motions);
+            motion = motions;
+        });
 
-gradesDB.find(criteria,function(error,grades){
-    if(error){
-        console.log(error);
-        return;
-    }
-    
-    var studentList=[];
-    
-    for(var i=0;i<grades.length;i++){
-      studentList.push(grades[i].userid);
-    }
-    
-    
-   PersonModel.findbylist(studentList,function(error,persons){
-     
-        // console.log("what is" + persons);
-   CourseModel.findbyid(req.body.courseid,function(error,courses){
-     
-     
-     // console.log("what is persons:" + persons);
-      //console.log("what is courses:" + courses);
-      //console.log("what is grades:" + grades);
-    warning = !result;
-    console.log("isWarning:" + warning);
-    res.render('grades/teacher_classmanage', {
-  	name: '程序员', 
-  	image: 'images/avatars/avatar1.jpg',
-  	total_a:'12',
-  	a:'2,3,1,2,3,1,0',
-  	total_b:'24',
-  	b:'4,6,2,4,6,2,0',
-  	total_credits:'24',
-  	credits:'4,6,2,4,6,2,0',
-    data:grades,
-    studentslist:persons,
-    courses:courses,
-    warning:warning,
-    motion:motion
-  });   
-   });
-   });
-    
-  }); 
+        gradesDB.find(criteria,function(error,grades){
+            if(error){
+                console.log(error);
+                return;
+            }
+            
+            var studentList=[];
+            
+            for(var i=0;i<grades.length;i++){
+              studentList.push(grades[i].userid);
+            }
+            
+            
+             PersonModel.findbylist(studentList,function(error,persons){
+               
+                  // console.log("what is" + persons);
+               CourseModel.findbyid(req.body.courseid,function(error,courses){
+                 
+                 
+                 // console.log("what is persons:" + persons);
+                  //console.log("what is courses:" + courses);
+                  //console.log("what is grades:" + grades);
+                  warning = !result;
+                  console.log("isWarning:" + warning);
+                      res.render('grades/teacher_classmanage', {
+                      name: '程序员', 
+                      image: 'images/avatars/avatar1.jpg',
+                      total_a:'12',
+                      a:'2,3,1,2,3,1,0',
+                      total_b:'24',
+                      b:'4,6,2,4,6,2,0',
+                      total_credits:'24',
+                      credits:'4,6,2,4,6,2,0',
+                      data:grades,
+                      studentslist:persons,
+                      courses:courses,
+                      warning:warning,
+                      motion:motion
+                  });   
+              });
+            });
+            
+        });
 }
 
 router.post('/classManagement', classmanage);

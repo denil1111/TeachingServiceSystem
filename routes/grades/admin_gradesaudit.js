@@ -52,8 +52,8 @@ function handler(req, res, next) {
     var accepted = {
         "status" : "accepted"
     }
-    resultOfrejected = null;
-    resultOfaccepted = null;
+    resultOfrejected = {"length":0};
+    resultOfaccepted = {"length":0};
     motionModel.findbystatus(rejected,function(error,motions){
         if(error){
             console.log(error);
