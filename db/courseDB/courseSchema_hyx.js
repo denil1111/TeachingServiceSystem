@@ -23,7 +23,7 @@ time []
 campus
 */
 
-courseSchema_hyx.statics.insert = function(req, callback) {
+/*courseSchema_hyx.statics.insert = function(req, callback) {
 	var doc = {
 		id : req.id, 
 		name : req.name, 
@@ -40,7 +40,7 @@ courseSchema_hyx.statics.insert = function(req, callback) {
 	        console.log('save ok');
 	    }
 	});
-}
+}*/
 
-var courseModel_hyx = mongoose.model('courseModel_hyx',courseSchema_hyx,'plancourse');
+var courseModel_hyx = mongoose.model('courseModel_hyx',courseSchema_hyx,'course');
 module.exports=courseModel_hyx;
