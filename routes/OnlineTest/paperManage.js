@@ -33,6 +33,7 @@ router.post('/', function(req, res, next) {
 	// 增加记录 基于 entity 操作
  	var paperEntity = new paperModel();
  	paperEntity.title = title;
+ 	paperEntity.usedClass = classId;
 	paperEntity.save(function(error) {
 	    if(error) {
 	        console.log(error);
@@ -98,10 +99,11 @@ router.get('/update/:id', function(req, res, next){
 	});
 });
 
-router.get('/add/:paperId/:problemId', function(req, res, next){
+router.get('/add/:paperId/:problemId/:problemPoint', function(req, res, next){
 	//获取试卷和题目ID
 	var paperId = req.params.paperId;
 	var problemId = req.params.problemId;
+	var problemPoint = req.params.problemPoint;
 
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
@@ -114,10 +116,11 @@ router.get('/add/:paperId/:problemId', function(req, res, next){
 		
 		if(paper.problems.indexOf(problemId) == -1){
 			paper.problems.push(problemId);
+			paper.totalPoint = paper.totalPoint + parseInt(problemPoint);
 		}
 
 		var conditions = {_id : paperId};
-		var update     = {$set : {problems : paper.problems}};
+		var update     = {$set : {problems : paper.problems, totalPoint : paper.totalPoint}};
 		var options    = {upsert : true};
 		paperModel.update(conditions, update, options, function(error){
 	    	if(error) {
@@ -133,10 +136,11 @@ router.get('/add/:paperId/:problemId', function(req, res, next){
 	res.redirect('/OnlineTest/paperManage/update/'+paperId);
 });
 
-router.get('/deleteProblem/:paperId/:problemId', function(req, res, next){
+router.get('/deleteProblem/:paperId/:problemId/:problemPoint', function(req, res, next){
 	//获取试卷和题目ID
 	var paperId = req.params.paperId;
 	var problemId = req.params.problemId;
+	var problemPoint = req.params.problemPoint;
 
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
@@ -153,11 +157,12 @@ router.get('/deleteProblem/:paperId/:problemId', function(req, res, next){
 			console.log(problemId);
 			if(paper.problems[i] == problemId){
 				paper.problems.splice(i, 1);
+				paper.totalPoint = paper.totalPoint - parseInt(problemPoint);
 			}
 		}
 
 		var conditions = {_id : paperId};
-		var update     = {$set : {problems : paper.problems}};
+		var update     = {$set : {problems : paper.problems, totalPoint : paper.totalPoint}};
 		var options    = {upsert : true};
 		paperModel.update(conditions, update, options, function(error){
 	    	if(error) {

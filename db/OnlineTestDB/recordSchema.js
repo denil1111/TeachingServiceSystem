@@ -7,7 +7,7 @@ var mongooseSchema = new mongoose.Schema({
     point 	: {type : Number},
     time 	: {type : String},
 
-    title 	: {type : String}//显示历史成绩的时候，已删除的试卷也可以
+    title 	: {type : String},//显示历史成绩的时候，已删除的试卷也可以
 });
 
 module.exports=mongooseSchema;

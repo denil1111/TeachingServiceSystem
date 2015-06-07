@@ -6,6 +6,7 @@ var teaOnlineTestManage = require('./teaManage');
 var problemOnlineTest = require('./probManage');
 var paperOnlineTest = require('./paperManage');
 var stuOnlineTestManage = require('./stuManage');
+var statistics = require('./statistics');
 
 router.get('/', function(req, res, next) {
   	console.log(req.session.user.status);
@@ -18,6 +19,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.use('/teacher', auth.isTeacher, teaOnlineTestManage);
+router.use('/statistics', auth.isTeacher, statistics);
 router.use('/probManage', auth.isTeacher, problemOnlineTest);
 router.use('/paperManage', auth.isTeacher ,paperOnlineTest);
 router.use('/student', auth.isStudent ,stuOnlineTestManage);

@@ -3,7 +3,10 @@ var mongoose = require('mongoose');
 var mongooseSchema = new mongoose.Schema({
     title 	: 	String,
     problems: 	[],
-    deliver	: 	[String]//用来记录发送给哪些班级
+    deliver	: 	[String],//用来记录发送给哪些班级
+
+    usedClass : 	String,//用来记录试卷对应的课程ID
+    totalPoint : 	{type: Number, default: 0}//试卷总分
 });
 
 mongooseSchema.methods.findbyId = function(ID, callback) {
