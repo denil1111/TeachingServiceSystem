@@ -26,7 +26,7 @@
 
 function checknum(formid)
 {
-    var score =  document.getElementById('score');
+    var score = document.getElementById('s_' + formid)
     var re = /^[0-9]*[0-9][0-9]*$/ ;
     console.log("找你呢");
     console.log(score.value);
@@ -41,7 +41,7 @@ function checknum(formid)
 
 
 function checknum2(formid){
-    var score =  document.getElementById('score');
+    var score = document.getElementById('s_' + formid);
     var re = /^[0-9]*[0-9][0-9]*$/ ;
     console.log("找你呢");
     console.log(score.value);
@@ -62,9 +62,9 @@ function disp_alert()
         } 
     
 }
-function input_reason(formid)
+function input_reason(formid, score)
 {
-    var reason = document.getElementById('reason_id');
+    var reason = document.getElementById('r_' + formid);
     reason.value = prompt("请输入申请理由 ","");
     document.getElementById(formid).submit();
 }
@@ -200,13 +200,13 @@ window.onload = show_warning;
         <td><%=studentslist[i].userid%></a></td>
         <td><%=studentslist[i].username%></td>
         <td><%=studentslist[i].major%></td>
-        <td><input type="text" name="score" id="score" value=<%=data[i].score%>></td>
+        <td><input type="text" name="score" id="s_form_id<%=i%>" value=<%=data[i].score%>></td>
           <input type="hidden" name="oldvalue" value=<%=data[i].score%>>
           <input type="hidden" name="courseid" value=<%=courses[0].courseid%>>
             <input type="hidden" name="userid" value=<%=studentslist[i].userid%>>
         <td>
             <input type="hidden" name = "coursestatus" value = <%=courses[0].status%> >
-            <input type="hidden" name = "reason" id = "reason_id" value = "no reason" >
+            <input type="hidden" name = "reason" id = "r_form_id<%=i%>" value = "no reason" >
           <div class="btn-group">
             <%if(courses[0].status=="on"){%>
             <button class="btn btn-xs btn-default dropdown-toggle" type="button" onClick="checknum('form_id<%=i%>')"><i class="icon-cog"> 修改</i></button>
@@ -232,7 +232,7 @@ window.onload = show_warning;
 <%}%>
   
         <div class="box">
-        <div class="box-header"><span class="title">成绩修改申请</span></div>
+        <div class="box-header"><span class="title">成绩修改申请记录</span></div>
          <div class="box-content">
          <div id="dataTables">
 
@@ -244,8 +244,8 @@ window.onload = show_warning;
               <th><div>原成绩</div></th>
               <th><div>修改后成绩</div></th>
               <th><div>修改理由</div></th>
-              <th><div>status</div></th>
-              <th><div>Reason</div></th>
+              <th><div>状态</div></th>
+              <th><div>反馈</div></th>
             </tr>
           </thead>
           <tbody>
