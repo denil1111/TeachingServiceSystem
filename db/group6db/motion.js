@@ -71,19 +71,16 @@ motionSchema.statics.acceptbyid = function(req, callback) {
         {
             teacherid:req.teacherid, 
             studentid:req.studentid,
-            courseid:req.courseid
+            courseid:req.courseid,
+            status:'pending'
         },
         {
             $set:{
                 status:"accepted",
                 feedback:{admin:req.admin,comment: req.comment}
             }
-        },function(error,motion){
-            if(error)
-                console.log(error);
-            else
-                console.log(motion);
-       });
+        },
+       callback);
     
 }
 
@@ -94,7 +91,8 @@ motionSchema.statics.rejectbyid = function(req, callback) {
         {
             teacherid:req.teacherid, 
             studentid:req.studentid,
-            courseid:req.courseid
+            courseid:req.courseid,
+            status:'pending'
         },
         {
             $set:{
@@ -102,13 +100,7 @@ motionSchema.statics.rejectbyid = function(req, callback) {
                 feedback:{admin:req.admin,comment: req.comment}
             }
         },
-        function(error,motion){
-            if(error)
-                console.log(error)
-            else
-                console.log(motion);
-        }
-        );
+        callback);
 }
 
 motionSchema.statics.insert = function(req, callback) {
@@ -119,7 +111,8 @@ motionSchema.statics.insert = function(req, callback) {
         { 
             teacherid: req.teacherid, 
             studentid: req.studentid, 
-            courseid: req.courseid
+            courseid: req.courseid,
+            status: "pending"
         }, function(error, motion) {
             if(error) {
                 console.log(error);
@@ -163,7 +156,8 @@ motionSchema.statics.doupdate = function(req,origin,callback) {
         {
             teacherid:req.teacherid, 
             studentid:req.studentid,
-            courseid:req.courseid
+            courseid:req.courseid,
+            status: 'pending'
         },
         {
             $set:{

@@ -33,7 +33,7 @@
         if(confirm(formid) ) {
             var cmd = document.getElementById('cmd_id');
             cmd.value = "reject"
-            var reason = document.getElementById('reason_id');
+            var reason = document.getElementById('r_' + formid);
             reason.value = prompt("请输入拒绝理由 ","");
             document.getElementById(formid).submit();
         }
@@ -93,7 +93,7 @@
             <input type="hidden" name = "courseid"   value =<%=pending[i].courseid%> >
             <input type="hidden" name = "newvalue"   value =<%=pending[i].newvalue%> >
 
-            <input type="hidden" name = "reason" id = "reason_id" value ="" >
+            <input type="hidden" name = "reason" id = "r_f_id<%=i%>" value ="no reason" >
             <td>
               <div class="btn-group">
                 <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
