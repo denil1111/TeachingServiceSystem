@@ -13,9 +13,11 @@ function classmanage(req, res, next) {
     var criteria = {courseid : req.body.courseid};
     //console.log("coursestatus:" + req.body.coursestatus);
     if(typeof req.body.userid !== 'undefined') {
-        if( req.body.coursestatus == "on")
+        if( req.body.coursestatus == "on"){
             gradesfix(req, res);
-        else {
+            
+            display(req, res,result);
+        } else {
             
             console.log('create a motion:' + req.body.reason)
             console.log('user:' + req.session.user[0].userid)
@@ -28,19 +30,25 @@ function classmanage(req, res, next) {
                 "newvalue":req.body.score,
                 "reason":req.body.reason
                 }
+                    console.log('insert_start_here');
             motionModel.insert(motion, function(error, instance) {
+                    console.log('_dddd');
                 if(error) {
                     console.log(error);
                 }
+                    console.log('start_dddd');
+                display(req, res,result);
+                    console.log('stop_dddd');
                 return;
                 
             });
             
         }
 
-    } 
+    } else{
   
-      display(req, res,criteria,result);
+      display(req, res,result);
+      }
 
 }
 

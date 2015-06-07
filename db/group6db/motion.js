@@ -175,13 +175,7 @@ motionSchema.statics.doupdate = function(req,origin,callback) {
                 feedback:{"admin":"","comment":""}
             }
         },
-        function(error,motion){
-            if(error)
-                console.log(error)
-            else
-                console.log(motion);
-        }
-        );
+        callback);
 }
 motionSchema.statics.removebyid = function(req, callback) {
     return this.model('motions').remove(

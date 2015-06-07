@@ -45,6 +45,9 @@ function handler(req, res, next) {
         }
 
     }
+    var query = {
+        "status":"pending"
+    }
     var rejected = {
         "status" : "rejected"
     }
@@ -54,44 +57,39 @@ function handler(req, res, next) {
     }
     resultOfrejected = {"length":0};
     resultOfaccepted = {"length":0};
-    motionModel.findbystatus(rejected,function(error,motions){
+    motionModel.findbystatus(rejected,function(error,motions_rejected){
         if(error){
             console.log(error);
             return;
         }
-        resultOfrejected = motions;
-    });
-    motionModel.findbystatus(accepted,function(error,motions){
-        if(error){
-            console.log(error);
-            return;
-        }
-        resultOfaccepted = motions;
-    });
-    var query = {
-        "status":"pending"
-    }
-    motionModel.findbystatus(query, function(error,motions){
-        if(error){
-            console.log(error);
-            return;
-        }
+        motionModel.findbystatus(accepted,function(error,motions_accepted){
+            if(error){
+                console.log(error);
+                return;
+            }
+            motionModel.findbystatus(query, function(error,motions){
+                if(error){
+                    console.log(error);
+                    return;
+                }
 
-        console.log('Form admin_grades')
-        res.render('grades/admin_gradesaudit', {
-  	        name: '程序员', 
-  	        image: 'images/avatars/avatar1.jpg',
-  	        total_a:'12',
-  	        a:'2,3,1,2,3,1,0',
-  	        total_b:'24',
-  	        b:'4,6,2,4,6,2,0',
-    	    total_credits:'24',
-  	        credits:'4,6,2,4,6,2,0',
-            pending:motions,
-            accepted:resultOfaccepted,
-            rejected:resultOfrejected
+            console.log('Form admin_grades')
+            res.render('grades/admin_gradesaudit', {
+  	            name: '程序员', 
+  	            image: 'images/avatars/avatar1.jpg',
+  	            total_a:'12',
+  	            a:'2,3,1,2,3,1,0',
+  	            total_b:'24',
+  	            b:'4,6,2,4,6,2,0',
+    	        total_credits:'24',
+  	            credits:'4,6,2,4,6,2,0',
+                pending:motions,
+                accepted:motions_rejected,
+                rejected:motions_accepted
+            });
         });
-    }); 
+     });
+   });
 }
 
 router.post('/gradesAudit',handler);
