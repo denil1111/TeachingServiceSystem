@@ -157,6 +157,18 @@
     				<%}%>
     				</tbody>
     			</table>
+    			</hr>
+    			<form name="input" action="/select/time" method="post">
+              		<div class="input" style="display:inline; text-align:center;">
+                 		 <label style="float:left; margin-top:5px;">筛选时间:&nbsp;</label>
+                  			<select class="uniform" name="result">
+                      		<% for(var i=0;i<choose_time.length;i++){%>
+                      			<option value="<%=i%>"><%= choose_time[i].start_time%> ~ <%= choose_time[i].end_time%></option>
+                      		<% } %>
+                  			</select>
+                  		<button type="submit" class="btn btn-blue" style="margin-left:30px;">筛选</button>
+              		</div>
+          		</form>
 			</div>
         </div>
     </div>
