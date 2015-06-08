@@ -57,8 +57,11 @@ router.post('/my_course', function(req, res, next) {
     if(error) {
         console.log(error);
     } else {
-        my_course_list = raw_result[0].confirmedCourse;
+        my_course_list = [];        
+        if (raw_result.length!=0)
+            my_course_list = raw_result[0].confirmedCourse;
         console.log(my_course_list);
+        console.log('1');
     }
     var courseModel = require('../../db/group1db/CourseModel'); 
     my_course = [];
@@ -73,10 +76,10 @@ router.post('/my_course', function(req, res, next) {
                 console.log(nresult);
             }              
             if (nresult.length!=0)
-                my_course.push({course_id:"00010", ID:"00003", name:nresult[0].coursename, teacher:nresult[0].teacher, semaster:nresult[0].courseterm, time:nresult[0].coursetime, campus:nresult[0].campus, room:nresult[0].room});           
+                my_course.push({course_id:"00010", ID:nresult[0].courseid2, name:nresult[0].coursename, teacher:nresult[0].teacher, semaster:nresult[0].courseterm, time:nresult[0].coursetime, campus:nresult[0].campus, room:nresult[0].room});           
             
             console.log("!");
-            if (i==my_course_list.length-1){
+            if (my_course.length==my_course_list.length){
             console.log(my_course);
             res.render('select/my_course', {
                 type:2,//manager
@@ -97,8 +100,25 @@ router.post('/my_course', function(req, res, next) {
         });
         })(i); 
     }
+    res.render('select/my_course', {
+                type:2,//manager
+                name: '程序员', 
+                image: 'images/avatars/avatar3.jpg',
+                total_a:'12',
+                a:'2,3,1,2,3,1,0',
+                total_b:'24',
+                b:'4,6,2,4,6,2,0',
+                total_credits:'24',
+                credits:'4,6,2,4,6,2,0',
+                course_data: my_course,
+                start_year:'2013',
+                this_year:'2015',
+                this_semester:'春'
+            });
+    console.log('2');
       // db.close();
     });
+console.log('3');
 });
 
 //课程人员列表
