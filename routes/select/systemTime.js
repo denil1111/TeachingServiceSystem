@@ -25,9 +25,11 @@ Date.prototype.format = function(format)
  ("00"+ o[k]).substr((""+ o[k]).length));
  return format;
 }
+
 router.get('/time', function(req, res, next) {
   var choose_time=[];
   var courseTimeModel = require('../../db/courseDB/selectTimeModel');
+  var userModel = require('../../db/courseDB/userSchema');
   var error="";
   courseTimeModel.find({},function(err,cre){
       if (err)
@@ -57,6 +59,7 @@ router.post('/time', function(req, res, next) {
   console.log(req.body);
   var choose_time=[];
   var courseTimeModel = require('../../db/courseDB/selectTimeModel');
+  var userModel = require('../../db/courseDB/userSchema');
   var stDate=new Date();
   var edDate=new Date();
   var isChoose=false;
@@ -153,6 +156,20 @@ router.post('/time', function(req, res, next) {
   else
   res.json({status:"err",error:"操作错误"});
 
+  userModel.find({},function(error,res){
+    if (error)
+        console.log(error);
+    else {
+        console.log(res);
+        console.log(res.length);
+        for (var i=0;i<res.length;i++){
+            wait_course = res[i].selectedCourse;
+            console.log(wait_course[0].id);
+            for (var j=0;j<wait_course.length;j++)
+                userModel.update({id: res[i].id},{$push:{confirmedCourse:{id: wait_course[j].id}}},function(err,re){if (err) console.log(err);});
+        }
+    }
+  });
 
 });
 
