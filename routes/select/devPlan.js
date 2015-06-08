@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 //培养方案页面
-var userType=2;//manager
+var userType=0;//manager
 //usertype为啥没在数据库里？！
 var currentId = "u001";
 var selectedMajor;// = "专业1";//默认专业为当期用户的专业
@@ -276,7 +276,7 @@ router.get('/my_dev_plan', function (req, res, next) {
   
   var planModel = require('../../db/courseDB/planSchema');
   var courseModel = require('../../db/courseDB/courseSchema_hyx');
-
+  var majorModel = require('../../db/courseDB/majorSchema');
   var dev_plan_gen_class=[];//公共课类别++++6.7++++
   majorModel.find({name:""}, function(error, result) {
     if (error) console.log(error);
@@ -506,7 +506,7 @@ router.post('/my_dev_plan_add', function (req, res, next) {
   var currentId = "u001";
   var planModel = require('../../db/courseDB/planSchema');
   var courseModel = require('../../db/courseDB/courseSchema_hyx');
-
+  var majorModel = require('../../db/courseDB/majorSchema');
   var dev_plan_gen_class=[];//公共课类别++++6.7++++
   majorModel.find({name:""}, function(error, result) {
     if (error) console.log(error);
