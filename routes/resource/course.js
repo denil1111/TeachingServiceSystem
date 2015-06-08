@@ -1,6 +1,6 @@
 /**
- * Created by Gnnng on 5/30/15.
- */
+* Created by Gnnng on 5/30/15.
+*/
 var router = require('express').Router();
 var modelPath = '../../db/group1db/';
 var debug = require('debug')('resource');
@@ -11,7 +11,7 @@ var File = require("./basicfileop");
 
 /*
   functions
- */
+*/
 function getCourseList(userid, callback) {
   Person.findbyid(userid, function (err, user) {
     debug('user is ' + user);
@@ -90,7 +90,7 @@ function cache_slide_course_data(req, res, next) {
 
 /*
   routes
- */
+*/
 
 router.use(
   function cache_courseList(req, res, next) {
@@ -168,16 +168,17 @@ router.get('/homework/upload', function (req, res, next) {
   res.send(html);
   res.end();
 });
+
 /*
 
   file upload api
 
- */
+*/
 router.get('/homework/insertdemo', function (req, res, next) {
   homeworkModel.insertdemo(function (error, doc) {
     console.log(doc);
   });
-})
+});
 
 router.get('/homework/download', function(req,res,next){
   var fileid = decodeURIComponent(req.query.fid);
@@ -294,10 +295,9 @@ router.get('/feedback', function (req, res, next) {
 });
 
 
-
 /*
   exports
- */
+*/
 exports.router = router;
 
 exports.getCourseList = getCourseList;

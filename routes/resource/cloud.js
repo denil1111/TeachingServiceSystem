@@ -53,9 +53,9 @@ router.post('/newfolder', function(req, res, next) {
         console.log(req.session.treeP);
         res.json({code:200,newTree: req.session.treeP});
       }
-    });  
+    });
   });
-  
+
 });
 
 /*
@@ -81,7 +81,7 @@ router.post('/newfile', function(req, res, next) {
             console.log(req.session.treeP);
             res.json({code:200,newTree: req.session.treeP});
           }
-        });  
+        });
       });
     });
   });
@@ -189,7 +189,7 @@ router.post('/deletenode', function(req, res, next) {
         console.log(req.session.treeP);
         res.json({code:200,newTree: req.session.treeP});
       }
-    });  
+    });
   });
 });
 
@@ -210,7 +210,7 @@ router.post('/movenode', function(req, res, next) {
         console.log(req.session.treeP);
         res.json({code:200,newTree: req.session.treeP});
       }
-    });  
+    });
   });
 });
 /*
@@ -230,12 +230,12 @@ router.post('/renamenode', function(req, res, next) {
         console.log(req.session.treeP);
         res.json({code:200,newTree: req.session.treeP});
       }
-    });  
+    });
   });
 })
 
 router.post('/share', function(req, res, next) {
-  
+
 });
 router.get('/course', function(req, res, next) {
   res.render('resource/index', {

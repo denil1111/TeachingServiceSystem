@@ -169,9 +169,9 @@ router.get('/coursewares', function(req, res, next) {
 //  res.render('resource/admin_feedback', {});
 //});
 //
-//router.get('/admin_homework', function(req, res, next) {
-//  res.render('resource/admin_homework', {});
-//});
+router.get('/admin_homework', function(req, res, next) {
+  res.render('resource/admin_homework', {});
+});
 //
 //router.get('/admin_resource', function(req, res, next) {
 //  res.render('resource/admin_resource', {});
