@@ -28,9 +28,9 @@ module.exports = function(req,res,next){
   
   var user = {
     photo     : '',
-    userid    : '312',
+    userid    : '3120000000',
     username  : 'wtf',
-    password  : '312',
+    password  : '3120000000',
     status    : '系统管理员',
     sex       : '',
     age       : '',

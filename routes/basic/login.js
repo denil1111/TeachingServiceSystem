@@ -21,12 +21,8 @@ router.get('/login',function(req,res,next){
         username:"admin",
         status:"系统管理员"
       };
-      // var user;
-      // PersonModel.findbyid(localuser.userid,function (err, user) {
-      //   if(err){console.log("development router login findbyid error!")}
-      //   else if(!user | user == ''){console.log("development router login findbyid find NULL!")}
-      //   else {user = user[0];console.log("user : "+user);}
-      // }); 
+     var user;
+     
 
       if(err){return(err);}
       
@@ -37,7 +33,12 @@ router.get('/login',function(req,res,next){
         });
       }
       else{
-        req.logIn(user, function(err){
+        PersonModel.findbyid(user.userid,function (err, user) {
+         if(err){console.log("development router login findbyid error!")}
+         else if(!user | user == ''){console.log("development router login findbyid find NULL!")}
+         else {
+           user = user[0];console.log("user : "+user);
+           req.logIn(user, function(err){
           console.log(user);
           req.session.user=user;
           console.log(req.isAuthenticated());
@@ -47,7 +48,10 @@ router.get('/login',function(req,res,next){
           else{
             res.redirect('/info/personinfo');
           }
-        })
+        });
+          }
+      	}); 
+        
       }
     })(req,res,next);
   } else {
