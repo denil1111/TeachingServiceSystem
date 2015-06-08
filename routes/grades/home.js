@@ -24,11 +24,9 @@ if(req.session.user[0].status=="student"){
    CourseModel.find({},function(error,courses){
      for(var i = 0;i < docs.length;++i)
      {   
-       console.log(docs[i]);
        for(var j = 0;j < courses.length;++j)
           if(courses[j]["courseid"]==docs[i]["courseid"])//we can use sort to speed up
           {
-            console.log(courses[j]);
             docs[i]["coursename"] = courses[j]["coursename"];
             docs[i]["coursecredit"] = courses[j]["coursescore"];
           }
