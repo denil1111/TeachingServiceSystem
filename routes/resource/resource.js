@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var Grid = require('gridfs-stream');
 var debug = require('debug')('resource');
 var fileTree = require("../../db/resource/pan");
-var homeworkModel = require("../../db/resource/homeWorkModel");
+var homeworkModel = require("../../db/resource/homework");
 var coursewareModel = require("../../db/resource/courseWareModel");
 var File = require("./basicfileop");
 var Tree = require("./basictreeop");
@@ -169,9 +169,9 @@ router.get('/coursewares', function(req, res, next) {
 //  res.render('resource/admin_feedback', {});
 //});
 //
-//router.get('/admin_homework', function(req, res, next) {
-//  res.render('resource/admin_homework', {});
-//});
+router.get('/admin_homework', function(req, res, next) {
+  res.render('resource/admin_homework', {});
+});
 //
 //router.get('/admin_resource', function(req, res, next) {
 //  res.render('resource/admin_resource', {});
