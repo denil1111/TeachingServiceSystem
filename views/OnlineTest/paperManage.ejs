@@ -19,7 +19,23 @@
           <div class="box-content">
             <form method='post'>
               <input type='text', style="margin-top:10px;", name='paperTitle', placeholder='请输入试卷标题'/>
-              <button type='submit', class="btn btn-blue">创建</button>
+              <button type='submit', class="btn btn-blue">提交</button>
+            </form>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-header">
+            <div class="title">自动生成试卷</div>
+          </div>
+          <div class="box-content">
+            <form method='post'>
+              <ul class="padded separate-sections">
+                <li><input type='text', style="margin-top:10px;", name='paperTitle_auto', placeholder='请输入试卷标题'/></li>
+                <li><input type='text', style="margin-top:10px;", name='point1', placeholder='1分题数量'></li>
+                <li><input type='text', style="margin-top:10px;", name='point2', placeholder='2分题数量'></li>
+                <li><input type='text', style="margin-top:10px;", name='point3', placeholder='3分题数量'></li>
+                <li><button type='submit', class="btn btn-blue">提交</button></li>
+              </ul>
             </form>
           </div>
         </div>
@@ -30,20 +46,20 @@
             <div class="box-header">
               <div class="title">试卷列表</div>
             </div>
+            <div class="box-content padded">
             <% for(var i = 0; i < papers.length; i++){
               var paper = papers[i];
             %>    
             <div class="page-header">
               <div class="title"><h3><%= paper.title %>#<%= paper.deliver %></h3></div>
             </div>
-            <div class="box-content padded">
-                  <a class="btn btn-blue", href="/OnlineTest/paperManage/delete/<%= paper._id %>">删除</a> <a class="btn btn-red", href="/OnlineTest/paperManage/update/<%= paper._id %>">修改</a>
-                  <a class="btn btn-green", href="/OnlineTest/paperManage/deliver/<%= paper._id %>">发布</a>
+              <a class="btn btn-blue", href="/OnlineTest/paperManage/delete/<%= paper._id %>">删除</a> <a class="btn btn-red", href="/OnlineTest/paperManage/update/<%= paper._id %>">修改</a>
+              <a class="btn btn-green", href="/OnlineTest/paperManage/deliver/<%= paper._id %>">发布</a>
+            <% } %>
             </div>
           </div>
         </div>
       </div>
-      <% } %>
     </div>
   </body>
 </html>
