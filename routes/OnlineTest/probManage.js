@@ -25,8 +25,23 @@ router.post('/', function(req, res, next) {
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var problemSchema = require('../../db/OnlineTestDB/problemSchema');	
 	var problemModel = mongoose.model('ProblemDB', problemSchema);
-	
+
+	if(!req.body.stem){
+		res.render('OnlineTest/onlineTestErr',{message: '没有题干！'});
+		return;
+	}
+
 	if(req.body.choice1){
+		if(!req.body.choice2 || !req.body.choice3 || !req.body.choice4){
+			res.render('OnlineTest/onlineTestErr',{message: '选项不全！'});
+			return;
+		}
+
+		if(!req.body.answer){
+			res.render('OnlineTest/onlineTestErr',{message: '没有答案！'});
+			return;	
+		}
+
 		//获得表单内容
 		var stem = req.body.stem;
 		var answer = req.body.answer;

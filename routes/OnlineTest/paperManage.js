@@ -26,6 +26,10 @@ router.post('/', function(req, res, next) {
 	var paperModel = mongoose.model('PaperDB', paperSchema);
 	
 	if(req.body.paperTitle_auto){
+		if(!req.body.point1 || !req.body.point1 || !req.body.point1){
+			res.render('OnlineTest/onlineTestErr',{message: '试卷信息不全！'});
+			return;
+		}
 		var title = req.body.paperTitle_auto;
 		var pro_1_num = req.body.point1;
 		var pro_2_num = req.body.point2;
@@ -42,6 +46,7 @@ router.post('/', function(req, res, next) {
 			var pro_1 = [];
 			var pro_2 = [];
 			var pro_3 = [];
+			var point = 0;
 			for(var i = 0; i < problems.length; i++){
 				if(problems[i].point == 1)
 					pro_1.push(problems[i]);
@@ -52,25 +57,30 @@ router.post('/', function(req, res, next) {
 			}
 
 			if(pro_1.length < pro_1_num || pro_2.length < pro_2_num || pro_3.length < pro_3_num){
-				console.log('题库中题量不足!')
+				res.render('OnlineTest/onlineTestErr',{message: '题库数量不够！'});
+				return;
 			}
 
 			else{
 				var createdProblems = [];
 				for(var i = 0; i < pro_1_num; i++){
-					createdProblems.push(pro_1[i]);
+					createdProblems.push(pro_1[i]._id);
+					point  = point + pro_1[i].point;
 				}
 				for(var i = 0; i < pro_2_num; i++){
-					createdProblems.push(pro_2[i]);
+					createdProblems.push(pro_2[i]._id);
+					point  = point + pro_2[i].point;
 				}
 				for(var i = 0; i < pro_3_num; i++){
-					createdProblems.push(pro_3[i]);
+					createdProblems.push(pro_3[i]._id);
+					point  = point + pro_3[i].point;
 				}
 				// 增加记录 基于 entity 操作
 			 	var paperEntity = new paperModel();
 			 	paperEntity.title = title;
 			 	paperEntity.usedClass = classId;
 			 	paperEntity.problems = createdProblems;
+			 	paperEntity.totalPoint = point;
 				paperEntity.save(function(error) {
 				    if(error) {
 				        console.log(error);
@@ -79,11 +89,16 @@ router.post('/', function(req, res, next) {
 				    }
 				    //db.close();
 				});
+				res.redirect('/OnlineTest/paperManage');
 			}
 		});
 	}
 	else{
 		//获得表单内容
+		if(!req.body.paperTitle){
+			res.render('OnlineTest/onlineTestErr',{message: '试卷信息不全！'});
+			return;
+		}
 		var title = req.body.paperTitle;
 
 		// 增加记录 基于 entity 操作
@@ -98,8 +113,9 @@ router.post('/', function(req, res, next) {
 		    }
 		    //db.close();
 		});
-	}
-	res.redirect('/OnlineTest/paperManage');
+
+		res.redirect('/OnlineTest/paperManage');
+	}	
 });
 
 router.get('/delete/:id', function(req, res, next){

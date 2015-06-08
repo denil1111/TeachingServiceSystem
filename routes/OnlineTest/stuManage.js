@@ -71,6 +71,10 @@ router.post('/answer=:paperId', function(req, res, next) {
 			var getPoint = 0;
 			for(var i = 0; i < problemsInPaper.length; i++){
 				var thisAnswer = req.body[problemsInPaper[i]._id];
+				if(!thisAnswer){
+					res.render('OnlineTest/onlineTestErr',{message: '答题未完成！'});
+					return;
+				}
 				//console.log(thisAnswer);
 				choices.push(thisAnswer);
 				if(thisAnswer == problemsInPaper[i].answer){
