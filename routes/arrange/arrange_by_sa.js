@@ -2,18 +2,9 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/TS');
 //var ClassroomModel = require('../../db/group2db/ClassroomModel');
 var CourseModel = require('../../db/group1db/CourseModel');
-
+var RoomModel = require('../../db/group2db/ClassroomModel');
 var Course = mongoose.model('CourseModel',CourseModel.CourseSchema);
-
-
-Course.remove({},function(err){console.log("Removed all data")});
-
-var tmpCourse = new Course({
-	courseid2: '1223',
-	coursename: 'math'
-});
-tmpCourse.save(); //insert a tmp data
-
+var Room = mongoose.model('ClassroomModel',RoomModel.ClassroomSchema);
 
 //global vars
 var courseList = new Array();		//all courses waiting to be sorted
@@ -22,11 +13,13 @@ var arrangeList;					//there are 5*7 point-in-time to start a course
 									//arrangeList[35i+j] stores the index of courseList that satisfies roomList[i] is occupied at time-j  
 
 // the course class used by SA 
-function CourseClass(courseId, courseName, stuRange)
+function CourseClass(courseId, courseName, stuRange, times, isOnWeekend)
 {
 	this.cid = courseId;
 	this.cname = courseName;
 	this.stuRange = stuRange;
+	this.times = times;
+	this.isOnWeekend = isOnWeekend;
 	this.Print = function()
 	{
 		console.log("CourseID: "+ this.cid + " Name: "+ this.cname);
@@ -41,21 +34,67 @@ function RoomClass(roomId, capacity)
 	
 }
 
-// input all course in campusXXX
-function InputCourse (campusName)
+function print(line)
 {
-	courseList.push(new CourseClass("1001","math", 40));
-	courseList.push(new CourseClass("1002","english", 60));
-	courseList.push(new CourseClass("1003","bio", 80));
+	console.log(line);
 }
 
-// input all class room in campusXXX
-function InputClassroom(campusName)
+// InputCourse ---> InputClassroom 
+// input all course in campusXXX
+function InputCourse (campusName, NextReadFunction)
 {
-	roomList.push(new RoomClass("d-101",60));
-	roomList.push(new RoomClass("d-102",80));
-	roomList.push(new RoomClass("d-103",120));
-	roomList.push(new RoomClass("d-104",40));
+	print("start read course");
+	Course.find({campus: campusName},function(err, res){
+		if(err)
+			console.log(err);
+		else
+		{
+			print("read Course.length: " + res.length);			
+			courseList = [];
+			for(var i = 0; i< res.length; i++)
+			{
+				//transform data type	
+				courseList.push(new CourseClass(
+					res[i].courseid2,
+					res[i].coursename,
+					75,
+					1,				//times
+					0				//isOnWeekend
+					));		
+			}
+			NextReadFunction(campusName, SA);
+		}
+	}
+)
+}
+
+
+// inputClassroom ---> SA
+// input all class room in campusXXX
+function InputClassroom(campusName, ReadDoneFunction)
+{
+	print("start read class room");
+	Room.find({campus: campusName}, function(err, res){
+		if(err)
+			console.log(err);
+		else
+		{
+			print("read Room.length: " + res.length);
+			roomList = [];
+			for(var i = 0; i < res.length; i++)
+			{
+				roomList.push(new RoomClass(
+					res[i].classid2,
+					res[i].capacity
+					))
+			}
+			//do SA()
+			ReadDoneFunction();
+		}
+	})
+	
+	
+	
 }
 
 //get the first solution 
@@ -63,9 +102,11 @@ function InitFirstSolu()
 {
 	console.log("courseList.length: "+ roomList.length);
 	tmpArr = new Array(35*roomList.length);
+	var tmpIndex = 0;
 	for(var i = 0; i< courseList.length; i++)
-		tmpArr[i] = i;
-	for(var i = courseList.length; i<tmpArr.length; i++)
+		for(var j = 0; j< courseList[i].times; j++)
+			tmpArr[tmpIndex++] = i;
+	for(var i = tmpIndex; i<tmpArr.length; i++)
 		tmpArr[i] = -1;
 	return tmpArr;
 }
@@ -74,65 +115,93 @@ function InitFirstSolu()
 function CalcScore(aList)
 {
 	var score = 0;
-	for(var i = 0; i<aList.length; i++)
-		if(aList[i] != -1)
+	for(var i = 0; i<courseList.length; i++)
+	{
+		var lastOne = -1;
+		for(var j = 0; j<aList.length; j++)
 		{
-			var roomIndex = Math.floor( i / 35);
-			var timeIndex = i % 35;
-			var courseIndex = aList[i];
-			
-			//judge the capacity
-			if(roomList[roomIndex].capacity == courseList[courseIndex].stuRange)
+			if(aList[j] == i)		//find this course
 			{
-				score += 10;
+				var roomIndex = Math.floor(j / 35); 
+				var timeIndex = j % 35; 			// week = timeIndex / 5;  time = timeIndex %5
+				var courseIndex = i;
+				//judge the capacity
+				if(roomList[roomIndex].capacity == courseList[courseIndex].stuRange)
+					score += 5;
+				else if(roomList[roomIndex].capacity > courseList[courseIndex].stuRange)
+					score += 3;
+				else
+					score -= 5;
+				
+				//judge workday
+				if(courseList[i].isOnWeekend == 1 && (Math.floor(timeIndex/5) < 5))
+					score -= 5;
+				if(courseList[i].isOnWeekend == 0 && (Math.floor(timeIndex/5) >= 5) )
+					score -= 5;
+				
+				//judge the time interval
+				if(lastOne != -1 && (timeIndex - lastOne)<=14)
+					score -= 5;
+				lastOne  = timeIndex;		//store last course time
 			}
-			else if(roomList[roomIndex].capacity > courseList[courseIndex].stuRange)
-			{
-				score += 3;
-			}
-			
-			//judge others
-			
 		}
-	//console.log("length: "+ aList.length);
+		
+	}
 	return score;
+	
 }
 
 //analyze an arrangeList, output some info
 function AnalyList(aList)
 {
-	for(var i = 0; i < aList.length; i++)
-		if(aList[i] != -1)
-		{
-			var roomIndex = Math.floor( i / 35);
-			var timeIndex = i % 35;
-			var courseIndex = aList[i];
-			console.log(courseList[courseIndex].cname + " is taken at room-"+roomList[roomIndex].rid + 
-			" in week"+ Math.floor(timeIndex / 7+1) + ": "+ (timeIndex % 7));
-		}
+	for(var j = 0; j < courseList.length; j++)
+	{
+		var roomString="";
+		var timeString="";
+		for(var i = 0; i < aList.length; i++)
+			if(aList[i] == j)
+			{
+				var roomIndex = Math.floor( i / 35);
+				var timeIndex = i % 35;
+				print("courseID: "+ courseList[j].cid + " room: " + roomList[roomIndex].rid + " time: "
+					+  Math.floor(timeIndex / 5) + "-"+ (timeIndex % 5));
+				roomString = roomString + roomList[roomIndex].rid + ";";
+				timeString = timeString + Math.floor(timeIndex / 5) + "-"+ (timeIndex % 5) + ";";
+			}
+		Course.findOne({ courseid2: courseList[j].cid }, function (err, doc){
+			if(err)
+				console.log(err);
+			else
+			{
+				doc.coursetime = timeString;
+				doc.room = roomString;
+				doc.save();
+			}
+		});
+		
+	}
+	return;
 }
 
-//use slice() to copy a array
 
-function SA(campusName)
+
+//sa algorithm
+function SA()
 {
-	
-	
-	InputClassroom(campusName);
-	InputCourse(campusName);
+	print("SA start");
 	arrangeList = InitFirstSolu();
 	
 	var tempera = 1000.0;
 	var K = 1;
 	var bestScore = CalcScore(arrangeList);
 	var bestArrange = arrangeList.slice();
+	//use slice() to copy a array
 	
-	var tot=0;
+
 	console.log("arrang length: " + arrangeList.length);
 	
 	while(tempera > 0.0001 )
 	{
-		tot++;
 		var oldScore = CalcScore(arrangeList);
 		
 		
@@ -167,15 +236,25 @@ function SA(campusName)
 			}
 			
 		}	
-		tempera *= 0.999;
+		tempera *= 0.99;
 	}
-	console.log(tot);
 	console.log("best score: "+ bestScore);
 	AnalyList(bestArrange);
 	
-	console.log("SA done")
+	console.log("Program end at time: "+ Date());
+	//mongoose.connection.close();
 }
-SA("ZJG");
 
-mongoose.connection.close();
+
+function ArrangeACampus(campusName)
+{
+	
+	//InputCourse ---> InputClassroom ---> SA
+	InputCourse(campusName, InputClassroom);
+	
+}
+console.log("Begin at time: "+ Date());
+ArrangeACampus('zjg');
+
+
 
