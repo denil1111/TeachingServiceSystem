@@ -20,22 +20,38 @@ if(req.session.user[0].status=="student"){
          console.log(error);
          return;
      }
-   
-   res.render('grades/student_grades', {
-   	name: '程序员', 
-   	image: 'images/avatars/avatar1.jpg',
-   	total_a:'12',
-   	a:'2,3,1,2,3,1,0',
-   	total_b:'24',
-   	b:'4,6,2,4,6,2,0',
-   	total_credits:'24',
-   	credits:'4,6,2,4,6,2,0',
-    data:docs
-   });
+     
+   CourseModel.find({},function(error,courses){
+     for(var i = 0;i < docs.length;++i)
+     {   
+       console.log(docs[i]);
+       for(var j = 0;j < courses.length;++j)
+          if(courses[j]["courseid"]==docs[i]["courseid"])//we can use sort to speed up
+          {
+            console.log(courses[j]);
+            docs[i]["coursename"] = courses[j]["coursename"];
+            docs[i]["coursecredit"] = courses[j]["coursescore"];
+          }
+     }
+     
+     res.render('grades/student_grades', {
+     	name: '程序员', 
+     	image: 'images/avatars/avatar1.jpg',
+     	total_a:'12',
+     	a:'2,3,1,2,3,1,0',
+     	total_b:'24',
+     	b:'4,6,2,4,6,2,0',
+     	total_credits:'24',
+     	credits:'4,6,2,4,6,2,0',
+      data:docs
+     });
+     
+     
+   });     
  });
 }
 else if (req.session.user[0].status=="teacher"){
- 
+  
  CourseModel.findbylist(req.session.user[0].cstlist,function(error,clist){
     if(error){
          console.log(error);
