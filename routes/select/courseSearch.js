@@ -65,7 +65,7 @@ router.post('/course_search', function(req, res, next) {
 
   // Add id condition
   if (id.course_number!="")
-    all.push({courseid:id.course_number});
+    all.push({courseid2:id.course_number});
 
   // Add name condition
   nameall = [];
