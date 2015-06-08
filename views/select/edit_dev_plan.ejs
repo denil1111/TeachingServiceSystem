@@ -65,6 +65,9 @@
                 <span class="title">通识课部分&nbsp;&nbsp;<a href="javascript:edit1()">编辑</a></span>
               </div>
               <div class="box-content padded">
+                <div hidden="">
+                  <input type="text" name="major_name" id="major_name1">
+                </div>
                 <table width="100%" class="table table-normal" style="text-align:center;">
                   <thead>
                     <tr>
@@ -102,6 +105,9 @@
               </div>
               <form name="form_req" id="form_req" method="post" action="/select/edit_dev_plan">
               <div class="box-content padded">
+                <div hidden="">
+                  <input type="text" name="major_name" id="major_name2">
+                </div>
                 <table width="100%" class="table table-normal" style="text-align:center;">
                       <thead>
                         <tr>
@@ -170,6 +176,9 @@
                     <div hidden="">
                       <input type="text" placeholder="类型号" name="elec_class" value="<%=i%>">
                     </div>
+                  <div hidden="">
+                    <input type="text" name="major_name" id="major_name3_<%=i%>">
+                  </div>
                     <table width="100%" class="table table-normal" style="text-align:center;">
                       <thead>
                         <tr>
@@ -236,6 +245,7 @@ function save1(){
      new_gen.push(tmp);
   <%}%>
   $("#save1").hide();
+  document.getElementById("major_name1").value= "<%=major_name%>";
   if(j==<%=dev_plan_gen.length%>) document.getElementById("form_gen").submit();
   
 }
@@ -278,6 +288,7 @@ function save2(){
       return;
     }
   }
+  document.getElementById("major_name2").value= "<%=major_name%>";
   console.log("post");
   $("#save2").hide();
   $("add1").hide();
@@ -351,6 +362,7 @@ function save3(i){
       return;
     }
   }
+  document.getElementById("major_name3_"+i).value= "<%=major_name%>";
   if(j==dev_length[i]) document.getElementById("form_elec_"+i).submit();
 }
 function addNew2(i){
