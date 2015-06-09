@@ -18,10 +18,11 @@ mongooseSchema.statics.findbyuser = function(uid, callback) {
     return this.model('tree').find({uid: uid}, callback);
 };
 mongooseSchema.statics.updatetree = function(uid, newtree, callback) {
+    console.log("update tree, uid:"+uid);
     var conditions = {uid: uid};
-	var update     = {$set : {tree: newtree}};
+	var update     = {$set : {tree: newtree.tree}};
 	var options    = {upsert : true};
-    return this.model('tree').updatate(conditions,update,options,callback);
+    return this.model('tree').update(conditions,update,options,callback);
 };
 var mongooseModel = mongoose.model('tree', mongooseSchema);
 person.schema.post('save', function(doc) {

@@ -19,7 +19,6 @@ router.get('/login',function(req,res,next){
         userid:'3120000000',
         password:'3120000000'
       };
-     var user;
      
 
       if(err){return(err);}

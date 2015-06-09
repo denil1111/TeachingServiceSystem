@@ -316,9 +316,10 @@
                             }
                             console.log(_newUrl);
                             $.post(
-                                    "/resource/api",
+                                    "/resource/newfile",
                                     {
-                                        url:_newUrl
+                                        fromUrl:_newUrl,
+                                        toUrl:_nowUrl
                                     },
                                     function(_data){
                                         if(_data.code==200){

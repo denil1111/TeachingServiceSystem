@@ -102,13 +102,13 @@ Tree.delnode = function(path, name, treeD, treeP, flag, callback) {
         });
       }     
     };
-Tree.move = function(oldpath, name, newpath, treeP, callback) {
+Tree.move = function(oldpath, name, newpath, treeP, fromtreeP, moveFlag, callback) {
       console.log("new node");
       var nowtreeP = treeP;
       oldpath.split('\.').forEach(function(foldername) {
         var nexttreeP = nowtreeP;
-        console.log("in splite")
-        console.log(foldername)
+        console.log("in splite");
+        console.log(foldername);
         console.log(nowtreeP);
         nowtreeP.forEach(function(node) {
           if (node.text == foldername) {
@@ -128,7 +128,7 @@ Tree.move = function(oldpath, name, newpath, treeP, callback) {
         } 
       });
       console.log(index);
-      var nowtreeP2 = treeP;
+      var nowtreeP2 = fromtreeP;
       newpath.split('\.').forEach(function(foldername) {
         var nexttreeP = nowtreeP;
         console.log("in splite")
@@ -142,7 +142,8 @@ Tree.move = function(oldpath, name, newpath, treeP, callback) {
         nowtreeP2 = nexttreeP;
       });
       nowtreeP2.push(nowtreeP[index]);
-      nowtreeP.remove(index);
+      if (moveFlag == 1)
+      	 nowtreeP.remove(index);
       callback(null);
     };
 Tree.renamenode = function(path, oname, nname, treeP, callback) {

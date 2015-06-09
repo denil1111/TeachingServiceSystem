@@ -146,8 +146,13 @@ router.get('/data', function (req, res, next) {
     slide_course: req.session.slide_course,
     path_prefix: 'data'
   };
-  console.log(req.query.cid);
-  fileTree.findbyuser(req.query.cid, function(err, resu) {
+//  console.log(req.query.cid);
+  console.log(req.session.slide_course);
+  var cid = req.session.slide_course.courses[0].courseid;
+  console.log(cid);
+  if (req.query.cid)
+    cid = req.query.cid;
+  fileTree.findbyuser(cid, function(err, resu) {
     console.log("in findbyuser");
     if (err) {
       console.log("in err");
@@ -175,7 +180,9 @@ router.get('/data', function (req, res, next) {
     }
   });
 });
-
+router.post('/newfile',function(req,res,next){
+  
+});
 router.get('/info', isValidCourseID, function (req, res, next) {
   var render_data = {
     current_cid: decodeURIComponent(req.query.cid),

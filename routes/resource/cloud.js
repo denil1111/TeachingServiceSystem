@@ -10,9 +10,9 @@ var cloud = require('./cloud')
 var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 var fs = require('fs');
 
-router.get('', function(req, res, next) {
+router.get('/', function(req, res, next) {
   var nowUserId = req.session.user.userid;
-  console.log("ok");
+  console.log("ok!get cloud");
   fileTree.findbyuser(nowUserId, function(err, result) {
     console.log("in findbyuser");
     if (err) {
@@ -73,7 +73,7 @@ router.post('/newfile', function(req, res, next) {
           uid : req.session.user.userid,
           tree : req.session.treeP
         }
-        fileTree.update(req.session.user.userid, newdata, function(err) {
+        fileTree.updatetree(req.session.user.userid, newdata, function(err) {
           if (err) {
             console.log(err);
           } else {
@@ -197,7 +197,7 @@ router.post('/deletenode', function(req, res, next) {
 */
 
 router.post('/movenode', function(req, res, next) {
-  Tree.move(req.body.oldUrl, req.body.name, req.body.newUrl, req.session.treeP, function() {
+  Tree.move(req.body.oldUrl, req.body.name, req.body.newUrl, req.session.treeP, req.session.treeP, 1 ,function() {
     var newdata = {
       uid : req.session.user.userid,
       tree : req.session.treeP
