@@ -20,7 +20,6 @@ router.get('', function(req, res, next) {
       console.log(err);
     } else {
       console.log("before render");
-      req.session.treeD = result[0].tree;
       req.session.treeP = result[0].tree;
       console.log(req.session.treeP);
       res.render('resource/myresource', {
@@ -40,11 +39,11 @@ router.post('/newfolder', function(req, res, next) {
   ws.filename=req.body.folderName;
   ws.isFolder=1;
   console.log(req.body.path);
-  Tree.newnode(req.body.path,ws,req.session.treeD,req.session.treeP,function(){
+  Tree.newnode(req.body.path,ws,req.session.treeP,function(){
     console.log(req.session.treeP);
     var newdata = {
       uid : req.session.user.userid,
-      tree : req.session.treeD
+      tree : req.session.treeP
     }
     fileTree.update(nowUserId, newdata, function(err) {
       if (err) {
@@ -69,10 +68,10 @@ router.post('/newfile', function(req, res, next) {
     File.upload(req, function(ws) {
       console.log("upload suc");
       ws.isFolder = 0;
-      Tree.newnode(req.body.path, ws, req.session.treeD, req.session.treeP, function(){
+      Tree.newnode(req.body.path, ws, req.session.treeP, function(){
         var newdata = {
           uid : req.session.user.userid,
-          tree : req.session.treeD
+          tree : req.session.treeP
         }
         fileTree.update(req.session.user.userid, newdata, function(err) {
           if (err) {
@@ -177,10 +176,10 @@ router.get('/iddownload/:fid', function(req, res, next) {
   delete a file in tree
 */
 router.post('/deletenode', function(req, res, next) {
-  Tree.delnode(req.body.url, req.body.name, req.session.treeD, req.session.treeP, 1, function() {
+  Tree.delnode(req.body.url, req.body.name, req.session.treeP, 1, function() {
     var newdata = {
       uid : req.session.user.userid,
-      tree : req.session.treeD
+      tree : req.session.treeP
     };
     fileTree.update(req.session.user.userid, newdata, function(err) {
       if (err) {
@@ -198,10 +197,10 @@ router.post('/deletenode', function(req, res, next) {
 */
 
 router.post('/movenode', function(req, res, next) {
-  Tree.move(req.body.oldUrl, req.body.name, req.body.newUrl, req.session.treeD, req.session.treeP, function() {
+  Tree.move(req.body.oldUrl, req.body.name, req.body.newUrl, req.session.treeP, function() {
     var newdata = {
       uid : req.session.user.userid,
-      tree : req.session.treeD
+      tree : req.session.treeP
     };
     fileTree.update(req.session.user.userid, newdata, function(err) {
       if (err) {
@@ -218,10 +217,10 @@ router.post('/movenode', function(req, res, next) {
 */
 
 router.post('/renamenode', function(req, res, next) {
-  Tree.renamenode(req.body.url, req.body.oldName, req.body.newName, req.session.treeD, req.session.treeP, function() {
+  Tree.renamenode(req.body.url, req.body.oldName, req.body.newName, req.session.treeP, function() {
      var newdata = {
       uid : req.session.user.userid,
-      tree : req.session.treeD
+      tree : req.session.treeP
     };
     fileTree.update(req.session.user.userid, newdata, function(err) {
       if (err) {
