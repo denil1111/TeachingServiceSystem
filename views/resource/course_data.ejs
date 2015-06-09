@@ -103,7 +103,7 @@
     <%include current_title.html %>
     <%include resource_bar.html%>
 
-    <%var root = false %>
+    <%var root = true %>
 
     <div class="span10" style="">
         <div class="row">
@@ -124,6 +124,14 @@
                                     <span>分享资源</span>
                                 </button>
                             </li>
+                            <%if (root == true) {%>
+                                <li style="margin-left:0px;">
+                                    <button class="btn btn-xs btn-info"  data-toggle="modal" href="#modal-newfolder">
+                                        <i class="icon-folder-open-alt"></i>
+                                        <span>新建文件夹</span>
+                                    </button>
+                                </li>
+                            <%}%>
                         </ul>
                     </div>
                     <div class="box-content" >
@@ -344,7 +352,7 @@
                             console.log(_nowUrl);
                             console.log(_name);
                             $.post(
-                                    "/resource/cloud/deletenode",
+                                    "/resource/course/deletenode",
                                     {
                                         url:_nowUrl,
                                         name:_name
@@ -418,7 +426,7 @@
                         console.log("in newFolder");
                         var _name=$("input[name=newFolderInput]").val();
                         $.post(
-                                "/resource/cloud/newfolder",
+                                "/resource/course/newfolder",
                                 {folderName:_name,path:_nowUrl},
                                 function(_data){
                                     if(_data.code==200){
@@ -449,7 +457,7 @@
                         var _newName=$("#renameInput").val();
                         var _oldName=$("#renameSubmit").attr("data-src");
                         $.post(
-                                "/resource/cloud/renamenode",
+                                "/resource/course/renamenode",
                                 {
                                     url:_nowUrl,
                                     oldName:_oldName,
@@ -498,7 +506,7 @@
                             }
                             console.log(_newUrl);
                             $.post(
-                                    "/resource/cloud/movenode",
+                                    "/resource/course/movenode",
                                     {
                                         oldUrl:_nowUrl,
                                         newUrl:_newUrl,
