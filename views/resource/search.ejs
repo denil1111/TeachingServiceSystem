@@ -19,56 +19,56 @@
 <div class="main-content">
     <%include current_title.html %>
   <!-- 筛选条件 -->
-  <div class="span10">
-    <div class="box">
-      <div class="box-header">
-        <div class="title">搜索</div>
-      </div>
-      <form name="input" action="/select/course_search" method="post">
-        <div class="box-content padded">
-          <div class="row-fluid">
-            <div class="span9">
-            <!-- 条件选框 -->
-              <!--<ul>-->
-                <div class="input">
-                  <input type="text" placeholder="资源名称" name="search_condition">
-                </div>
-                <!--<li class="input" style="margin-bottom:10px">-->
-                    <!--<label>课程名称:</label>-->
-                    <!--<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">-->
-                    <!--<label for="iradio3" class="">AND &nbsp &nbsp</label>-->
-                    <!--<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">-->
-                    <!--<label for="iradio3" class="">OR</label>-->
-                    <!--<textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_name">程序员</textarea>-->
-                <!--</li>-->
-                <!--<li class="input" style="margin-bottom:10px">-->
-                  <!--<label>资源名称:</label>-->
-                    <!--<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">-->
-                    <!--<label for="iradio3" class="">AND &nbsp &nbsp</label>-->
-                    <!--<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">-->
-                    <!--<label for="iradio3" class="">OR</label>-->
-                  <!--<textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher"></textarea>search-->
-                <!--</li>-->
-                <!--<li class="input" style="margin-bottom:10px">-->
-                  <!--<label>资源类型:</label>-->
-                  <!--<textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher">pdf</textarea>-->
-                <!--</li>-->
-                <!--<li class="input" style="margin-bottom:10px">-->
-                  <!--<label>关键字:</label>-->
-                    <!--<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">-->
-                    <!--<label for="iradio3" class="">AND &nbsp &nbsp</label>-->
-                    <!--<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">-->
-                    <!--<label for="iradio3" class="">OR</label>-->
-                  <!--<textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher">XXX</textarea>-->
-                <!--</li>-->
-              <!--</ul>-->
-            </div>
-          </div>
-        <button type="submit" class="btn btn-blue" style="">搜索</button>
-        </div>
-      </form>
-      </div>
-  </div>
+  <!--<div class="span10">-->
+    <!--<div class="box">-->
+      <!--<div class="box-header">-->
+        <!--<div class="title">搜索</div>-->
+      <!--</div>-->
+      <!--<form name="input" action="/select/course_search" method="post">-->
+        <!--<div class="box-content padded">-->
+          <!--<div class="row-fluid">-->
+            <!--<div class="span9">-->
+            <!--&lt;!&ndash; 条件选框 &ndash;&gt;-->
+              <!--&lt;!&ndash;<ul>&ndash;&gt;-->
+                <!--<div class="input">-->
+                  <!--<input type="text" placeholder="资源名称" name="search_condition">-->
+                <!--</div>-->
+                <!--&lt;!&ndash;<li class="input" style="margin-bottom:10px">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<label>课程名称:</label>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<label for="iradio3" class="">AND &nbsp &nbsp</label>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<label for="iradio3" class="">OR</label>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_name">程序员</textarea>&ndash;&gt;-->
+                <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li class="input" style="margin-bottom:10px">&ndash;&gt;-->
+                  <!--&lt;!&ndash;<label>资源名称:</label>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<label for="iradio3" class="">AND &nbsp &nbsp</label>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<label for="iradio3" class="">OR</label>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher"></textarea>search&ndash;&gt;-->
+                <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li class="input" style="margin-bottom:10px">&ndash;&gt;-->
+                  <!--&lt;!&ndash;<label>资源类型:</label>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher">pdf</textarea>&ndash;&gt;-->
+                <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li class="input" style="margin-bottom:10px">&ndash;&gt;-->
+                  <!--&lt;!&ndash;<label>关键字:</label>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;" value="and">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<label for="iradio3" class="">AND &nbsp &nbsp</label>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input type="radio" name="time" class="icheck" checked="" id="iradio3" style="position: absolute; opacity: 0;margin-left:10px;" value="and">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<label for="iradio3" class="">OR</label>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher">XXX</textarea>&ndash;&gt;-->
+                <!--&lt;!&ndash;</li>&ndash;&gt;-->
+              <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--<button type="submit" class="btn btn-blue" style="">搜索</button>-->
+        <!--</div>-->
+      <!--</form>-->
+      <!--</div>-->
+  <!--</div>-->
   <!-- 搜索结果 -->
   <div class="span10">
     <div class="box">
@@ -83,49 +83,63 @@
         <td>资源名称</td>
         <td style="width: 60px">资源类型</td>
         <td style="width: 60px">资源大小</td>
-        <td>课程</td>
+        <!--<td>课程</td>-->
         <td style="width: 40px"></td>
       </tr>
       </thead>
 
       <tbody>
-      <tr>
-        <td class="icon"><i class="icon-file"></i></td>
-        <td><a href="#">软件工程ch1</a></td>
-        <td><b>pdf</b></td>
-        <td><b>1.2M</b></td>
-        <td><b>软件工程</b></td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
-          </div>
-        </td>
-      </tr>
+      <% for(var i = 0; i < search_results.length; i++) {%>
 
       <tr>
         <td class="icon"><i class="icon-file"></i></td>
-        <td><a href="#">软件工程ch2</a></td>
+        <td><a href="#"><%= search_results[i].filename%></a></td>
         <td><b>pdf</b></td>
         <td><b>1.2M</b></td>
-        <td><b>软件工程</b></td>
+        <!--<td><b>软件工程</b></td>-->
         <td>
           <div class="btn-group">
             <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
           </div>
         </td>
       </tr>
-            <tr>
-        <td class="icon"><i class="icon-file"></i></td>
-        <td><a href="#">软件工程ch3</a></td>
-        <td><b>pdf</b></td>
-        <td><b>1.2M</b></td>
-        <td><b>软件工程</b></td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
-          </div>
-        </td>
-      </tr>
+      <% }%>
+        <!--<td class="icon"><i class="icon-file"></i></td>-->
+        <!--<td><a href="#">软件工程ch1</a></td>-->
+        <!--<td><b>pdf</b></td>-->
+        <!--<td><b>1.2M</b></td>-->
+        <!--<td><b>软件工程</b></td>-->
+        <!--<td>-->
+          <!--<div class="btn-group">-->
+            <!--<button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>-->
+          <!--</div>-->
+        <!--</td>-->
+      <!--</tr>-->
+
+      <!--<tr>-->
+        <!--<td class="icon"><i class="icon-file"></i></td>-->
+        <!--<td><a href="#">软件工程ch2</a></td>-->
+        <!--<td><b>pdf</b></td>-->
+        <!--<td><b>1.2M</b></td>-->
+        <!--<td><b>软件工程</b></td>-->
+        <!--<td>-->
+          <!--<div class="btn-group">-->
+            <!--<button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>-->
+          <!--</div>-->
+        <!--</td>-->
+      <!--</tr>-->
+            <!--<tr>-->
+        <!--<td class="icon"><i class="icon-file"></i></td>-->
+        <!--<td><a href="#">软件工程ch3</a></td>-->
+        <!--<td><b>pdf</b></td>-->
+        <!--<td><b>1.2M</b></td>-->
+        <!--<td><b>软件工程</b></td>-->
+        <!--<td>-->
+          <!--<div class="btn-group">-->
+            <!--<button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>-->
+          <!--</div>-->
+        <!--</td>-->
+      <!--</tr>-->
     </tbody>
   </table>
     </div>
