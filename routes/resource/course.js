@@ -10,7 +10,9 @@ var homeworkModel = require("../../db/resource/homework");
 var File = require("./basicfileop");
 var Tree = require('./basictreeop');
 var fileTree = require("../../db/resource/pan");
-
+var mongoose = require('mongoose');
+var Grid = require('gridfs-stream');
+var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 /*
   functions
 */
@@ -204,6 +206,52 @@ router.post('/newfile',function(req,res,next){
     });
   });
 });
+router.get('/download/:filename', function(req, res, next) {
+  var dlfileName = req.params['filename'];
+  debug('a file will be download: ' + req.params['filename']);
+
+  //FIXME: the search option may have more fields than the 'filename', because GridFS allow files with the same name.
+  var opts = {
+    filename: dlfileName
+  };
+  gfs.exist(opts, function(err, found) {
+    if (err)
+      return next(err);
+    if (found) {
+      var rs = gfs.createReadStream(opts);
+
+      res.setHeader('Content-disposition', 'attachment; filename=' + dlfileName);
+      res.setHeader('Content-type', 'text/plain');
+      rs.pipe(res);
+    } else {
+      next(new Error('File ' + dlfileName + ' not found'));
+    }
+  });
+});
+
+router.post('/newfolder', function(req, res, next) {
+  var ws={};
+  ws.filename=req.body.folderName;
+  ws.isFolder=1;
+  console.log(req.body.path);
+  Tree.newnode(req.body.path,ws,req.session.ctreeP,function(){
+    var newdata = {
+      uid : req.session.nowcid,
+      tree : req.session.ctreeP
+    }
+    debug("folder:",newdata);
+    fileTree.updatetree(req.session.nowcid, newdata, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(req.session.treeP);
+        res.json({code:200,newTree: req.session.treeP});
+      }
+    });
+  });
+
+});
+
 router.get('/info', isValidCourseID, function (req, res, next) {
   var render_data = {
     current_cid: decodeURIComponent(req.query.cid),
