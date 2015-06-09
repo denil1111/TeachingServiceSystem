@@ -194,7 +194,8 @@
 
             <script>
                 ;(function($){
-                    var _fileMap=[ { "text" : "我的资源", "isFolder" : 1, "children" : [ { "text" : "软件工程", "isFolder" : 1, "children" : [ { "isFolder" : 0, "text" : "ppt" }, { "isFolder" : 0, "text" : "实验报告" }, { "text" : "ss", "children" : [ ], "isFolder" : 1 } ] }, { "text" : "计算机体系结构", "state" : "closed", "isFolder" : 1, "children" : [ { "isFolder" : 0, "text" : "ppt1" }, { "isFolder" : 0, "text" : "ppt2" }, { "isFolder" : 0, "text" : "ppt3" }, { "isFolder" : 1, "text" : "考试", "children" : [ { "isFolder" : 0, "text" : "2001年试卷" }, { "text" : "新文件夹", "children" : [ ], "isFolder" : 1 }, { "fid" : "555eb53a2c9665dd214e721d", "isFolder" : 0, "text" : "640*200.jpg", "size" : null } ] }, { "isFolder" : 0, "text" : "实验报告", "children" : [ { "isFolder" : 0, "text" : "lab1" } ] }, { "text" : "新文件夹", "children" : [ ], "isFolder" : 1 } ] }, { "text" : "你好", "children" : [ ], "isFolder" : 1 }, { "text" : "测试", "children" : [ ], "isFolder" : 1 }, { "text" : "new", "children" : [ ], "isFolder" : 1 }, { "text" : "hehe", "children" : [ ], "isFolder" : 1 }, { "fid" : "555ed0ce2c9665dd214e7223", "isFolder" : 0, "text" : "tagsManager.js", "size" : null }, { "text" : "heihei", "children" : [ { "text" : "cs", "children" : [ ], "isFolder" : 1 } ], "isFolder" : 1 }, { "fid" : "555ec99a2c9665dd214e721f", "isFolder" : 0, "text" : "rename.js", "size" : null } ] }, { "fid" : "555ecfb62c9665dd214e7221", "isFolder" : 0, "text" : "jquery-min.js", "size" : null }, { "fid" : "555ed19d2c9665dd214e7225", "isFolder" : 0, "text" : "backup.html" }, { "fid" : "555fd8da399b1ce12812f06d", "isFolder" : 0, "text" : "2015011308122036420image019.png", "size" : null }, { "fid" : "555fd929ad52390d298d100b", "isFolder" : 0, "text" : "Netease请假单.xlsx", "size" : 280609 }, { "fid" : "55609dd0230be3832c2bdd71", "isFolder" : 0, "text" : "lab4.pdf", "size" : 489219 }, { "fid" : "5560a88d8fd2d04c2da1879c", "isFolder" : 0, "text" : "flex与bison中文版.pdf", "size" : 30839457 } ];
+                    var _fileMap=<%-JSON.stringify(fileTree)%>;
+                    var _resourceMap=<%-JSON.stringify(cfileTree)%>;
                     var _nowUrl="";
                     var _nowDir=findDirByUrl(_nowUrl);
                     $("#moveTree").tree({
@@ -204,7 +205,7 @@
                     //显示文件列表
                     function findDirByUrl(_url){
                         var _urlArray=_url.split(".");
-                        var _dir=_fileMap.slice(0);
+                        var _dir=_resourceMap.slice(0);
                         console.log(_urlArray);
                         if(_urlArray.length==0){
                             return _dir;
@@ -237,7 +238,7 @@
 
                     function refreshFileList(_newFileMap){
                         $('#moveTree').tree('loadData', _fileMap);
-                        _fileMap= _newFileMap;
+                        _resourceMap= _newFileMap;
                         _nowDir=findDirByUrl(_nowUrl);
                         showFileList(_nowDir);
                     }
