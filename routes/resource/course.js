@@ -146,14 +146,14 @@ router.get('/data', isValidCourseID, function (req, res, next) {
     slide_course: req.session.slide_course,
     path_prefix: 'data'
   };
-  fileTree.find(req.query.cid, function(err, result) {
+  fileTree.find(req.query.cid, function(err, res) {
     console.log("in findbyuser");
     if (err) {
       console.log("in err");
       console.log(err);
     } else {
-      req.session.ctreeD = result[0].tree;
-      req.session.ctreeP = result[0].tree;
+      req.session.ctreeD = res[0].tree;
+      req.session.ctreeP = res[0].tree;
       var nowUserId = req.session.user.userid;
       console.log("ok");
       fileTree.findbyuser(nowUserId, function(err, result) {

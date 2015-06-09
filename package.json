@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "ansi-regex": "^1.1.1",
     "async": "^0.9.0",
     "body-parser": "~1.12.0",
     "connect-busboy": "0.0.2",
