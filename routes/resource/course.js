@@ -154,6 +154,7 @@ router.get('/data', isValidCourseID, function (req, res, next) {
     } else {
       req.session.ctreeD = result[0].tree;
       req.session.ctreeP = result[0].tree;
+      console.log(req.session.ctreeP);
       var nowUserId = req.session.user.userid;
       console.log("ok");
       fileTree.findbyuser(nowUserId, function(err, result) {
