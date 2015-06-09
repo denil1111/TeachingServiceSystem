@@ -8,6 +8,7 @@ var Course = require(modelPath + 'CourseModel');
 var Person = require(modelPath + 'PersonModel');
 var homeworkModel = require("../../db/resource/homework");
 var File = require("./basicfileop");
+var Tree = require('./basictreeop');
 var fileTree = require("../../db/resource/pan");
 
 /*
@@ -150,8 +151,10 @@ router.get('/data', function (req, res, next) {
   console.log(req.session.slide_course);
   var cid = req.session.slide_course.courses[0].courseid;
   console.log(cid);
-  if (req.query.cid)
+  if (req.query.cid) {
     cid = req.query.cid;
+    req.session.nowcid = cid;
+  }
   fileTree.findbyuser(cid, function(err, resu) {
     console.log("in findbyuser");
     if (err) {
@@ -181,7 +184,34 @@ router.get('/data', function (req, res, next) {
   });
 });
 router.post('/newfile',function(req,res,next){
-  
+  console.log('coursenewfile');
+  console.log(req.body.fromUrl);
+  console.log(req.body.toUrl);
+  var spurl = req.body.fromUrl.split('\.');
+  var filename;
+  var furl="";
+  spurl.forEach(function(node, index){
+    console.log(node,index);
+    if (spurl.length == index) {
+      filename = node;
+      Tree.move(req.body.furl, filename, req.body.toUrl, req.session.treeP, req.session.ctreeP, 0, function() {
+        var newdata = {
+          uid : req.session.nowcid,
+          tree : req.session.ctreeP
+        };
+        fileTree.updatetree(req.session.nowcid, newdata, function(err) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(req.session.ctreeP);
+            res.json({code:200,newTree: req.session.ctreeP});
+          }
+        });
+      });
+    } else {
+      furl=furl+"."+node;
+    }
+  });
 });
 router.get('/info', isValidCourseID, function (req, res, next) {
   var render_data = {

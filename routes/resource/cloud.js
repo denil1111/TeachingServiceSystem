@@ -45,7 +45,7 @@ router.post('/newfolder', function(req, res, next) {
       uid : req.session.user.userid,
       tree : req.session.treeP
     }
-    fileTree.update(nowUserId, newdata, function(err) {
+    fileTree.updatetree(nowUserId, newdata, function(err) {
       if (err) {
         console.log(err);
       } else {
@@ -181,7 +181,7 @@ router.post('/deletenode', function(req, res, next) {
       uid : req.session.user.userid,
       tree : req.session.treeP
     };
-    fileTree.update(req.session.user.userid, newdata, function(err) {
+    fileTree.updatetree(req.session.user.userid, newdata, function(err) {
       if (err) {
         console.log(err);
       } else {
@@ -202,7 +202,7 @@ router.post('/movenode', function(req, res, next) {
       uid : req.session.user.userid,
       tree : req.session.treeP
     };
-    fileTree.update(req.session.user.userid, newdata, function(err) {
+    fileTree.treeupdate(req.session.user.userid, newdata, function(err) {
       if (err) {
         console.log(err);
       } else {
@@ -222,7 +222,7 @@ router.post('/renamenode', function(req, res, next) {
       uid : req.session.user.userid,
       tree : req.session.treeP
     };
-    fileTree.update(req.session.user.userid, newdata, function(err) {
+    fileTree.updatetree(req.session.user.userid, newdata, function(err) {
       if (err) {
         console.log(err);
       } else {
