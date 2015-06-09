@@ -298,18 +298,20 @@
                     $("#shareSubmit").bind("click",function(_e){
                         var _node = $("#moveTree").tree("getSelected");
                         var _urlArray=[];
+                        var _fileName;
                         //TODO:判断文件夹还不能是子文件夹
                         if(!_node){
                             alert("请选择文件!");
                             return;
                         }else{
                             var _parent = $("#moveTree").tree("getParent",_node.target);
+                            var _fileName=_node.text;
                             while(_parent){
-                                _urlArray.push(_node.text);
                                 _node=$("#moveTree").tree("getParent",_node.target);
                                 _parent=$("#moveTree").tree("getParent",_node.target);
+                                _urlArray.push(_node.text);
                             }
-                            _urlArray.push(_node.text);
+//                            _urlArray.push(_node.text);
                             var _newUrl="";
                             for(var i = _urlArray.length-1 ; i>=0 ; i--){
                                 _newUrl=_newUrl?_newUrl.concat("."+_urlArray[i]):_urlArray[i];
@@ -319,6 +321,7 @@
                                     "/resource/course/newfile",
                                     {
                                         fromUrl:_newUrl,
+                                        fileName:_fileName,
                                         toUrl:_nowUrl
                                     },
                                     function(_data){
