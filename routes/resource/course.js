@@ -30,14 +30,14 @@ function getCourseList(userid, callback) {
 function isValidCourseID(req, res, next) {
   if (!('cid' in req.query)) {
     // has no query of cid, default access at first course
-    req.query.cid = encodeURIComponent(req.session.courseList[0].courseid2);
+    req.query.cid = encodeURIComponent(req.session.courseList[0]._id);
   } else {
     //has a query of cid, then check validation
     debug(JSON.stringify(req.session.courseList));
     var cList = req.session.courseList;
     var in_flag = false;
     for (var i = 0; i < cList.length; i++) {
-      if (req.query.cid === cList[i].courseid2) {
+      if (req.query.cid === cList[i]._id) {
         in_flag = true;
         break;
       }
@@ -76,7 +76,7 @@ function cache_slide_course_data(req, res, next) {
       var c = req.session.courseList[i];
       debug('arr at ' + i + ' is ' + c);
       arr.push({
-        courseid: c.courseid2,
+        courseid: c._id,
         coursename: c.coursename
       });
     }
@@ -119,7 +119,7 @@ router.use(
         var c = req.session.courseList[i];
         debug('arr at ' + i + ' is ' + c);
         arr.push({
-          courseid: c.courseid2,
+          courseid: c._id,
           coursename: c.coursename
         });
       }
