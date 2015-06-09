@@ -76,7 +76,7 @@ Tree.newnode = function(path, ws, treeD, treeP, callback) {
      
       
     };
-Tree.delnode = function(path, name, treeD, treeP, callback) {
+Tree.delnode = function(path, name, treeD, treeP, flag, callback) {
       console.log("new node");
       var nowtree = treeD;
       var nowtreeP = treeP;
@@ -111,7 +111,7 @@ Tree.delnode = function(path, name, treeD, treeP, callback) {
       });
       console.log(index);
       console.log(nowtree);
-      if (nowtree[index].isFolder == 1){
+      if (nowtree[index].isFolder == 1 || flag == 0){
         //TODO: recursive delete all node;
         nowtree.remove(index); 
         nowtreeP.remove(index);

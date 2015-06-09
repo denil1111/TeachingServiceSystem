@@ -177,7 +177,7 @@ router.get('/iddownload/:fid', function(req, res, next) {
   delete a file in tree
 */
 router.post('/deletenode', function(req, res, next) {
-  Tree.delnode(req.body.url, req.body.name, req.session.treeD, req.session.treeP, function() {
+  Tree.delnode(req.body.url, req.body.name, req.session.treeD, req.session.treeP, 1, function() {
     var newdata = {
       uid : req.session.user.userid,
       tree : req.session.treeD
