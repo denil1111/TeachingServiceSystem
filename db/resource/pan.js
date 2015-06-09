@@ -14,6 +14,7 @@ var mongooseSchema = new mongoose.Schema({
 */
 });
 mongooseSchema.statics.findbyuser = function(uid, callback) {
+    console.log("find:"+uid);
     return this.model('tree').find({uid: uid}, callback);
 };
 mongooseSchema.statics.updatetree = function(uid, newtree, callback) {
@@ -32,7 +33,7 @@ person.schema.post('save', function(doc) {
    }); 
 });
 course.schema.post('save', function(doc) {
-   console.log("hook");
+   console.log("hook course");
    console.log(doc);
    mongooseModel.create({
        uid : doc._id,

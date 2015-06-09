@@ -140,20 +140,22 @@ router.get('/', function (req, res, next) {
   res.redirect('/resource/course/data');
 });
 
-router.get('/data', isValidCourseID, function (req, res, next) {
+router.get('/data', function (req, res, next) {
   var render_data = {
     current_cid: decodeURIComponent(req.query.cid),
     slide_course: req.session.slide_course,
     path_prefix: 'data'
   };
-  fileTree.find(req.query.cid, function(err, res) {
+  console.log(req.query.cid);
+  fileTree.findbyuser(req.query.cid, function(err, resu) {
     console.log("in findbyuser");
     if (err) {
       console.log("in err");
       console.log(err);
     } else {
-      req.session.ctreeD = res[0].tree;
-      req.session.ctreeP = res[0].tree;
+      console.log(resu);
+      req.session.ctreeD = resu[0].tree;
+      req.session.ctreeP = resu[0].tree;
       console.log(req.session.ctreeP);
       var nowUserId = req.session.user.userid;
       console.log("ok");

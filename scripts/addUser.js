@@ -49,6 +49,9 @@ module.exports = function(req,res,next){
           next(err, null);
         else
           next(null,data);
+          data.map(function(data, i){
+            user.cstlist[i] = data._id;
+          });
       });
     },
     function (next) {
