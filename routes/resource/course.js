@@ -154,7 +154,6 @@ router.get('/data', function (req, res, next) {
       console.log(err);
     } else {
       console.log(resu);
-      req.session.ctreeD = resu[0].tree;
       req.session.ctreeP = resu[0].tree;
       console.log(req.session.ctreeP);
       var nowUserId = req.session.user.userid;
@@ -166,7 +165,6 @@ router.get('/data', function (req, res, next) {
           console.log(err);
         } else {
           console.log("before render");
-          req.session.treeD = result[0].tree;
           req.session.treeP = result[0].tree;
           render_data.cfileTree = req.session.ctreeP;
           render_data.fileTree = req.session.treeP;
