@@ -8,6 +8,7 @@ var Course = require(modelPath + 'CourseModel');
 var Person = require(modelPath + 'PersonModel');
 var homeworkModel = require("../../db/resource/homework");
 var File = require("./basicfileop");
+var fileTree = require("../../db/resource/pan");
 
 /*
   functions
@@ -145,8 +146,33 @@ router.get('/data', isValidCourseID, function (req, res, next) {
     slide_course: req.session.slide_course,
     path_prefix: 'data'
   };
-  debug(render_data);
-  res.render('resource/course_data', render_data);
+  fileTree.find(req.query.cid, function(err, result) {
+    console.log("in findbyuser");
+    if (err) {
+      console.log("in err");
+      console.log(err);
+    } else {
+      req.session.ctreeD = result[0].tree;
+      req.session.ctreeP = result[0].tree;
+      var nowUserId = req.session.user.userid;
+      console.log("ok");
+      fileTree.findbyuser(nowUserId, function(err, result) {
+        console.log("in findbyuser");
+        if (err) {
+          console.log("in err");
+          console.log(err);
+        } else {
+          console.log("before render");
+          req.session.treeD = result[0].tree;
+          req.session.treeP = result[0].tree;
+          render_data.cfileTree = req.session.ctreeP;
+          render_data.fileTree = req.session.treeP;
+          debug(render_data);
+          res.render('resource/course_data', render_data);
+        }  
+      });   
+    }
+  });
 });
 
 router.get('/info', isValidCourseID, function (req, res, next) {

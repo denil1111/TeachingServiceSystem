@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var person = require('../group1db/PersonModel');
+var course = require('../group1db/CourseModel');
 // Schema 结构
 var mongooseSchema = new mongoose.Schema({
     uid : {type : String},
@@ -27,6 +28,14 @@ person.schema.post('save', function(doc) {
    console.log(doc);
    mongooseModel.create({
        uid : doc.userid,
+       tree : []
+   }); 
+});
+course.schema.post('save', function(doc) {
+   console.log("hook");
+   console.log(doc);
+   mongooseModel.create({
+       uid : doc._id,
        tree : []
    }); 
 });
