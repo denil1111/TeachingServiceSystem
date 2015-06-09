@@ -187,30 +187,21 @@ router.post('/newfile',function(req,res,next){
   console.log('coursenewfile');
   console.log(req.body.fromUrl);
   console.log(req.body.toUrl);
-  var spurl = req.body.fromUrl.split('\.');
-  var filename;
-  var furl="";
-  spurl.forEach(function(node, index){
-    console.log(node,index);
-    if (spurl.length == index) {
-      filename = node;
-      Tree.move(req.body.furl, filename, req.body.toUrl, req.session.treeP, req.session.ctreeP, 0, function() {
-        var newdata = {
-          uid : req.session.nowcid,
-          tree : req.session.ctreeP
-        };
-        fileTree.updatetree(req.session.nowcid, newdata, function(err) {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log(req.session.ctreeP);
-            res.json({code:200,newTree: req.session.ctreeP});
-          }
-        });
-      });
-    } else {
-      furl=furl+"."+node;
-    }
+  Tree.move(req.body.fromUrl, req.body.fileName, req.body.toUrl, req.session.ctreeP, req.session.treeP, 0, function() {
+    debug("ctreep:"+req.session.ctreeP);
+    var newdata = {
+      uid : req.session.nowcid,
+      tree : req.session.ctreeP
+    };
+    debug(newdata);
+    fileTree.updatetree(req.session.nowcid, newdata, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        debug(req.session.ctreeP);
+        res.json({code:200,newTree: req.session.ctreeP});
+      }
+    });
   });
 });
 router.get('/info', isValidCourseID, function (req, res, next) {

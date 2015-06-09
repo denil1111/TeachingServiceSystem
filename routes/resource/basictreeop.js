@@ -1,4 +1,4 @@
-
+var debug = require('debug')('resource');
 var File = require("./basicfileop")
 var Tree = {};
 Array.prototype.remove=function(index){  
@@ -104,7 +104,7 @@ Tree.delnode = function(path, name, treeD, treeP, flag, callback) {
     };
 Tree.move = function(oldpath, name, newpath, treeP, fromtreeP, moveFlag, callback) {
       console.log("new node");
-      var nowtreeP = treeP;
+      var nowtreeP = fromtreeP;
       oldpath.split('\.').forEach(function(foldername) {
         var nexttreeP = nowtreeP;
         console.log("in splite");
@@ -128,12 +128,12 @@ Tree.move = function(oldpath, name, newpath, treeP, fromtreeP, moveFlag, callbac
         } 
       });
       console.log(index);
-      var nowtreeP2 = fromtreeP;
+      var nowtreeP2 = treeP;
       newpath.split('\.').forEach(function(foldername) {
-        var nexttreeP = nowtreeP;
+        var nexttreeP = nowtreeP2;
         console.log("in splite")
         console.log(foldername)
-        console.log(nowtreeP);
+        console.log(nowtreeP2);
         nowtreeP2.forEach(function(node) {
           if (node.text == foldername) {
             nexttreeP = node.children;
@@ -142,6 +142,8 @@ Tree.move = function(oldpath, name, newpath, treeP, fromtreeP, moveFlag, callbac
         nowtreeP2 = nexttreeP;
       });
       nowtreeP2.push(nowtreeP[index]);
+      debug("nowtreeP2:"+nowtreeP);
+      debug("treeP:"+treeP);
       if (moveFlag == 1)
       	 nowtreeP.remove(index);
       callback(null);
