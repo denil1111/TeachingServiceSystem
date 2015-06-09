@@ -128,7 +128,7 @@
                     </div>
                     <div class="box-content" >
                         <%if (root == true){%>
-                        <div style="padding: 15px 15px;border-bottom:1px solid #d1d2da;"><i class="icon-info-sign"></i>直接拖拽可以改变资源顺序</div>
+                            <div style="padding: 15px 15px;border-bottom:1px solid #d1d2da;"><i class="icon-info-sign"></i>直接拖拽可以改变资源顺序</div>
                         <%}%>
                         <table class="table table-normal">
                             <thead>
@@ -150,6 +150,7 @@
                         <div id="chosen-add-button">
                             <button class="btn btn-xs btn-default" style="margin-left: 20px;margin-top: 20px;margin-bottom:20px;">删除</button>
                             <button class="btn btn-xs btn-default" style="margin-left: 10px;margin-top: 20px;margin-bottom:20px;">下载</button>
+
                         </div>
                     </div>
                 </div>
@@ -163,11 +164,71 @@
                             </div>
                             <div class="modal-body">
                                 <label>请选择想要分享的文件</label>
-                                <ul id="moveTree" class="easyui-tree"></ul>
+                                <ul id="shareTree" class="easyui-tree"></ul>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
                                 <button type="button" class="btn btn-blue" data-src="" id="shareSubmit">确定</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal --><!-- find me in partials/modal_form -->
+
+                <div id="modal-move" class="modal fade hide">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">移动文件或文件夹</h4>
+                            </div>
+                            <div class="modal-body">
+                                <label>请选择想要移动的文件夹</label>
+                                <ul id="moveTree" class="easyui-tree" ></ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                                <button type="button" class="btn btn-blue" data-src="" id="moveSubmit">确定</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal --><!-- find me in partials/modal_form -->
+
+                <div id="modal-newfolder" class="modal fade hide">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">新建文件夹</h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--<div style="width:200px;height:auto;border:1px solid #ccc;">-->
+                                <!--<ul id="tt" class="easyui-tree" url="/resource/tree_data"></ul>-->
+                                <!--</div>-->
+                                <label>请输入新建文件夹的名称</label>
+                                <input type="text" name="newFolderInput"/>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                                <button id="newFolderSubmit" type="button" class="btn btn-blue">确定</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal --><!-- find me in partials/modal_form -->
+
+                <div id="modal-rename" class="modal fade hide">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">重命名</h4>
+                            </div>
+                            <div class="modal-body">
+                                <label>请输入修改名称</label>
+                                <input type="text" id="renameInput"/>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                                <button type="button" class="btn btn-blue" data-src="" id="renameSubmit">确定</button>
                             </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
@@ -186,6 +247,13 @@
                     <td style="width:120px;">
                         <div class="btn-group">
                             <button class="btn btn-xs btn-default" data-src="${text}" func="delete-btn"><i class="icon-remove-sign"></i> 删除</button>
+                            <%if (root==true) {%>
+                                <button class="btn btn-xs btn-lightblue dropdown-toggle" data-toggle="dropdown" data-src="${text}"> <i class="icon-cog"></i>操作<span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a data-src="${text}" func="rename-btn"> <i class="icon-cog"></i> 重命名</a></li>
+                                        <li><a data-src="${text}" func="move-btn"> <i class="icon-cog"></i> 移动至</a></li>
+                                    </ul>
+                            <%}%>
                             {{if !isFolder}}<button class="btn btn-xs btn-blue" func="download-btn" onclick="downloadByUrl('${fid}','${text}')"><i class="icon-download-alt"></i>下载</button>{{/if}}
                         </div>
                     </td>
@@ -198,8 +266,12 @@
                     var _resourceMap=<%-JSON.stringify(cfileTree)%>;
                     var _nowUrl="";
                     var _nowDir=findDirByUrl(_nowUrl);
-                    $("#moveTree").tree({
+                    $("#shareTree").tree({
                         data:_fileMap
+                    });
+
+                    $("#moveTree").tree({
+                        data:_resourceMap
                     });
 
                     //显示文件列表
@@ -225,8 +297,7 @@
 
                     function showFileList(_nowDir){
                         $("#moveTree").tree({
-                            //TODO:这里应该是自己的云盘的fileMap
-                            data:_fileMap
+                            data:_resourceMap
                         });
                         $("#fileList").empty();
                         for(var i=0;i<_nowDir.length;i++){
@@ -237,7 +308,7 @@
                     };
 
                     function refreshFileList(_newFileMap){
-                        $('#moveTree').tree('loadData', _fileMap);
+                        $('#moveTree').tree('loadData',_resourceMap);
                         _resourceMap= _newFileMap;
                         _nowDir=findDirByUrl(_nowUrl);
                         showFileList(_nowDir);
@@ -296,7 +367,7 @@
 
                     //分享资源接口 url
                     $("#shareSubmit").bind("click",function(_e){
-                        var _node = $("#moveTree").tree("getSelected");
+                        var _node = $("#shareTree").tree("getSelected");
                         var _urlArray=[];
                         var _fileName;
                         //TODO:判断文件夹还不能是子文件夹
@@ -304,11 +375,11 @@
                             alert("请选择文件!");
                             return;
                         }else{
-                            var _parent = $("#moveTree").tree("getParent",_node.target);
+                            var _parent = $("#shareTree").tree("getParent",_node.target);
                             var _fileName=_node.text;
                             while(_parent){
-                                _node=$("#moveTree").tree("getParent",_node.target);
-                                _parent=$("#moveTree").tree("getParent",_node.target);
+                                _node=$("#shareTree").tree("getParent",_node.target);
+                                _parent=$("#shareTree").tree("getParent",_node.target);
                                 _urlArray.push(_node.text);
                             }
 //                            _urlArray.push(_node.text);
@@ -341,6 +412,111 @@
                     <%if (root == true){%>
                         $("#fileList").sortable();
                     <%}%>
+
+                    //新建文件夹
+                    $("#newFolderSubmit").bind("click",function(){
+                        console.log("in newFolder");
+                        var _name=$("input[name=newFolderInput]").val();
+                        $.post(
+                                "/resource/cloud/newfolder",
+                                {folderName:_name,path:_nowUrl},
+                                function(_data){
+                                    if(_data.code==200){
+                                        alert("操作成功");
+                                        refreshFileList(_data.newTree);
+                                    }else{
+                                        alert("操作失败");
+                                    }
+                                }
+                        ).error(function(){
+                                    alert("请求失败");
+                                });
+                    });
+
+                    //重命名接口 url,oldName,newName 返回code,newTree
+                    //手动开启modal添加数据
+                    $("#fileList").delegate("[func=rename-btn]","click",function(_e){
+                        var _name = _e.target.getAttribute("data-src");
+                        $("#modal-rename").modal("show");
+                        $("#renameInput").val(_name);
+                        $("#renameSubmit").attr("data-src",_name);
+                    });
+
+                    //确定重命名
+                    $("#renameSubmit").bind("click",function(_e){
+                        _e.preventDefault();
+                        console.log("in rename");
+                        var _newName=$("#renameInput").val();
+                        var _oldName=$("#renameSubmit").attr("data-src");
+                        $.post(
+                                "/resource/cloud/renamenode",
+                                {
+                                    url:_nowUrl,
+                                    oldName:_oldName,
+                                    newName:_newName
+                                },
+                                function(_data){
+                                    if(_data.code==200){
+                                        alert("操作成功");
+                                        refreshFileList(_data.newTree);
+                                    }else{
+                                        alert("操作失败");
+                                    }
+                                }
+                        ).error(function(){
+                                    alert("请求失败");
+                                });
+
+                    });
+
+                    //移动到接口 oldUrl,newUrl,name 返回code newTree
+                    $("#fileList").delegate("[func=move-btn]","click",function(_e){
+                        var _name = _e.target.getAttribute("data-src");
+                        $("#modal-move").modal("show");
+                        $("#moveSubmit").attr("data-src",_name);
+                    });
+
+                    $("#moveSubmit").bind("click",function(_e){
+                        var _name =  $("#moveSubmit").attr("data-src");
+                        var _node = $("#moveTree").tree("getSelected");
+                        var _urlArray=[];
+                        //如果是树叶或者没选就报错 TODO:判断文件夹还不能是子文件夹
+                        if(!_node || $("#moveTree").tree("isLeaf",_node.target)){
+                            alert("请选择文件夹");
+                            return;
+                        }else{
+                            var _parent = $("#moveTree").tree("getParent",_node.target);
+                            while(_parent){
+                                _urlArray.push(_node.text);
+                                _node=$("#moveTree").tree("getParent",_node.target);
+                                _parent=$("#moveTree").tree("getParent",_node.target);
+                            }
+                            _urlArray.push(_node.text);
+                            var _newUrl="";
+                            for(var i = _urlArray.length-1 ; i>=0 ; i--){
+                                _newUrl=_newUrl?_newUrl.concat("."+_urlArray[i]):_urlArray[i];
+                            }
+                            console.log(_newUrl);
+                            $.post(
+                                    "/resource/cloud/movenode",
+                                    {
+                                        oldUrl:_nowUrl,
+                                        newUrl:_newUrl,
+                                        name:_name
+                                    },
+                                    function(_data){
+                                        if(_data.code==200){
+                                            alert("操作成功");
+                                            refreshFileList(_data.newTree);
+                                        }else{
+                                            alert("操作失败");
+                                        }
+                                    }
+                            ).error(function(){
+                                        alert("请求失败");
+                                    });
+                        }
+                    });
 
 
                 })(jQuery)
