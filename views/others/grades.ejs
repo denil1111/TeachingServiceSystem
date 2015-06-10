@@ -20,34 +20,7 @@
      setNavActive();
      setSlideActive();
 </script>
-
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-      google.load("visualization", "1", {packages:["corechart"]});
-      google.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Credit', 'GradePoint'],
-          <% for(i = 0;i<data.length;i++){ %>
-          [ <%=data[i].credit%>, <%=data[i].gradePoint%>],
-          <%}%>
-        ]);
-
-        var options = {
-          title: 'Credit VS GradePoint ',
-          hAxis: {title: 'Credit', minValue: 0 , maxValue: 5},
-          vAxis: {title: 'GradePoint', minValue: 0, maxValue: 5},
-          legend: 'none'
-        };
-
-        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-
-        chart.draw(data, options);
-      }
-    </script>
-
-
-<!-- 主要内容 -->
+       <!-- 主要内容 -->
 <div class="main-content">
   <div class="container-fluid">
     <div class="row-fluid">
@@ -63,8 +36,6 @@
       <div class="box">
         <div class="box-header"><span class="title">Data Tables</span></div>
          <div class="box-content">
-          <!-- find me in partials/data_tables_custom -->
-          <div id="chart_div" style="width: 900px; height: 500px;"></div>
          <div id="dataTables">
 
           <table cellpadding="0" cellspacing="0" border="0" class="dTable responsive">
@@ -88,10 +59,7 @@
               <td><%= data[i].credit %></td>
               <td><%= data[i].gradePoint %></td>
               <td><%= data[i].secondScore %></td>
-
-
-
-            </tr>
+           </tr>
             <%}%> 
           </tbody>
           </table>
@@ -100,25 +68,6 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-    <!-- <div>
-   <% for(i = 0;i<data.length;i++){ %>    
-     <li><a><%= data[i].name %></a></li>
-   <li><a><%= data[i].score %></a></li>
-    <%}%> 
-    </div>  -->
-
-
-
-
 
 </body>
 </html>

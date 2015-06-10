@@ -10,8 +10,8 @@ var mongoose = require('mongoose');
 var Grid = require('gridfs-stream');
 var session = require('express-session');
 var passport = require('passport');
-var initP = require('./initPassport');
 
+var initP = require('./initPassport');
 
 var app = express();
 
@@ -50,7 +50,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+app.use(function(req, res, next){
+  res.locals.user = req.session.user;
+  next();
+});
 app.use('/', routes);
 app.use('/users', users);
 app.use('/debug', debug);
