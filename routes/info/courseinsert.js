@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose'); 
 var CourseModel = require('../../db/group1db/CourseModel');
+var PersonModel = require('../../db/group1db/PersonModel');
+
 var tmp = {
     courseid2 : "123456",
     coursename : "软件工程",
@@ -9,7 +11,7 @@ var tmp = {
     all : 100,
     remain : 100,
     waiting : 0,
-    teacher : "王章野",
+    teacher : "3120",
     examtime : "2015.07.01 8:00-10:00",
     room : "教7-602",
     college : "计算机学院"
@@ -121,6 +123,8 @@ router.post('/courseinsert',function(req,res,next){
                 console.log("create err : "+err);
             }
             else{
+                // console.log("data"+data);
+                // console.log("data.id"+data.id);
                 CourseModel.findbyid(doc.courseid2,function(err,data2){
                     if(err){
                         console.log("find course err");
@@ -142,6 +146,20 @@ router.post('/courseinsert',function(req,res,next){
                         );
                     }
                 });
+                PersonModel.update(
+                    {userid:doc.teacher},
+                    {
+                        $push:{
+                            'cstlist':data._id.toString()
+                        }
+                    },
+                    function(err,data3){
+                        if(err){
+                            console.log('update err');
+
+                        }
+                    }
+                );
 
 
                 console.log('Saved by Model OK!');

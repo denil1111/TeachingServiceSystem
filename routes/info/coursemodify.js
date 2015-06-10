@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose'); 
 var CourseModel = require('../../db/group1db/CourseModel');
+var PersonModel = require('../../db/group1db/PersonModel');
 var tmp = {
     courseid2 : "123456",
     coursename : "软件工程",
@@ -9,7 +10,7 @@ var tmp = {
     all : 100,
     remain : 100,
     waiting : 0,
-    teacher : "王章野",
+    teacher : "3120",
     examtime : "2015.07.01 8:00-10:00",
     room : "教7-602",
     college : "计算机学院"
@@ -113,14 +114,10 @@ router.post('/coursemodify',function(req,res,next){
         });
     }
     else{
-        console.log("doc.year"+doc.year);
-        CourseModel.modifybyid(doc,function(err,data){
+         CourseModel.findbyid(doc.courseid2,function(err,data1){
             if(err){
-                console.log("modify err : "+err);
-            }
-            else{
-                console.log(data);
-                res.render('info/coursemodify',{
+                console.log("find course err");
+                return res.render('info/coursemodify',{
                     name: '程序员', 
                     image: 'images/avatars/avatar3.jpg',
                     total_a:'12',
@@ -137,15 +134,110 @@ router.post('/coursemodify',function(req,res,next){
                     collegeErr: collegeErr,
                     examtimeErr: examtimeErr,
                     data : doc,
-                    modifyresult:'表单提交成功！'
+                    modifyresult:'查找对应id课程失败！'
                 });
             }
-        });
+            else if(!data1 | data1 == ''){
+                console.log("cannot find course");
+                return res.render('info/coursemodify',{
+                    name: '程序员', 
+                    image: 'images/avatars/avatar3.jpg',
+                    total_a:'12',
+                    a:'2,3,1,2,3,1,0',
+                    total_b:'24',
+                    b:'4,6,2,4,6,2,0',
+                    total_credits:'24',
+                    credits:'4,6,2,4,6,2,0',
+
+                    coursenameErr: coursenameErr,
+                    courseidErr: courseidErr,
+                    teacherErr: teacherErr,
+                    roomErr: roomErr,
+                    collegeErr: collegeErr,
+                    examtimeErr: examtimeErr,
+                    data : doc,
+                    modifyresult:'课程不存在！'
+                });
+            }
+            else if(data1[0].teacher != doc.teacher){
+                PersonModel.update(
+                    {userid:doc.teacher},
+                    {
+                        $push:{
+                            'cstlist':data1[0]._id.toString()
+                        }
+                    },
+                    function(err,data3){
+                        if(err){
+                            console.log('update err');
+
+                        }
+                    }
+                );
+                PersonModel.update(
+                    {userid:data1[0].teacher},
+                    {
+                        $pop:{
+                            'cstlist':data1[0]._id.toString()
+                        }
+                    },
+                    function(err,data3){
+                        if(err){
+                            console.log('update err');
+
+                        }
+                    }
+                );
+            }
+            CourseModel.modifybyid(doc,function(err,data){
+                console.log("data"+data);
+                if(err){
+                    console.log("modify err : "+err);
+                    return res.render('info/coursemodify',{
+                        name: '程序员', 
+                        image: 'images/avatars/avatar3.jpg',
+                        total_a:'12',
+                        a:'2,3,1,2,3,1,0',
+                        total_b:'24',
+                        b:'4,6,2,4,6,2,0',
+                        total_credits:'24',
+                        credits:'4,6,2,4,6,2,0',
+
+                        coursenameErr: coursenameErr,
+                        courseidErr: courseidErr,
+                        teacherErr: teacherErr,
+                        roomErr: roomErr,
+                        collegeErr: collegeErr,
+                        examtimeErr: examtimeErr,
+                        data : doc,
+                        modifyresult:'修改失败！'
+                    });
+                }
+                else{
+                    console.log(data);
+                    return res.render('info/coursemodify',{
+                        name: '程序员', 
+                        image: 'images/avatars/avatar3.jpg',
+                        total_a:'12',
+                        a:'2,3,1,2,3,1,0',
+                        total_b:'24',
+                        b:'4,6,2,4,6,2,0',
+                        total_credits:'24',
+                        credits:'4,6,2,4,6,2,0',
+
+                        coursenameErr: coursenameErr,
+                        courseidErr: courseidErr,
+                        teacherErr: teacherErr,
+                        roomErr: roomErr,
+                        collegeErr: collegeErr,
+                        examtimeErr: examtimeErr,
+                        data : doc,
+                        modifyresult:'修改成功！'
+                    });
+                }
+            });
+        });      
     }
-
-
-    
-//    db.close();
 });
 
 module.exports = router;
