@@ -1,4 +1,4 @@
-
+var debug = require('debug')('resource');
 var File = require("./basicfileop")
 var Tree = {};
 Array.prototype.remove=function(index){  
@@ -9,33 +9,21 @@ Array.prototype.remove=function(index){
   }
   this.pop();
 };
-Tree.newnode = function(path, ws, treeD, treeP, callback) {
+Tree.newnode = function(path, ws, treeP, callback) {
       console.log(ws);
       console.log("new node");
-      var nowtree = treeD;
       var nowtreeP = treeP;
       path.split('\.').forEach(function(foldername) {
-        var nexttree = nowtree;
         var nexttreeP = nowtreeP;
-        console.log("in splite")
-        console.log(foldername)
-        console.log(nowtreeP);
-        nowtree.forEach(function(node) {
-          if (node.text == foldername) {
-            nexttree = node.children;
-          }
-        });
         nowtreeP.forEach(function(node) {
           if (node.text == foldername) {
             nexttreeP = node.children;
           }
         });
-        nowtree = nexttree;
         nowtreeP = nexttreeP;
       });
       var newnode;
       console.log("find path ok");
-      console.log(nowtree);
       if (ws.isFolder == 1)
       {
         console.log("isFloder");
@@ -44,9 +32,7 @@ Tree.newnode = function(path, ws, treeD, treeP, callback) {
           children : [],
           isFolder : 1
         }
-        nowtree.push(newnode);
         nowtreeP.push(newnode);
-        console.log("pushed");
         callback(null);
       }
       else{
@@ -55,7 +41,6 @@ Tree.newnode = function(path, ws, treeD, treeP, callback) {
           fid: ws.id,
           isFolder : 0
         }
-        console.log("add node");
         console.log(newnode);
         File.infobyid(ws.id, function(err,info) {
             if (err) {
@@ -66,7 +51,6 @@ Tree.newnode = function(path, ws, treeD, treeP, callback) {
                 console.log(info);
                 newnode.text = info.filename;
                 newnode.size = info.length;
-                nowtree.push(newnode);
                 nowtreeP.push(newnode);
                 callback(null);
             }
@@ -76,32 +60,22 @@ Tree.newnode = function(path, ws, treeD, treeP, callback) {
      
       
     };
-Tree.delnode = function(path, name, treeD, treeP, callback) {
+Tree.delnode = function(path, name, treeD, treeP, flag, callback) {
       console.log("new node");
-      var nowtree = treeD;
       var nowtreeP = treeP;
       path.split('\.').forEach(function(foldername) {
-        var nexttree = nowtree;
         var nexttreeP = nowtreeP;
         console.log("in splite")
-        console.log(foldername)
-        console.log(nowtreeP);
-        nowtree.forEach(function(node) {
-          if (node.text == foldername) {
-            nexttree = node.children;
-          }
-        });
         nowtreeP.forEach(function(node) {
           if (node.text == foldername) {
             nexttreeP = node.children;
           }
         });
-        nowtree = nexttree;
         nowtreeP = nexttreeP;
       });
       var indexx=0,index;
       console.log(name);
-      nowtree.forEach(function(node) {
+      nowtreeP.forEach(function(node) {
         indexx++;
         if (node.text == name) {
             console.log('find');
@@ -110,53 +84,42 @@ Tree.delnode = function(path, name, treeD, treeP, callback) {
         } 
       });
       console.log(index);
-      console.log(nowtree);
-      if (nowtree[index].isFolder == 1){
+      if (nowtreeP[index].isFolder == 1 || flag == 0){
         //TODO: recursive delete all node;
-        nowtree.remove(index); 
         nowtreeP.remove(index);
         console.log(nowtreeP);
         callback(null);
       }
       else
       {
-        File.removebyid(nowtree[index].fid, function(error) {
+        File.removebyid(nowtreeP[index].fid, function(error) {
           if (error){
             console.log(error);
           } else {
-            nowtree.remove(index);
             nowtreeP.remove(index);
             callback(null);
           }
         });
       }     
     };
-Tree.move = function(oldpath, name, newpath, treeD, treeP, callback) {
+Tree.move = function(oldpath, name, newpath, treeP, fromtreeP, moveFlag, callback) {
       console.log("new node");
-      var nowtree = treeD;
-      var nowtreeP = treeP;
+      var nowtreeP = fromtreeP;
       oldpath.split('\.').forEach(function(foldername) {
-        var nexttree = nowtree;
         var nexttreeP = nowtreeP;
-        console.log("in splite")
-        console.log(foldername)
+        console.log("in splite");
+        console.log(foldername);
         console.log(nowtreeP);
-        nowtree.forEach(function(node) {
-          if (node.text == foldername) {
-            nexttree = node.children;
-          }
-        });
         nowtreeP.forEach(function(node) {
           if (node.text == foldername) {
             nexttreeP = node.children;
           }
         });
-        nowtree = nexttree;
         nowtreeP = nexttreeP;
       });
       var indexx=0,index;
       console.log(name);
-      nowtree.forEach(function(node) {
+      nowtreeP.forEach(function(node) {
         indexx++;
         if (node.text == name) {
             console.log('find');
@@ -165,59 +128,43 @@ Tree.move = function(oldpath, name, newpath, treeD, treeP, callback) {
         } 
       });
       console.log(index);
-      console.log(nowtree);
-      var nowtree2 = treeD;
       var nowtreeP2 = treeP;
       newpath.split('\.').forEach(function(foldername) {
-        var nexttree = nowtree;
-        var nexttreeP = nowtreeP;
+        var nexttreeP = nowtreeP2;
         console.log("in splite")
         console.log(foldername)
-        console.log(nowtreeP);
-        nowtree2.forEach(function(node) {
-          if (node.text == foldername) {
-            nexttree = node.children;
-          }
-        });
+        console.log(nowtreeP2);
         nowtreeP2.forEach(function(node) {
           if (node.text == foldername) {
             nexttreeP = node.children;
           }
         });
-        nowtree2 = nexttree;
         nowtreeP2 = nexttreeP;
       });
-      nowtree2.push(nowtree[index]);
       nowtreeP2.push(nowtreeP[index]);
-      nowtree.remove(index); 
-      nowtreeP.remove(index);
+      debug("nowtreeP2:"+nowtreeP);
+      debug("treeP:"+treeP);
+      if (moveFlag == 1)
+      	 nowtreeP.remove(index);
       callback(null);
     };
-Tree.renamenode = function(path, oname, nname, treeD, treeP, callback) {
+Tree.renamenode = function(path, oname, nname, treeP, callback) {
       console.log("new node");
-      var nowtree = treeD;
       var nowtreeP = treeP;
       path.split('\.').forEach(function(foldername) {
-        var nexttree = nowtree;
         var nexttreeP = nowtreeP;
         console.log("in splite")
         console.log(foldername)
         console.log(nowtreeP);
-        nowtree.forEach(function(node) {
-          if (node.text == foldername) {
-            nexttree = node.children;
-          }
-        });
         nowtreeP.forEach(function(node) {
           if (node.text == foldername) {
             nexttreeP = node.children;
           }
         });
-        nowtree = nexttree;
         nowtreeP = nexttreeP;
       });
       var indexx=0,index;
-      nowtree.forEach(function(node) {
+      nowtreeP.forEach(function(node) {
         indexx++;
         if (node.text == oname) {
             console.log('find');
@@ -226,12 +173,7 @@ Tree.renamenode = function(path, oname, nname, treeD, treeP, callback) {
         } 
       });
       console.log(index);
-      console.log(nowtree);
-      nowtree[index].text = nname;
       nowtreeP[index].text = nname;
       callback(null);
     };
-Tree.buildPrint = function(treeD,callback){
-    callback(treeD);
-};
 module.exports = Tree;

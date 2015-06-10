@@ -16,15 +16,10 @@ router.get('/login',function(req,res,next){
     passport.authenticate('local',function(err,user2,info){
       //use your own admin account here
       var user={
-        userid:'312',    
-        password:'wtf'
+        userid:'3120000000',
+        password:'3120000000'
       };
-      // var user;
-      // PersonModel.findbyid(localuser.userid,function (err, user) {
-      //   if(err){console.log("development router login findbyid error!")}
-      //   else if(!user | user == ''){console.log("development router login findbyid find NULL!")}
-      //   else {user = user[0];console.log("user : "+user);}
-      // }); 
+     
 
       if(err){return(err);}
       
@@ -35,7 +30,12 @@ router.get('/login',function(req,res,next){
         });
       }
       else{
-        req.logIn(user, function(err){
+        PersonModel.findbyid(user.userid,function (err, user) {
+         if(err){console.log("development router login findbyid error!")}
+         else if(!user | user == ''){console.log("development router login findbyid find NULL!")}
+         else {
+           user = user[0];console.log("user : "+user);
+           req.logIn(user, function(err){
           console.log(user);
           req.session.user=user;
           console.log(req.isAuthenticated());
@@ -45,7 +45,10 @@ router.get('/login',function(req,res,next){
           else{
             res.redirect('/info/personinfo');
           }
-        })
+        });
+          }
+      	}); 
+        
       }
     })(req,res,next);
   } else {

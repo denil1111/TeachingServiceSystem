@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var person = require('../group1db/PersonModel');
+var course = require('../group1db/CourseModel');
 // Schema 结构
 var mongooseSchema = new mongoose.Schema({
     uid : {type : String},
@@ -13,13 +14,15 @@ var mongooseSchema = new mongoose.Schema({
 */
 });
 mongooseSchema.statics.findbyuser = function(uid, callback) {
+    console.log("find:"+uid);
     return this.model('tree').find({uid: uid}, callback);
 };
 mongooseSchema.statics.updatetree = function(uid, newtree, callback) {
+    console.log("update tree, uid:"+uid);
     var conditions = {uid: uid};
-	var update     = {$set : {tree: newtree}};
+	var update     = {$set : {tree: newtree.tree}};
 	var options    = {upsert : true};
-    return this.model('tree').updatate(conditions,update,options,callback);
+    return this.model('tree').update(conditions,update,options,callback);
 };
 var mongooseModel = mongoose.model('tree', mongooseSchema);
 person.schema.post('save', function(doc) {
@@ -27,6 +30,14 @@ person.schema.post('save', function(doc) {
    console.log(doc);
    mongooseModel.create({
        uid : doc.userid,
+       tree : []
+   }); 
+});
+course.schema.post('save', function(doc) {
+   console.log("hook course");
+   console.log(doc);
+   mongooseModel.create({
+       uid : doc._id,
        tree : []
    }); 
 });

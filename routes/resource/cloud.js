@@ -3,16 +3,16 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Grid = require('gridfs-stream');
 var debug = require('debug')('resource');
-var fileTree = require("../../db/resource/pan")
+var fileTree = require("../../db/resource/pan");
 var File = require("./basicfileop");
 var Tree = require("./basictreeop");
 var cloud = require('./cloud')
 var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 var fs = require('fs');
 
-router.get('', function(req, res, next) {
+router.get('/', function(req, res, next) {
   var nowUserId = req.session.user.userid;
-  console.log("ok");
+  console.log("ok!get cloud");
   fileTree.findbyuser(nowUserId, function(err, result) {
     console.log("in findbyuser");
     if (err) {
@@ -20,7 +20,6 @@ router.get('', function(req, res, next) {
       console.log(err);
     } else {
       console.log("before render");
-      req.session.treeD = result[0].tree;
       req.session.treeP = result[0].tree;
       console.log(req.session.treeP);
       res.render('resource/myresource', {
@@ -40,22 +39,22 @@ router.post('/newfolder', function(req, res, next) {
   ws.filename=req.body.folderName;
   ws.isFolder=1;
   console.log(req.body.path);
-  Tree.newnode(req.body.path,ws,req.session.treeD,req.session.treeP,function(){
+  Tree.newnode(req.body.path,ws,req.session.treeP,function(){
     console.log(req.session.treeP);
     var newdata = {
       uid : req.session.user.userid,
-      tree : req.session.treeD
+      tree : req.session.treeP
     }
-    fileTree.update(nowUserId, newdata, function(err) {
+    fileTree.updatetree(nowUserId, newdata, function(err) {
       if (err) {
         console.log(err);
       } else {
         console.log(req.session.treeP);
         res.json({code:200,newTree: req.session.treeP});
       }
-    });  
+    });
   });
-  
+
 });
 
 /*
@@ -69,19 +68,19 @@ router.post('/newfile', function(req, res, next) {
     File.upload(req, function(ws) {
       console.log("upload suc");
       ws.isFolder = 0;
-      Tree.newnode(req.body.path, ws, req.session.treeD, req.session.treeP, function(){
+      Tree.newnode(req.body.path, ws, req.session.treeP, function(){
         var newdata = {
           uid : req.session.user.userid,
-          tree : req.session.treeD
+          tree : req.session.treeP
         }
-        fileTree.update(req.session.user.userid, newdata, function(err) {
+        fileTree.updatetree(req.session.user.userid, newdata, function(err) {
           if (err) {
             console.log(err);
           } else {
             console.log(req.session.treeP);
             res.json({code:200,newTree: req.session.treeP});
           }
-        });  
+        });
       });
     });
   });
@@ -177,19 +176,19 @@ router.get('/iddownload/:fid', function(req, res, next) {
   delete a file in tree
 */
 router.post('/deletenode', function(req, res, next) {
-  Tree.delnode(req.body.url, req.body.name, req.session.treeD, req.session.treeP, function() {
+  Tree.delnode(req.body.url, req.body.name, req.session.treeP, 1, function() {
     var newdata = {
       uid : req.session.user.userid,
-      tree : req.session.treeD
+      tree : req.session.treeP
     };
-    fileTree.update(req.session.user.userid, newdata, function(err) {
+    fileTree.updatetree(req.session.user.userid, newdata, function(err) {
       if (err) {
         console.log(err);
       } else {
         console.log(req.session.treeP);
         res.json({code:200,newTree: req.session.treeP});
       }
-    });  
+    });
   });
 });
 
@@ -198,19 +197,19 @@ router.post('/deletenode', function(req, res, next) {
 */
 
 router.post('/movenode', function(req, res, next) {
-  Tree.move(req.body.oldUrl, req.body.name, req.body.newUrl, req.session.treeD, req.session.treeP, function() {
+  Tree.move(req.body.oldUrl, req.body.name, req.body.newUrl, req.session.treeP, req.session.treeP, 1 ,function() {
     var newdata = {
       uid : req.session.user.userid,
-      tree : req.session.treeD
+      tree : req.session.treeP
     };
-    fileTree.update(req.session.user.userid, newdata, function(err) {
+    fileTree.treeupdate(req.session.user.userid, newdata, function(err) {
       if (err) {
         console.log(err);
       } else {
         console.log(req.session.treeP);
         res.json({code:200,newTree: req.session.treeP});
       }
-    });  
+    });
   });
 });
 /*
@@ -218,24 +217,24 @@ router.post('/movenode', function(req, res, next) {
 */
 
 router.post('/renamenode', function(req, res, next) {
-  Tree.renamenode(req.body.url, req.body.oldName, req.body.newName, req.session.treeD, req.session.treeP, function() {
+  Tree.renamenode(req.body.url, req.body.oldName, req.body.newName, req.session.treeP, function() {
      var newdata = {
       uid : req.session.user.userid,
-      tree : req.session.treeD
+      tree : req.session.treeP
     };
-    fileTree.update(req.session.user.userid, newdata, function(err) {
+    fileTree.updatetree(req.session.user.userid, newdata, function(err) {
       if (err) {
         console.log(err);
       } else {
         console.log(req.session.treeP);
         res.json({code:200,newTree: req.session.treeP});
       }
-    });  
+    });
   });
 })
 
 router.post('/share', function(req, res, next) {
-  
+
 });
 router.get('/course', function(req, res, next) {
   res.render('resource/index', {

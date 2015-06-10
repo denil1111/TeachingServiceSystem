@@ -4,7 +4,7 @@
 <head>
     <% include ../head.html %>
     <style>
-        .action-nav-button {
+        .action-nav-button{
             width: 15%;
         }
     </style>
@@ -16,15 +16,11 @@
 <!-- 侧边框 -->
 <% include slide_course.html %>
 <script type="text/javascript">
-    function setActive() {
-        var active = document.getElementById('resource_share');
-        active.className = 'active';
-    }
-    setActive();
+
 </script>
 <!-- 主要内容 -->
 <div class="main-content">
-<<<<<<< HEAD
+
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="area-top clearfix">
@@ -148,6 +144,12 @@
         </div>
     </div>
 
+
+    <%include current_title.html %>
+    <%include resource_bar.html%>
+    <%var root = true %>
+
+
 <div class="span10">
     <div class="box">
       <div class="box-header">
@@ -179,37 +181,47 @@
       </thead>
 
       <%if (root == false) {%>
-          <tbody>
-          <tr>
-            <td class="icon"><i class="icon-file"></i></td>
-            <td><a href="#">软件工程ch1作业</a></td>
-            <td><b>2016.1.1</b></td>
-            <td><b>具体看要求</b></td>
-              <td><b>等待批改</b></td>
-            <td>
-              <div class="btn-group">
-                <button class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="查看作业详情" data-toggle="modal" href="#modal-editwork"><i class="icon-info-sign"></i></button>
-                <button class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="上传本次作业" data-toggle="modal" href="#modal-uploadwork"><i class="icon-upload-alt"></i></button>
-                <a class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="下载本次作业" href="#"><i class="icon-download-alt"></i></a>
-              </div>
-            </td>
-          </tr>
-        </tbody>
+        <% if (hasOwnProperty("homeworkLisr")) { %>
+            <% var hwlist = homeworkLisr ? homeworkLisr : []; %>
+            <% for(var i = 0 ; i < hwlist.length; i++) { %>
+                  <tbody>
+                  <tr>
+                    <td class="icon"><i class="icon-file"></i></td>
+                    <td><b><%= hwlist[i].homework %></b></td>
+                    <td><b><%= hwlist[i].ddl %></b></td>
+                    <td><b><%= hwlist[i].describe %></b></td>
+                    <td><b>等待批改</b></td>
+                    <td>
+                      <div class="btn-group">
+                        <button class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="查看作业详情" data-toggle="modal" href="#modal-editwork"><i class="icon-info-sign"></i></button>
+                        <button class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="上传本次作业" data-toggle="modal" href="#modal-uploadwork"><i class="icon-upload-alt"></i></button>
+                        <a class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="下载本次作业" href="#"><i class="icon-download-alt"></i></a>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+            <%}%>
+        <%}%>
       <%}else{%>
-        <tbody>
-        <tr>
-            <td class="icon"><i class="icon-file"></i></td>
-            <td><a href="#">软件工程ch1作业</a></td>
-            <td><b>2016.1.1</b></td>
-            <td><b>具体看要求</b></td>
-            <td>
-                <div class="btn-group">
-                    <button class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="编辑作业要求"  data-toggle="modal" href="#modal-editwork"><i class="icon-edit"></i></button>
-                    <a class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="查看学生作业" href="/resource/admin_homework"><i class="icon-wrench"></i></a>
-                </div>
-            </td>
-        </tr>
-        </tbody>
+        <% if (hasOwnProperty("homeworkLisr")) { %>
+            <% var hwlist = homeworkLisr ? homeworkLisr : []; %>
+            <% for(var i = 0 ; i < hwlist.length; i++) { %>
+                <tbody>
+                <tr>
+                    <td class="icon"><i class="icon-file"></i></td>
+                    <td><a href="#"><%= hwlist[i].homework %></a></td>
+                    <td><b><%= hwlist[i].ddl %></b></td>
+                    <td><b><%= hwlist[i].describe %></b></td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="编辑作业要求"  data-toggle="modal" href="#modal-editwork"><i class="icon-edit"></i></button>
+                            <a class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="查看学生作业" href="/resource/admin_homework"><i class="icon-wrench"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            <%}%>
+        <%}%>
       <%}%>
   </table>
     </div>

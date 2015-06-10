@@ -28,9 +28,9 @@ module.exports = function(req,res,next){
   
   var user = {
     photo     : '',
-    userid    : '312',
+    userid    : '3120000000',
     username  : 'wtf',
-    password  : '312',
+    password  : '3120000000',
     status    : '系统管理员',
     sex       : '',
     age       : '',
@@ -49,6 +49,9 @@ module.exports = function(req,res,next){
           next(err, null);
         else
           next(null,data);
+          data.map(function(data, i){
+            user.cstlist[i] = data._id;
+          });
       });
     },
     function (next) {

@@ -1,6 +1,6 @@
 /**
- * Created by Gnnng on 5/30/15.
- */
+* Created by Gnnng on 5/30/15.
+*/
 var router = require('express').Router();
 var modelPath = '../../db/group1db/';
 var debug = require('debug')('resource');
@@ -8,10 +8,14 @@ var Course = require(modelPath + 'CourseModel');
 var Person = require(modelPath + 'PersonModel');
 var homeworkModel = require("../../db/resource/homework");
 var File = require("./basicfileop");
-
+var Tree = require('./basictreeop');
+var fileTree = require("../../db/resource/pan");
+var mongoose = require('mongoose');
+var Grid = require('gridfs-stream');
+var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 /*
   functions
- */
+*/
 function getCourseList(userid, callback) {
   Person.findbyid(userid, function (err, user) {
     debug('user is ' + user);
@@ -29,14 +33,14 @@ function getCourseList(userid, callback) {
 function isValidCourseID(req, res, next) {
   if (!('cid' in req.query)) {
     // has no query of cid, default access at first course
-    req.query.cid = encodeURIComponent(req.session.courseList[0].courseid2);
+    req.query.cid = encodeURIComponent(req.session.courseList[0]._id);
   } else {
     //has a query of cid, then check validation
     debug(JSON.stringify(req.session.courseList));
     var cList = req.session.courseList;
     var in_flag = false;
     for (var i = 0; i < cList.length; i++) {
-      if (req.query.cid === cList[i].courseid2) {
+      if (req.query.cid === cList[i]._id) {
         in_flag = true;
         break;
       }
@@ -75,7 +79,7 @@ function cache_slide_course_data(req, res, next) {
       var c = req.session.courseList[i];
       debug('arr at ' + i + ' is ' + c);
       arr.push({
-        courseid: c.courseid2,
+        courseid: c._id,
         coursename: c.coursename
       });
     }
@@ -90,7 +94,7 @@ function cache_slide_course_data(req, res, next) {
 
 /*
   routes
- */
+*/
 
 router.use(
   function cache_courseList(req, res, next) {
@@ -118,7 +122,7 @@ router.use(
         var c = req.session.courseList[i];
         debug('arr at ' + i + ' is ' + c);
         arr.push({
-          courseid: c.courseid2,
+          courseid: c._id,
           coursename: c.coursename
         });
       }
@@ -139,14 +143,113 @@ router.get('/', function (req, res, next) {
   res.redirect('/resource/course/data');
 });
 
-router.get('/data', isValidCourseID, function (req, res, next) {
+router.get('/data', function (req, res, next) {
   var render_data = {
     current_cid: decodeURIComponent(req.query.cid),
     slide_course: req.session.slide_course,
     path_prefix: 'data'
   };
-  debug(render_data);
-  res.render('resource/course_data', render_data);
+//  console.log(req.query.cid);
+  console.log(req.session.slide_course);
+  var cid = req.session.slide_course.courses[0].courseid;
+  console.log(cid);
+  if (req.query.cid) {
+    cid = req.query.cid;
+    req.session.nowcid = cid;
+  }
+  fileTree.findbyuser(cid, function(err, resu) {
+    console.log("in findbyuser");
+    if (err) {
+      console.log("in err");
+      console.log(err);
+    } else {
+      console.log(resu);
+      req.session.ctreeP = resu[0].tree;
+      console.log(req.session.ctreeP);
+      var nowUserId = req.session.user.userid;
+      console.log("ok");
+      fileTree.findbyuser(nowUserId, function(err, result) {
+        console.log("in findbyuser");
+        if (err) {
+          console.log("in err");
+          console.log(err);
+        } else {
+          console.log("before render");
+          req.session.treeP = result[0].tree;
+          render_data.cfileTree = req.session.ctreeP;
+          render_data.fileTree = req.session.treeP;
+          debug(render_data);
+          res.render('resource/course_data', render_data);
+        }  
+      });   
+    }
+  });
+});
+router.post('/newfile',function(req,res,next){
+  console.log('coursenewfile');
+  console.log(req.body.fromUrl);
+  console.log(req.body.toUrl);
+  Tree.move(req.body.fromUrl, req.body.fileName, req.body.toUrl, req.session.ctreeP, req.session.treeP, 0, function() {
+    debug("ctreep:"+req.session.ctreeP);
+    var newdata = {
+      uid : req.session.nowcid,
+      tree : req.session.ctreeP
+    };
+    debug(newdata);
+    fileTree.updatetree(req.session.nowcid, newdata, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        debug(req.session.ctreeP);
+        res.json({code:200,newTree: req.session.ctreeP});
+      }
+    });
+  });
+});
+router.get('/download/:filename', function(req, res, next) {
+  var dlfileName = req.params['filename'];
+  debug('a file will be download: ' + req.params['filename']);
+
+  //FIXME: the search option may have more fields than the 'filename', because GridFS allow files with the same name.
+  var opts = {
+    filename: dlfileName
+  };
+  gfs.exist(opts, function(err, found) {
+    if (err)
+      return next(err);
+    if (found) {
+      var rs = gfs.createReadStream(opts);
+
+      res.setHeader('Content-disposition', 'attachment; filename=' + dlfileName);
+      res.setHeader('Content-type', 'text/plain');
+      rs.pipe(res);
+    } else {
+      next(new Error('File ' + dlfileName + ' not found'));
+    }
+  });
+});
+
+router.post('/newfolder', function(req, res, next) {
+  var ws={};
+  ws.filename=req.body.folderName;
+  ws.isFolder=1;
+  console.log(req.body.path);
+  Tree.newnode(req.body.path,ws,req.session.ctreeP,function(){
+    var newdata = {
+      uid : req.session.nowcid,
+      tree : req.session.ctreeP
+    }
+    debug("folder:",newdata);
+    fileTree.updatetree(req.session.nowcid, newdata, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(req.session.treeP);
+        res.json({code:200,newTree: req.session.treeP});
+      }
+    });
+  });
+
 });
 
 router.get('/info', isValidCourseID, function (req, res, next) {
@@ -168,16 +271,17 @@ router.get('/homework/upload', function (req, res, next) {
   res.send(html);
   res.end();
 });
+
 /*
 
   file upload api
 
- */
+*/
 router.get('/homework/insertdemo', function (req, res, next) {
   homeworkModel.insertdemo(function (error, doc) {
     console.log(doc);
   });
-})
+});
 
 router.get('/homework/download', function (req, res, next) {
   var fileid = decodeURIComponent(req.query.fid);
@@ -307,10 +411,9 @@ router.get('/feedback', function (req, res, next) {
 });
 
 
-
 /*
   exports
- */
+*/
 exports.router = router;
 
 exports.getCourseList = getCourseList;
