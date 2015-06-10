@@ -190,42 +190,7 @@ router.post('/newfile',function(req,res,next){
   console.log(req.body.fromUrl);
   console.log(req.body.toUrl);
   Tree.move(req.body.fromUrl, req.body.fileName, req.body.toUrl, req.session.ctreeP, req.session.treeP, 0, function() {
-    debug("ctreep:"+req.session.ctreeP);
-    var newdata = {
-      uid : req.session.nowcid,
-      tree : req.session.ctreeP
-    };
-    debug(newdata);
-    fileTree.updatetree(req.session.nowcid, newdata, function(err) {
-      if (err) {
-        console.log(err);
-      } else {
-        debug(req.session.ctreeP);
-        res.json({code:200,newTree: req.session.ctreeP});
-      }
-    });
-  });
-});
-router.get('/download/:filename', function(req, res, next) {
-  var dlfileName = req.params['filename'];
-  debug('a file will be download: ' + req.params['filename']);
-
-  //FIXME: the search option may have more fields than the 'filename', because GridFS allow files with the same name.
-  var opts = {
-    filename: dlfileName
-  };
-  gfs.exist(opts, function(err, found) {
-    if (err)
-      return next(err);
-    if (found) {
-      var rs = gfs.createReadStream(opts);
-
-      res.setHeader('Content-disposition', 'attachment; filename=' + dlfileName);
-      res.setHeader('Content-type', 'text/plain');
-      rs.pipe(res);
-    } else {
-      next(new Error('File ' + dlfileName + ' not found'));
-    }
+    Tree.refreshAndSend(res, req.session.ctreeP, req.session.nowcid);
   });
 });
 
@@ -235,22 +200,37 @@ router.post('/newfolder', function(req, res, next) {
   ws.isFolder=1;
   console.log(req.body.path);
   Tree.newnode(req.body.path,ws,req.session.ctreeP,function(){
-    var newdata = {
-      uid : req.session.nowcid,
-      tree : req.session.ctreeP
-    }
-    debug("folder:",newdata);
-    fileTree.updatetree(req.session.nowcid, newdata, function(err) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(req.session.treeP);
-        res.json({code:200,newTree: req.session.treeP});
-      }
-    });
+    Tree.refreshAndSend(res, req.session.ctreeP, req.session.nowcid);
   });
-
 });
+
+/*
+  delete a file in tree
+*/
+router.post('/deletenode', function(req, res, next) {
+  Tree.delnode(req.body.url, req.body.name, req.session.ctreeP, 1, function() {
+    Tree.refreshAndSend(res, req.session.ctreeP, req.session.nowcid);
+  });
+});
+
+/*
+   move file or folder
+*/
+
+router.post('/movenode', function(req, res, next) {
+  Tree.move(req.body.oldUrl, req.body.name, req.body.newUrl, req.session.ctreeP, req.session.ctreeP, 1 ,function() {
+    Tree.refreshAndSend(res, req.session.ctreeP, req.session.nowcid);
+  });
+});
+/*
+  rename file or folder
+*/
+
+router.post('/renamenode', function(req, res, next) {
+  Tree.renamenode(req.body.url, req.body.oldName, req.body.newName, req.session.ctreeP, function() {
+     Tree.refreshAndSend(res, req.session.ctreeP, req.session.nowcid);
+  });
+})
 
 router.get('/info', isValidCourseID, function (req, res, next) {
   var render_data = {

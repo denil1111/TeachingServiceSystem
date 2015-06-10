@@ -1,5 +1,6 @@
 var debug = require('debug')('resource');
-var File = require("./basicfileop")
+var File = require("./basicfileop");
+var filetree = require("../db/resource/pan");
 var Tree = {};
 Array.prototype.remove=function(index){  
   var len = this.length;
@@ -8,6 +9,20 @@ Array.prototype.remove=function(index){
     this[i] = this[i+1];
   }
   this.pop();
+};
+Tree.refreshAndSend = function(res, newtree, uid, callback){
+  var newdata = {
+      uid : uid,
+      tree : newtree
+    };
+    filetree.updatetree(uid, newdata, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({code:200,newTree: newtree});
+        callback();
+      }
+    });
 };
 Tree.newnode = function(path, ws, treeP, callback) {
       console.log(ws);
