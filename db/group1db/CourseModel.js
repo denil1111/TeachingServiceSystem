@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 // Schema 结构
 var CourseSchema = new mongoose.Schema({
+    courseid    : {type : String},
 	courseid2	: {type : String},	//课程ID 不能直接用courseid或id，mongodb自动对应_id，不能由我们设置
     coursename  : {type : String},	//课程名称
     courseterm  : {type : String},  //课程学期

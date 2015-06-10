@@ -8,8 +8,9 @@ router.get('/personinfo', function(req, res, next) {
     var localuser=req.session.user;
     console.log("localuser : "+localuser);
     console.log("localuser.userid : "+localuser.userid);
-    // PersonModel.findbyid(localuser.userid,function (err, user) {
-        // localuser = user[0];
+    PersonModel.findbyid(localuser.userid,function (err, user) {
+        localuser = user[0];
+
 
         res.render('info/personinfo',{
             name: '程序员', 
@@ -23,7 +24,7 @@ router.get('/personinfo', function(req, res, next) {
 
             person_data: localuser
         });
-    // }); 
+    }); 
 });
 
 module.exports = router;

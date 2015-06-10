@@ -19,26 +19,50 @@ router.get('/coursedelete', function(req, res,next) {
 });
 
 router.post('/coursedelete',function(req,res,next){
-    CourseModel.deletebyid(req.body.courseid2, function(error, data){
+    CourseModel.findbyid(req.body.courseid2, function(error, data){
         if(error) {
             console.log('find error!'+error);
         } else {
             console.log('find ok!'+data);
         }
-        console.log('data : '+data);
-        res.render('info/coursedelete',{
-            name: '程序员', 
-            image: 'images/avatars/avatar3.jpg',
-            total_a:'12',
-            a:'2,3,1,2,3,1,0',
-            total_b:'24',
-            b:'4,6,2,4,6,2,0',
-            total_credits:'24',
-            credits:'4,6,2,4,6,2,0',
+        console.log('data : '+data.length);
+        if(!data | data ==''){
+            res.render('info/coursedelete',{
+                name: '程序员', 
+                image: 'images/avatars/avatar3.jpg',
+                total_a:'12',
+                a:'2,3,1,2,3,1,0',
+                total_b:'24',
+                b:'4,6,2,4,6,2,0',
+                total_credits:'24',
+                credits:'4,6,2,4,6,2,0',
 
-            deleteresult:'课程删除成功'
-        });
-    });
+                deleteresult:'课程ID不存在'
+            });
+        }
+        else{
+            CourseModel.deletebyid(req.body.courseid2, function(error, data){
+                if(error) {
+                    console.log('find error!'+error);
+                } else {
+                    console.log('find ok!'+data);
+                }
+                console.log('data : '+data);
+                res.render('info/coursedelete',{
+                    name: '程序员', 
+                    image: 'images/avatars/avatar3.jpg',
+                    total_a:'12',
+                    a:'2,3,1,2,3,1,0',
+                    total_b:'24',
+                    b:'4,6,2,4,6,2,0',
+                    total_credits:'24',
+                    credits:'4,6,2,4,6,2,0',
+
+                    deleteresult:'课程删除成功'
+                });
+            });
+        }
+    }); 
 });
 
 module.exports = router;
