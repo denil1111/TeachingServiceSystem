@@ -22,6 +22,7 @@
 <div class="main-content">
     <%include current_title.html %>
     <% include resource_bar.html %>
+    <%var root = true%>
 
     <div class="span10">
         <div class="box">
@@ -50,7 +51,7 @@
                             <td style="width: 40px"></td>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="hwList">
 
                         <% var hwlist = homeworkLisr ? homeworkLisr : []; %>
                         <% for(var i = 0 ; i < hwlist.length; i++) { %>
@@ -62,22 +63,20 @@
                                     <a href="?cid=<%= current_cid %>&hw=<%= hwlist[i].homework %>"><%= hwlist[i].homework %></a></a>
                                 </td>
                                 <td>
-                                    <b><%= hwlist[i].ddl %> </b>
+                                    <b><%= hwlist[i].ddl.toLocaleString()%></b>
                                 </td>
                                 <td>
                                     <b><%= hwlist[i].describe %></b>
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <button class="btn btn-xs btn-default">
-                                            <i class="icon-info-sign"></i>
-                                        </button>
-                                        <button class="btn btn-xs btn-default">
-                                            <i class="icon-upload-alt"></i>
-                                        </button>
-                                        <button class="btn btn-xs btn-default">
-                                            <i class="icon-download-alt"></i>
-                                        </button>
+                                        <%if (root==true){%>
+                                            <button class="btn btn-xs btn-info" data-num="<%=i%>" func="edit-btn"><i class="icon-edit"></i>编辑信息</button>
+                                        <%}else{%>
+                                            <button class="btn btn-xs btn-default" data-num="<%=i%>" func="edit-btn"><i class="icon-info-sign"></i>查看详情</button>
+                                            <button class="btn btn-xs btn-success" data-src="<%= hwlist[i].homework %>" func="upload-btn"><i class="icon-upload-alt"></i>上传</button>
+                                            <!--<a class="btn btn-xs btn-info" href="#"><i class="icon-download-alt"></i>下载</a>-->
+                                        <%}%>
                                     </div>
                                 </td>
                             </tr>
@@ -101,27 +100,19 @@
                                     <i class="icon-file"></i>
                                 </td>
                                 <td>
-                                    <a href="download?fid=<%= filelist[i].id%>&fname=<%= filelist[i].filename%>">
+                                    <a>
                                         <%= filelist[i].filename %>
                                     </a>
                                 </td>
                                 <td>
-                                    <b><%= filelist[i].uploadtime%></b>
+                                    <b><%= filelist[i].uploadtime.toLocaleString()%></b>
                                 </td>
                                 <td>
                                     <b><%= filelist[i].contentType %></b>
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <button class="btn btn-xs btn-default">
-                                            <i class="icon-info-sign"></i>
-                                        </button>
-                                        <button class="btn btn-xs btn-default">
-                                            <i class="icon-upload-alt"></i>
-                                        </button>
-                                        <button class="btn btn-xs btn-default">
-                                            <i class="icon-download-alt"></i>
-                                        </button>
+                                        <a class="btn btn-xs btn-info" href="homework/download?fid=<%= filelist[i].id%>&fname=<%= filelist[i].filename%>"><i class="icon-download-alt"></i>下载</a>
                                     </div>
                                 </td>
                             </tr>
@@ -153,11 +144,11 @@
                         <input type="text" name="hw-ddl" placeholder="截止日期"/>
                     </div>
                     <br>
-                    <div class="form-group">
-                        <label class="control-label">作业备注:</label>
-                        <input type="text" name="hw-more" placeholder="备注"/>
-                    </div>
-                    <br>
+                    <!--<div class="form-group">-->
+                        <!--<label class="control-label">作业备注:</label>-->
+                        <!--<input type="text" name="hw-more" placeholder="备注"/>-->
+                    <!--</div>-->
+                    <!--<br>-->
                     <div class="form-group">
                         <label class="control-label">作业要求:</label>
                         <textarea rows="6" name="hw-require" placeholder="作业要求"></textarea>
@@ -193,11 +184,11 @@
                             <input type="text" name="hw-ddl" placeholder="截止日期" <%if (root == false){%> disabled <%}%>/>
                         </div>
                         <br>
-                        <div class="form-group">
-                            <label class="control-label">作业备注:</label>
-                            <input type="text" name="hw-more" placeholder="备注" <%if (root == false){%> disabled <%}%>/>
-                        </div>
-                        <br>
+                        <!--<div class="form-group">-->
+                            <!--<label class="control-label">作业备注:</label>-->
+                            <!--<input type="text" name="hw-more" placeholder="备注" <%if (root == false){%> disabled <%}%>/>-->
+                        <!--</div>-->
+                        <!--<br>-->
                         <div class="form-group">
                             <label class="control-label">作业要求:</label>
                             <textarea rows="6" name="hw-require" placeholder="作业要求" <%if (root == false){%> disabled <%}%>></textarea>
@@ -205,8 +196,12 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
-                    <button type="button" class="btn btn-blue" data-src="" id="shareSubmit">确定</button>
+                    <%if (root ==true) {%>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                        <button type="button" class="btn btn-blue" data-src="" id="editSubmit">确定</button>
+                    <%}else{%>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <%}%>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -214,25 +209,97 @@
 
     <div id="modal-uploadwork" class="modal fade hide">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">上传作业</h4>
-                </div>
-                <div class="modal-body">
-                    <label>请选择要上传的文件</label>
-                    <input type="file" name="fileUploadInput" size="40" multiple="multiple" id="fileUploadInput">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
-                    <button id="fileUploadSubmit" type="button" class="btn btn-blue">确定</button>
-                </div>
-            </div><!-- /.modal-content -->
+            <form id="uploadForm" action="" enctype="multipart/form-data" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">上传作业</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label>请选择要上传的文件</label>
+                        <input type="file" name="fileUploadInput" size="40" multiple="multiple" id="fileUploadInput">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                        <button id="fileUploadSubmit" type="submit" class="btn btn-blue">确定</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </form>
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal --><!-- find me in partials/modal_form -->
-
-
 </div>
+
+<script>
+    ;(function(){
+        var _uploadUrl="/resource/course/homework/upload?cid=<%=current_cid%>&hw=";
+
+        <% if (hasOwnProperty("homeworkLisr")) { %>
+            _hwMap=[
+                <% for(var i = 0 ; i < hwlist.length-1; i++) { %>
+                    {
+                        "name":"<%= hwlist[i].homework%>",
+                        "ddl":"<%= hwlist[i].ddl%>",
+                        "desc":"<%= hwlist[i].describe %>"
+                    },
+                <%}%>
+                {
+                    "name":"<%= hwlist[hwlist.length-1].homework%>",
+                    "ddl":"<%= hwlist[hwlist.length-1].ddl%>",
+                    "desc":"<%= hwlist[hwlist.length-1].describe %>"
+                }
+            ];
+
+            //上传作业
+            $("#hwList").delegate("[func=upload-btn]","click",function(_e){
+                var _node=_e.target;
+                var _name=_node.getAttribute("data-src");
+                var _url=_uploadUrl+_name;
+                $("#uploadForm").attr("action",_url);
+                $("#modal-uploadwork").modal("show");
+            });
+
+            //打开编辑模态窗
+            $("#hwList").delegate("[func=edit-btn]","click",function(_e){
+                var _node=_e.target;
+                var _num=parseInt(_node.getAttribute("data-num"),10);
+                var _name=_hwMap[_num]["name"];
+                $("input[name=hw-name]").val(_hwMap[_num]["name"]);
+                $("input[name=hw-ddl]").val(_hwMap[_num]["ddl"]);
+                $("textarea[name=hw-require]").val(_hwMap[_num]["desc"]);
+                $("#editSubmit").attr("data-src",_name);
+                $("#modal-editwork").modal("show");
+            });
+
+            //保存作业信息
+            $("#eidtSubmit").bind("click",function(_e){
+                var _name=$("input[name=hw-name]").val();
+                var _ddl=$("input[name=hw-ddl]").val();
+                var _desc=$("input[name=hw-require]").val();
+                var _oldname=$("#editSubmit").attr("data-src");
+                $.post(
+                    "/resource/course/api",
+                    {
+                        hw:_oldname,
+                        name:_name,
+                        ddl:_ddl,
+                        desc:_desc
+                    },
+                    function(_data){
+                        if(_data.code==200){
+                            return window.location.reload();
+                        }
+                        else{
+                            alert("保存失败！");
+                        }
+
+                    }).error(function(){
+                            alert("请求失败！");
+                });
+            })
+        <%}%>
+
+    })(jQuery)
+</script>
 </body>
 
 </html>

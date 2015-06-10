@@ -324,7 +324,7 @@ router.post('/homework/upload', function (req, res, next) {
           if (error) {
             console.log(error);
           } else {
-            res.redirect('/resource/course/data');
+            res.redirect('/resource/course/homework?cid='+cid);
           }
         });
       }

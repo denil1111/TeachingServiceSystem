@@ -254,7 +254,7 @@
                     <td style="width:100px;"><b>${courseName}</b></td>
                     <td style="width:120px;">
                         <div class="btn-group">
-                            <button class="btn btn-xs btn-default" data-src="${text}" func="delete-btn"><i class="icon-remove-sign"></i> 删除</button>
+                            <button class="btn btn-xs btn-default" data-src="${text}" func="delete-btn"><i class="icon-remove-sign"></i>删除</button>
                             <%if (root==true) {%>
                                 <button class="btn btn-xs btn-lightblue dropdown-toggle" data-toggle="dropdown" data-src="${text}"> <i class="icon-cog"></i>操作<span class="caret"></span></button>
                                     <ul class="dropdown-menu">
@@ -316,8 +316,8 @@
                     };
 
                     function refreshFileList(_newFileMap){
-                        $('#moveTree').tree('loadData',_resourceMap);
                         _resourceMap= _newFileMap;
+                        $('#moveTree').tree('loadData',_resourceMap);
                         _nowDir=findDirByUrl(_nowUrl);
                         showFileList(_nowDir);
                     }
@@ -431,6 +431,7 @@
                                 function(_data){
                                     if(_data.code==200){
                                         alert("操作成功");
+                                        console.log(_data.newTree);
                                         refreshFileList(_data.newTree);
                                     }else{
                                         alert("操作失败");
