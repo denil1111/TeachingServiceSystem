@@ -58,7 +58,7 @@ function cache_courseList(req, res, next) {
   if ('courseList' in req.session) {
     next();
   } else {
-    getCourseList(req.session.user.userid, function(err, courseList) {
+    getCourseList(req.session.user.userid, function (err, courseList) {
       if (err)
         next(err);
       else {
@@ -75,7 +75,7 @@ function cache_slide_course_data(req, res, next) {
   if (!('slide_course' in req.session)) {
     var arr = [];
     debug('arr length is ' + arr.length);
-    for(var i = 0; i < req.session.courseList.length; i++) {
+    for (var i = 0; i < req.session.courseList.length; i++) {
       var c = req.session.courseList[i];
       debug('arr at ' + i + ' is ' + c);
       arr.push({
@@ -263,12 +263,12 @@ router.get('/homework/insertdemo', function (req, res, next) {
   });
 });
 
-router.get('/homework/download', function(req,res,next){
+router.get('/homework/download', function (req, res, next) {
   var fileid = decodeURIComponent(req.query.fid);
   var filename = decodeURIComponent(req.query.fname);
   console.log(fileid);
   console.log(filename);
-  File.dowloadbyid(fileid,filename,req,res,next,function (){
+  File.dowloadbyid(fileid, filename, req, res, next, function () {
     res.redirect('/resource/course');
   });
 });
@@ -283,7 +283,7 @@ router.post('/homework/upload', function (req, res, next) {
       filename: fileinfo.name,
       contentType: fileinfo.options.content_type,
       id: fileinfo.id,
-      uploadtime : new Date()
+      uploadtime: new Date()
     };
     console.log("file");
     console.log(file);
@@ -321,7 +321,10 @@ router.get('/homework/', isValidCourseID, function (req, res, next) {
         if (error) {
           console.log(error);
         } else {
-          var homeworkList = result[0].homeworklist;
+          var homeworkList = [];
+          if (result.length != 0) {
+            homeworkList = result[0].homeworklist;
+          }
           var render_data = {
             homeworkLisr: homeworkList,
             current_cid: decodeURIComponent(req.query.cid),
@@ -336,22 +339,26 @@ router.get('/homework/', isValidCourseID, function (req, res, next) {
         if (error) {
           console.log(error);
         } else {
-          var homeworkList = result[0].homeworklist;
           var filelist = [];
-          for (var i = 0; i < homeworkList.length; i++) {
-            if (homeworkList[i].homework == hw) {
-              var thisuploadfile = homeworkList[i].uploadfile;
-              if (user.status == '学生') {
-                for (var j = 0; j < thisuploadfile.length; j++) {
-                  if (thisuploadfile[j].stid == user.userid) {
-                    filelist.push(thisuploadfile[i]);
+          if (result.length != 0) {
+            var homeworkList = result[0].homeworklist;
+            for (var i = 0; i < homeworkList.length; i++) {
+              if (homeworkList[i].homework == hw) {
+                
+                var thisuploadfile = homeworkList[i].uploadfile;
+                if (user.status == '学生') {
+                  for (var j = 0; j < thisuploadfile.length; j++) {
+                    if (thisuploadfile[j].stid == user.userid) {
+                      filelist.push(thisuploadfile[i]);
+                    }
                   }
+                } else {
+                  filelist = thisuploadfile;
                 }
-              } else {
-                filelist = thisuploadfile;
               }
             }
           }
+
           var render_data = {
             homeworkname: hw,
             filelist: filelist,
@@ -364,6 +371,12 @@ router.get('/homework/', isValidCourseID, function (req, res, next) {
       });
     }
   });
+});
+
+router.post('/feedback', function(res,req,next){
+    var cid = decodeURIComponent(req.query.cid);
+    var text = req.body.feedback;
+    var stdid = req.session.user.userid;
 });
 
 router.get('/feedback', function (req, res, next) {

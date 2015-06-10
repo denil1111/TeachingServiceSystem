@@ -21,88 +21,119 @@
 <!-- 主要内容 -->
 <div class="main-content">
     <%include current_title.html %>
-    <%include resource_bar.html%>
-    <%var root = true %>
+    <% include resource_bar.html %>
 
-<div class="span10">
-    <div class="box">
-      <div class="box-header">
-        <span class="title">作业提交</span>
-        <%if (root == true) {%>
-            <ul class="box-toolbar">
-                <li style="margin-left:0px;">
-                    <button class="btn btn-xs btn-success"  data-toggle="modal" href="#modal-newwork">
-                        <i class="icon-plus"></i>
-                        <span>新增作业</span>
-                    </button>
-                </li>
-            </ul>
-        <%}%>
-      </div>
-    <div class="box-content" >
-    <table class="table table-normal">
-      <thead>
-      <tr>
-        <td></td>
-        <td style="width: 150px">名称</td>
-        <td style="width: 60px">截止时间</td>
-        <td>备注</td>
-          <%if (root == false) {%>
-            <td style="width: 150px"><b>作业状态</b></td>
-          <%}%>
-        <td style="width: 40px"></td>
-      </tr>
-      </thead>
+    <div class="span10">
+        <div class="box">
+            <div class="box-header">
+                <span class="title">作业提交</span>
+                <%if (root == true) {%>
+                    <ul class="box-toolbar">
+                        <li style="margin-left:0px;">
+                            <button class="btn btn-xs btn-success"  data-toggle="modal" href="#modal-newwork">
+                                <i class="icon-plus"></i>
+                                <span>新增作业</span>
+                            </button>
+                        </li>
+                    </ul>
+                <%}%>
+            </div>
+            <div class="box-content">
+                <table class="table table-normal">
+                    <% if (hasOwnProperty("homeworkLisr")) { %>
+                        <thead>
+                        <tr>
+                            <td></td>
+                            <td style="width: 150px">作业名称</td>
+                            <td style="width: 60px">截至时间</td>
+                            <td>作业描述</td>
+                            <td style="width: 40px"></td>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-      <%if (root == false) {%>
-        <% if (hasOwnProperty("homeworkLisr")) { %>
-            <% var hwlist = homeworkLisr ? homeworkLisr : []; %>
-            <% for(var i = 0 ; i < hwlist.length; i++) { %>
-                  <tbody>
-                  <tr>
-                    <td class="icon"><i class="icon-file"></i></td>
-                    <td><b><%= hwlist[i].homework %></b></td>
-                    <td><b><%= hwlist[i].ddl %></b></td>
-                    <td><b><%= hwlist[i].describe %></b></td>
-                    <td><b>等待批改</b></td>
-                    <td>
-                      <div class="btn-group">
-                        <button class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="查看作业详情" data-toggle="modal" href="#modal-editwork"><i class="icon-info-sign"></i></button>
-                        <button class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="上传本次作业" data-toggle="modal" href="#modal-uploadwork"><i class="icon-upload-alt"></i></button>
-                        <a class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="下载本次作业" href="#"><i class="icon-download-alt"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-            <%}%>
-        <%}%>
-      <%}else{%>
-        <% if (hasOwnProperty("homeworkLisr")) { %>
-            <% var hwlist = homeworkLisr ? homeworkLisr : []; %>
-            <% for(var i = 0 ; i < hwlist.length; i++) { %>
-                <tbody>
-                <tr>
-                    <td class="icon"><i class="icon-file"></i></td>
-                    <td><a href="#"><%= hwlist[i].homework %></a></td>
-                    <td><b><%= hwlist[i].ddl %></b></td>
-                    <td><b><%= hwlist[i].describe %></b></td>
-                    <td>
-                        <div class="btn-group">
-                            <button class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="编辑作业要求"  data-toggle="modal" href="#modal-editwork"><i class="icon-edit"></i></button>
-                            <a class="btn btn-xs btn-default" rel="tooltip" data-placement="top" data-original-title="查看学生作业" href="/resource/admin_homework"><i class="icon-wrench"></i></a>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            <%}%>
-        <%}%>
-      <%}%>
-  </table>
+                        <% var hwlist = homeworkLisr ? homeworkLisr : []; %>
+                        <% for(var i = 0 ; i < hwlist.length; i++) { %>
+                            <tr>
+                                <td class="icon">
+                                    <i class="icon-file"></i>
+                                </td>
+                                <td>
+                                    <a href="?cid=<%= current_cid %>&hw=<%= hwlist[i].homework %>"><%= hwlist[i].homework %></a></a>
+                                </td>
+                                <td>
+                                    <b><%= hwlist[i].ddl %> </b>
+                                </td>
+                                <td>
+                                    <b><%= hwlist[i].describe %></b>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-xs btn-default">
+                                            <i class="icon-info-sign"></i>
+                                        </button>
+                                        <button class="btn btn-xs btn-default">
+                                            <i class="icon-upload-alt"></i>
+                                        </button>
+                                        <button class="btn btn-xs btn-default">
+                                            <i class="icon-download-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% } %>
+                        </tbody>
+                    <% } else { %>
+                        <thead>
+                        <tr>
+                            <td></td>
+                            <td style="width: 150px">上传作业名称</td>
+                            <td style="width: 60px">上传时间</td>
+                            <td style="width: 60px">文件类型</td>
+                            <td style="width: 40px"></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <% var filelist = filelist ? filelist : []; %>
+                            <% for(var i = 0 ; i < filelist.length; i++) { %>
+                            <tr>
+                                <td class="icon">
+                                    <i class="icon-file"></i>
+                                </td>
+                                <td>
+                                    <a href="download?fid=<%= filelist[i].id%>&fname=<%= filelist[i].filename%>">
+                                        <%= filelist[i].filename %>
+                                    </a>
+                                </td>
+                                <td>
+                                    <b><%= filelist[i].uploadtime%></b>
+                                </td>
+                                <td>
+                                    <b><%= filelist[i].contentType %></b>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-xs btn-default">
+                                            <i class="icon-info-sign"></i>
+                                        </button>
+                                        <button class="btn btn-xs btn-default">
+                                            <i class="icon-upload-alt"></i>
+                                        </button>
+                                        <button class="btn btn-xs btn-default">
+                                            <i class="icon-download-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    <%}%>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-    <%if (root == true) {%>
+<%if (root == true) {%>
 <div id="modal-newwork" class="modal fade hide">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -140,7 +171,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal --><!-- find me in partials/modal_form -->
-    <%}%>
+<%}%>
 
 
     <div id="modal-editwork" class="modal fade hide">
@@ -199,6 +230,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal --><!-- find me in partials/modal_form -->
+
 
 </div>
 </body>
