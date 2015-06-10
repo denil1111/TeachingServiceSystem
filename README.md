@@ -18,6 +18,8 @@ password:123456
 ## 选课
 /course 访问选课页面
 
+## 资源管理
+/resource
 ## 用户登录
 /info/login
 
