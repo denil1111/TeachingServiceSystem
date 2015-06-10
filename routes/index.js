@@ -34,7 +34,7 @@ router.use('/select', function setStatus(req, res, next){
   res.locals.Navstatus = 3;
   next();
 }, auth.isLoggedIn, select);
- router.get('/resource', function setStatus(req, res, next){
+ router.use('/resource', function setStatus(req, res, next){
   res.locals.Navstatus = 4;
   next();
 }, auth.isLoggedIn, resource);
