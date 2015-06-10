@@ -7,6 +7,7 @@ var classroommodify = require('./classroommodify');
 var classroomselect = require('./classroomselect');
 var classroomcourse = require('./classroomcourse');
 var timetable_classroom = require('./timetable_classroom');
+var timetable_teacher = require('./timetable_teacher');
 //var teachercourse = require('./teachercourse');
 
 var login =require('../basic/login');
@@ -19,6 +20,7 @@ arrange.use('/', classroommodify);
 arrange.use('/', classroomselect);
 arrange.use('/', classroomcourse);
 arrange.use('/', timetable_classroom);
+arrange.use('/',timetable_teacher);
 //arrange.use('/', teachercourse);
 // arrange.use('/',group);
 
