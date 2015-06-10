@@ -234,6 +234,13 @@
 </div>
 <!-- 主要内容的js -->
 <script type="text/javascript">
+  function error_detection(){
+  <%if(error!=""){%>
+    alert("<%=error%>");  
+    <%}%>
+  }
+  error_detection();
+
   function show_table_content(){
     //预先处理文件，隐藏btn_table
     $("#btn_table").hide();
@@ -310,18 +317,8 @@
     if(document.getElementById('layout').innerHTML=="列表显示")
       data_sem=document.getElementById('sem').innerHTML;
     else data_sem=document.getElementById('sem2').innerHTML;
-    //ajax传输
-    var _json = jQuery.param ({year:data_year,sem:data_sem});  
-    var request = $.ajax({  
-        url: "/select/my_course",  
-        type: "POST",  
-        async: false,  
-        data: _json,   
-        dataType: "json",  
-        // contentType: "charset=utf-8",  
-        cache: false,
-    });
-    location.reload();  
+    //页面跳转
+    window.location.href='/select/my_course/'+data_year+'_'+data_sem;
   }
   function show_sem(choice){
     if(choice==1)
@@ -331,18 +328,8 @@
     //获取所需传输数据
     var data_year=document.getElementById('year').innerHTML.split(" ")[0];
     var data_sem=document.getElementById('sem').innerHTML;
-    //ajax传输
-    var _json = jQuery.param ({year:data_year,sem:data_sem});
-    var request = $.ajax({  
-        url: "/select/my_course",  
-        type: "POST",  
-        async: false,  
-        data: _json,   
-        dataType: "json",  
-        // contentType: "charset=utf-8",  
-        cache: false,
-    });
-    location.reload(); 
+    //页面跳转
+    window.location.href='/select/my_course/'+data_year+'_'+data_sem;
   }
   function show_sem2(choice){
     switch(choice){
@@ -354,18 +341,8 @@
     //获取所需传输数据
     var data_year=document.getElementById('year').innerHTML.split(' ')[0];
     var data_sem=document.getElementById('sem2').innerHTML;
-    //ajax传输
-    var _json = jQuery.param ({year:data_year,sem:data_sem});  
-    var request = $.ajax({  
-        url: "/select/my_course_search",  
-        type: "POST",  
-        async: false,  
-        data: _json, //不能直接写成 {id:"123",code:"tomcat"}  
-        dataType: "json",  
-        // contentType: "charset=utf-8",  
-        cache: false,
-    });
-    location.reload();
+    //页面跳转
+    window.location.href='/select/my_course/'+data_year+'_'+data_sem;
   }
   show_table_content();
 </script>

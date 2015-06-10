@@ -173,4 +173,17 @@ router.post('/time', function(req, res, next) {
 
 });
 
+
+
+router.post('/select_course', function(req, res, next) {
+  console.log(req.body);
+  res.render('select/manual', {
+    type:2,//manager
+    course:course,
+    name: '程序员', 
+    image: 'images/avatars/avatar3.jpg',
+    choose_time:choose_time
+  });
+});
+
 module.exports = router;

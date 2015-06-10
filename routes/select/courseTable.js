@@ -210,4 +210,34 @@ router.get('/course_list/:courseID', function(req, res, next){
   
 
 });
+
+
+
+
+
+
+router.get('/my_course/:timeID',function(req, res, next){
+    var time=req.params.timeID;
+    console.log(time);
+    res.render('select/my_course', {
+                  type:2,//manager
+                name: '程序员', 
+                image: 'images/avatars/avatar3.jpg',
+                total_a:'12',
+                a:'2,3,1,2,3,1,0',
+                total_b:'24',
+                b:'4,6,2,4,6,2,0',
+                total_credits:'24',
+                credits:'4,6,2,4,6,2,0',
+                course_data: my_course,
+                start_year:'2013',
+                this_year:'2015',
+                this_semester:'春',
+                error:"查询错误！"
+                //注意start_year是学生进校的第一学年
+                //this year就是学生查询的年份
+                //this_semester就是学生查询的学期
+                //error是错误信息
+        }); 
+});
 module.exports = router;
