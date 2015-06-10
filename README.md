@@ -96,14 +96,14 @@ Course使用数据库 'mongodb://127.0.0.1:27017/info'下的courses collections
 * routes/arrange.js  处理后端数据库连接与路由
 * settings.js 连接数据库
 
-#login具体使用
+# login具体使用
 首先 我给各位所有的基本路由上都判定了是否登陆，所以大家这个可以不用加了，如果需要取消，可以在index.js里改！
 其次，大家想保证登陆用户的类型的话，验证函数在routes／basic／auth里都有，请自己选择。
 如果想获取当前用户的信息，就在req.session.user里。
 在mongo里手动添加用户的collection是persons
 
 
-#hook 方法！
+# hook 方法！
 如果想在哪个数据插入的同时插入自己的数据，比如user，可以这样做
 ```js
 	var person=require("../db/group1db/PersonModel");
@@ -113,3 +113,25 @@ Course使用数据库 'mongodb://127.0.0.1:27017/info'下的courses collections
     	console.log("我成功了！！");
   	});
 ```
+
+
+# 生成自动登陆用户
+如果要生成自动登陆用户，只需要开启服务器后，localhost:3000/adduser即可，不过这个脚本目前还不是非常智能，
+如果原来数据库中有这个user，会发生错误，所以，如果要使用，最好能先清空数据库（本地自己的），自动生成后，
+该用户会有三门课提供测试，创建的用户为
+```
+    {
+        userid : 3120000000
+        username : wtf
+        password: 3120000000
+        status : 系统管理员
+        cstlist : [...(三门课)]
+    }
+```
+    如果要创建别的用户，那很简单，到根目录下./script/adduser.js里去改就好了。
+创建完成之后，运行服务器就能自动登陆，如果不想自动登陆，需要更改启动服务器的指令
+```
+    NODE_ENV="nodev" npm start
+```
+    自动登陆用户默认为312000000，如果要更改的话，到./routes/basic/login.js中更改。
+    如果连接的是远程数据库，请勿再/adduser了，已经设置完成该用户，直接自动登陆就好了。    
