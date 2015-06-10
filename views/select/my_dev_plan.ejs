@@ -183,7 +183,7 @@
                   <li style="margin-bottom:25px;">
                     <span><%=dev_plan_elec_class[i].classification%>
                     </span>
-                    <%if(dev_plan_elec_class[i].min_credits<=dev_plan_elec_class[i].credits) {%>
+                    <%if(parseFloat(dev_plan_elec_class[i].min_credits)<=parseFloat(dev_plan_elec_class[i].credits)){%>
                     <i class="icon-ok" style="color:green;"></i>
                     <%}%>
                     <%if(dev_plan_elec_class[i].min_credits>dev_plan_elec_class[i].credits) {%>
