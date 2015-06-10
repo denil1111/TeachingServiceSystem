@@ -255,15 +255,15 @@ function edit2(){
   $("#add1").fadeIn();
   $("#del1").fadeOut();
   <% for(var i=0;i<dev_plan_req.length;i++){%>
-      document.getElementById("req_id"+<%=i%>).innerHTML="<input type=\"text\" name=\"reqIDinput<%=i%>\" id=\"reqIDinput<%=i%>\" value=\"<%= dev_plan_req[i].ID%>\" style=\"width:100%;\">";
-      document.getElementById("req_name"+<%=i%>).innerHTML="<input type=\"text\" name=\"reqNameinput<%=i%>\"  id=\"reqNameinput<%=i%>\" value=\"<%= dev_plan_req[i].name%>\" style=\"width:100%;\">";
-      document.getElementById("req_time"+<%=i%>).innerHTML="<input type=\"text\" name=\"reqTimeinput<%=i%>\"  id=\"reqTimeinput<%=i%>\" value=\"<%= dev_plan_req[i].time%>\" style=\"width:100%;\">";
-      document.getElementById("req_credit"+<%=i%>).innerHTML="<input type=\"text\" name=\"reqCreditinput<%=i%>\"  id=\"reqCreditinput<%=i%>\" value=\"<%= dev_plan_req[i].credit%>\" style=\"width:100%;\">";
+      document.getElementById("req_id"+<%=i%>).innerHTML="<input type=\"text\" name=\"reqIDinput[]\" id=\"reqIDinput<%=i%>\" value=\"<%= dev_plan_req[i].ID%>\" style=\"width:100%;\">";
+      document.getElementById("req_name"+<%=i%>).innerHTML="<input type=\"text\" name=\"reqNameinput[]\"  id=\"reqNameinput<%=i%>\" value=\"<%= dev_plan_req[i].name%>\" style=\"width:100%;\">";
+      document.getElementById("req_time"+<%=i%>).innerHTML="<input type=\"text\" name=\"reqTimeinput[]\"  id=\"reqTimeinput<%=i%>\" value=\"<%= dev_plan_req[i].time%>\" style=\"width:100%;\">";
+      document.getElementById("req_credit"+<%=i%>).innerHTML="<input type=\"text\" name=\"reqCreditinput[]\"  id=\"reqCreditinput<%=i%>\" value=\"<%= dev_plan_req[i].credit%>\" style=\"width:100%;\">";
   <%}%>
 }
 function addNew1(){
   var tmp=req_length;
-  var newReq="<tr><td id=\"req_id"+tmp+"\"><input type=\"text\" id=\"reqIDinput"+tmp+"\" name=\"reqIDinput"+tmp+"\" style=\"width:100%;\"></td><td id=\"req_name"+tmp+"\"><input type=\"text\" id=\"reqNameinput"+tmp+"\" name=\"reqNameinput"+tmp+"\" style=\"width:100%;\"></td><td id=\"req_time"+tmp+"\"><input type=\"text\" id=\"reqTimeinput"+tmp+"\" name=\"reqTimeinput"+tmp+"\" style=\"width:100%;\"></td><td id=\"req_credit"+tmp+"\"><input type=\"text\" id=\"reqCreditinput"+tmp+"\" name=\"reqCreditinput"+tmp+"\" style=\"width:100%;\"></td></tr>"
+  var newReq="<tr><td id=\"req_id"+tmp+"\"><input type=\"text\" id=\"reqIDinput"+tmp+"\" name=\"reqIDinput[]\" style=\"width:100%;\"></td><td id=\"req_name"+tmp+"\"><input type=\"text\" id=\"reqNameinput"+tmp+"\" name=\"reqNameinput[]\" style=\"width:100%;\"></td><td id=\"req_time"+tmp+"\"><input type=\"text\" id=\"reqTimeinput"+tmp+"\" name=\"reqTimeinput[]\" style=\"width:100%;\"></td><td id=\"req_credit"+tmp+"\"><input type=\"text\" id=\"reqCreditinput"+tmp+"\" name=\"reqCreditinput[]\" style=\"width:100%;\"></td></tr>"
   $("#req_table_body").append(newReq);
   req_length++;
 }
@@ -332,13 +332,13 @@ function edit4(i){
   $("#save3_"+i).fadeIn();
   $("#addNew2_"+i).fadeIn();
   console.log(dev_plan_elec);
-  document.getElementById("class"+i).innerHTML="<input type=\"text\" name=\"classNameinput"+i+"\" id=\"classNameinput"+i+"\" value=\""+dev_plan_elec_class[i]+"\">";
+  document.getElementById("class"+i).innerHTML="<input type=\"text\" name=\"classNameinput\" id=\"classNameinput"+i+"\" value=\""+dev_plan_elec_class[i]+"\">";
   for(var j=0;j<dev_plan_elec[i].length;j++){
     console.log(dev_plan_elec[i].length);
-    document.getElementById("elec_id"+i+"_"+j).innerHTML="<input type=\"text\" name=\"elecIDinput"+j+"\" id=\"elecIDinput"+j+"\" value=\""+dev_plan_elec[i][j].elec_id+"\" style=\"width:100%;\">";
-    document.getElementById("elec_name"+i+"_"+j).innerHTML="<input type=\"text\" name=\"elecNameinput"+j+"\" id=\"elecNameinput"+j+"\" value=\""+dev_plan_elec[i][j].elec_name+"\" style=\"width:100%;\">";
-    document.getElementById("elec_time"+i+"_"+j).innerHTML="<input type=\"text\" name=\"elecTimeinput"+j+"\" id=\"elecTimeinput"+j+"\" value=\""+dev_plan_elec[i][j].elec_time+"\" style=\"width:100%;\">";
-    document.getElementById("elec_credit"+i+"_"+j).innerHTML="<input type=\"text\" name=\"elecCreditinput"+j+"\" id=\"elecCreditinput"+j+"\" value=\""+dev_plan_elec[i][j].elec_credit+"\" style=\"width:100%;\">";
+    document.getElementById("elec_id"+i+"_"+j).innerHTML="<input type=\"text\" name=\"elecIDinput[]\" id=\"elecIDinput"+j+"\" value=\""+dev_plan_elec[i][j].elec_id+"\" style=\"width:100%;\">";
+    document.getElementById("elec_name"+i+"_"+j).innerHTML="<input type=\"text\" name=\"elecNameinput[]\" id=\"elecNameinput"+j+"\" value=\""+dev_plan_elec[i][j].elec_name+"\" style=\"width:100%;\">";
+    document.getElementById("elec_time"+i+"_"+j).innerHTML="<input type=\"text\" name=\"elecTimeinput[]\" id=\"elecTimeinput"+j+"\" value=\""+dev_plan_elec[i][j].elec_time+"\" style=\"width:100%;\">";
+    document.getElementById("elec_credit"+i+"_"+j).innerHTML="<input type=\"text\" name=\"elecCreditinput[]\" id=\"elecCreditinput"+j+"\" value=\""+dev_plan_elec[i][j].elec_credit+"\" style=\"width:100%;\">";
   }
 }
 
@@ -368,7 +368,7 @@ function save3(i){
 function addNew2(i){
   tmp=dev_length[i];
   dev_length[i]=dev_length[i]+1;
-  var newReq="<tr><td id=\"elec_id"+i+tmp+"\"><input type=\"text\" id=\"elecIDinput"+tmp+"\" name=\"elecIDinput"+tmp+"\" style=\"width:100%;\"></td><td id=\"elec_name"+tmp+"\"><input type=\"text\" id=\"elecNameinput"+tmp+"\" name=\"elecNameinput"+tmp+"\" style=\"width:100%;\"></td><td id=\"elec_time"+tmp+"\"><input type=\"text\" id=\"elecTimeinput"+tmp+"\" name=\"elecTimeinput"+tmp+"\" style=\"width:100%;\"></td><td id=\"elec_credit"+tmp+"\"><input type=\"text\" id=\"elecCreditinput"+tmp+"\" name=\"elecCreditinput"+tmp+"\" style=\"width:100%;\"></td></tr>"
+  var newReq="<tr><td id=\"elec_id"+i+tmp+"\"><input type=\"text\" id=\"elecIDinput"+tmp+"\" name=\"elecIDinput[]\" style=\"width:100%;\"></td><td id=\"elec_name"+tmp+"\"><input type=\"text\" id=\"elecNameinput"+tmp+"\" name=\"elecNameinput[]\" style=\"width:100%;\"></td><td id=\"elec_time"+tmp+"\"><input type=\"text\" id=\"elecTimeinput"+tmp+"\" name=\"elecTimeinput[]\" style=\"width:100%;\"></td><td id=\"elec_credit"+tmp+"\"><input type=\"text\" id=\"elecCreditinput"+tmp+"\" name=\"elecCreditinput[]\" style=\"width:100%;\"></td></tr>"
   $("#elec_table_body_"+i).append(newReq);
 }
 function del2(i){
