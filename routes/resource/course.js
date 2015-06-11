@@ -263,7 +263,7 @@ router.get('/info', isValidCourseID, function (req, res, next) {
 });
 
 router.get('/homework/upload', function (req, res, next) {
-  var html = '<form action="/resource/course/homework/upload?cid=g1&hw=hw1"enctype="multipart/form-data" method="post"> ' +
+  var html = '<form action="/resource/course/homework/upload?cid=5576e0f7bed7f4392d92098a&hw=hw1"enctype="multipart/form-data" method="post"> ' +
     '<h1> Upload your file </h1> ' +
     'Please specify a file, or a set of files:<br> ' +
     '<input type="file" name="file" size="40" multiple="multiple">  ' +

@@ -41,7 +41,7 @@ mongooseSchema.statics.insertdemo = function (callback) {
         uploadfile : []
     };
     var course = {
-        courseid : 'g1',
+        courseid : '5576e0f7bed7f4392d92098a',
         homeworklist : [homework1,homework2]
     };
     return this.model('homeworkModel').create(course,callback);
