@@ -15,17 +15,19 @@ router.get('/login',function(req,res,next){
 
     passport.authenticate('local',function(err,user2,info){
       //use your own admin account here
-      var user={
-        userid:'1234',
-        password:'1234',
-        status:'学生'
-      };
-
       // var user={
-      //   userid:'4321',
-      //   password:'4321',
-      //   status:'教师'
+      //   userid:'1234',
+      //   password:'1234',
+      //   status:'学生',
+      //   cstlist:["5579c56f0538ff3def0625c5"]
       // };
+
+      var user={
+        userid:'4321',
+        password:'4321',
+        status:'教师',
+        cstlist:["5579c56f0538ff3def0625c5"]
+      };
       // var user;
       // PersonModel.findbyid(localuser.userid,function (err, user) {
       //   if(err){console.log("development router login findbyid error!")}

@@ -2,8 +2,6 @@ var express = require('express');
 var mongoose = require('mongoose');
 var router = express.Router();
 
-var classId = "001";
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	//连接数据库
@@ -24,6 +22,8 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
 	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
 	var paperModel = mongoose.model('PaperDB', paperSchema);
+
+	var classId = req.session.user.cstlist[0];//从Session获取classId
 	
 	if(req.body.paperTitle_auto){
 		if(!req.body.point1 || !req.body.point1 || !req.body.point1){
@@ -255,6 +255,8 @@ router.get('/deliver/:paperId', function(req, res, next){
 	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
 	var paperModel = mongoose.model('PaperDB', paperSchema);
 
+	var classId = req.session.user.cstlist[0];
+
 	paperModel.findOne({_id: paperId}, function(err,paper){
 		if(err)
 			return next(err);
@@ -262,6 +264,36 @@ router.get('/deliver/:paperId', function(req, res, next){
 		if(paper.deliver.indexOf(classId) == -1){
 			paper.deliver.push(classId);
 		}
+
+		var conditions = {_id : paperId};
+		var update     = {$set : {deliver : paper.deliver}};
+		var options    = {upsert : true};
+		paperModel.update(conditions, update, options, function(error){
+	    	if(error) {
+	    	    console.log(error);
+	    	} else {
+	    	    console.log('update ok!');
+	    	}
+	    	//关闭数据库链接
+	    	//db.close();
+		});
+	});
+
+	res.redirect('/OnlineTest/paperManage');
+});
+
+router.get('/undeliver/:paperId', function(req, res, next){
+	var paperId = req.params.paperId;
+	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
+	var paperModel = mongoose.model('PaperDB', paperSchema);
+
+	var classId = req.session.user.cstlist[0];
+
+	paperModel.findOne({_id: paperId}, function(err,paper){
+		if(err)
+			return next(err);
+
+		paper.deliver = [];
 
 		var conditions = {_id : paperId};
 		var update     = {$set : {deliver : paper.deliver}};

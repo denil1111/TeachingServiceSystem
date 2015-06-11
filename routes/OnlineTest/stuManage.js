@@ -6,10 +6,6 @@ var done = false;
 var point = 0;
 var time = "00:00:00";
 
-//假定只有一个学生，一个班级。在合体之后需要通过别的方法获取这些信息
-var student = "001";
-var classId = "001";
-
 router.get('/', function(req, res, next) {
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
@@ -18,6 +14,10 @@ router.get('/', function(req, res, next) {
 
 	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
 	var recordModel = mongoose.model('RecordDB', recordSchema);
+
+	//从session获取studentID和classID
+	var student = req.session.user.userid;
+	var classId = req.session.user.cstlist[0];
 
 	//渲染页面，其中papers是数据库中查询得到的内容
 	paperModel.find({}, function(err, papers){

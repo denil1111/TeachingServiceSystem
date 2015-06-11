@@ -51,10 +51,11 @@
               var paper = papers[i];
             %>    
             <div class="page-header">
-              <div class="title"><h3><%= paper.title %>#<%= paper.deliver %></h3></div>
+              <div class="title"><h3><%= paper.title %><% if(paper.deliver[0]){ %>(已发布)<% } %></h3></div>
             </div>
               <a class="btn btn-blue", href="/OnlineTest/paperManage/delete/<%= paper._id %>">删除</a> <a class="btn btn-red", href="/OnlineTest/paperManage/update/<%= paper._id %>">修改</a>
               <a class="btn btn-green", href="/OnlineTest/paperManage/deliver/<%= paper._id %>">发布</a>
+              <a class="btn btn-default", href="/OnlineTest/paperManage/undeliver/<%= paper._id %>">撤销发布</a>
             <% } %>
             </div>
           </div>
