@@ -30,6 +30,7 @@ router.get('/time', function(req, res, next) {
   var choose_time=[];
   var courseTimeModel = require('../../db/courseDB/selectTimeModel');
   var userModel = require('../../db/courseDB/userSchema');
+  var courseModel = require('../../db/group1db/CourseModel');
   var error="";
   courseTimeModel.find({},function(err,cre){
       if (err)
@@ -60,6 +61,7 @@ router.post('/time', function(req, res, next) {
   var choose_time=[];
   var courseTimeModel = require('../../db/courseDB/selectTimeModel');
   var userModel = require('../../db/courseDB/userSchema');
+  var courseModel = require('../../db/group1db/CourseModel');
   var stDate=new Date();
   var edDate=new Date();
   var isChoose=false;
@@ -156,28 +158,64 @@ router.post('/time', function(req, res, next) {
   else
   res.json({status:"err",error:"操作错误"});
 
-  userModel.find({},function(error,res){
-    if (error)
-        console.log(error);
-    else {
-        console.log(res);
-        console.log(res.length);
-        for (var i=0;i<res.length;i++){
-            wait_course = res[i].selectedCourse;
-            console.log(wait_course[0].id);
-            for (var j=0;j<wait_course.length;j++)
-                userModel.update({id: res[i].id},{$push:{confirmedCourse:{id: wait_course[j].id}}},function(err,re){if (err) console.log(err);});
-        }
-    }
-  });
-
 });
 
 
 
 router.post('/select_course', function(req, res, next) {
   console.log(req.body);
-  res.render('select/manual', {
+  var courseTimeModel = require('../../db/courseDB/selectTimeModel');
+  var userModel = require('../../db/courseDB/userSchema');
+  var courseModel = require('../../db/group1db/CourseModel');
+  var courseStudentModel = require('../../db/courseDB/courseStudentSchema');
+  var current = [];
+    // 课程筛选
+  courseModel.find({},function(error,result){
+    if (error)
+        console.log(error);
+    // for each course
+    else for (course_i=0;course_i<result.length;course_i++){
+        (function(course_i){
+        var remaining = result[course_i].remain;
+        userModel.find({},function(err,res){
+            current = [];
+            total_points = 0;
+            console.log(remaining);
+            if (err)
+                console.log(err);
+
+            // look for every student whether he chooses it. 
+            else for (var i=0;i<res.length;i++){
+                wait_course = res[i].selectedCourse;
+                for (var j=0;j<wait_course.length;j++)
+                if (wait_course[j].id==result[course_i]._id){
+                    current.push({"user":res[i].id, "points":wait_course[j].points,"chip":0});
+                    total_points += wait_course[j].points;
+                }
+                //userModel.update({id: res[i].id},{$push:{confirmedCourse:{id: wait_course[j].id}}},function(err,re){if (err) console.log(err);});
+            }
+            
+            // handle overflow
+            if (current.length>remaining){
+                for (var i=0;i<current.length;i++)
+                    current[i].chip = current[i].points*Math.random();
+                current.sort(function(a,b){return a.chip<b.chip?1:-1});
+                console.log(current);
+                for (var i=0;i<remaining;i++){
+                    userModel.update({id: current[i].user},{$push:{confirmedCourse:{id: result[course_i].id}}},
+                        function(err,re){if (err) console.log(err);});
+                    courseStudentModel.update({},{$push:{id: result[course_i]._id, confirmedStudent:{id: current[i].user}}},
+                        function(err,re){if (err) console.log(err);});
+                }
+            }
+            else console.log(current);
+            });
+        })(course_i);
+        // end one course
+        }
+  });
+
+  res.render('select/time', {
     type:2,//manager
     course:course,
     name: '程序员', 
