@@ -2,6 +2,24 @@ var express = require('express');
 var mongoose = require('mongoose');
 var router = express.Router();
 
+//A shuffle algorithm
+function shuffle(aArr){
+    var iLength = aArr.length,
+        i = iLength,
+        mTemp,
+        iRandom;
+ 
+    while(i--){
+        if(i !== (iRandom = Math.floor(Math.random() * iLength))){
+            mTemp = aArr[i];
+            aArr[i] = aArr[iRandom];
+            aArr[iRandom] = mTemp;
+        }
+    }
+ 
+    return aArr;
+}
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	//连接数据库
@@ -55,6 +73,11 @@ router.post('/', function(req, res, next) {
 				else
 					pro_3.push(problems[i]);
 			}
+
+			//shuffle the three arrays
+			pro_1 = shuffle(pro_1);
+			pro_2 = shuffle(pro_2);
+			pro_3 = shuffle(pro_3);
 
 			if(pro_1.length < pro_1_num || pro_2.length < pro_2_num || pro_3.length < pro_3_num){
 				res.render('OnlineTest/onlineTestErr',{message: '题库数量不够！'});
