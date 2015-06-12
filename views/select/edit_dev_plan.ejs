@@ -200,7 +200,7 @@
                           <td id="elec_time<%=i%>_<%=j%>"><%= dev_plan_elec[i][j].time %></td>
                           <td id="elec_credit<%=i%>_<%=j%>"><%= dev_plan_elec[i][j].credit %></td>
                           <td id="elec_select<%=i%>_<%=j%>" hidden="">
-                            <input type="checkbox" class="icheck" id="icheck<%=i%>_<%=j%>" name="elec_del<%=i%>" value="<%=dev_plan_elec[i][j].ID %>">
+                            <input type="checkbox" class="icheck" id="icheck<%=i%>_<%=j%>" name="elec_del" value="<%=dev_plan_elec[i][j].ID %>">
                           </td>
                         </tr>
                         <%}%>
@@ -302,6 +302,7 @@ function del1(){
   <% for(var i=0;i<dev_plan_req.length;i++){%>
       $("#req_select<%=i%>").fadeIn();
   <%}%>
+  document.getElementById("major_name2").value= "<%=major_name%>";
   $("#del2").fadeIn();
 }
 function delreq2(){
@@ -384,6 +385,7 @@ function del2(i){
    
 }
 function del3(i){
+  document.getElementById("major_name3_"+i).value= "<%=major_name%>";
   document.getElementById("form_elec_"+i).submit();
 }
 </script>
