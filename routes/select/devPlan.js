@@ -38,7 +38,7 @@ router.get('/dev_plan', function (req, res, next) {
     else console.log(result);
     
     for(var i=0;i<result.length;i++){
-      if(result[i].name!="")
+      if(result[i].name!="公共课")
         major.push(result[i].name);
     }
   });
@@ -58,7 +58,7 @@ router.get('/dev_plan', function (req, res, next) {
   
   //课程
   var dev_plan_gen_class=[];//公共课类别++++6.7++++
-  majorModel.find({name:""}, function(error, result) {
+  majorModel.find({name:"公共课"}, function(error, result) {
     if (error) console.log(error);
     else console.log(result);
     
@@ -74,7 +74,7 @@ router.get('/dev_plan', function (req, res, next) {
   var dev_plan_elec = new Array();
   var dev_plan_elec_tmp = [];
   var courseModel = require('../../db/courseDB/courseSchema_hyx');
-  courseModel.find({major: {$in: [selectedMajor, '']} }, function(error, result) {
+  courseModel.find({major: {$in: [selectedMajor, "公共课"]} }, function(error, result) {
   //courseModel.find({}, function(error, result) {
     if (error) console.log(error);
     else console.log(result);
@@ -158,7 +158,7 @@ router.post('/dev_plan', function (req, res, next) {
     else console.log(result);
     
     for(var i=0;i<result.length;i++){
-      if(result[i].name!="")
+      if(result[i].name!="公共课")
         major.push(result[i].name);
     }
   });
@@ -178,7 +178,7 @@ router.post('/dev_plan', function (req, res, next) {
   
   //课程
   var dev_plan_gen_class=[];//公共课类别++++6.7++++
-  majorModel.find({name:""}, function(error, result) {
+  majorModel.find({name:"公共课"}, function(error, result) {
     if (error) console.log(error);
     else console.log(result);
     
@@ -194,7 +194,7 @@ router.post('/dev_plan', function (req, res, next) {
   var dev_plan_elec = new Array();
   var dev_plan_elec_tmp = [];
   var courseModel = require('../../db/courseDB/courseSchema_hyx');
-  courseModel.find({major: {$in: [selectedMajor, '']} }, function(error, result) {
+  courseModel.find({major: {$in: [selectedMajor, "公共课"]} }, function(error, result) {
   //courseModel.find({}, function(error, result) {
     if (error) console.log(error);
     else console.log(result);
@@ -275,7 +275,7 @@ router.get('/my_dev_plan', function (req, res, next) {
   var courseModel = require('../../db/courseDB/courseSchema_hyx');
   var majorModel = require('../../db/courseDB/majorSchema');
   var dev_plan_gen_class=[];//公共课类别++++6.7++++
-  majorModel.find({name:""}, function(error, result) {
+  majorModel.find({name:"公共课"}, function(error, result) {
     if (error) console.log(error);
     else console.log(result);
     
@@ -505,7 +505,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
   var majorModel = require('../../db/courseDB/majorSchema');
   var dev_plan_gen_class = []; //公共课类别++++6.7++++
   majorModel.find({
-    name: ""
+    name: "公共课"
   }, function(error, result) {
     if (error) console.log(error);
     else console.log(result);
@@ -543,7 +543,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
     //!!加课的时候要判断是否已存在在plan中
     //!!是否为本专业  
     // 修改记录
-    if (result[0].major != selectedMajor && result[0].major != "") {
+    if (result[0].major != selectedMajor && result[0].major != "公共课") {
       console.log("Wrong Major!");
       return;
     }
@@ -802,6 +802,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
     });//find end - plan
   }); //find end - course
 }); //post end
+
 //////////////////////////修改培养方案//////////////////////////
 ////GET////
 router.get('/edit_dev_plan', function(req, res, next){
@@ -825,7 +826,7 @@ router.get('/edit_dev_plan', function(req, res, next){
     
     var flag=false;
     for(var i=0;i<result.length;i++){
-      if(result[i].name!=""){
+      if(result[i].name!="公共课"){
         major.push(result[i].name);
         major_name=major[0];//+++6.8+++ 为了取major_name，嵌套了find
         //好吧 如果想把代码写得更好看 请参考http://my.oschina.net/antianlu/blog/187023
@@ -843,7 +844,7 @@ router.get('/edit_dev_plan', function(req, res, next){
           });//find end
 
           //课程
-          majorModel.find({name:""}, function(error, result) {
+          majorModel.find({name:"公共课"}, function(error, result) {
             if (error) console.log(error);
             else console.log(result);
             
@@ -855,7 +856,7 @@ router.get('/edit_dev_plan', function(req, res, next){
               //格式 课程类别，培养方案要求学分，已修学分
           });
 
-          courseModel.find({major: {$in: [major_name, '']} }, function(error, result) {
+          courseModel.find({major: {$in: [major_name, "公共课"]} }, function(error, result) {
           //courseModel.find({}, function(error, result) {
             if (error) console.log(error);
             else console.log(result);
@@ -907,7 +908,7 @@ router.get('/edit_dev_plan', function(req, res, next){
               dev_plan_elec.push(tmp);
             }
 
-            console.log(major_name+"321321321");
+            //console.log(major_name+"321321321");
             res.render('select/edit_dev_plan', {
               type:userType,//manager
               name: '程序员', 
@@ -933,7 +934,6 @@ router.get('/edit_dev_plan', function(req, res, next){
       }
     }
   });//major find end
-  
 });//get end
 
 ////POST////
@@ -946,16 +946,18 @@ router.post('/edit_dev_plan', function(req, res, next){
   var dev_plan_gen_class=[];
   var dev_plan_elec_class = [];
   var majorModel = require('../../db/courseDB/majorSchema');
+  //修改 - 公共课最低学分 - ok!
+  //增/删/改 - 专业选修类别 - ok!
   majorModel.find({}, function(error, result) {
     if (error) console.log(error);
     else console.log(result);
     
     for(var i=0;i<result.length;i++){
-      if(result[i].name!="")
+      if(result[i].name!="公共课")
         major.push(result[i].name);
       else{//公共课类别
         for(var j=0;j<result[i].field.length;j++){
-          //有修改数据 - 公共课
+          //有修改数据 - 公共课 - ok!
           if(req.body.gen0){
             switch(j){
               case 0:result[i].mincredit.splice(j,1,parseFloat(req.body.gen0)); break;
@@ -966,12 +968,32 @@ router.post('/edit_dev_plan', function(req, res, next){
           }
           dev_plan_gen_class.push({name:(result[i].field)[j],min_credits:(result[i].mincredit)[j],credits:"0"});
         }
-        result[i].save(function(err) {});//好吧，save不了，我已经疯了
+        result[i].save(function(err) {});
       }
 
-      if(result[i].name==major_name){//专业选修课类别
-         for(var j=0;j<(result[i].field).length;j++)
-            dev_plan_elec_class.push({classification: (result[i].field)[j], min_credits: "20", credits: "18"});
+      if (result[i].name == major_name) { //专业选修课类别  
+        //增加/删除 - 专业选修类别 - ok!
+        if(req.body.new_class){
+          console.log("class changes!");
+          if(req.body.choice=="add")
+            result[i].field.push(req.body.new_class);
+          else{//"del"
+            for(var j=0;j<(result[i].field).length; j++){
+              if(result[i].field[j]==req.body.new_class)
+                result[i].field.splice(j,1);
+            }
+          }
+          result[i].save(function(err) {});
+        }
+        //修改 - 专业选修类别 - ok!
+        if(req.body.classNameinput){
+          result[i].field.splice(parseInt(req.body.elec_class),1,req.body.classNameinput);
+          result[i].save();
+        }
+
+        for (var j = 0; j < (result[i].field).length; j++) {
+          dev_plan_elec_class.push({classification: (result[i].field)[j], min_credits: "20", credits: "18"});
+        }
       }
     }
   });
@@ -981,60 +1003,97 @@ router.post('/edit_dev_plan', function(req, res, next){
   var dev_plan_elec = new Array();
   var dev_plan_elec_tmp = [];
   var courseModel = require('../../db/courseDB/courseSchema_hyx');
+  //突然想到只能添加在course表中的课。。
+  //修改course表，不能增/删id，只能修改其他的！！！
+  //删除 - 专业必修课 - ok!
+  if (req.body.req_del instanceof Array) {
+    //upsert选项：如果不存在就插入
+    for (var i = 0; i < req.body.req_del.length; i++) {
+      courseModel.update({id: req.body.req_del[i]}, {$set:{major:""}}, {upsert: false}, function(err, docs) {
+        if (err) console.log(err);
+        else console.log("deleted!");
+      });
+    }
+  }
+  else if(req.body.req_del){
+    courseModel.update({id: req.body.req_del}, {$set:{major:""}}, {upsert: false}, function(err, docs) {
+      if (err) console.log(err);
+      else console.log("deleted!");
+    });
+  }
 
-    
+  //修改/添加 - 专业必修课 - ok!
+  if(req.body.reqIDinput instanceof Array){
+    for(var i=0;i<req.body.reqIDinput.length;i++){
+      courseModel.update({id: req.body.reqIDinput[i]}, 
+        {$set:{
+          name: req.body.reqNameinput[i], 
+          time: req.body.reqTimeinput[i], 
+          credit: req.body.reqCreditinput[i], 
+          type: 2,
+          major:major_name}
+        }, 
+        {upsert: false}, function(err, docs) {
+        if (err) console.log(err);
+        else console.log("update!");
+      });
+    }
+  }
+  else if(req.body.reqIDinput){
+    courseModel.update({id: req.body.reqIDinput}, 
+      {$set:{
+        name: req.body.reqNameinput, 
+        time: req.body.reqTimeinput, 
+        credit: req.body.reqCreditinput, 
+        type: 2,
+        major:major_name}
+      }, 
+      {upsert: false}, function(err, docs) {
+      if (err) console.log(err);
+      else console.log("update!");
+    });
+  }
 
-  courseModel.find({major: {$in: [major_name, '']} }, function(error, result) {
+  //删除 - 专业选修课
+
+
+  //修改/添加 - 专业选修课 - ok!
+  if(req.body.elecIDinput instanceof Array){
+    for(var i=0;i<req.body.elecIDinput.length;i++){
+      courseModel.update({id: req.body.elecIDinput[i]}, 
+        {$set:{
+          name: req.body.elecNameinput[i], 
+          time: req.body.elecTimeinput[i], 
+          credit: req.body.elecCreditinput[i], 
+          type: 3,
+          subtype: req.body.classNameinput,
+          major:major_name}
+        }, 
+        {upsert: false}, function(err, docs) {
+        if (err) console.log(err);
+        else console.log("updated!");
+      });
+    }
+  }
+  else if(req.body.elecIDinput){
+      courseModel.update({id: req.body.elecIDinput}, 
+        {$set:{
+          name: req.body.elecNameinput, 
+          time: req.body.elecTimeinput, 
+          credit: req.body.elecCreditinput, 
+          type: 3,
+          subtype: req.body.classNameinput,
+          major:major_name}
+        }, 
+        {upsert: false}, function(err, docs) {
+        if (err) console.log(err);
+        else console.log("updated!");
+      });
+  }
+
+  courseModel.find({major: {$in: [major_name, "公共课"]} }, function(error, result) {
     if (error) console.log(error);
     //else console.log(result);
-
-    //有数据 增加/修改 - 专业必修课
-    /*if(req.body.reqIDinput){
-      console.log("changed!");
-      for(var i=0;i<req.body.reqIDinput.length;i++){
-        var tmp={
-          id:req.body.reqIDinput[i],
-          name:req.body.reqNameinput[i],
-          time:req.body.reqTimeinput[i],
-          credit:req.body.reqCreditinput[i],
-          type:2,
-          subtype:"",
-          major:major_name
-        };
-        if(result[i].type == 2)
-        courseModel.remove({_id:result[i]._id},function(err,doc){
-          if(err)
-            console.log("Remove error!");
-          else
-            console.log(doc);
-        });
-        courseModel.create({
-          id:req.body.reqIDinput[i],
-          name:req.body.reqNameinput[i],
-          time:req.body.reqTimeinput[i],
-          credit:req.body.reqCreditinput[i],
-          type:2,
-          subtype:"",
-          major:major_name
-          },function(err,doc){
-          if(err)
-            console.log("Create error!");
-          else
-            console.log(doc);
-        });
-      }
-    }
-    else{
-      console.log("no changes!");
-    }*/
-    
-    //有数据 删除 - 专业必修课
-    /*if(req.body.req_del){
-      for(var i=0;i<result.length;i++){
-        result.splice(i,1);
-      }
-    }*/
-
 
     for (var i = 0; i < result.length; i++) {
       if (result[i].type == 1) {//公共课, dev_plan页面似乎不用公共课的list
@@ -1046,20 +1105,14 @@ router.post('/edit_dev_plan', function(req, res, next){
           complete: false
         });
       } else if (result[i].type == 2) {//专业必修
-        if(req.body.reqIDinput)//不存在这个变量 晕倒。。
-          console.log("changes!");
-        else
-          console.log("no changes!");
-
         dev_plan_req.push({
-          ID: result[i].id,
-          name: result[i].name,
-          time: result[i].time,
-          credit: result[i].credit,
-          complete: false
-        });
+            ID: result[i].id,
+            name: result[i].name,
+            time: result[i].time,
+            credit: result[i].credit,
+            complete: false
+          });
       } else {//3, 专业选修
-        //数据存入内存
         dev_plan_elec_tmp.push({
           ID: result[i].id,
           name: result[i].name,
