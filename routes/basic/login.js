@@ -26,7 +26,7 @@ router.get('/login',function(req,res,next){
         userid:'4321',
         password:'4321',
         status:'教师',
-        cstlist:["5579c56f0538ff3def0625c5"]
+        cstlist:["5579c56f0538ff3def0625c5", "557a6ff9f67bbecc22cf766f"]
       };
       // var user;
       // PersonModel.findbyid(localuser.userid,function (err, user) {
