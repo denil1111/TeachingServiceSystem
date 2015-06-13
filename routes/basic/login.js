@@ -10,53 +10,53 @@ var PersonModel = require('../../db/group1db/PersonModel');
 router.get('/login',function(req,res,next){
   console.log("login get");
   console.log("app.get('env')"+app.get('env'));
-  // if (app.get('env') == 'development'){
-  //   console.log("development module");
 
-  //   passport.authenticate('local',function(err,user2,info){
-  //     //use your own admin account here
-  //     var user={
-  //       userid:'3120',
-  //       password:'123456',
-  //       username:'admin',
-  //       photo:'',
-  //       status:'系统管理员',
-  //       sex:'男',
-  //       age:'20',
-  //       major:'cs',
-  //       college:'cs',
-  //       title:'NULL',
-  //       tel:'123',
-  //       email:'123'
-  //     };
+  if (app.get('env') == 'development'){
+    console.log("development module");
 
-  //     if(err){return(err);}
+    passport.authenticate('local',function(err,user2,info){
+      //use your own admin account here
+      var user={
+        userid:'3120',
+        password:'123456'
+      };
+     
+
+      if(err){return(err);}
       
-  //     else if(user=="" | !user){
-  //       console.log("user : NULL");
-  //       res.render('info/login',{
-  //         loginerror:"学号/密码错误"
-  //       });
-  //     }
-  //     else{
-  //       req.logIn(user, function(err){
-  //         // console.log(user);
-  //         req.session.user=user;
-  //         // console.log(req.isAuthenticated());
-  //         if(user.status == "系统管理员"){
-  //           res.redirect('/info/personinsert');
-  //         }
-  //         else{
-  //           res.redirect('/info/personinfo');
-  //         }
-  //       })
-  //     }
-  //   })(req,res,next);
-  // } else {
+      else if(user=="" | !user){
+        console.log("user : NULL");
+        res.render('info/login',{
+          loginerror:"学号/密码错误"
+        });
+      }
+      else{
+        PersonModel.findbyid(user.userid,function (err, user) {
+         if(err){console.log("development router login findbyid error!")}
+         else if(!user | user == ''){console.log("development router login findbyid find NULL!")}
+         else {
+           user = user[0];console.log("user : "+user);
+           req.logIn(user, function(err){
+          console.log(user);
+          req.session.user=user;
+          console.log(req.isAuthenticated());
+          if(user.status == "系统管理员"){
+            res.redirect('/info/personinsert');
+          }
+          else{
+            res.redirect('/info/personinfo');
+          }
+        });
+          }
+      	}); 
+        
+      }
+    })(req,res,next);
+  } else {
     res.render('info/login',{
       loginerror:""
     });
-  // }
+  }
 
 });
 

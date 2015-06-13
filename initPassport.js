@@ -25,15 +25,20 @@ module.exports = function(passport) {
   // Passport needs to be able to serialize and deserialize users to support persistent login sessions
   	passport.serializeUser(function(user, done) {
       console.log("in ser");
-      done(null, user.userid);
+      done(null, user);
     });
 
-    passport.deserializeUser(function(userid, done) {
-      console.log("in de",userid);
-      PersonModel.findbyid(userid, function (err, user) {
+// <<<<<<< HEAD
+//     passport.deserializeUser(function(userid, done) {
+//       console.log("in de",userid);
+//       PersonModel.findbyid(userid, function (err, user) {
         
-        // console.log(user[0]);
-        done(null, user[0]);
-      });
+//         // console.log(user[0]);
+//         done(null, user[0]);
+//       });
+// =======
+    passport.deserializeUser(function(user, done) {
+      done(null, user);
+// >>>>>>> master
     });
 };
