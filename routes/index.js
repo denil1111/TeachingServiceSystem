@@ -11,16 +11,13 @@ var resource = require('./resource/resource');
 var select = require("./select/course")
 
 // var resource = require()
-<<<<<<< HEAD
 
 // var score = require()
 
 var grades = require("./grades/grades")
 
 
-=======
-// var test = require()
->>>>>>> f2f1b525734df30c644a5b8f885377cc5a202c2c
+
 
 // var grades = require("./grades")
 
