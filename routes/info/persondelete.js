@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var PersonModel = require('../../db/group1db/PersonModel');
 
 router.get('/persondelete', function(req, res,next) {
-    if(!req.session.user){return res.redirect('login');}
     res.render('info/persondelete',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',

@@ -7,7 +7,6 @@ db.on('error', function(error) {
 });
 db.once('open', function (callback) {
 	// 增加记录 基于model操作
-	mongooseModel.update(conditions, update, options, callback);
 	var conditions = {username : 'model_demo_username'};
 	var update     = {$set : {age : 27, title : 'model_demo_title_update'}};
 	var options    = {upsert : true};

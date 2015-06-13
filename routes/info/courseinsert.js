@@ -13,7 +13,6 @@ var tmp = {
 };
 
 router.get('/courseinsert', function(req, res,next) {
-    if(!req.session.user){return res.redirect('login');}
     res.render('info/courseinsert',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',

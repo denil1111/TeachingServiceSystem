@@ -17,7 +17,6 @@ var tmp={
 };
 
 router.get('/personmodify', function(req, res,next) {
-    if(!req.session.user){return res.redirect('login');}
     res.render('info/personmodify',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
@@ -119,7 +118,7 @@ router.post('/personmodify',function(req,res,next){
         }
 
         if(userNameErr != '' || emailerr != '' || ageerr != '' || telerr != '' || passwordErr != '' || useridErr != ''){
-            res.render('info/personinsert',{
+            res.render('info/personmodify',{
                 name: '程序员',
                 image: 'images/avatars/avatar3.jpg',
                 total_a:'12',
@@ -137,7 +136,7 @@ router.post('/personmodify',function(req,res,next){
                 telerr: telerr,
 
                 data: doc,
-                insertresult:'表单解析失败'
+                modifyresult:'表单解析失败'
 
             });
             fs.unlink(files.fulAvatar.path);
@@ -164,7 +163,7 @@ router.post('/personmodify',function(req,res,next){
                     emailerr: emailerr,
                     ageerr: ageerr,
                     telerr: telerr,
-                    data: tmp,
+                    data: doc,
                     modifyresult:'表单解析失败'
                 });
                 fs.unlink(files.fulAvatar.path);
@@ -196,7 +195,7 @@ router.post('/personmodify',function(req,res,next){
                     emailerr: emailerr,
                     ageerr: ageerr,
                     telerr: telerr,
-                    data: tmp,
+                    data: doc,
                     modifyresult:'只支持png和jpg格式图片'
                 });
                 fs.unlink(files.fulAvatar.path);
@@ -221,7 +220,7 @@ router.post('/personmodify',function(req,res,next){
                     emailerr: emailerr,
                     ageerr: ageerr,
                     telerr: telerr,
-                    data: tmp,
+                    data: doc,
                     modifyresult:'图片大小不能超过1000,000'
                 });
                 fs.unlink(files.fulAvatar.path);
@@ -263,7 +262,7 @@ router.post('/personmodify',function(req,res,next){
                         emailerr: emailerr,
                         ageerr: ageerr,
                         telerr: telerr,
-                        data: tmp,
+                        data: doc,
                         modifyresult:'用户修改失败！'
                     })
                 }
@@ -287,7 +286,7 @@ router.post('/personmodify',function(req,res,next){
                         emailerr: emailerr,
                         ageerr: ageerr,
                         telerr: telerr,
-                        data: tmp,
+                        data: doc,
                         modifyresult:'用户修改成功！'
                     });
                 }

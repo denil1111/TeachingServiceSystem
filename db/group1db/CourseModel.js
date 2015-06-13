@@ -24,8 +24,22 @@ CourseSchema.statics.findbyname = function(coursename, callback) {
     return this.model('CourseModel').find({coursename: coursename}, callback);
 }
 
-CourseSchema.statics.deletebyid = function(courseid, callback) {
-    return this.model('CourseModel').remove({courseid: courseid}, callback);
+
+CourseSchema.statics.findbyterm = function (term , callback) {
+    return this.model ('CourseModel').find({courseterm : term},callback);
+}
+
+CourseSchema.statics.deletebyid = function(courseid2, callback) {
+    return this.model('CourseModel').remove({courseid2: courseid2}, callback);
+
+}
+
+CourseSchema.statics.findbyteacher = function(teacher,callback){
+    return this.model('CourseModel').find({teacher: teacher}, callback);
+}
+
+CourseSchema.statics.findbyclassroom = function(campus,room,callback){
+    return this.model('CourseModel').find({campus: campus , room: room}, callback);
 }
 
 CourseSchema.statics.modifybyid = function(req, callback) {
@@ -50,8 +64,9 @@ CourseSchema.statics.modifybyid = function(req, callback) {
 
 //给出cstlist = ['1234','3120'],返回所有id符合cstlist(中一条)的course
 CourseSchema.statics.findbylist = function(cstlist, callback) {
-    
-    return this.model('CourseModel').find({courseid: {$in:cstlist}}, callback);
+
+    return this.model('CourseModel').find({_id: {$in:cstlist}}, callback);
+
 }
 
 CourseSchema.statics.statusoff = function(courseid, callback) {

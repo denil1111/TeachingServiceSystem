@@ -1,43 +1,60 @@
 var express = require('express');
 var router = express.Router();
-var session = require('express-session');
+var auth = require('./basic/auth');
 
 
 var info = require('./info/info');
+var arrange = require('./arrange/arrange')
 // var arrange = require()
-var select = require("./course")
+
+var resource = require('./resource/resource');
+var select = require("./select/course")
+
 // var resource = require()
-var lhtest = require("./lhtest")
+
 // var score = require()
+
 var grades = require("./grades/grades")
 
 
-router.use(session({
-  secret: 'TeachingServerSystem',
-  resave: false,
-  saveUnintialized: false
-}));
+
+// var grades = require("./grades")
+var login = require("./basic/login");
+
 
 
 /* GET home page. */
-router.all('/',isLoggedIn);
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.redirect('/login');
 });
-router.use('/info', info);
-// router.get('/arrange', arrange);
-router.use('/', select);
-// router.get('/resource', resource);
-router.use('/lhtest', lhtest);
-// router.get('/score', score);
-router.use('/grades', grades);
 
-function isLoggedIn(req, res, next) {
-	console.log("isLoggedIn");
-    if (req.isAuthenticated())
-        return next();
 
-    res.redirect('/info/login');
-}
+router.use('/', login);
+var adduser = require('../scripts/addUser.js'); 
+router.get('/addUser',adduser);
+router.use('/info', function setStatus(req, res, next){
+  res.locals.Navstatus = 1;
+  next();
+}, auth.isLoggedIn, info);
+ router.use('/arrange', function setStatus(req, res, next){
+  res.locals.Navstatus = 2;
+  next();
+}, auth.isLoggedIn, arrange);
+router.use('/select', function setStatus(req, res, next){
+  res.locals.Navstatus = 3;
+  next();
+}, auth.isLoggedIn, select);
+ router.use('/resource', function setStatus(req, res, next){
+  res.locals.Navstatus = 4;
+  next();
+}, auth.isLoggedIn, resource);
+//// router.get('/test', function setStatus(req, res, next){
+//  res.locals.Navstatus = 5;
+//  next();
+//}, auth.isLoggedIn, test);
+router.use('/grades', function setStatus(req, res, next){
+  res.locals.Navstatus = 6;
+  next();
+}, auth.isLoggedIn, grades);
 
 module.exports = router;
