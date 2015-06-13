@@ -4,7 +4,7 @@ var mongoose = require('mongoose/');
 
 var PersonModel = require('../../db/group1db/PersonModel');
 
-router.get('/personinfo', function(req, res, next) {
+router.get('/', function(req, res, next) {
     var localuser=req.session.user;
     console.log("localuser : "+localuser);
     console.log("localuser.userid : "+localuser.userid);

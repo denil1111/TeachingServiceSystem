@@ -16,7 +16,7 @@ var tmp={
     email:"18868101234@163.com"
 };
 
-router.get('/personmodify', function(req, res,next) {
+router.get('/', function(req, res,next) {
     res.render('info/personmodify',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
@@ -38,7 +38,7 @@ router.get('/personmodify', function(req, res,next) {
     });
 });
 
-router.post('/personmodify',function(req,res,next){
+router.post('/',function(req,res,next){
     console.log("post:personmodify");
     
     var form = new formidable.IncomingForm(); //创建上传表单

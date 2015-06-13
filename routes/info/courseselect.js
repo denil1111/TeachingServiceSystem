@@ -7,7 +7,7 @@ var tmp=[];
 
 
 
-router.get('/courseselect', function(req, res, next) {
+router.get('/', function(req, res, next) {
     res.render('info/courseselect',{
     	name: '程序员', 
 		image: 'images/avatars/avatar3.jpg',
@@ -23,7 +23,7 @@ router.get('/courseselect', function(req, res, next) {
     });
 });
 
-router.post('/courseselect',function(req, res, next){
+router.post('/',function(req, res, next){
 	console.log("post:courseselect");
 
 	CourseModel.findbyid(req.body.courseid2, function(error, data){

@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var CourseModel = require('../../db/group1db/CourseModel');
 var PersonModel = require('../../db/group1db/PersonModel');
 
-router.get('/coursedelete', function(req, res,next) {
+router.get('/', function(req, res,next) {
     res.render('info/coursedelete',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
@@ -19,7 +19,7 @@ router.get('/coursedelete', function(req, res,next) {
     });
 });
 
-router.post('/coursedelete',function(req,res,next){
+router.post('/',function(req,res,next){
     CourseModel.findbyid(req.body.courseid2, function(error, data){
         if(error) {
             console.log('find error!'+error);

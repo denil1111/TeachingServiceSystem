@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var PersonModel = require('../../db/group1db/PersonModel');
 
-router.get('/personpassword', function(req, res,next) {
+router.get('/', function(req, res,next) {
     res.render('info/personpassword',{
 	    name: '程序员', 
 	    image: 'images/avatars/avatar3.jpg',
@@ -21,7 +21,7 @@ router.get('/personpassword', function(req, res,next) {
 	});
 });
 
-router.post('/personpassword', function(req, res,next) {
+router.post('/', function(req, res,next) {
 	var passwordErr='';
 	var password1Err='';
 	var password2Err='';
