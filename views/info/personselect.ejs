@@ -147,6 +147,15 @@
                         <input type="text" readonly="readonly" name="title" style="width:215px;border:none;margin-left:10px" value=<%= person_data.title %>>
                     </li>
                 </ul>
+                
+                <ul>
+                    <li class="input" style="margin-left:50px">
+                        <label>课程</label>
+                        <% for(var i=0; i<person_data.cstlist.length;i++) { %>
+                        <input type="text" readonly="readonly" name="title" style="width:300px;border:none;margin-left:10px" value=<%= person_data.cstlist[i] %>>
+                        <% } %>
+                    </li>
+                </ul>
                 <% } %>
                 <!--% } %-->
             </form>

@@ -142,7 +142,7 @@ router.post('/',function(req,res,next){
         else{
             PersonModel.findbyid(userid,function (err, user) {
                 if (err) {console.log('find error!'+error);}
-                if (user | user != '') {useridErr = "ID used!";}
+                if (user) {useridErr = "ID used!";}
 
                 if(useridErr != ''){
                     res.render('info/personinsert',{
