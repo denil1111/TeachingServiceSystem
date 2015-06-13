@@ -30,7 +30,7 @@
 <div class="main-content">
     <%include current_title.html %>
     <% include resource_bar.html %>
-    <%var root = true%>
+    <%var root = true %>
 
     <div class="span10">
         <div class="box">
@@ -68,7 +68,7 @@
                                     <i class="icon-file"></i>
                                 </td>
                                 <td>
-                                    <a href="?cid=<%= current_cid %>&hw=<%= hwlist[i].homework %>"><%= hwlist[i].homework %></a></a>
+                                    <a href="?cid=<%= current_cid %>&hw=<%= hwlist[i]._id %>"><%= hwlist[i].homework %></a></a>
                                 </td>
                                 <td>
                                     <b><%= hwlist[i].ddl.toLocaleString()%></b>
@@ -82,7 +82,7 @@
                                             <button class="btn btn-xs btn-info" data-num="<%=i%>" func="edit-btn"><i class="icon-edit"></i>编辑信息</button>
                                         <%}else{%>
                                             <button class="btn btn-xs btn-default" data-num="<%=i%>" func="edit-btn"><i class="icon-info-sign"></i>查看详情</button>
-                                            <button class="btn btn-xs btn-success" data-src="<%= hwlist[i].homework %>" func="upload-btn"><i class="icon-upload-alt"></i>上传</button>
+                                            <button class="btn btn-xs btn-success" data-src="<%= hwlist[i]._id %>" func="upload-btn"><i class="icon-upload-alt"></i>上传</button>
                                             <!--<a class="btn btn-xs btn-info" href="#"><i class="icon-download-alt"></i>下载</a>-->
                                         <%}%>
                                     </div>
@@ -243,18 +243,15 @@
 
         <% if (hasOwnProperty("homeworkLisr")) { %>
             _hwMap=[
-                <% for(var i = 0 ; i < hwlist.length-1; i++) { %>
+                <% for(var i = 0 ; i < hwlist.length; i++) { %>
                     {
+                        "id":"<%= hwlist[i]._id%>",
                         "name":"<%= hwlist[i].homework%>",
                         "ddl":"<%= hwlist[i].ddl.toLocaleString()%>",
                         "desc":"<%= hwlist[i].describe %>"
                     },
                 <%}%>
-                {
-                    "name":"<%= hwlist[hwlist.length-1].homework%>",
-                    "ddl":"<%= hwlist[hwlist.length-1].ddl.toLocaleString()%>",
-                    "desc":"<%= hwlist[hwlist.length-1].describe %>"
-                }
+
             ];
 
             //上传作业
@@ -271,10 +268,12 @@
                 var _node=_e.target;
                 var _num=parseInt(_node.getAttribute("data-num"),10);
                 var _name=_hwMap[_num]["name"];
+                var _id = _hwMap[_num]["id"];
                 $("input[name=hw-name]").val(_hwMap[_num]["name"]);
                 $("input[name=hw-ddl]").val(_hwMap[_num]["ddl"]);
                 $("textarea[name=hw-require]").val(_hwMap[_num]["desc"]);
-                $("#editSubmit").attr("data-src",_name);
+                //$("#editSubmit").attr("data-src",_name);
+                $("#editSubmit").attr("data-src",_id);
                 $("#modal-editwork").modal("show");
             });
 
@@ -289,11 +288,11 @@
                     var _ddl=_ddl.getTime();
                 }
                 var _desc=$("textarea[name=hw-require]").val();
-                var _oldname=$("#editSubmit").attr("data-src");
+                var _hwid=$("#editSubmit").attr("data-src");
                 $.post(
-                    "/resource/course/edithomework",
+                    "/resource/course/homework/edithomework?cid=<%= current_cid %>",
                     {
-                        hw:_oldname,
+                        hwid:_hwid,
                         name:_name,
                         ddl:_ddl,
                         desc:_desc
@@ -323,7 +322,7 @@
                 var _desc=$("textarea[name=hw-new-require]").val();
                 var _oldname=$("#editSubmit").attr("data-src");
                 $.post(
-                        "/resource/course/newhomework",
+                        "/resource/course/homework/newhomework?cid=<%= current_cid %>",
                         {
                             name:_name,
                             ddl:_ddl,
