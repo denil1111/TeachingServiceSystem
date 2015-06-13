@@ -28,7 +28,17 @@ module.exports = function(passport) {
       done(null, user);
     });
 
+// <<<<<<< HEAD
+//     passport.deserializeUser(function(userid, done) {
+//       console.log("in de",userid);
+//       PersonModel.findbyid(userid, function (err, user) {
+        
+//         // console.log(user[0]);
+//         done(null, user[0]);
+//       });
+// =======
     passport.deserializeUser(function(user, done) {
       done(null, user);
+// >>>>>>> master
     });
 };

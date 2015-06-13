@@ -50,11 +50,13 @@
                 <li class="input">
                   <label>课程名称</label>
                   <input type="text" placeholder="e.g. 软件工程" name="coursename" value=<%= data.coursename %>>
+                  <font color="red"><%= coursenameErr %></font>
                 </li>
 
                 <li class="input">
                   <label>课程ID</label>
                   <input type="text" placeholder="e.g. 1234" name="courseid2" value=<%= data.courseid2 %>>
+                  <font color="red"><%= courseidErr %></font>
                 </li>
 
                 <li class="input">
@@ -158,14 +160,39 @@
                 <li class="input">
                   <label>授课老师</label>
                   <input type="text" placeholder="e.g. 王章野" name="teacher" value=<%= data.teacher %>>
+                  <font color="red"><%= teacherErr %></font>
+                </li>
+
+                <li class="input">
+                  <label>课程年份</label>
+                  <select name="year">
+                    <option value="2007">2007</option>
+                    <option value="2008">2008</option>
+                    <option value="2009">2009</option>
+                    <option value="2010">2010</option>
+                    <option value="2011">2011</option>
+                    <option value="2012">2012</option>
+                    <option value="2013">2013</option>
+                    <option value="2014">2014</option>
+                    <option value="2015" selected="selected">2015</option>
+                    <option value="2016">2016</option>
+                  </select>
+                </li>
+
+                <li class="input">
+                  <label>课程容量&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="e.g. 100" style="WIDTH: 30px;" name="all" value=<%= data.all %>></label>
+                  <label>课程余量&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="e.g. 100" style="WIDTH: 30px;" name="remain" value=<%= data.remain %>></label>
+                  <label>待选人数&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="e.g. 0" style="WIDTH: 30px;" name="waiting" value=<%= data.waiting %>></label>
                 </li>
                 <li class="input">
                   <label>考试时间</label>
                   <input type="text" placeholder="e.g. 2015.07.01 8:00-10:00" name="examtime" value=<%= data.examtime %>>
+                  <font color="red"><%= examtimeErr %></font>
                 </li>
                 <li class="input">
                   <label>上课教室</label>
                   <input type="text" placeholder="e.g. 教7-602" name="room" value=<%= data.room %>>
+                  <font color = "red"><%= roomErr %></font> 
                 </li>
                 <li class="input">
                   <label>上课校区</label>
@@ -181,6 +208,7 @@
                 <li class="input">
                   <label>开课学院</label>
                   <input type="text" placeholder="e.g. 计算机学院" name="college" value=<%= data.college %>>
+                  <font color="red"><%= collegeErr %></font>
                 </li>
               </ul>
               </div>
