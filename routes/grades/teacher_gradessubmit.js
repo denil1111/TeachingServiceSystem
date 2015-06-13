@@ -8,7 +8,7 @@ var gradesDB = require('../../db/group6db/gradesDB');
 
 router.post('/gradesSubmit',function(req, res, next) {
 
-if(!req.session.user){return res.redirect('../info/login');}
+if(!req.session.user){return res.redirect('../basic/login');}
 
 console.log(req.body.courseid);
 
@@ -19,7 +19,7 @@ CourseModel.update({courseid:req.body.courseid},{$set:{status:"off"}},function(e
     }
   
         
-CourseModel.findbylist(req.session.user[0].cstlist,function(error,clist){
+CourseModel.findbylist(req.session.user.cstlist,function(error,clist){
     if(error){
          console.log(error);
          return;

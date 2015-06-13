@@ -7,10 +7,10 @@ var CourseModel = require('../../db/group1db/CourseModel');
 
 router.get('/classLists',function(req, res, next) {
 
-if(!req.session.user){return res.redirect('../info/login');}
+if(!req.session.user){return res.redirect('../basic/login');}
 
 
-CourseModel.findbylist(req.session.user[0].cstlist,function(error,clist){
+CourseModel.findbylist(req.session.user.cstlist,function(error,clist){
     if(error){
          console.log(error);
          return;

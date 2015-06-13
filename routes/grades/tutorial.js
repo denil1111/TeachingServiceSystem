@@ -1,9 +1,9 @@
-//ÅàÑø·½°¸Ä£¿é
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½
 var express = require('express');
 var router = express.Router();
 var mongoose=require('mongoose');
 
-//Êý¾Ý¿â
+//ï¿½ï¿½ï¿½Ý¿ï¿½
 var gradesDB = require('../../db/group6db/gradesDB.js');
 var tutorialDB= require('../../db/group6db/tutorialDB.js');
 var PersonModel = require('../../db/group1db/PersonModel');
@@ -11,45 +11,45 @@ var CourseModel = require('../../db/group1db/CourseModel');
 
 router.get('/tutorial',function(req, res, next) {
 
-if(!req.session.user){return res.redirect('../info/login');}
+if(!req.session.user){return res.redirect('../basic/login');}
 
-var courseid1=[];//´óÀà±ØÐÞ¿ÎºÅ
-var courseyear1=[];//´óÀà±ØÐÞÐÞ¶ÁÑ§Äê
-var dev_plan1=[];//´óÀà¿Î³Ì
-var getPoint1=0;//´óÀà»ñµÃÑ§·Ö
-var total_point1=0;//´óÀà×ÜÑ§·Ö
-var complete1=[];//´óÀàÐÞ¶Á×´Ì¬
+var courseid1=[];//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¿Îºï¿½
+var courseyear1=[];//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¶ï¿½Ñ§ï¿½ï¿½
+var dev_plan1=[];//ï¿½ï¿½ï¿½ï¿½ï¿½Î³ï¿½
+var getPoint1=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
+var total_point1=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
+var complete1=[];//ï¿½ï¿½ï¿½ï¿½ï¿½Þ¶ï¿½×´Ì¬
 
-var courseid2=[];//´óÀàÑ¡ÐÞ¿ÎºÅ
-var courseyear2=[];//´óÀàÑ¡ÐÞÐÞ¶ÁÑ§Äê
-var dev_plan2=[];//´óÀà¿Î³Ì
-var getPoint2=0;//´óÀà»ñµÃÑ§·Ö
-var total_point2=0;//´óÀà×ÜÑ§·Ö
-var complete2=[];//´óÀàÐÞ¶Á×´Ì¬
+var courseid2=[];//ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½Þ¿Îºï¿½
+var courseyear2=[];//ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Þ¶ï¿½Ñ§ï¿½ï¿½
+var dev_plan2=[];//ï¿½ï¿½ï¿½ï¿½ï¿½Î³ï¿½
+var getPoint2=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
+var total_point2=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
+var complete2=[];//ï¿½ï¿½ï¿½ï¿½ï¿½Þ¶ï¿½×´Ì¬
 
-var courseid3=[];//Í¨Ê¶¿ÎºÅ
-var courseyear3=[];//Í¨Ê¶ÐÞ¶ÁÑ§Äê
-var dev_plan3=[];//´óÀà¿Î³Ì
-var getPoint3=0;//´óÀà»ñµÃÑ§·Ö
-var total_point3=0;//´óÀà×ÜÑ§·Ö
-var complete3=[];//´óÀàÐÞ¶Á×´Ì¬
+var courseid3=[];//Í¨Ê¶ï¿½Îºï¿½
+var courseyear3=[];//Í¨Ê¶ï¿½Þ¶ï¿½Ñ§ï¿½ï¿½
+var dev_plan3=[];//ï¿½ï¿½ï¿½ï¿½ï¿½Î³ï¿½
+var getPoint3=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
+var total_point3=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
+var complete3=[];//ï¿½ï¿½ï¿½ï¿½ï¿½Þ¶ï¿½×´Ì¬
 
-var courseid4=[];//×¨Òµ±ØÐÞ¿ÎºÅ
-var courseyear4=[];//×¨Òµ±ØÐÞÐÞ¶ÁÑ§Äê
-var dev_plan4=[];//´óÀà¿Î³Ì
-var getPoint4=0;//´óÀà»ñµÃÑ§·Ö
-var total_point4=0;//´óÀà×ÜÑ§·Ö
-var complete4=[];//´óÀàÐÞ¶Á×´Ì¬
+var courseid4=[];//×¨Òµï¿½ï¿½ï¿½Þ¿Îºï¿½
+var courseyear4=[];//×¨Òµï¿½ï¿½ï¿½ï¿½ï¿½Þ¶ï¿½Ñ§ï¿½ï¿½
+var dev_plan4=[];//ï¿½ï¿½ï¿½ï¿½ï¿½Î³ï¿½
+var getPoint4=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
+var total_point4=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
+var complete4=[];//ï¿½ï¿½ï¿½ï¿½ï¿½Þ¶ï¿½×´Ì¬
 
-var courseid5=[];//×¨ÒµÑ¡ÐÞ¿ÎºÅ
-var courseyear5=[];//×¨ÒµÑ¡ÐÞÐÞ¶ÁÑ§Äê
-var dev_plan5=[];//´óÀà¿Î³Ì
-var getPoint5=0;//´óÀà»ñµÃÑ§·Ö
-var total_point5=0;//´óÀà×ÜÑ§·Ö
-var complete5=[];//´óÀàÐÞ¶Á×´Ì¬
+var courseid5=[];//×¨ÒµÑ¡ï¿½Þ¿Îºï¿½
+var courseyear5=[];//×¨ÒµÑ¡ï¿½ï¿½ï¿½Þ¶ï¿½Ñ§ï¿½ï¿½
+var dev_plan5=[];//ï¿½ï¿½ï¿½ï¿½ï¿½Î³ï¿½
+var getPoint5=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
+var total_point5=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
+var complete5=[];//ï¿½ï¿½ï¿½ï¿½ï¿½Þ¶ï¿½×´Ì¬
 
-var my_major=req.session.user[0].major;
-var my_userid=req.session.user[0].userid;
+var my_major=req.session.user.major;
+var my_userid=req.session.user.userid;
 tutorialDB.find({"major":my_major},{},function(error, tData){
   if(error){
       console.log(error);
@@ -82,7 +82,7 @@ var id2={courseid: {$in: courseid2}};
 var id3={courseid: {$in: courseid3}};
 var id4={courseid: {$in: courseid4}};
 var id5={courseid: {$in: courseid5}};
-//´óÀà±ØÐÞ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 CourseModel.find(id1,function(error,dev_plan1){
   if(error){
     console.log(error);
@@ -106,7 +106,7 @@ CourseModel.find(id1,function(error,dev_plan1){
          complete1.push(0);
        }
   }
-//´óÀàÑ¡ÐÞ
+//ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
 CourseModel.find(id2,{},function(error,dev_plan2){
   if(error){
     console.log(error);
@@ -129,7 +129,7 @@ CourseModel.find(id2,{},function(error,dev_plan2){
          complete2.push(0);
        }
   }
-  //Í¨Ê¶¿Î³Ì
+  //Í¨Ê¶ï¿½Î³ï¿½
   CourseModel.find(id3,{},function(error,dev_plan3){
   if(error){
     console.log(error);
@@ -154,7 +154,7 @@ CourseModel.find(id2,{},function(error,dev_plan2){
          complete3.push(0);
        }
   }
-  //×¨ÒµÑ¡ÐÞ
+  //×¨ÒµÑ¡ï¿½ï¿½
   CourseModel.find(id4,{},function(error,dev_plan4){
   if(error){
     console.log(error);
@@ -177,7 +177,7 @@ CourseModel.find(id2,{},function(error,dev_plan2){
          complete4.push(0);
        }
   }
-  //×¨Òµ±ØÐÞ
+  //×¨Òµï¿½ï¿½ï¿½ï¿½
   CourseModel.find(id5,{},function(error,dev_plan5){
   if(error){
     console.log(error);
@@ -201,7 +201,7 @@ CourseModel.find(id2,{},function(error,dev_plan2){
        }
   }
   res.render('grades/student_guide', {
-  name: '³ÌÐòÔ±', 
+  name: 'ï¿½ï¿½ï¿½ï¿½Ô±', 
   image: 'images/avatars/avatar1.jpg',
   total_a:'12',
   a:'2,3,1,2,3,1,0',

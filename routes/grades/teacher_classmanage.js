@@ -7,7 +7,7 @@ var gradesDB = require('../../db/group6db/gradesDB.js');
 var gradesfix = require('./teacher_gradesfix.js');
 function classmanage(req, res, next) {
 
-    if(!req.session.user){return res.redirect('../info/login');}
+    if(!req.session.user){return res.redirect('../basic/login');}
     //result of modifing db
     var result = true;
     var criteria = {courseid : req.body.courseid};
@@ -20,10 +20,10 @@ function classmanage(req, res, next) {
         } else {
             
             console.log('create a motion:' + req.body.reason)
-            console.log('user:' + req.session.user[0].userid)
+            console.log('user:' + req.session.user.userid)
             var motion = {
-                "teacherid" : req.session.user[0].userid,
-                "teachername" : req.session.user[0].username,
+                "teacherid" : req.session.user.userid,
+                "teachername" : req.session.user.username,
                 "studentid":req.body.userid,
                 "courseid": req.body.courseid,
                 "oldvalue": req.body.oldvalue,
@@ -55,7 +55,7 @@ function classmanage(req, res, next) {
 function display(req, res,result){
         var criteria = {courseid : req.body.courseid};
           var condition = {
-            "teacherid" : req.session.user[0].userid,
+            "teacherid" : req.session.user.userid,
             "courseid" : req.body.courseid,
         }
         motion = null;

@@ -8,7 +8,7 @@ var motionModel = require('../../db/group6db/motion.js');
 
 function handler(req, res, next) {
     //feedback of modifing db
-    if(!req.session.user){return res.redirect('../info/login');}
+    if(!req.session.user){return res.redirect('../basic/login');}
     if(typeof req.body.cmd !== 'undefined') {
         if( req.body.cmd == 'accept' ) {
             console.log('accept')
@@ -17,7 +17,7 @@ function handler(req, res, next) {
                 "studentid":req.body.studentid,
                 "courseid":req.body.courseid,
                 "newvalue":req.body.newvalue,
-                "admin":req.session.user[0].userid,
+                "admin":req.session.user.userid,
                 "newvalue":req.body.newvalue,
                 "comment":"accept"
             }
@@ -33,7 +33,7 @@ function handler(req, res, next) {
                 "teacherid":req.body.teacherid,
                 "studentid":req.body.studentid,
                 "courseid":req.body.courseid,
-                "admin":req.session.user[0].userid,
+                "admin":req.session.user.userid,
                 "newvalue":req.body.newvalue
             }
             motionModel.rejectbyid(detail, function(error, other) {

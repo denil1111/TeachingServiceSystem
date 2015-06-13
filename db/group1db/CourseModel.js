@@ -76,7 +76,7 @@ CourseSchema.statics.modifybyid = function(req, callback) {
 //给出cstlist = ['1234','3120'],返回所有id符合cstlist(中一条)的course
 CourseSchema.statics.findbylist = function(cstlist, callback) {
 
-    return this.model('CourseModel').find({_id: {$in:cstlist}}, callback);
+    return this.model('CourseModel').find({courseid: {$in:cstlist}}, callback);
 
 }
 

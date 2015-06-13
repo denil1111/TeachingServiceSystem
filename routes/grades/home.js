@@ -7,13 +7,13 @@ var gradesDB = require('../../db/group6db/gradesDB');
 var motionModel = require('../../db/group6db/motion');
 
 router.get('/grades', function(req, res, next) {
-if(!req.session.user){return res.redirect('../info/login');}
+if(!req.session.user){return res.redirect('../basic/login');}
 var criteria = {userid : '3120102300'};
-criteria.userid = req.session.user[0].userid;
+criteria.userid = req.session.user.userid;
 
 // console.log(req.session.user[0].userid);
 
-if(req.session.user[0].status=="student"){
+if(req.session.user.status=="student"){
 //这里使用数据库
  gradesDB.find(criteria,function(error,docs){
      if(error){
@@ -50,9 +50,9 @@ if(req.session.user[0].status=="student"){
    });     
  });
 }
-else if (req.session.user[0].status=="teacher"){
+else if (req.session.user.status=="teacher"){
   
- CourseModel.findbylist(req.session.user[0].cstlist,function(error,clist){
+ CourseModel.findbylist(req.session.user.cstlist,function(error,clist){
     if(error){
          console.log(error);
          return;
@@ -88,7 +88,7 @@ else if (req.session.user[0].status=="teacher"){
  
 }
 
-else if(req.session.user[0].status=="admin"){
+else if(req.session.user.status=="admin"){
     var rejected = {
         "status" : "rejected"
     }

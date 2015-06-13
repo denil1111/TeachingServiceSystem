@@ -10,7 +10,7 @@ var gradesDB = require('../../db/group6db/gradesDB');
 
 router.get('/gradesAnalysis',function(req, res, next) {
 
-if(!req.session.user){return res.redirect('../info/login');}
+if(!req.session.user){return res.redirect('../basic/login');}
 
 
 gradesDB.find(function(error,docs){

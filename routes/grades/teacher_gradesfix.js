@@ -9,7 +9,7 @@ var motionManager = require('./motionManager.js');
 function gradesfix(req, res) {
 
     if(!req.session.user){
-        return res.redirect('../info/login');
+        return res.redirect('../basic/login');
     }
 
     var criteria = {courseid : req.body.courseid};
