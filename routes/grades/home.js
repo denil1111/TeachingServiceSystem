@@ -26,7 +26,7 @@ if(req.session.user.status=="student"){
      {   
        console.log(docs[i]);
        for(var j = 0;j < courses.length;++j)
-          if(courses[j]["courseid"]==docs[i]["courseid"])//we can use sort to speed up
+          if(courses[j]["_id"]==docs[i]["courseid"])//we can use sort to speed up
           {
             console.log(courses[j]);
             docs[i]["coursename"] = courses[j]["coursename"];

@@ -12,7 +12,7 @@ if(!req.session.user){return res.redirect('../basic/login');}
 
 console.log(req.body.courseid);
 
-CourseModel.update({courseid:req.body.courseid},{$set:{status:"off"}},function(error,back){
+CourseModel.update({"_id":req.body.courseid},{$set:{status:"off"}},function(error,back){
     if(error){
         console.log(error);
         return;
