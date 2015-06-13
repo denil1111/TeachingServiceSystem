@@ -88,7 +88,7 @@ router.post('/', function(req, res,next) {
 	        	});
 	        }
 	        else{
-	        	localuser=user[0];
+	        	localuser=user;
 	        	console.log("localuser : "+localuser);
 	        	console.log("localuser.password : "+localuser.password);
 	        	console.log("req.body.password : "+req.body.password);

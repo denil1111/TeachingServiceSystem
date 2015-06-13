@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
     console.log("localuser : "+localuser);
     console.log("localuser.userid : "+localuser.userid);
     PersonModel.findbyid(localuser.userid,function (err, user) {
-        localuser = user[0];
+        localuser = user;
 
 
         res.render('info/personinfo',{

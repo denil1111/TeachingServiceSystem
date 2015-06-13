@@ -40,11 +40,11 @@ router.post('/',function(req, res, next){
 				total_credits:'24',
 				credits:'4,6,2,4,6,2,0',
 
-				person_data: user,
+				person_data: tmp,
 				selectresult:"用户不存在"
 			});
 		}
-		console.log("user : "+user.length);
+//		console.log("user : "+user.length);
 		console.log('user : '+user);
 		res.render('info/personselect',{
 			name: '程序员', 
