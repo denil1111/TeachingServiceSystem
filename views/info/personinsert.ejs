@@ -23,8 +23,6 @@
      setNavActive();
      setSlideActive();
 </script>
-<script src="/javascripts/jquery-1.11.1.min.js" type="text/javascript">
-</script>
 <script type="text/javascript">
     String.prototype.format = function (args) {
         var result = this;
@@ -51,10 +49,10 @@
     $(function(){
         $('#btnSub').on('click',function(){
                     console.log("Now go click");
-                    var fulAvatarVal = $('#fulAvatar').val(),	errorTip = '<div id="errorTip" class="alert alert-warning">{0}</div> ';									
-                    $("#errorTip,#alt_warning").remove();									
-                    if(fulAvatarVal.length == 0)	{										
-                      $("#container").prepend(errorTip.format('请选择要上传的文件'));					
+                    var fulAvatarVal = $('#fulAvatar').val(), errorTip = '<div id="errorTip" class="alert alert-warning">{0}</div> ';                 
+                    $("#errorTip,#alt_warning").remove();                 
+                    if(fulAvatarVal.length == 0)  {                   
+                      $("#container").prepend(errorTip.format('请选择要上传的文件'));          
                       return false;
                     }
                     var extName = fulAvatarVal.substring(fulAvatarVal.lastIndexOf('.'),fulAvatarVal.length).toLowerCase();
@@ -94,7 +92,10 @@
               <ul>
                   <li class="input">
                       <label>从本地选择照片</label>
-                      <input id="fulAvatar" name="fulAvatar"  style="WIDTH: 150px; HEIGHT: 22px" size="33"  type="file" class="form-control"/>
+                      <div id="uniform-fulAvatar" class="uploader"  style="width:220px;border:none">
+                          <input id="fulAvatar" name="fulAvatar" style="background: #707070" size="22" class="form-control" type="file">
+
+                      </div>
                   </li>
                 <!--并不能预览
                 <li class="input">
@@ -103,24 +104,24 @@
                   <img class="menu-avatar" src="../imagestmp.jpg" width="300" height="300">
                 </span>
                   </li>-->
-                <li class="input">
+                <li class="input" style="margin-top:10px;">
                   <label>学工号</label>
-                  <input type="text" placeholder="e.g. 3120" name="userid" value=<%= data.userid %>>
-                  <font><%= useridErr %><font>
+                  <input type="text" style="width:215px" placeholder="e.g. 3120" name="userid" value=<%= data.userid %>>
+                  <font color="red"><%= useridErr %></font>
                 </li>
-                <li class="input">
+                <li class="input" style="margin-top:-65px; margin-left:360px">
                   <label>姓名</label>
-                  <input type="text" placeholder="e.g. Tom" name="username" value=<%= data.username %>>
-                  <font><%= userNameErr %><font>
+                  <input type="text" style="width:215px" placeholder="e.g. Tom" name="username" value=<%= data.username %>>
+                  <font color="red"><%= userNameErr %></font>
                 </li>
                 <li class="input">
                   <label>密码</label>
-                  <input type="password" placeholder="e.g. 123456" name="password1">
+                  <input type="password" style="width:215px" placeholder="e.g. 123456" name="password1">
                 </li>
-                <li class="input">
-                  <label>确认密码</label>
-                  <input type="password" placeholder="e.g. 123456" name="password2">
-                  <font><%= passwordErr %><font>
+                <li class="input" style="margin-top:-65px; margin-left:360px">
+                  <label >确认密码</label>
+                  <input type="password" style="width:215px" placeholder="e.g. 123456" name="password2">
+                  <font color="red"><%= passwordErr %></font>
                 </li>
                 
                 <li class="input">
@@ -137,7 +138,7 @@
                     </optgroup>
                   </select>
                 </li>
-                <li class="input">
+                <li class="input" style="margin-top:-65px; margin-left:360px">
                   <label>性别</label>
                   <select name="sex">
                       <option value="男" selected="selected">男</option>
@@ -150,19 +151,19 @@
                 </li-->
                 <li class="input">
                   <label>年龄</label>
-                  <input type="text" placeholder="e.g. 20" name="age" value=<%= data.age %>>
-                  <font><%= ageerr %></font>
+                  <input type="text" style="width:215px" placeholder="e.g. 20" name="age" value=<%= data.age %>>
+                  <font color="red"><%= ageerr %></font>
                 </li>
                   <!--图片上传部分-->
-                <li class="input">
+                <li class="input" style="margin-top:-65px; margin-left:360px">
                   <label>专业</label>
-                  <input type="text" placeholder="e.g. 计算机科学与技术" name="major" value=<%= data.major %>>
+                  <input type="text" style="width:215px" placeholder="e.g. 计算机科学与技术" name="major" value=<%= data.major %>>
                 </li>
                 <li class="input">
                   <label>学院</label>
-                  <input type="text" placeholder="e.g. 计算机学院" name="college" value=<%= data.college %>>
+                  <input type="text" style="width:215px" placeholder="e.g. 计算机学院" name="college" value=<%= data.college %>>
                 </li>
-                <li class="input">
+                <li class="input" style="margin-top:-65px; margin-left:360px">
                   <label>职称</label>
                   <select name="title">
                     <option value="无" selected="selected">无</option>
@@ -173,18 +174,18 @@
                 </li>
                 <li class="input">
                   <label>Tel</label>
-                  <input type="text" placeholder="e.g. 18868101234" name="tel" value=<%= data.tel %>>
-                  <font><%= telerr %></font>
+                  <input type="text" style="width:215px" placeholder="e.g. 18868101234" name="tel" value=<%= data.tel %>>
+                  <font color="red"><%= telerr %></font>
                 </li>
-                <li class="input">
+                <li class="input" style="margin-top:-65px; margin-left:360px">
                   <label>Email</label>
-                  <input type="text" placeholder="e.g. email@zju.edu.cn" name="email" value=<%= data.email %>>
-                  <font><%= emailerr %></font>
+                  <input type="text" style="width:215px" placeholder="e.g. email@zju.edu.cn" name="email" value=<%= data.email %>>
+                  <font color="red"><%= emailerr %></font>
                 </li>
               </ul>
               </div>
             </div>
-            <button type="submit" class="btn btn-blue">添加</button>
+            <button type="submit" style="margin-left:26px" class="btn btn-blue">添加</button>
           </div>
         </div>
       </form>
