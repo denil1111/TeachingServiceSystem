@@ -33,6 +33,7 @@
             <%for(var i=0;i<data.length;i++)
                 {%>
             if(j==<%=i%>+0 ) {
+                document.getElementById("courseid").value="<%=data[i].courseid%>";
                 document.getElementById("coursename").value="<%=data[i].coursename%>";
                 document.getElementById("courseid2").value="<%=data[i].courseid2%>";
                 document.getElementById("courseterm").value="<%=data[i].courseterm%>";
@@ -111,11 +112,19 @@
                                     <%}%>
                                 </optgroup>
                             </select>
+                            
+                            <li class="input">
+                                <label>课程唯一id
+                                <input style="margin-top:9px;width:215px;margin-left:10px;border:none" id="courseid" type="text" readonly="readonly"    value=<%= data[i].courseid %>>
+                                </label>
+                            </li>
+                            
                             <li class="input">
                                 <label style="font-size:12px">课程名称
                                 <input  style="margin-top:9px;width:215px;margin-left:10px;border:none" id="coursename" type="text" readonly="readonly"   value=<%= data[i].coursename %>>
                                 </label>
                             </li>
+                            
                             <li class="input" style="margin-top:-50px; margin-left:200px">
                                 <label>课程 ID
                                 <input style="margin-top:9px;width:215px;margin-left:10px;border:none" id="courseid2" type="text" readonly="readonly"    value=<%= data[i].courseid2 %>>

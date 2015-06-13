@@ -6,20 +6,17 @@ var PersonModel = require('../../db/group1db/PersonModel');
 
 router.get('/', function(req, res,next) {
     res.render('info/coursedelete',{
-        name: '程序员', 
-        image: 'images/avatars/avatar3.jpg',
-        total_a:'12',
-        a:'2,3,1,2,3,1,0',
-        total_b:'24',
-        b:'4,6,2,4,6,2,0',
-        total_credits:'24',
-        credits:'4,6,2,4,6,2,0',
-
         deleteresult:'请提交表单'
     });
 });
 
 router.post('/',function(req,res,next){
+    if(!req.body.courseid2){
+        return res.render('info/coursedelete',{
+            deleteresult:'课程ID不能为空'
+        });
+    }
+    
     /* 查找courseid2对应课程是否存在 */
     CourseModel.findbyid(req.body.courseid2, function(error, data){
         if(error) {
@@ -31,15 +28,6 @@ router.post('/',function(req,res,next){
         if(!data | data ==''){
             /* 查找courseid2结果为空 */
             return res.render('info/coursedelete',{
-                name: '程序员', 
-                image: 'images/avatars/avatar3.jpg',
-                total_a:'12',
-                a:'2,3,1,2,3,1,0',
-                total_b:'24',
-                b:'4,6,2,4,6,2,0',
-                total_credits:'24',
-                credits:'4,6,2,4,6,2,0',
-
                 deleteresult:'课程ID不存在'
             });
         }
@@ -50,30 +38,12 @@ router.post('/',function(req,res,next){
                 if(err){
                     console.log("find courseid error!"+err);
                     return res.render('info/coursedelete',{
-                        name: '程序员', 
-                        image: 'images/avatars/avatar3.jpg',
-                        total_a:'12',
-                        a:'2,3,1,2,3,1,0',
-                        total_b:'24',
-                        b:'4,6,2,4,6,2,0',
-                        total_credits:'24',
-                        credits:'4,6,2,4,6,2,0',
-        
                         deleteresult:'查找唯一ID对应课程错误'
                     });
                 }
                 /* 查找courseid结果为空 */
                 if(!data2){
                     return res.render('info/coursedelete',{
-                        name: '程序员', 
-                        image: 'images/avatars/avatar3.jpg',
-                        total_a:'12',
-                        a:'2,3,1,2,3,1,0',
-                        total_b:'24',
-                        b:'4,6,2,4,6,2,0',
-                        total_credits:'24',
-                        credits:'4,6,2,4,6,2,0',
-        
                         deleteresult:'唯一ID不存在'
                     });
                 }
@@ -83,15 +53,6 @@ router.post('/',function(req,res,next){
                         if(err){
                             console.log("remove by courseid error!"+err);
                             return res.render('info/coursedelete',{
-                                name: '程序员', 
-                                image: 'images/avatars/avatar3.jpg',
-                                total_a:'12',
-                                a:'2,3,1,2,3,1,0',
-                                total_b:'24',
-                                b:'4,6,2,4,6,2,0',
-                                total_credits:'24',
-                                credits:'4,6,2,4,6,2,0',
-                
                                 deleteresult:'通过唯一ID删除课程失败'
                             });
                         }
@@ -109,15 +70,6 @@ router.post('/',function(req,res,next){
                                 }
                             );
                             return res.render('info/coursedelete',{
-                                name: '程序员', 
-                                image: 'images/avatars/avatar3.jpg',
-                                total_a:'12',
-                                a:'2,3,1,2,3,1,0',
-                                total_b:'24',
-                                b:'4,6,2,4,6,2,0',
-                                total_credits:'24',
-                                credits:'4,6,2,4,6,2,0',
-                
                                 deleteresult:'课程删除成功！'
                             });
                         }
@@ -130,15 +82,6 @@ router.post('/',function(req,res,next){
                 if(error) {
                     console.log('find error!'+error);
                     return res.render('info/coursedelete',{
-                        name: '程序员', 
-                        image: 'images/avatars/avatar3.jpg',
-                        total_a:'12',
-                        a:'2,3,1,2,3,1,0',
-                        total_b:'24',
-                        b:'4,6,2,4,6,2,0',
-                        total_credits:'24',
-                        credits:'4,6,2,4,6,2,0',
-
                         deleteresult:'根据courseid2删除课程失败'
                     });
                 } 
@@ -159,17 +102,7 @@ router.post('/',function(req,res,next){
                             }
                         );
                     }
-
                     return res.render('info/coursedelete',{
-                        name: '程序员', 
-                        image: 'images/avatars/avatar3.jpg',
-                        total_a:'12',
-                        a:'2,3,1,2,3,1,0',
-                        total_b:'24',
-                        b:'4,6,2,4,6,2,0',
-                        total_credits:'24',
-                        credits:'4,6,2,4,6,2,0',
-
                         deleteresult:'课程删除成功'
                     });
                 }
