@@ -171,7 +171,7 @@ router.get('/my_course/:timeID',function(req, res, next){
     var userModel = require('../../db/courseDB/userSchema'); 
     var courseModel = require('../../db/group1db/CourseModel'); 
     if (status==1){
-        courseModel.find({teacher: req.session.user.username}, function(error, jresult){
+        courseModel.find({teacher: req.session.user.userid}, function(error, jresult){
             if (error)
                 console.log(error);
             else {
@@ -198,7 +198,7 @@ router.get('/my_course/:timeID',function(req, res, next){
         });
     }
     else {
-        userModel.find({id: req.session.user.username}, function(error,raw_result){
+        userModel.find({id: req.session.user.userid}, function(error,raw_result){
         if(error) {
             console.log(error);
         } else {
@@ -246,6 +246,23 @@ router.get('/my_course/:timeID',function(req, res, next){
             })(i); 
         }
         console.log('2');
+        if (my_course_list.length==0)
+            res.render('select/my_course', {
+                    type: status,//manager
+                    name: '程序员', 
+                    image: 'images/avatars/avatar3.jpg',
+                    total_a:'12',
+                    a:'2,3,1,2,3,1,0',
+                    total_b:'24',
+                    b:'4,6,2,4,6,2,0',
+                    total_credits:'24',
+                    credits:'4,6,2,4,6,2,0',
+                    course_data: my_course,
+                    start_year:'2013',
+                    this_year:'2015',
+                    this_semester:'春',
+                    error:""
+                });
           // db.close();
         });
     }

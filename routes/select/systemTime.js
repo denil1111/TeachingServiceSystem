@@ -214,7 +214,7 @@ router.post('/course_filtrate', function(req, res, next) {
                 for (var i=0;i<remaining;i++){
                     userModel.update({id: current[i].user},{$push:{confirmedCourse:{id: result[course_i].id}}},
                         function(err,re){if (err) console.log(err);});
-                    courseStudentModel.update({},{$push:{id: result[course_i]._id, confirmedStudent:{id: current[i].user}}},
+                    courseStudentModel.update({id: result[course_i].id},{$push:{confirmedStudent:{id: current[i].user}}},
                         function(err,re){if (err) console.log(err);});
                 }
             }
@@ -224,13 +224,17 @@ router.post('/course_filtrate', function(req, res, next) {
         // end one course
         }
   });
-
+  
+  var course = [];
+  var choose_time = [];
+  var error = "";
   res.render('select/time', {
     type:2,//manager
     course:course,
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
-    choose_time:choose_time
+    choose_time:choose_time,
+    error: error
   });
 });
 

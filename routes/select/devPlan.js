@@ -240,7 +240,7 @@ router.post('/dev_plan', function (req, res, next) {
 
 
 router.get('/my_dev_plan', function (req, res, next) {
-<<<<<<< HEAD
+
   console.log(req.body);
 
   var userType;
@@ -251,10 +251,6 @@ router.get('/my_dev_plan', function (req, res, next) {
   }
   var currentId=req.session.user.userid;
 
-=======
-  console.log(course.ejs);
-  
->>>>>>> 5a18be50a702bc7b0eebe175b2456cdd7ee61534
   var render = function() {
     res.render('select/my_dev_plan', {
       type: userType,
@@ -537,15 +533,7 @@ router.get('/my_dev_plan', function (req, res, next) {
             console.log(my_dev_plan_elec);
             console.log("~~~~~~~~~~~~~~~~"); */
 
-<<<<<<< HEAD
-            /*console.log("%d %d %d %d", credit1_1, credit1_2, credit1_3, credit1_4);
-            console.log(credit2);
-            console.log(credit3);*/
-=======
-            console.log("%d %d %d %d", credit1_1, credit1_2, credit1_3, credit1_4);
-            console.log(credit2);//输出NaN。。。
-            console.log(credit3);
->>>>>>> 5a18be50a702bc7b0eebe175b2456cdd7ee61534
+
 
             //render();
           }
@@ -577,7 +565,7 @@ router.get('/my_dev_plan', function (req, res, next) {
 router.post('/my_dev_plan_add', function(req, res, next) {
   console.log(req.body);
 
-<<<<<<< HEAD
+
   var render = function() {
     res.render('select/my_dev_plan', {
       type: userType,
@@ -608,9 +596,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
   var selectedMajor=req.session.user.major;
 
   //var currentId = "313001";
-=======
-  var currentId = "u001";
->>>>>>> 5a18be50a702bc7b0eebe175b2456cdd7ee61534
+
   var planModel = require('../../db/courseDB/planSchema');
   var courseModel = require('../../db/courseDB/courseSchema_hyx');
   var majorModel = require('../../db/courseDB/majorSchema');
