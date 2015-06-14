@@ -16,11 +16,6 @@ var select = require("./select/course")
 
 var grades = require("./grades/grades")
 
-
-
-
-// var grades = require("./grades")
-
 var login = require("./basic/login");
 
 
