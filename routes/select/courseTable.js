@@ -28,6 +28,7 @@ router.get('/my_course', function(req, res, next) {
     case '教师': status = 1; 
                 break;
     case '系统管理员': status = 2;
+                res.redirect("../../login");
                 break;
   }
   console.log(my_course.ejs);
@@ -175,7 +176,7 @@ router.get('/my_course/:timeID',function(req, res, next){
                 console.log(error);
             else {
                 for (var i=0;i<jresult.length;i++)
-                    my_course.push({course_id:"00010", ID:jresult[i].courseid2, name:jresult[i].coursename, teacher:jresult[i].teacher, semaster:jresult[i].courseterm, time:jresult[i].coursetime, campus:jresult[i].campus, room:jresult[i].room});
+                    my_course.push({course_id:jresult[i]._id, ID:jresult[i].courseid2, name:jresult[i].coursename, teacher:jresult[i].teacher, semaster:jresult[i].courseterm, time:jresult[i].coursetime, campus:jresult[i].campus, room:jresult[i].room});
                 console.log(my_course);
                 res.render('select/my_course', {
                 type: status,//manager
@@ -219,7 +220,7 @@ router.get('/my_course/:timeID',function(req, res, next){
                     console.log(nresult);
                 }              
                 if (nresult.length!=0)
-                    my_course.push({course_id:"00010", ID:nresult[0].courseid2, name:nresult[0].coursename, teacher:nresult[0].teacher, semaster:nresult[0].courseterm, time:nresult[0].coursetime, campus:nresult[0].campus, room:nresult[0].room});           
+                    my_course.push({course_id:nresult[i]._id, ID:nresult[0].courseid2, name:nresult[0].coursename, teacher:nresult[0].teacher, semaster:nresult[0].courseterm, time:nresult[0].coursetime, campus:nresult[0].campus, room:nresult[0].room});           
                 
                 console.log("!");
                 if (my_course.length==my_course_list.length){
