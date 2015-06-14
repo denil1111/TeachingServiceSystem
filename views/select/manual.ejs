@@ -166,7 +166,12 @@ function add_course(){
 }
 function delete_course(){
 	console.log("delete!!");
-	var course_id=document.getElementsByName("choose").value;
+	var temp=document.getElementsByName("choose");
+  var course_id;
+  for(var i=0;i<temp.length;i++){
+    if(temp[i].checked) course_id=temp[i].value;
+  }
+  console.log(course_id);
 	var stu_id=document.getElementById("student_id").value;
 	var _json = jQuery.param ({	
     		type:"delete",
