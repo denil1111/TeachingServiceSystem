@@ -74,5 +74,6 @@ CourseSchema.statics.statusoff = function(courseid2, callback) {
         callback);
 }
 
+
 var CourseModel = mongoose.model('CourseModel',CourseSchema,CollectionName);
 module.exports=CourseModel;
