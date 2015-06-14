@@ -42,5 +42,5 @@ campus
 	});
 }*/
 
-var courseModel_hyx = mongoose.model('courseModel_hyx',courseSchema_hyx,'course');
+var courseModel_hyx = mongoose.model('courseModel_hyx',courseSchema_hyx,'coursesPlan');
 module.exports=courseModel_hyx;
