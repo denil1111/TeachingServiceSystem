@@ -13,13 +13,13 @@ course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', s
 course.push({name:'程序员的自我修养',complete:true, teacher:'XX1', semaster:'春',time:'周一 123',campus:'玉泉',room:'曹西-204',id:'000001'});
 course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', semaster:'春夏',time:'周一 123 周二 345',campus:'玉泉',room:'曹西-101',id:'000002'});
 
-var Time_Dictionary = {"11":"周一 1 2","12":"周一 3 4","13":"周一 6 7","14":"周一 9 10","15":"周一 11 12",
-                       "21":"周二 1 2","22":"周二 3 4","23":"周二 6 7","24":"周二 9 10","25":"周二 11 12",
-                       "31":"周三 1 2","32":"周三 3 4","33":"周三 6 7","34":"周三 9 10","35":"周三 11 12",
-                       "41":"周四 1 2","42":"周四 3 4","43":"周四 6 7","44":"周四 9 10","45":"周四 11 12",
-                       "51":"周五 1 2","52":"周五 3 4","53":"周五 6 7","54":"周五 9 10","55":"周五 11 12",
-                       "61":"周六 1 2","62":"周六 3 4","63":"周六 6 7","64":"周六 9 10","65":"周六 11 12",
-                       "71":"周日 1 2","72":"周日 3 4","73":"周日 6 7","74":"周日 9 10","75":"周日 11 12"};
+var Time_Dictionary = {"11":"周一 12","12":"周一 34","13":"周一 67","14":"周一 910","15":"周一 1112",
+                       "21":"周二 12","22":"周二 34","23":"周二 67","24":"周二 910","25":"周二 1112",
+                       "31":"周三 12","32":"周三 34","33":"周三 67","34":"周三 910","35":"周三 1112",
+                       "41":"周四 12","42":"周四 34","43":"周四 67","44":"周四 910","45":"周四 1112",
+                       "51":"周五 12","52":"周五 34","53":"周五 67","54":"周五 910","55":"周五 1112",
+                       "61":"周六 12","62":"周六 34","63":"周六 67","64":"周六 910","65":"周六 1112",
+                       "71":"周日 12","72":"周日 34","73":"周日 67","74":"周日 910","75":"周日 1112"};
 
 router.get('/course', function(req, res, next) {
   console.log(course.ejs);
@@ -51,13 +51,11 @@ router.post('/course_search', function(req, res, next) {
   else {
     timeall = [];
     if (id.time[0].length==1){
-        console.log(Time_Dictionary[id.time]);
         timeall.push({coursetime: new RegExp(Time_Dictionary[id.time], 'i')});
     }
     else
         for (i=id.time.length-1; i>=0; i--){
         timeall.push({coursetime: new RegExp(Time_Dictionary[id.time[i]], 'i')});
-        console.log(Time_Dictionary[id.time[i]]);
     }
     if (id.time_check=="and")
         all.push({"$and":timeall});
@@ -67,7 +65,7 @@ router.post('/course_search', function(req, res, next) {
 
   // Add id condition
   if (id.course_number!="")
-    all.push({courseid:id.course_number});
+    all.push({courseid2:id.course_number});
 
   // Add name condition
   nameall = [];
@@ -106,7 +104,7 @@ router.post('/course_search', function(req, res, next) {
       result = [];
 
       for (var i=0; i<raw_result.length; i++)
-        result.push({courseid:raw_result[i].courseid, name:raw_result[i].coursename, 
+        result.push({id:raw_result[i].courseid2, name:raw_result[i].coursename, 
                      semester:raw_result[i].courseterm, time:raw_result[i].coursetime, 
                      teacher:raw_result[i].teacher, room:raw_result[i].room, 
                      campus:raw_result[i].campus});
