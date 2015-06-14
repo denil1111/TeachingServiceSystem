@@ -20,9 +20,15 @@ router.get('/manual_add', function(req, res, next) {
   res.render('select/manual', {
     type:status,//manager
     course:course,
+<<<<<<< HEAD
     name: req.session.user.username.toString(), 
     image: 'images/avatars/avatar3.jpg',
    // choose_time:choose_time
+=======
+    name: '程序员', 
+    image: 'images/avatars/avatar3.jpg'
+    
+>>>>>>> 3afda6e7d2258cc05d9179d6fb7d087a54d48aef
   });
 });
 router.post('/manual_add', function(req, res, next) {

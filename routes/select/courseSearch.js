@@ -104,7 +104,7 @@ router.post('/course_search', function(req, res, next) {
       result = [];
 
       for (var i=0; i<raw_result.length; i++)
-        result.push({courseid:raw_result[i].courseid, name:raw_result[i].coursename, 
+        result.push({id:raw_result[i].courseid2, name:raw_result[i].coursename, 
                      semester:raw_result[i].courseterm, time:raw_result[i].coursetime, 
                      teacher:raw_result[i].teacher, room:raw_result[i].room, 
                      campus:raw_result[i].campus});
