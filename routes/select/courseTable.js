@@ -2,10 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 
-
-
-state = 1;  // 1:teacher, 0:student
-
+//state = 1;  // 1:teacher, 0:student
 /*my_course.push({
   course_id:"000000",
   ID:"00001",
@@ -24,9 +21,18 @@ state = 1;  // 1:teacher, 0:student
 /* GET home page. */
 router.get('/my_course', function(req, res, next) {
   var my_course=[];
+  var status;
+  switch (req.session.user.status.toString()){
+    case '学生': status = 0; 
+                break;
+    case '教师': status = 1; 
+                break;
+    case '系统管理员': status = 2;
+                break;
+  }
   console.log(my_course.ejs);
   res.render('select/my_course', {
-    type:1,//manager
+    type: status,//manager
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
@@ -151,10 +157,20 @@ router.get('/my_course/:timeID',function(req, res, next){
     var time=req.params.timeID;
     console.log(time);
 
+    var status;
+    switch (req.session.user.status.toString()){
+    case '学生': status = 0; 
+                break;
+    case '教师': status = 1; 
+                break;
+    case '系统管理员': status = 2;
+                break;
+  }
+
     var userModel = require('../../db/courseDB/userSchema'); 
     var courseModel = require('../../db/group1db/CourseModel'); 
-    if (state==1){
-        courseModel.find({teacher:"Henry"}, function(error, jresult){
+    if (status==1){
+        courseModel.find({teacher: req.session.user.username}, function(error, jresult){
             if (error)
                 console.log(error);
             else {
@@ -162,7 +178,7 @@ router.get('/my_course/:timeID',function(req, res, next){
                     my_course.push({course_id:"00010", ID:jresult[i].courseid2, name:jresult[i].coursename, teacher:jresult[i].teacher, semaster:jresult[i].courseterm, time:jresult[i].coursetime, campus:jresult[i].campus, room:jresult[i].room});
                 console.log(my_course);
                 res.render('select/my_course', {
-                type:1,//manager
+                type: status,//manager
                 name: '程序员', 
                 image: 'images/avatars/avatar3.jpg',
                 total_a:'12',
@@ -181,7 +197,7 @@ router.get('/my_course/:timeID',function(req, res, next){
         });
     }
     else {
-        userModel.find({id: "u001"}, function(error,raw_result){
+        userModel.find({id: req.session.user.username}, function(error,raw_result){
         if(error) {
             console.log(error);
         } else {
@@ -209,7 +225,7 @@ router.get('/my_course/:timeID',function(req, res, next){
                 if (my_course.length==my_course_list.length){
                 console.log(my_course);
                 res.render('select/my_course', {
-                    type:2,//manager
+                    type: status,//manager
                     name: '程序员', 
                     image: 'images/avatars/avatar3.jpg',
                     total_a:'12',
