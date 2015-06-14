@@ -243,7 +243,7 @@ router.get('/info', isValidCourseID, function (req, res, next) {
 });
 
 router.get('/homework/upload', function (req, res, next) {
-  var html = '<form action="/resource/course/homework/upload?cid=g1&hw=hw1"enctype="multipart/form-data" method="post"> ' +
+  var html = '<form action="/resource/course/homework/upload?cid=5576e0f7bed7f4392d92098a&hw=557bda0a19a80d400ae8dac5"enctype="multipart/form-data" method="post"> ' +
     '<h1> Upload your file </h1> ' +
     'Please specify a file, or a set of files:<br> ' +
     '<input type="file" name="file" size="40" multiple="multiple">  ' +
@@ -252,14 +252,73 @@ router.get('/homework/upload', function (req, res, next) {
   res.end();
 });
 
-/*
-
-  file upload api
-
-*/
 router.get('/homework/insertdemo', function (req, res, next) {
   homeworkModel.insertdemo(function (error, doc) {
     console.log(doc);
+  });
+});
+
+router.post('/homework/edithomework', function(req,res,next){
+  var cid     = decodeURIComponent(req.query.cid);
+  var hwid    = req.body.hwid;
+  var hwname  = req.body.name;
+  var ddl     = req.body.ddl;
+  var desc    = req.body.desc;
+  homeworkModel.findbycourseid(cid, function(error,result) {
+    if (error) {
+      console.log(error);
+    } else {
+      var homeworList = result[0].homeworklist;
+      for(var i= 0; i< homeworList.length; i++) {
+        if (homeworList[i]._id == hwid) {
+          homeworList[i].homework = hwname;
+          homeworList[i].ddl = ddl;
+          homeworList[i].describe = desc;
+          homeworkModel.updatehw(cid,homeworList, function(error,doc) {
+            console.log(doc);
+            if (error) {
+              console.log(error);
+            } else {
+              res.json({code:200});
+            }
+          });
+          break;
+        }
+      }
+    }
+  });
+});
+
+router.post('/homework/newhomework', function(req, res, next) {
+  var cid   = decodeURIComponent(req.query.cid);
+  var hwname= req.body.name;
+  var ddl   = req.body.ddl;
+  var desc  = req.body.desc;
+  homeworkModel.findbycourseid(cid, function(error,result){
+    if(error) {
+      console.log(erroe);
+    } else {
+      var newhw = {
+        homework  : hwname,
+        ddl       : ddl,
+        describe  : desc,
+        uploadfile: []
+      }
+      var homeworkList = result[0].homeworklist;
+      debug(result);
+      debug(homeworkList);
+      debug(newhw);
+      homeworkList.push(newhw);
+      homeworkModel.updatehw(cid, homeworkList, function(error,doc){
+        console.log('update');
+        console.log(doc);
+        if (error) {
+          console.log(error);
+        } else {
+          res.json({code:200});
+        }
+      });
+    }
   });
 });
 
@@ -273,9 +332,10 @@ router.get('/homework/download', function (req, res, next) {
   });
 });
 
+
 router.post('/homework/upload', function (req, res, next) {
   var cid = decodeURIComponent(req.query.cid);
-  var homework = decodeURIComponent(req.query.hw);
+  var homeworkid = decodeURIComponent(req.query.hw);
   File.upload(req, function (fileinfo) {
     console.log(fileinfo);
     var file = {
@@ -293,7 +353,7 @@ router.post('/homework/upload', function (req, res, next) {
       } else {
         var homeworkList = result[0].homeworklist;
         for (var i = 0; i < homeworkList.length; i++) {
-          if (homeworkList[i].homework == homework) {
+          if (homeworkList[i]._id == homeworkid) {
             homeworkList[i].uploadfile.push(file);
             break;
           }
@@ -304,7 +364,7 @@ router.post('/homework/upload', function (req, res, next) {
           if (error) {
             console.log(error);
           } else {
-            res.redirect('/resource/course/data');
+            res.redirect('/resource/course/homework?cid='+cid);
           }
         });
       }
@@ -324,6 +384,8 @@ router.get('/homework/', isValidCourseID, function (req, res, next) {
           var homeworkList = [];
           if (result.length != 0) {
             homeworkList = result[0].homeworklist;
+          } else {
+            homeworkModel.insertBlank(cid,function(){});
           }
           var render_data = {
             homeworkLisr: homeworkList,
@@ -343,8 +405,7 @@ router.get('/homework/', isValidCourseID, function (req, res, next) {
           if (result.length != 0) {
             var homeworkList = result[0].homeworklist;
             for (var i = 0; i < homeworkList.length; i++) {
-              if (homeworkList[i].homework == hw) {
-                
+              if (homeworkList[i]._id == hw) {
                 var thisuploadfile = homeworkList[i].uploadfile;
                 if (user.status == '学生') {
                   for (var j = 0; j < thisuploadfile.length; j++) {
