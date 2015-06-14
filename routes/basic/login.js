@@ -19,13 +19,11 @@ router.get('/login',function(req,res,next){
       // var user={
       //   userid:'1234',
       //   password:'1234',
-      //   status:'学生',
-      //   cstlist:["5579c56f0538ff3def0625c5"]
       // };
 
       var user={
-        userid:'3120000000',
-        password:'3120000000'
+        userid:'4321',
+        password:'4321',
       };
      
 

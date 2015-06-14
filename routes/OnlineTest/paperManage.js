@@ -1,6 +1,9 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var CourseModel = require('../../db/group1db/CourseModel');
 var router = express.Router();
+
+var CourseID = ' ';//课程的ID，为Schema中的courseid2，代表一门课程而不是一个教学班
 
 //A shuffle algorithm
 function shuffle(aArr){
@@ -25,21 +28,32 @@ router.get('/', function(req, res, next) {
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var paperModel = mongoose.model('PaperDB', paperSchema);
+	var paperModel = mongoose.model('PaperDB', paperSchema, 'papers');
 
 	//渲染页面，其中papers是数据库中查询得到的内容
 	paperModel.find({}, function(err, papers){
-		if(err)
-			return next(err);
-		res.render('OnlineTest/paperManage', {papers: papers, name: '老程序猿', image: 'images/avatars/avatar1.jpg'});
-		//db.close();
+		var classId = req.session.user.cstlist[0];
+		CourseModel.findOne({_id: classId}, function(err, theCourse){
+			CourseID = theCourse.courseid2;
+			papers_valid = [];
+			for(var i = 0; i < papers.length; i++){
+				if(papers[i].usedClass == CourseID){
+					papers_valid.push(papers[i]);
+				}
+			}
+
+			if(err)
+				return next(err);
+			res.render('OnlineTest/paperManage', {papers: papers_valid, name: '老程序猿', image: 'images/avatars/avatar1.jpg'});
+			//db.close();
+		});
 	});
   //res.render('teaTestManage', { title: 'Online Test System - Teacher' });
 });
 
 router.post('/', function(req, res, next) {
 	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var paperModel = mongoose.model('PaperDB', paperSchema);
+	var paperModel = mongoose.model('PaperDB', paperSchema, 'papers');
 
 	var classId = req.session.user.cstlist[0];//从Session获取classId
 	
@@ -101,7 +115,7 @@ router.post('/', function(req, res, next) {
 				// 增加记录 基于 entity 操作
 			 	var paperEntity = new paperModel();
 			 	paperEntity.title = title;
-			 	paperEntity.usedClass = classId;
+			 	paperEntity.usedClass = CourseID;
 			 	paperEntity.problems = createdProblems;
 			 	paperEntity.totalPoint = point;
 				paperEntity.save(function(error) {
@@ -127,7 +141,7 @@ router.post('/', function(req, res, next) {
 		// 增加记录 基于 entity 操作
 	 	var paperEntity = new paperModel();
 	 	paperEntity.title = title;
-	 	paperEntity.usedClass = classId;
+	 	paperEntity.usedClass = CourseID;
 		paperEntity.save(function(error) {
 		    if(error) {
 		        console.log(error);
@@ -147,7 +161,7 @@ router.get('/delete/:id', function(req, res, next){
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var paperModel = mongoose.model('PaperDB', paperSchema);
+	var paperModel = mongoose.model('PaperDB', paperSchema, 'papers');
 
 	//删除记录
 	var conditions = {_id: thisId};
@@ -170,7 +184,7 @@ router.get('/update/:id', function(req, res, next){
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var paperModel = mongoose.model('PaperDB', paperSchema);
+	var paperModel = mongoose.model('PaperDB', paperSchema, 'papers');
 
 	var problemSchema = require('../../db/OnlineTestDB/problemSchema');	
 	var problemModel = mongoose.model('ProblemDB', problemSchema);
@@ -203,7 +217,7 @@ router.get('/add/:paperId/:problemId/:problemPoint', function(req, res, next){
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var paperModel = mongoose.model('PaperDB', paperSchema);
+	var paperModel = mongoose.model('PaperDB', paperSchema, 'papers');
 
 	paperModel.findOne({_id: paperId}, function(err,paper){
 		if(err)
@@ -240,7 +254,7 @@ router.get('/deleteProblem/:paperId/:problemId/:problemPoint', function(req, res
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var paperModel = mongoose.model('PaperDB', paperSchema);
+	var paperModel = mongoose.model('PaperDB', paperSchema, 'papers');
 
 	paperModel.findOne({_id: paperId}, function(err,paper){
 		if(err)
@@ -276,7 +290,7 @@ router.get('/deleteProblem/:paperId/:problemId/:problemPoint', function(req, res
 router.get('/deliver/:paperId', function(req, res, next){
 	var paperId = req.params.paperId;
 	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var paperModel = mongoose.model('PaperDB', paperSchema);
+	var paperModel = mongoose.model('PaperDB', paperSchema, 'papers');
 
 	var classId = req.session.user.cstlist[0];
 
@@ -308,7 +322,7 @@ router.get('/deliver/:paperId', function(req, res, next){
 router.get('/undeliver/:paperId', function(req, res, next){
 	var paperId = req.params.paperId;
 	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var paperModel = mongoose.model('PaperDB', paperSchema);
+	var paperModel = mongoose.model('PaperDB', paperSchema, 'papers');
 
 	var classId = req.session.user.cstlist[0];
 

@@ -54,7 +54,7 @@ router.get('/', function(req, res, next){
 
 	    // console.log("========================");
 	    // console.log(courses);
-	    // console.log(req.session.user.);
+	    console.log(req.session.user);
 	    // console.log("========================");
 
 	    for(var i = 0; i < courses.length; i++){

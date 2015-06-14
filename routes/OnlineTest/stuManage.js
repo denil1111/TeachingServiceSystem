@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 
 	//从session获取studentID和classID
 	var student = req.session.user.userid;
-	var classId = req.session.user.cstlist[0];
+	var classIds = req.session.user.cstlist;
 
 	//渲染页面，其中papers是数据库中查询得到的内容
 	paperModel.find({}, function(err, papers){
@@ -25,8 +25,10 @@ router.get('/', function(req, res, next) {
 			return next(err);
 		var papers_valid = [];
 		for(var i = 0; i < papers.length; i++){
-			if(papers[i].deliver.indexOf(classId) != -1){
-				papers_valid.push(papers[i]);
+			for(var j = 0; j < classIds.length; j++){
+				if(papers[i].deliver.indexOf(classIds[j]) != -1){
+					papers_valid.push(papers[i]);
+				}
 			}
 		}
 		recordModel.find({student: student}, function(err, records){
@@ -84,7 +86,7 @@ router.post('/answer=:paperId', function(req, res, next) {
 			//db.close();
 
 			var recordEntity = new recordModel();
-			recordEntity.student = student;
+			recordEntity.student = req.session.user.userid;
 			recordEntity.paperId = thisId;
 			recordEntity.choices = choices;
 			recordEntity.point = getPoint;
@@ -120,6 +122,8 @@ router.get('/answer=:paperId', function(req, res, next) {
 
 	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
 	var recordModel = mongoose.model('RecordDB', recordSchema);
+
+	var student = req.session.user.userid;
 
 	//渲染页面，其中problems是数据库中查询得到的内容
 	recordModel.findOne({student: student, paperId: thisId}, function(err, result){
