@@ -38,6 +38,46 @@ router.post('/', function(req, res, next) {
 	var problemSchema = require('../../db/OnlineTestDB/problemSchema');	
 	var problemModel = mongoose.model('ProblemDB', problemSchema);
 
+	if(req.body.stem_edit){
+		if(req.body.choice1){
+			var problemSchema = require('../../db/OnlineTestDB/problemSchema');	
+			var problemModel = mongoose.model('ProblemDB', problemSchema);
+
+			var stem = req.body.stem_edit;
+			var answer = req.body.answer;
+			var choice = [];
+			var point = req.body.point;
+			choice.push(req.body.choice1);
+			choice.push(req.body.choice2);
+			choice.push(req.body.choice3);
+			choice.push(req.body.choice4);
+
+			var conditions = {_id : req.body.pro_id};
+			var update     = {$set : {stem: stem, choice: choice, point: point, answer: answer}};
+			var options    = {upsert : true};
+			problemModel.update(conditions, update, options, function(error){
+		    	if(error) {
+		    	    console.log(error);
+		    	}
+			});
+		}
+		else{
+			var stem = req.body.stem_edit;
+			var answer = req.body.answer;
+			var point = req.body.point;
+
+			var conditions = {_id : req.body.pro_id};
+			var update     = {$set : {stem: stem, point: point, answer: answer}};
+			var options    = {upsert : true};
+			problemModel.update(conditions, update, options, function(error){
+		    	if(error) {
+		    	    console.log(error);
+		    	}
+			});
+		}
+		res.redirect('/OnlineTest/probManage');
+	}
+
 	if(!req.body.stem){
 		res.render('OnlineTest/onlineTestErr',{message: '没有题干！'});
 		return;

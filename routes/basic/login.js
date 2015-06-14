@@ -16,15 +16,15 @@ router.get('/login',function(req,res,next){
 
     passport.authenticate('local',function(err,user2,info){
       //use your own admin account here
-      var user={
-        userid:'1234',
-        password:'1234',
-      };
-
       // var user={
-      //   userid:'4321',
-      //   password:'4321',
+      //   userid:'1234',
+      //   password:'1234',
       // };
+
+      var user={
+        userid:'4321',
+        password:'4321',
+      };
      
 
       if(err){return(err);}
