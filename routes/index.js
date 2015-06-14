@@ -1,34 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var auth = require('./basic/auth');
-var session = require('express-session');
 
 var info = require('./info/info');
 var arrange = require('./arrange/arrange')
-// var arrange = require()
-//<<<<<<< HEAD
-
-// var select = require("./course")
-//=======
-var select = require("./select/course")
-//>>>>>>> master
-// var resource = require()
+var resource = require('./resource/resource');
+var select = require("./select/course");
 // var test = require()
-// var score = require()
+
 // var grades = require("./grades")
 
-//session initial
-router.use(session({
-  secret: 'TeachingServerSystem',
-  resave: false,
-  saveUnintialized: false
-}));
-//
-//var select = require("./course");
-//// var resource = require()
-//// var test = require()
-//// var score = require()
-//var grades = require("./grades");
 var login = require("./basic/login");
 
 
@@ -37,30 +18,33 @@ router.get('/', function(req, res, next) {
   res.redirect('/login');
 });
 
-
-router.use('/info', info);
-router.use('/arrange', arrange);
-// router.use('/select', select);
-// router.get('/resource', resource);
-// router.get('/test', test);
-// router.get('/score', score);
-// router.use('/grades', grades);
-
-function isLoggedIn(req, res, next) {
-	console.log("isLoggedIn");
-    if (req.isAuthenticated())
-        return next();
-
-    res.redirect('/basic/login');
-}
-
 router.use('/', login);
-router.use('/info', auth.isLoggedIn, info);
-router.get('/arrange', auth.isLoggedIn, arrange);
-//router.use('/select', auth.isLoggedIn, select);
-//// router.get('/resource', auth.isLoggedIn, resource);
-//// router.get('/test', auth.isLoggedIn, test);
-//// router.get('/score', auth.isLoggedIn, score);
-//router.use('/grades', auth.isLoggedIn, grades);
+var adduser = require('../scripts/addUser.js'); 
+router.get('/addUser',adduser);
+router.use('/info', function setStatus(req, res, next){
+  res.locals.Navstatus = 1;
+  next();
+}, auth.isLoggedIn, info);
+ router.use('/arrange', function setStatus(req, res, next){
+  res.locals.Navstatus = 2;
+  next();
+}, auth.isLoggedIn, arrange);
+router.use('/select', function setStatus(req, res, next){
+  res.locals.Navstatus = 3;
+  next();
+}, auth.isLoggedIn, select);
+ router.use('/resource', function setStatus(req, res, next){
+  res.locals.Navstatus = 4;
+  next();
+}, auth.isLoggedIn, resource);
+//// router.get('/test', function setStatus(req, res, next){
+//  res.locals.Navstatus = 5;
+//  next();
+//}, auth.isLoggedIn, test);
+
+//router.use('/grades', function setStatus(req, res, next){
+//  res.locals.Navstatus = 6;
+//  next();
+//}, auth.isLoggedIn, grades);
 
 module.exports = router;

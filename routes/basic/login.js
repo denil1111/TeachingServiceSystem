@@ -3,13 +3,61 @@ var router = express.Router();
 var mongoose = require('mongoose/');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var app = express();
 
 var PersonModel = require('../../db/group1db/PersonModel');
 
 router.get('/login',function(req,res,next){
-  res.render('info/login',{
-    loginerror:""
-  });
+  console.log("login get");
+  console.log("app.get('env')"+app.get('env'));
+
+  if (app.get('env') == 'development'){
+    console.log("development module");
+
+    passport.authenticate('local',function(err,user2,info){
+      //use your own admin account here
+      var user={
+        userid:'3120',
+        password:'123456'
+      };
+     
+
+      if(err){return(err);}
+      
+      else if(user=="" | !user){
+        console.log("user : NULL");
+        res.render('info/login',{
+          loginerror:"学号/密码错误"
+        });
+      }
+      else{
+        PersonModel.findbyid(user.userid,function (err, user) {
+         if(err){console.log("development router login findbyid error!")}
+         else if(!user | user == ''){console.log("development router login findbyid find NULL!")}
+         else {
+           console.log("user : "+user);
+           req.logIn(user, function(err){
+          console.log(user);
+          req.session.user=user;
+          console.log(req.isAuthenticated());
+          if(user.status == "系统管理员"){
+            res.redirect('/info/personinsert');
+          }
+          else{
+            res.redirect('/info/personinfo');
+          }
+        });
+          }
+      	}); 
+        
+      }
+    })(req,res,next);
+  } else {
+    res.render('info/login',{
+      loginerror:""
+    });
+  }
+
 });
 
 router.post('/login',function(req, res, next){
@@ -23,9 +71,9 @@ router.post('/login',function(req, res, next){
     }
     else{
       req.logIn(user, function(err){
-        console.log(user);
+        // console.log(user);
         req.session.user=user;
-        console.log(req.isAuthenticated());
+        // console.log(req.isAuthenticated());
         if(user.status == "系统管理员"){
           res.redirect('/info/personinsert');
         }

@@ -24,7 +24,9 @@
 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <span>
-                    <img class="menu-avatar" src="../<%= image%>" /> <span><%= name %><i class="icon-caret-down"></i></span>
+                    <%if (user.image) {%>
+                    <img class="menu-avatar" src="../<%= user.image%>" /> <span><%= user.username %><i class="icon-caret-down"></i></span>
+                    <%}%>
                 </a>
 
                 <ul class="dropdown-menu">
@@ -33,27 +35,31 @@
 
                   <li class="with-image">
                     <div class="avatar">
-                      <img src="<%= image %>" />
+                      <%if (user.image) {%>
+                      <img src="<%= user.image %>" />
+                      <%}%>
                     </div>
-                    <span><%= name %></span>
+                    <span><%= user.username %></span>
                   </li>
 
                   <li class="divider"></li>
 
-                  <li><a href="#"><i class="icon-user"></i> <span>个人资料</span></a></li>
-                  <li><a href="#"><i class="icon-cog"></i> <span>设置</span></a></li>
-                  <li><a href="#"><i class="icon-off"></i> <span>Logout</span></a></li>
+                  <li><a href="/info/personinfo"><i class="icon-user"></i> <span>个人资料</span></a></li>
+                  <li><a href="/info/personpassword"><i class="icon-cog"></i> <span>密码修改</span></a></li>
+                  <li><a href="/"><i class="icon-off"></i> <span>Logout</span></a></li>
                 </ul>
               </li>
             </ul>
             <ul class="nav pull-right">
-              <li id="infomanage"><a href="/info/personinsert" title="Profile"><i class="icon-home"></i>信息管理</a></li>
-              <li><a href="#" title="Resource"><i class="icon-user"></i>教学资源</a></li>
+              <li id="infomanage" <%if (Navstatus == 1){%>class="active"<%}%>><a href="/info/personinsert" title="Profile"><i class="icon-home"></i>信息管理</a></li>
 
-              <li class="active"><a href="/select/dev_plan" title="Courses"><i class="icon-table"></i>学生选课</a></li>
-              <li><a href="#" title="Share"><i class="icon-file-alt"></i>资源共享</a></li>
-              <li><a href="#" title="Judge"><i class="icon-edit"></i>在线测试</a></li>
-              <li id="arrange"><a href="/arrange/classroominsert" title="Arrange"><i class="icon-bar-chart"></i>自动排课</a></li>
+              <li <%if (Navstatus == 2){%>class="active"<%}%>><a href="/arrange/classroominsert" title="Resource"><i class="icon-user"></i>教学资源</a></li>
+
+              <li <%if (Navstatus == 3){%>class="active"<%}%>><a href="/select" title="Courses"><i class="icon-table"></i>学生选课</a></li>
+
+              <li <%if (Navstatus == 4){%>class="active"<%}%>><a href="/resource" title="Share"><i class="icon-file-alt"></i>资源共享</a></li>
+              <li <%if (Navstatus == 5){%>class="active"<%}%>><a href="/test" title="Judge"><i class="icon-edit"></i>在线测试</a></li>
+              <li id="grades" <%if (Navstatus == 6){%>class="active"<%}%>><a href="/grade" title="GPA"><i class="icon-bar-chart"></i>成绩管理</a></li>
             </ul>
           </div>
     </div>

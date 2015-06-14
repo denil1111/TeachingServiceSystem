@@ -3,8 +3,8 @@ var mongoose = require('mongoose');
 //var ClassroomModel = require('../../db/group2db/ClassroomModel');
 var CourseModel = require('../../db/group1db/CourseModel');
 var RoomModel = require('../../db/group2db/ClassroomModel');
-// var Course = mongoose.model('CourseModel',CourseModel.CourseSchema);
-// var Room = mongoose.model('ClassroomModel',RoomModel.ClassroomSchema);
+var Course = mongoose.model('CourseModel',CourseModel.CourseSchema);
+var Room = mongoose.model('ClassroomModel',RoomModel.ClassroomSchema);
 
 //global vars
 var courseList = new Array();		//all courses waiting to be sorted
