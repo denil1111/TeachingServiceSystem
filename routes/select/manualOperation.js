@@ -10,24 +10,55 @@ stu_data.push({stu_name:"Henry",major:"计算机科学与技术"});
 
 router.get('/manual_add', function(req, res, next) {
   var course=[];
+  var status;
+  switch (req.session.user.status.toString()){
+    case '学生':status=0;break;
+    case '教师':status=1;break;
+    case '系统管理员':status=2;break;
+  }
   console.log(course.ejs);
   res.render('select/manual', {
-    type:2,//manager
+    type:status,//manager
     course:course,
-    name: '程序员', 
+    name: req.session.user.username.toString(), 
     image: 'images/avatars/avatar3.jpg',
-    choose_time:choose_time
+   // choose_time:choose_time
   });
 });
 router.post('/manual_add', function(req, res, next) {
-  var course=[];
+  var courseData=[];
+  var courseModel = require('../../db/group1db/CourseModel');
   console.log(req.body);
+  var status;
+  switch (req.session.user.status.toString()){
+    case '学生':status=0;break;
+    case '教师':status=1;break;
+    case '系统管理员':status=2;break;
+  }
+  if (req.body.type=='search'){
+      courseModel.find({courseid2:req.body.course_id.toString()},function(err,result){
+          if (err)
+          {
+              console.log(err);
+              res.json({status:"err",error:err});
+          }            
+          else
+            console.log(result);
+          if (result.length==0)
+          {
+              res.json({status:"err",error:"No such course"});
+          }
+          for (var i=0;i<result.length;i++){              
+              courseData.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].coursetime,room:result[i].room,remain:result[i].remain,all:result[i].all,waiting:result[i].waiting,courseid:result[i]._id);
+          }
+      });
+  }
   res.render('select/manual', {
-    type:2,//manager
+    type:status,//manager
     course:course,
-    name: '程序员', 
+    name: req.session.user.username.toString(), 
     image: 'images/avatars/avatar3.jpg',
-    choose_time:choose_time
+  //  choose_time:choose_time
   });
 });
 
