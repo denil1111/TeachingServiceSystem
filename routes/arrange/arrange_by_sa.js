@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/TS');
 //var ClassroomModel = require('../../db/group2db/ClassroomModel');
-var CourseModel = require('../../db/group1db/CourseModel');
-var RoomModel = require('../../db/group2db/ClassroomModel');
-var Course = mongoose.model('CourseModel',CourseModel.CourseSchema);
-var Room = mongoose.model('ClassroomModel',RoomModel.ClassroomSchema);
+var Course = require('../../db/group1db/CourseModel');
+var Room = require('../../db/group2db/ClassroomModel');
+//var Course = mongoose.model('CourseModel',CourseModel.CourseSchema);
+//var Room = mongoose.model('ClassroomModel',RoomModel.ClassroomSchema);
 
 //global vars
 var courseList = new Array();		//all courses waiting to be sorted
@@ -168,7 +168,18 @@ function AnalyList(aList)
 				roomString = roomString + roomList[roomIndex].rid + ";";
 				timeString = timeString + Math.floor(timeIndex / 5) + "-"+ (timeIndex % 5) + ";";
 			}
-		Course.findOne({ courseid2: courseList[j].cid }, function (err, doc){
+			
+		
+		var conditions = { courseid2: courseList[j].cid }
+  		, update = { $set: { coursetime: timeString, room: roomString }}
+  		, options = { multi: true };
+  		
+  		Course.update(conditions,update,options,function(err){
+  			if(err)
+  				console.log(err);
+  		});
+  		
+		/*Course.findOne({ courseid2: courseList[j].cid }, function (err, doc){
 			if(err)
 				console.log(err);
 			else
@@ -178,6 +189,7 @@ function AnalyList(aList)
 				doc.save();
 			}
 		});
+		*/
 		
 	}
 	return;
