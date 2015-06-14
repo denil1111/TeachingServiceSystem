@@ -61,12 +61,13 @@ router.post('/',function(req,res,next){
                 else {
                     // console.log('find ok!'+data2);
                     console.log('data[0]._id.toString() '+data[0]._id.toString());
-
+                    
+                    for(j=0;j<data.length;j++){
                     PersonModel.update(
-                        {userid:data[0].teacher},
+                        {userid:data[j].teacher},
                         {
                             $pop:{
-                                'cstlist':data[0]._id.toString()
+                                'cstlist':data[j]._id.toString()
                             }
                         },
                         function(err,data3){
@@ -76,6 +77,7 @@ router.post('/',function(req,res,next){
                             }
                         }
                     );
+                    }
 
                     res.render('info/coursedelete',{
                         name: '程序员', 
