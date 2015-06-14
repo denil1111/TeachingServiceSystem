@@ -51,6 +51,7 @@ router.post('/manual_add', function(req, res, next) {
           for (var i=0;i<result.length;i++){              
               courseData.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].coursetime,room:result[i].room,remain:result[i].remain,all:result[i].all,waiting:result[i].waiting,courseid:result[i]._id});
           }
+          res.json({status:"succ",courseData:courseData});
       });
   }
   res.render('select/manual', {
