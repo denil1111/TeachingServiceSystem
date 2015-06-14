@@ -98,9 +98,11 @@ function search(){
           var data={status:'succ',courseData:course}*/
             if (data.status=='succ')
             {
+                var content=document.getElementById("content");
+                if(content!=null) content.remove();
                 var str=document.getElementById("table2").innerHTML;
                 console.log(str);
-                str=str+"<tbody>"
+                str=str+"<tbody id=\"content\">";
                 for(var i=0;i<data.courseData.length;i++){
                   var tmp="";
                  tmp="<tr><td>"+data.courseData[i].teacher+"</td><td>"+data.courseData[i].time+"</td><td>"+data.courseData[i].campus+"</td><td>"+data.courseData[i].room+"</td><td>"+data.courseData[i].remain+"/"+data.courseData[i].all+"</td><td>"+data.courseData[i].waiting+"</td><td><input type=\"radio\" name=\"choose\" class=\"icheck\" id=\"iradio"+i+"\" value=\""+data.courseData[i].courseid+"\"></td></tr>";
@@ -112,29 +114,6 @@ function search(){
             }
             else
               alert(data.error);
-          },
-          error:function(err){
-            alert("error");
-           /* var course=[];
-          course.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,courseid:1});
-          course.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,courseid:2});
-          course.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,courseid:3});
-          var data={status:'succ',courseData:course}
-            if (data.status=='succ')
-            {
-                var str=document.getElementById("table2").innerHTML;
-                console.log(str);
-                str=str+"<tbody>"
-                for(var i=0;i<data.courseData.length;i++){
-                  var tmp="";
-                  tmp="<tr><td>"+data.courseData[i].teacher+"</td><td>"+data.courseData[i].time+"</td><td>"+data.courseData[i].campus+"</td><td>"+data.courseData[i].room+"</td><td>"+data.courseData[i].remain+"/"+data.courseData[i].all+"</td><td>"+data.courseData[i].waiting+"</td><td><input type=\"radio\" name=\"choose\" class=\"icheck\" id=\"iradio"+i+"\" value=\""+data.courseData[i].courseid+"\"></td></tr>";
-                  str=str+tmp;
-                }
-                str=str+"</tbody>";
-                document.getElementById("table2").innerHTML=str; 
-            }
-            else
-              alert(data.error);*/
           }
     	});  
 }
@@ -161,13 +140,22 @@ function add_course(){
         	dataType: "json",  
         	// contentType: "charset=utf-8",  
         	cache: false,
+          success:function(data){
+            if(data.status=="succ"){
+              alert("选课成功");
+              location.reload();
+            }
+            else{
+              alert(data.error);
+            }
+          } 
     	});  
     //location.reload(); 
 }
 function delete_course(){
 	console.log("delete!!");
-	var temp=document.getElementsByName("choose");
-  var course_id;
+  var temp=document.getElementsByName("choose");
+	var course_id;
   for(var i=0;i<temp.length;i++){
     if(temp[i].checked) course_id=temp[i].value;
   }
@@ -186,6 +174,15 @@ function delete_course(){
         	dataType: "json",  
         	// contentType: "charset=utf-8",  
         	cache: false,
+          success:function(data){
+            if(data.status=="succ"){
+              alert("退课成功");
+              location.reload();
+            }
+            else{
+              alert(data.error);
+            }
+          } 
     	});  
     location.reload(); 
 }
