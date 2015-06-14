@@ -162,7 +162,7 @@ router.post('/time', function(req, res, next) {
 
 
 
-router.post('/select_course', function(req, res, next) {
+router.post('/course_filtrate', function(req, res, next) {
   console.log(req.body);
   var courseTimeModel = require('../../db/courseDB/selectTimeModel');
   var userModel = require('../../db/courseDB/userSchema');
