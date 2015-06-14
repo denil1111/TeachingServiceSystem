@@ -4,6 +4,7 @@ var router = express.Router();
 //这里require数据库
 var CourseModel = require('../../db/group1db/CourseModel');
 var gradesDB = require('../../db/group6db/gradesDB');
+var tutorialModel= require('../../db/group6db/tutorialDB.js');
 var motionModel = require('../../db/group6db/motion');
 
 router.get('/grades', function(req, res, next) {
