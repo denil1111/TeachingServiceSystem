@@ -31,7 +31,6 @@ if(req.session.user.status=="student"){
             docs[i]["coursecredit"] = courses[j]["coursescore"];
           }
      }
-     
      res.render('grades/student_grades', {
      	name: '程序员', 
      	image: 'images/avatars/avatar1.jpg',
@@ -43,10 +42,13 @@ if(req.session.user.status=="student"){
      	credits:'4,6,2,4,6,2,0',
       data:docs
      });
-     
+
      
    });     
- });
+ });//for stu_grades
+
+
+ 
 }
 else if (req.session.user.status=="teacher"){
   
@@ -139,7 +141,7 @@ else if(req.session.user.status=="admin"){
 
 });  
 
-router.get('/gradesAnalysis',function(req, res, next) {
+/*router.get('/gradesAnalysis',function(req, res, next) {
 
 if(!req.session.user){return res.redirect('../info/login');}
 
@@ -158,10 +160,15 @@ gradesDB.find(function(error,docs){
   	total_b:'24',
   	b:'4,6,2,4,6,2,0',
   	total_credits:'24',
-  	credits:'4,6,2,4,6,2,0'
+  	credits:'4,6,2,4,6,2,0',
+  	tt:'13'
   });
   }); 
 });  
+
+*/
+
+
 
 
 module.exports =router;

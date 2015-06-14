@@ -92,7 +92,7 @@ window.onload = show_warning;
             var   option = {
     title : {
         text: '班级成绩统计图',
-        subtext: '班级总人数:60'
+        subtext: '班级总人数:'+<%=data.length%>
     },
     tooltip : {
         trigger: 'axis'
@@ -132,12 +132,12 @@ window.onload = show_warning;
         {
             name:'人数',
             type:'line',
-            data:[0,0,0,0,1,4,15,20,15,5],
+            data:[<%=bar%>],
             markPoint : {
                 data : [
                 
-                    { name : '平均值',value:75,xAxis:7,yAxis:20},
-                    {name:'中位数',value:73,xAxis:7,yAxis:15}
+                    { name : '平均值',value: <%=average%>,xAxis:<%=avgpos%>,yAxis:20},
+                    {name:'中位数',value:<%=medium%>,xAxis:<%=midpos%>,yAxis:15}
                    
                                    ]
             },

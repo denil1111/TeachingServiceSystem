@@ -5,6 +5,43 @@ var PersonModel = require('../../db/group1db/PersonModel');
 var CourseModel = require('../../db/group1db/CourseModel');
 var gradesDB = require('../../db/group6db/gradesDB.js');
 var gradesfix = require('./teacher_gradesfix.js');
+
+
+function sortNumber(a,b)
+{
+	return a.score - b.score
+}
+
+function viewGrade(grades,callback){
+	var bar=new Array(0,0,0,0,0,0,0,0,0,0);
+	var average=0;
+	var midium=0;
+	var avgpos,midpos;
+	for(var i=0;i<grades.length;i++){
+	//console.log("grades[i]:" + grades[i].score);	
+		if(grades[i].score==100){
+			bar[9]+=1
+		}
+		else{
+			bar[parseInt(grades[i].score/10)]+=1
+		}
+			average+=grades[i].score;
+	//console.log("average:" + average);
+	
+	}
+	average=Math.round(average/grades.length*100)/100;
+	grades.sort(sortNumber);
+	console.log("grades.length/2:" + parseInt(grades.length/2));
+	if(grades.length)
+		medium=grades[parseInt(grades.length/2)].score;
+	else
+		medium=0;
+	avgpos=(average==100)?9:parseInt(average/10);
+	midpos=(medium==100)?9:parseInt(medium/10);
+	console.log("bar"+bar);
+	callback(bar,average,medium,avgpos,midpos);
+}
+
 function classmanage(req, res, next) {
 
     if(!req.session.user){return res.redirect('../basic/login');}
@@ -69,49 +106,51 @@ function display(req, res,result){
             motion = motions;
         });
 
-        gradesDB.find(criteria,function(error,grades){
-            if(error){
-                console.log(error);
-                return;
-            }
-            
-            var studentList=[];
-            
-            for(var i=0;i<grades.length;i++){
-              studentList.push(grades[i].userid);
-            }
-            
-            
-             PersonModel.findbylist(studentList,function(error,persons){
-               
-                  // console.log("what is" + persons);
-               CourseModel.findbyid(req.body.courseid,function(error,courses){
-                 
-                 
-                 // console.log("what is persons:" + persons);
-                  //console.log("what is courses:" + courses);
-                  //console.log("what is grades:" + grades);
-                  warning = !result;
-                  console.log("isWarning:" + warning);
-                      res.render('grades/teacher_classmanage', {
-                      name: '程序员', 
-                      image: 'images/avatars/avatar1.jpg',
-                      total_a:'12',
-                      a:'2,3,1,2,3,1,0',
-                      total_b:'24',
-                      b:'4,6,2,4,6,2,0',
-                      total_credits:'24',
-                      credits:'4,6,2,4,6,2,0',
-                      data:grades,
-                      studentslist:persons,
-                      courses:courses,
-                      warning:warning,
-                      motion:motion
-                  });   
-              });
-            });
-            
-        });
+		gradesDB.find(criteria,function(error,grades){
+    		if(error){
+        		console.log(error);
+				return;
+			}
+    
+			var studentList=[];
+   
+			for(var i=0;i<grades.length;i++){
+				studentList.push(grades[i].userid);
+			}
+			viewGrade(grades,function(bar,average,medium,avgpos,midpos){
+		 		PersonModel.findbylist(studentList,function(error,persons){     
+		 			// console.log("what is" + persons);
+		 			CourseModel.findbyid(req.body.courseid,function(error,courses){     
+     		 			// console.log("what is persons:" + persons);
+	 		 			//console.log("what is courses:" + courses);
+	 		 			//console.log("what is grades:" + grades);
+	 		 			warning = !result;
+	 		 			console.log("isWarning:" + warning);
+	 		 			res.render('grades/teacher_classmanage', {
+		 					name: '程序员', 
+		 					image: 'images/avatars/avatar1.jpg',
+		 					total_a:'12',
+		 					a:'2,3,1,2,3,1,0',
+		 					total_b:'24',
+		 					b:'4,6,2,4,6,2,0',
+		 					total_credits:'24',
+		 					credits:'4,6,2,4,6,2,0',
+		 					data:grades,
+		 					studentslist:persons,
+		 					courses:courses,
+		 					bar:bar,
+		 					average:average,
+		 					medium:medium,
+		 					avgpos:avgpos,
+		 					midpos:midpos,
+		 					warning:warning,
+		 					motion:motion
+		 				});   
+		 			});
+		 		});
+			});
+		}); 
+
 }
 
 router.post('/classManagement', classmanage);
