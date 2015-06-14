@@ -2,28 +2,148 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 //培养方案页面
-
-var userType=0;//manager
-
-var currentId = "u001";
-var selectedMajor;// = "专业1";//默认专业为当期用户的专业
-var userModel = require('../../db/courseDB/userSchema');
-// userModel.find({id:currentId}, function(error, result) {
-//     if (error) console.log(error);
-//     else console.log(result);
+//var userType=0;//manager
+//usertype没在数据库里
+//var currentId = "3130001";
+//var selectedMajor = "专业1";//默认专业为当期用户的专业
+/*var userModel = require('../../db/courseDB/userSchema');
+userModel.find({id:currentId}, function(error, result) {
+    if (error) console.log(error);
+    else console.log(result);
     
-//     if(result.length!=1)
-//       console.log("ERROR: The length of result is not one!");
+    if(result.length!=1)
+      console.log("ERROR: The length of result is not one!");
 
-//     selectedMajor=result[0].major;//注意啊 是result[0]啊亲
-//     console.log(selectedMajor+"okokokokok");
-// });
+    selectedMajor=result[0].major;//注意啊 是result[0]啊亲
+    console.log(selectedMajor+"okokokokok");
+});*/
 
 //////////////////////////专业培养方案//////////////////////////
 ////GET////
 router.get('/dev_plan', function (req, res, next) {
-  console.log(course.ejs);
-  
+  console.log(req.body);
+
+  var userType;
+  switch (req.session.user.status.toString()){
+    case '学生':userType=0;break;
+    case '教师':userType=1;break;
+    case '系统管理员':userType=2;break;
+  }
+  var currentId=req.session.user.userid;
+
+  var major = [];//专业
+  var majorModel = require('../../db/courseDB/majorSchema');
+  var dev_plan_elec_class = [];
+  var dev_plan_gen_class=[];
+
+  var dev_plan_gen = [];
+  var dev_plan_req = [];
+  var dev_plan_elec = new Array();
+  var dev_plan_elec_tmp = [];
+  var courseModel = require('../../db/courseDB/courseSchema_hyx');
+
+  var userModel = require('../../db/courseDB/userSchema');
+  var selectedMajor=req.session.user.major;
+
+  /*userModel.find({id:currentId}, function(error, result) {
+    if (error) console.log(error);
+    else console.log(result);
+    
+    if(result.length!=1)
+      console.log("ERROR: The length of result is not one!");
+
+    selectedMajor=result[0].major;//注意啊 是result[0]啊亲
+    //console.log(selectedMajor+"okokokokok");
+
+    majorModel.find({}, function(error, result) {
+      if (error) console.log(error);
+      else console.log(result);
+      
+      for(var i=0;i<result.length;i++){
+        if(result[i].name!="公共课")
+          major.push(result[i].name);
+        else{
+          for(var j=0;j<(result[i].field).length;j++)
+            dev_plan_gen_class.push({name:(result[i].field)[j],min_credits:(result[i].mincredit)[j],credits:"0"});
+        }
+
+        if(result[i].name == selectedMajor){
+          for(var j=0;j<(result[i].field).length;j++)
+            dev_plan_elec_class.push({classification: (result[i].field)[j], min_credits: "20", credits: "18"});
+        }
+      }
+    });
+
+    courseModel.find({major: {$in: [selectedMajor, "公共课"]} }, function(error, result) {
+      if (error) console.log(error);
+      else console.log(result);
+
+      for (var i = 0; i < result.length; i++) {
+        if (result[i].type == 1) {//公共课, dev_plan页面似乎不用公共课的list
+          dev_plan_gen.push({
+            ID: result[i].id,
+            name: result[i].name,
+            time: result[i].time,
+            credit: result[i].credit,
+            complete: false
+          });
+        } else if (result[i].type == 2) {//专业必修
+          dev_plan_req.push({
+            ID: result[i].id,
+            name: result[i].name,
+            time: result[i].time,
+            credit: result[i].credit,
+            complete: false
+          });
+        } else {//3, 专业选修
+          //数据存入内存
+          dev_plan_elec_tmp.push({
+            ID: result[i].id,
+            name: result[i].name,
+            time: result[i].time,
+            credit: result[i].credit,
+            complete: false,
+            subtype: result[i].subtype
+          });
+        }
+      }
+      
+      //专业选修分类
+      for (var m = 0; m < dev_plan_elec_class.length; m++) {
+        var tmp = [];
+        for (var i = 0; i < dev_plan_elec_tmp.length; i++) { //每个子类一一匹配，好麻烦
+          if (dev_plan_elec_tmp[i].subtype == dev_plan_elec_class[m].classification) {
+            tmp.push({
+              ID: dev_plan_elec_tmp[i].ID,
+              name: dev_plan_elec_tmp[i].name,
+              time: dev_plan_elec_tmp[i].time,
+              credit: dev_plan_elec_tmp[i].credit,
+              complete: dev_plan_elec_tmp[i].complete
+            });
+          }
+        }
+        dev_plan_elec.push(tmp);
+      }
+
+      res.render('select/dev_plan', {
+        type: userType, 
+        name: '程序员',
+        image: 'images/avatars/avatar3.jpg',
+        total_a: '12',
+        a: '2,3,1,2,3,1,0',
+        total_b: '24',
+        b: '4,6,2,4,6,2,0',
+        total_credits: '24',
+        credits: '4,6,2,4,6,2,0',
+        major: major,
+        dev_plan_gen: dev_plan_gen_class,
+        dev_plan_elec: dev_plan_elec,
+        dev_plan_elec_class: dev_plan_elec_class,
+        dev_plan_req: dev_plan_req
+      }); 
+    });//find end
+
+  });*/
   //course: id, name, credit, recTime, type, subType, major
   //major: name
   //plan: studentId, p1, isC1, p2, isC2, p3, isC3
@@ -32,35 +152,112 @@ router.get('/dev_plan', function (req, res, next) {
   //专业
   //var selectedMajor = "专业1";//默认专业为当期用户的专业
 
-  var major = [];//专业
+  /*var major = [];//专业
   var majorModel = require('../../db/courseDB/majorSchema');
   var dev_plan_elec_class = [];
-  var dev_plan_gen_class=[];
-  majorModel.find({}, function(error, result) {
+  var dev_plan_gen_class=[];*/
+  majorModel.find({}, function(error, major_result) {
     if (error) console.log(error);
-    else console.log(result);
+    else console.log(major_result);
     
-    for(var i=0;i<result.length;i++){
-      if(result[i].name!="公共课")
-        major.push(result[i].name);
-      else{
-        for(var j=0;j<(result[i].field).length;j++)
-          dev_plan_gen_class.push({name:(result[i].field)[j],min_credits:(result[i].mincredit)[j],credits:"0"});
+    for(var i=0;i<major_result.length;i++){
+      if(major_result[i].name!="公共课")
+        major.push(major_result[i].name);
+        if(userType!=0)//如果不是学生，则没有major
+          selectedMajor=major[0];
+        else
+          selectedMajor=req.session.user.major;
+        if(major_result[i].name == selectedMajor){
+          for(var j=0;j<(major_result[i].field).length;j++){
+            dev_plan_elec_class.push({classification: (major_result[i].field)[j], min_credits: "20", credits: "18"});
+          }
+          courseModel.find({major: {$in: [selectedMajor, "公共课"]} }, function(error, result) {
+            if (error) console.log(error);
+            else console.log(result);
+
+            for (var i = 0; i < result.length; i++) {
+              if (result[i].type == 1) {//公共课, dev_plan页面似乎不用公共课的list
+                dev_plan_gen.push({
+                  ID: result[i].id,
+                  name: result[i].name,
+                  time: result[i].time,
+                  credit: result[i].credit,
+                  complete: false
+                });
+              } else if (result[i].type == 2) {//专业必修
+                dev_plan_req.push({
+                  ID: result[i].id,
+                  name: result[i].name,
+                  time: result[i].time,
+                  credit: result[i].credit,
+                  complete: false
+                });
+              } else {//3, 专业选修
+                //数据存入内存
+                dev_plan_elec_tmp.push({
+                  ID: result[i].id,
+                  name: result[i].name,
+                  time: result[i].time,
+                  credit: result[i].credit,
+                  complete: false,
+                  subtype: result[i].subtype
+                });
+              }
+            }
+            
+            //专业选修分类
+            for (var m = 0; m < dev_plan_elec_class.length; m++) {
+              var tmp = [];
+              for (var i = 0; i < dev_plan_elec_tmp.length; i++) { //每个子类一一匹配，好麻烦
+                if (dev_plan_elec_tmp[i].subtype == dev_plan_elec_class[m].classification) {
+                  tmp.push({
+                    ID: dev_plan_elec_tmp[i].ID,
+                    name: dev_plan_elec_tmp[i].name,
+                    time: dev_plan_elec_tmp[i].time,
+                    credit: dev_plan_elec_tmp[i].credit,
+                    complete: dev_plan_elec_tmp[i].complete
+                  });
+                }
+              }
+              dev_plan_elec.push(tmp);
+            }
+
+            res.render('select/dev_plan', {
+              type: userType, 
+              name: '程序员',
+              image: 'images/avatars/avatar3.jpg',
+              total_a: '12',
+              a: '2,3,1,2,3,1,0',
+              total_b: '24',
+              b: '4,6,2,4,6,2,0',
+              total_credits: '24',
+              credits: '4,6,2,4,6,2,0',
+              major: major,
+              dev_plan_gen: dev_plan_gen_class,
+              dev_plan_elec: dev_plan_elec,
+              dev_plan_elec_class: dev_plan_elec_class,
+              dev_plan_req: dev_plan_req
+            }); 
+          });//find end
+      }
+      else if(major_result[i].name=="公共课"){
+        for(var j=0;j<(major_result[i].field).length;j++)
+          dev_plan_gen_class.push({name:(major_result[i].field)[j],min_credits:(major_result[i].mincredit)[j],credits:"0"});
       }
 
-      if(result[i].name == selectedMajor){
+      /*if(result[i].name == selectedMajor){
         for(var j=0;j<(result[i].field).length;j++)
           dev_plan_elec_class.push({classification: (result[i].field)[j], min_credits: "20", credits: "18"});
-      }
+      }*/
     }
   });
  
-  var dev_plan_gen = [];
+  /*var dev_plan_gen = [];
   var dev_plan_req = [];
   var dev_plan_elec = new Array();
   var dev_plan_elec_tmp = [];
-  var courseModel = require('../../db/courseDB/courseSchema_hyx');
-  courseModel.find({major: {$in: [selectedMajor, "公共课"]} }, function(error, result) {
+  var courseModel = require('../../db/courseDB/courseSchema_hyx');*/
+  /*courseModel.find({major: {$in: [selectedMajor, "公共课"]} }, function(error, result) {
     if (error) console.log(error);
     else console.log(result);
 
@@ -126,15 +323,23 @@ router.get('/dev_plan', function (req, res, next) {
       dev_plan_elec: dev_plan_elec,
       dev_plan_elec_class: dev_plan_elec_class,
       dev_plan_req: dev_plan_req
-    });
-    
-  });//find end
+    }); 
+  });//find end*/
 });//get end
 
 ////POST////
 //搜索专业培养方案
 router.post('/dev_plan', function (req, res, next) {
   console.log(req.body);
+
+  var userType;
+  switch (req.session.user.status.toString()){
+    case '学生':userType=0;break;
+    case '教师':userType=1;break;
+    case '系统管理员':userType=2;break;
+  }
+  var currentId=req.session.user.userid;
+
   var selectedMajor = req.body.major_name;
   var major = [];//专业
   var majorModel = require('../../db/courseDB/majorSchema');
@@ -238,8 +443,16 @@ router.post('/dev_plan', function (req, res, next) {
 ////GET////
 //major表中，除了公共课，其他的mincredit[0]表示专业必修课的mincredit，mincredit[1]表示专业选修课的mincredit
 router.get('/my_dev_plan', function (req, res, next) {
-  console.log(course.ejs);
+  console.log(req.body);
   
+  var userType;
+  switch (req.session.user.status.toString()){
+    case '学生':userType=0;break;
+    case '教师':userType=1;break;
+    case '系统管理员':userType=2;break;
+  }
+  var currentId=req.session.user.userid;
+
   var render = function() {
     res.render('select/my_dev_plan', {
       type: userType,
@@ -322,13 +535,14 @@ router.get('/my_dev_plan', function (req, res, next) {
               classi: nresult[0].subtype
             });
           }//if end
-          if(i==(result[0].p1).length-1){
+          if(my_dev_plan_gen.length==(result[0].p1).length){
             ok1=true;
           }
         });//find end
       })(i);
     }
     console.log(1);
+    //console.log(my_dev_plan_gen);//[]
 
     //专业选修课
     var ok2=false;
@@ -366,7 +580,7 @@ router.get('/my_dev_plan', function (req, res, next) {
             credit3 += nresult[0].credit;
           }
 
-          if(i==(result[0].p3).length-1){
+          if(my_dev_plan_elec_tmp.length==(result[0].p3).length){
             ok2=true;
           }
         });//find end
@@ -427,7 +641,7 @@ router.get('/my_dev_plan', function (req, res, next) {
               credit: nresult[0].credit,
               complete: result[0].isC2[i]
             });
-          credit2 += result[0].credit;
+          credit2 += nresult[0].credit;
 
           if (my_dev_plan_req.length == (result[0].p2).length && ok1 && ok2) {
             dev_plan_gen_class[0].credits=credit1_1.toString();
@@ -466,7 +680,7 @@ router.get('/my_dev_plan', function (req, res, next) {
             console.log("~~~~~~~~~~~~~~~~"); */
 
             console.log("%d %d %d %d", credit1_1, credit1_2, credit1_3, credit1_4);
-            console.log(credit2);//输出NaN。。。
+            console.log(credit2);
             console.log(credit3);
 
             render();
@@ -502,7 +716,16 @@ router.get('/my_dev_plan', function (req, res, next) {
 router.post('/my_dev_plan_add', function(req, res, next) {
   console.log(req.body);
 
-  var currentId = "u001";
+  var userType;
+  switch (req.session.user.status.toString()){
+    case '学生':userType=0;break;
+    case '教师':userType=1;break;
+    case '系统管理员':userType=2;break;
+  }
+  var currentId=req.session.user.userid;
+  var selectedMajor=req.session.user.major;
+
+  //var currentId = "313001";
   var planModel = require('../../db/courseDB/planSchema');
   var courseModel = require('../../db/courseDB/courseSchema_hyx');
   var majorModel = require('../../db/courseDB/majorSchema');
@@ -710,9 +933,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
       for (var i = 0; i < (plan[0].p2).length; i++) {
         //嵌套查询
         (function(i) {
-          courseModel.find({
-            id: plan[0].p2[i]
-          }, function(error, nresult) {
+          courseModel.find({id: plan[0].p2[i]}, function(error, nresult) {
             if (error) console.log(error);
             else console.log(nresult);
 
@@ -724,7 +945,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
                 credit: nresult[0].credit,
                 complete: plan[0].isC2[i]
               });
-            credit2 += plan[0].credit;
+            credit2 += nresult[0].credit;
             if (i == (plan[0].p2).length - 1 && ok1 && ok2) {
               dev_plan_gen_class[0].credits = credit1_1.toString(); //请一定在这里赋值好么，同步异步拎不清啊啊啊。。
               dev_plan_gen_class[1].credits = credit1_2.toString();
@@ -792,6 +1013,15 @@ router.post('/my_dev_plan_add', function(req, res, next) {
 ////GET////
 router.get('/edit_dev_plan', function(req, res, next){
   console.log(req.body);
+
+  var userType;
+  switch (req.session.user.status.toString()){
+    case '学生':userType=0;break;
+    case '教师':userType=1;break;
+    case '系统管理员':userType=2;break;
+  }
+  var currentId=req.session.user.userid;
+
   var major = [];//专业
   var majorModel = require('../../db/courseDB/majorSchema');
   var major_name = "";
