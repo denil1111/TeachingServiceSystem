@@ -103,7 +103,7 @@
     <%include current_title.html %>
     <%include resource_bar.html%>
 
-    <%var root = true %>
+    <%var root =(user.status=="系统管理员"||user.status=="教师")?true:false %>
 
     <div class="span10" style="">
         <div class="row">
@@ -136,8 +136,7 @@
                     </div>
                     <div class="box-content" >
                         <%if (root == true){%>
-                            <div style="padding: 15px 15px;border-bottom:1px solid #d1d2da;"><i class="icon-info-sign"></i>直接拖拽可以改变资源顺序</div>
-                            <button class="btn-info" style="display:none;" id="saveSort">保存顺序</button>
+                            <div style="padding: 15px 15px;border-bottom:1px solid #d1d2da;"><i class="icon-info-sign"></i>直接拖拽可以改变资源顺序<button class="btn btn-xs btn-info" style="display:none;margin-left:20px;" id="saveSort">保存顺序</button></div>
                         <%}%>
                         <table class="table table-normal">
                             <thead>

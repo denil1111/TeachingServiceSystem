@@ -30,7 +30,7 @@
 <div class="main-content">
     <%include current_title.html %>
     <% include resource_bar.html %>
-    <%var root = true %>
+    <%var root =(user.status=="系统管理员"||user.status=="教师")?true:false %>
 
     <div class="span10">
         <div class="box">
@@ -54,7 +54,7 @@
                         <tr>
                             <td></td>
                             <td style="width: 150px">作业名称</td>
-                            <td style="width: 60px">截至时间</td>
+                            <td style="width: 160px">截至时间</td>
                             <td>作业描述</td>
                             <td style="width: 40px"></td>
                         </tr>
