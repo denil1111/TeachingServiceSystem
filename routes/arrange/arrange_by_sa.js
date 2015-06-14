@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/TS');
+//mongoose.connect('mongodb://localhost/TS');
 //var ClassroomModel = require('../../db/group2db/ClassroomModel');
 var Course = require('../../db/group1db/CourseModel');
 var Room = require('../../db/group2db/ClassroomModel');

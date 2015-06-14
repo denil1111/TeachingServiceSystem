@@ -16,7 +16,7 @@ var tmp={
     email:"18868101234@163.com"
 };
 
-router.get('/personmodify', function(req, res,next) {
+router.get('/', function(req, res,next) {
     res.render('info/personmodify',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
@@ -38,7 +38,7 @@ router.get('/personmodify', function(req, res,next) {
     });
 });
 
-router.post('/personmodify',function(req,res,next){
+router.post('/',function(req,res,next){
     console.log("post:personmodify");
     
     var form = new formidable.IncomingForm(); //创建上传表单
@@ -243,11 +243,13 @@ router.post('/personmodify',function(req,res,next){
                 email : fields.email
             };
             console.log("doc:"+doc.username);
-            PersonModel.modifybyid(doc,function(err,data){
-                if(err){
-                    console.log("modify err : "+err);
-                    res.render('info/personmodify',{
-                        name: '程序员',
+            PersonModel.findbyid(fields.userid, function(error, user){
+                if(error){
+                    console.log('find error!'+error);
+                }
+                else if (!user | user == ''){
+                    return res.render('info/personmodify',{
+                        name: '程序员', 
                         image: 'images/avatars/avatar3.jpg',
                         total_a:'12',
                         a:'2,3,1,2,3,1,0',
@@ -263,31 +265,57 @@ router.post('/personmodify',function(req,res,next){
                         ageerr: ageerr,
                         telerr: telerr,
                         data: doc,
-                        modifyresult:'用户修改失败！'
-                    })
+                        modifyresult:'学工号不存在'
+                    });
                 }
                 else{
-                    console.log('data'+data);
-                    console.log('Update Model OK!');
-                    console.log(doc.username);
-                    res.render('info/personmodify',{
-                        name: '程序员',
-                        image: 'images/avatars/avatar3.jpg',
-                        total_a:'12',
-                        a:'2,3,1,2,3,1,0',
-                        total_b:'24',
-                        b:'4,6,2,4,6,2,0',
-                        total_credits:'24',
-                        credits:'4,6,2,4,6,2,0',
+                    PersonModel.modifybyid(doc,function(err,data){
+                        if(err){
+                            console.log("modify err : "+err);
+                            res.render('info/personmodify',{
+                                name: '程序员',
+                                image: 'images/avatars/avatar3.jpg',
+                                total_a:'12',
+                                a:'2,3,1,2,3,1,0',
+                                total_b:'24',
+                                b:'4,6,2,4,6,2,0',
+                                total_credits:'24',
+                                credits:'4,6,2,4,6,2,0',
 
-                        useridErr: useridErr,
-                        userNameErr: userNameErr,
-                        passwordErr: passwordErr,
-                        emailerr: emailerr,
-                        ageerr: ageerr,
-                        telerr: telerr,
-                        data: doc,
-                        modifyresult:'用户修改成功！'
+                                useridErr: useridErr,
+                                userNameErr: userNameErr,
+                                passwordErr: passwordErr,
+                                emailerr: emailerr,
+                                ageerr: ageerr,
+                                telerr: telerr,
+                                data: doc,
+                                modifyresult:'用户修改失败！'
+                            })
+                        }
+                        else{
+                            console.log('data'+data);
+                            console.log('Update Model OK!');
+                            console.log(doc.username);
+                            res.render('info/personmodify',{
+                                name: '程序员',
+                                image: 'images/avatars/avatar3.jpg',
+                                total_a:'12',
+                                a:'2,3,1,2,3,1,0',
+                                total_b:'24',
+                                b:'4,6,2,4,6,2,0',
+                                total_credits:'24',
+                                credits:'4,6,2,4,6,2,0',
+
+                                useridErr: useridErr,
+                                userNameErr: userNameErr,
+                                passwordErr: passwordErr,
+                                emailerr: emailerr,
+                                ageerr: ageerr,
+                                telerr: telerr,
+                                data: doc,
+                                modifyresult:'用户修改成功！'
+                            });
+                        }
                     });
                 }
             });
