@@ -1,10 +1,11 @@
 var mongoose = require('mongoose');
-//mongoose.connect('mongodb://localhost/TS');
+var express = require('express');
+var router = express.Router();
 //var ClassroomModel = require('../../db/group2db/ClassroomModel');
-var CourseModel = require('../../db/group1db/CourseModel');
-var RoomModel = require('../../db/group2db/ClassroomModel');
-// var Course = mongoose.model('CourseModel',CourseModel.CourseSchema);
-// var Room = mongoose.model('ClassroomModel',RoomModel.ClassroomSchema);
+var Course = require('../../db/group1db/CourseModel');
+var Room = require('../../db/group2db/ClassroomModel');
+//var Course = mongoose.model('CourseModel',CourseModel.CourseSchema);
+//var Room = mongoose.model('ClassroomModel',RoomModel.ClassroomSchema);
 
 //global vars
 var courseList = new Array();		//all courses waiting to be sorted
@@ -168,7 +169,18 @@ function AnalyList(aList)
 				roomString = roomString + roomList[roomIndex].rid + ";";
 				timeString = timeString + Math.floor(timeIndex / 5) + "-"+ (timeIndex % 5) + ";";
 			}
-		Course.findOne({ courseid2: courseList[j].cid }, function (err, doc){
+			
+		
+		var conditions = { courseid2: courseList[j].cid }
+  		, update = { $set: { coursetime: timeString, room: roomString }}
+  		, options = { multi: true };
+  		
+  		Course.update(conditions,update,options,function(err){
+  			if(err)
+  				console.log(err);
+  		});
+  		
+		/*Course.findOne({ courseid2: courseList[j].cid }, function (err, doc){
 			if(err)
 				console.log(err);
 			else
@@ -178,6 +190,7 @@ function AnalyList(aList)
 				doc.save();
 			}
 		});
+		*/
 		
 	}
 	return;
@@ -253,8 +266,32 @@ function ArrangeACampus(campusName)
 	InputCourse(campusName, InputClassroom);
 	
 }
-console.log("Begin at time: "+ Date());
-ArrangeACampus('zjg');
+
+router.get('/arrange_by_sa', function(req, res, next) {
+//	if(!req.session.user){return res.redirect('../info/login');}
+    res.render('arrange/arrange_by_sa',{
+    	name: '程序员', 
+		image: 'images/avatars/avatar3.jpg',
+		total_a:'12',
+		a:'2,3,1,2,3,1,0',
+		total_b:'24',
+		b:'4,6,2,4,6,2,0',
+		total_credits:'24',
+		credits:'4,6,2,4,6,2,0',
+    });
+});
+
+router.post('/arrange_by_sa',function(req, res, next){
+	console.log("post:arrange_by_sa");
+
+	ArrangeACampus('紫金港校区');
+	ArrangeACampus('玉泉校区');
+	ArrangeACampus('西溪校区');
+	ArrangeACampus('华家池校区');
+	ArrangeACampus('之江校区');
+});
+
+module.exports = router;
 
 
 

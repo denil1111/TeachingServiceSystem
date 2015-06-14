@@ -37,37 +37,15 @@
   <!-- 信息填写 -->
   <div class="span12">
     <div class="box">
-      <form name="input" action="/arrange/classroomdelete" method="post">
+      <form name="input" action="/arrange/arrange_by_sa" method="post">
         <div class="box-content padded">
           <div class="row-fluid">
-            <div class="span9">
-            <!-- 条件选框 -->
-              <ul>
-                <li class="input">
-                  <label>教室ID</label>
-                  <input type="text" name="classid2">
-                </li>
-              </ul>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-blue">删除</button>
+            <button type="submit" class="btn btn-blue">开始排课</button>
           </div>
         </div>
       </form>
       </div>
 
-      <!-- 删除结果 -->
-      <div class="span10">
-        <div class="box">
-          <div class="box-header">
-            <span class="title">删除结果</span>
-          </div>
-          <form action="/coursedelete" role="form" method="post">
-            <p><span><%= deleteresult %></span></p>
-          </form>
-        </div>
-      </div>
-    </div>
 </div>
 
 </body>
