@@ -17,14 +17,14 @@ router.get('/login',function(req,res,next){
     passport.authenticate('local',function(err,user2,info){
       //use your own admin account here
       var user={
-        userid:'1234',
-        password:'1234'
+        userid:'3120000000',
+        password:'3120000000'
       };
      
 
       if(err){return(err);}
       
-      else if(user=="" | !user){
+      else if(!user){
         console.log("user : NULL");
         res.render('info/login',{
           loginerror:"学号/密码错误"
