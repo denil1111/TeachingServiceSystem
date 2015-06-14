@@ -9,6 +9,7 @@ var classroomcourse = require('./classroomcourse');
 var timetable_classroom = require('./timetable_classroom');
 var timetable_teacher = require('./timetable_teacher');
 var CourseApplicationInsert = require('./CourseApplicationInsert');
+var arrange_by_sa =require ('./arrange_by_sa');
 var arrange_course_management = require('./arrange_course_management')
 //var teachercourse = require('./teachercourse');
 
@@ -25,6 +26,7 @@ arrange.use('/', timetable_classroom);
 arrange.use('/', timetable_teacher);
 arrange.use('/', CourseApplicationInsert);
 arrange.use('/', arrange_course_management);
+arrange.use('/', arrange_by_sa);
 //arrange.use('/', teachercourse);
 // arrange.use('/',group);
 
