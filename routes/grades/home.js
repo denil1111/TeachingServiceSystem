@@ -22,16 +22,35 @@ if(req.session.user.status=="student"){
      }
      
    CourseModel.find({},function(error,courses){
-     for(var i = 0;i < docs.length;++i)
-     {   
-       for(var j = 0;j < courses.length;++j)
-          if(courses[j]["_id"]==docs[i]["courseid"])//we can use sort to speed up
-          {
-            docs[i]["coursename"] = courses[j]["coursename"];
-            docs[i]["coursecredit"] = courses[j]["coursescore"];
-          }
-     }
-     res.render('grades/student_grades', {
+     tutorialModel.find({},function(error,tutors){
+         for(var i = 0;i < docs.length;++i)
+         {   
+           for(var j = 0;j < courses.length;++j)
+              if(courses[j]["_id"]==docs[i]["courseid"])//we can use sort to speed up
+              {
+                docs[i]["coursename"] = courses[j]["coursename"];
+                docs[i]["coursecredit"] = courses[j]["coursescore"];
+                docs[i]["courseterm"] = courses[j]["courseterm"];
+                docs[i]["courseyear"] = courses[j]["year"];
+              }
+            for(var j = 0;j < tutors.length;++j)
+              if(tutors[j]["courseid"]==docs[i]["courseid"]){
+                switch(tutors[j]["type"])
+                {
+                  case 1:  
+                      docs[i]["coursetype"] = "大类必修"; break;
+                  case 2:  
+                      docs[i]["coursetype"] = "大类选修"; break;
+                  case 3:  
+                      docs[i]["coursetype"] = "通识"; break;
+                  case 4:  
+                      docs[i]["coursetype"] = "专业必修"; break;
+                  case 5:  
+                      docs[i]["coursetype"] = "专业选修"; break;
+                }
+              }
+         }
+         res.render('grades/student_grades', {
      	name: '程序员', 
      	image: 'images/avatars/avatar1.jpg',
      	total_a:'12',
@@ -40,15 +59,10 @@ if(req.session.user.status=="student"){
      	b:'4,6,2,4,6,2,0',
      	total_credits:'24',
      	credits:'4,6,2,4,6,2,0',
-      data:docs
-     });
-
-     
-   });     
- });//for stu_grades
-
-
- 
+      data:docs});
+     });     
+   });
+  });
 }
 else if (req.session.user.status=="teacher"){
   
@@ -141,7 +155,7 @@ else if(req.session.user.status=="admin"){
 
 });  
 
-/*router.get('/gradesAnalysis',function(req, res, next) {
+router.get('/gradesAnalysis',function(req, res, next) {
 
 if(!req.session.user){return res.redirect('../info/login');}
 
@@ -160,15 +174,10 @@ gradesDB.find(function(error,docs){
   	total_b:'24',
   	b:'4,6,2,4,6,2,0',
   	total_credits:'24',
-  	credits:'4,6,2,4,6,2,0',
-  	tt:'13'
+  	credits:'4,6,2,4,6,2,0'
   });
   }); 
 });  
-
-*/
-
-
 
 
 module.exports =router;

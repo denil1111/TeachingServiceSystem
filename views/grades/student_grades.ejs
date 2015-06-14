@@ -20,21 +20,33 @@
     if(choice==1)           document.getElementById('sem').innerHTML = "秋冬";
     else if(choice==2)      document.getElementById('sem').innerHTML = "春夏";
     else                    document.getElementById('sem').innerHTML = "全部";
-    show_table();
+    show_table(0,100);
   }
   function show_year(year) {
       if(year==-1)
         document.getElementById('year').innerHTML = "全部";
       else
         document.getElementById('year').innerHTML = year + " ~ " + (year+1);
-      show_table();
+      show_table(0,100);
   }
-  function show_table(){
+  function show_type(choice) {
+      if(choice==-1)
+         document.getElementById('type').innerHTML = "全部";
+      else if(choice==1)
+         document.getElementById('type').innerHTML = "大类必修";
+      else if(choice==2)
+         document.getElementById('type').innerHTML = "大类选修";
+      else if(choice==3)
+         document.getElementById('type').innerHTML = "通识";
+      else if(choice==4)
+         document.getElementById('type').innerHTML = "专业必修";
+      else if(choice==5)
+         document.getElementById('type').innerHTML = "专业选修";
+      show_table(0,100);
+  }
+  function show_table(grade1, grade2){
     var strSem = document.getElementById('sem').innerHTML;
-    var semester; 
-    if(strSem=="秋冬")           semester = 1;
-    else if(strSem=="春夏")      semester = 2;
-    else  /* &nbsp; */          semester = -1;
+    var semNoLimit = strSem=="全部"?1:0;
     
     var strYear = document.getElementById('year').innerHTML;//"20XX~20XY"/"全部";
     var yearNoLimit = strYear=="全部"?1:0;
@@ -42,25 +54,53 @@
     var cnt = 0;
     var ctable = document.getElementById('contentTable');
     for(var i = 1;i < ctable.rows.length;++i){
-      var takecourseID = ctable.rows[i].cells[0].innerHTML;
-      var semesterBool = takecourseID[11]==((semester==1)?'1':'2');
-      var yearBool = strYear[0]==takecourseID[1] && strYear[1]==takecourseID[2] && strYear[2]==takecourseID[3] && strYear[3]==takecourseID[4];
-      if( (semester==-1 && yearNoLimit) ||
-          (semesterBool && yearNoLimit) ||
-          (semester==-1 && yearBool) ||
-          (semesterBool && yearBool)) {  
-        ctable.rows[i].style.display = "";
-        if(cnt&1)           ctable.rows[i].class = "odd";
-        else                ctable.rows[i].class = "even";
-        cnt++;
-      }
-      else ctable.rows[i].style.display = "none";
-    }     
+      //var takecourseID = ctable.rows[i].cells[0].innerHTML;
+      var semesterBool = (ctable.rows[i].cells[1].innerHTML==strSem);
+      
+      var yearinTable = ctable.rows[i].cells[0].innerHTML; 
+      var yearBool = strYear[0]==yearinTable[0] && strYear[1]==yearinTable[1] && strYear[2]==yearinTable[2] && strYear[3]==yearinTable[3];
+      
+      var score = parseInt(ctable.rows[i].cells[4].innerHTML);
+      
+      var display = false;
+      if((grade1 <= score && score <= grade2) && 
+             ((semNoLimit && yearNoLimit) ||
+              (semesterBool && yearNoLimit) ||
+              (semNoLimit && yearBool) ||
+              (semesterBool && yearBool))
+         ){  
+             var typeLimit = document.getElementById('type').innerHTML;
+             if(typeLimit=="全部" || ctable.rows[i].cells[2].innerHTML==typeLimit)
+               display = true;
+             else display = false;
+          }
+          else display = false;
+          
+          if(display){
+                ctable.rows[i].style.display = "";
+                if(cnt&1)           ctable.rows[i].class = "odd";
+                else                ctable.rows[i].class = "even";
+                cnt++;
+          }
+          else ctable.rows[i].style.display = "none";
+    }
   }
+  function show_gradeBetween(){
+    
+    var strgrade1 = document.getElementById('grade1').value;
+    var strgrade2 = document.getElementById('grade2').value;
+    if(isNaN(parseFloat(strgrade1)) || isNaN(parseFloat(strgrade2))) return;
+    var grade1 = parseInt(strgrade1);
+    var grade2 = parseInt(strgrade2);
+    show_table(grade1,grade2);
+  }
+
+     show_gradeBetween();
      setNavActive();
      setSlideActive();
      show_sem(-1);
      show_year(-1);
+     show_type(-1);
 </script>
        <!-- 主要内容 -->
 <div class="main-content">
@@ -79,7 +119,9 @@
         <div class="box-header"><span class="title">学生成绩查询</span></div>
          <div class="box-content">
          <div id="dataTables">
-                <span>&nbsp;&nbsp;查看</span>
+          
+          <span>&nbsp;&nbsp;查看</span>
+          
           <div class="btn-group">
             <button class="btn btn-default  dropdown-toggle" data-toggle="dropdown">
               <span id="year">全部</span>
@@ -90,16 +132,13 @@
                 <li><a href="javascript:show_year(2012)"> 2012 ~ 2013</a></li>
                 <li><a href="javascript:show_year(2013)"> 2013 ~ 2014</a></li>
                 <li><a href="javascript:show_year(2014)"> 2014 ~ 2015</a></li>
-              
             </ul>
           </div>
           <span>学年&nbsp;&nbsp;</span>
-          <div class="btn-group" id="btn_list">
-            <button class="btn btn-default  dropdown-toggle" data-toggle="dropdown">
-              
+          
+          <div class="btn-group">
+            <button class="btn btn-default  dropdown-toggle" data-toggle="dropdown">            
               <span id="sem">全部</span>
-              
-              
               <span class="caret"></span></button>
             <ul class="dropdown-menu">
               <li><a href="javascript:show_sem(-1)">全部</a></li>
@@ -108,10 +147,36 @@
             </ul>
           </div>
           <span>学期&nbsp;&nbsp;</span>
+          
+          <div class="btn-group">
+            <button class="btn btn-default  dropdown-toggle" data-toggle="dropdown">            
+              <span id="type">全部</span>
+              <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><a href="javascript:show_type(-1)">全部</a></li>
+              <li><a href="javascript:show_type(1)">大类必修</a></li>
+              <li><a href="javascript:show_type(2)">大类选修</a></li>
+              <li><a href="javascript:show_type(3)">通识</a></li>
+              <li><a href="javascript:show_type(4)">专业必修</a></li>
+              <li><a href="javascript:show_type(5)">专业选修</a></li>
+            </ul>
+          </div>
+          <span>类别&nbsp;&nbsp;</span>
+          
+          <span>&nbsp;&nbsp;查询成绩区间：&nbsp;&nbsp;</span>
+          <input id ="grade1" type="text" aria-controls="contentTable" style="width:25px"/>
+          <span>&nbsp;到&nbsp;</span>
+          <input id ="grade2" type="text" aria-controls="contentTable" style="width:25px"/>
+          <button class="btn btn-default" onclick="javascript:show_gradeBetween()" >
+            <span>点击查询</span>
+          </button>
+
           <table cellpadding="0" cellspacing="0" border="0" class="dTable responsive" id="contentTable">
           <thead>
             <tr>
-              <th><div>选课课号</div></th>
+              <th><div>课程学年</div></th>
+              <th><div>课程学期</div></th>
+              <th><div>课程类别</div></th>
               <th><div>课程名称</div></th>
               <th><div>成绩</div></th>
               <th><div>学分</div></th>
@@ -122,7 +187,9 @@
           <tbody id="contentbody">
             <% for(i = 0;i<data.length;i++){ %>    
             <tr>       
-              <td class="courseid"><%= data[i].courseid %></td>
+              <td class="course_year"><%= data[i].courseyear %></td>
+              <td class="course_term"><%= data[i].courseterm %></td>
+              <td class="course_type"><%= data[i].coursetype %></td>
               <td><%= data[i].coursename %></td>
               <td class="center"><%= data[i].score %></td>
               <td><%= data[i].coursecredit %></td>
