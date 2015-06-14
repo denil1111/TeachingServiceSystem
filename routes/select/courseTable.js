@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 
 var my_course=[];
-my_course.push({
+/*my_course.push({
   course_id:"000000",
   ID:"00001",
   name:'计算机组成',
@@ -13,12 +13,12 @@ my_course.push({
   time:'周一 345',
   campus:'玉泉',
   room:'曹西-204'
-});
+});*/
 //注意所有课程的time日期格式，多个上课时间之间以空格分隔，共有以下情况：
 //晚上的课程格式为 Mon night
 //其余为 周一 123 或 周一 12 以此类推
 //新增course_id为主键, 
-my_course.push({course_id:"000001",ID:"00002",name:'软件工程',teacher:'XX2', semaster:'春夏',time:'周一 12 周二 345',campus:'玉泉',room:'曹西-101'});
+//my_course.push({course_id:"000001",ID:"00002",name:'软件工程',teacher:'XX2', semaster:'春夏',time:'周一 12 周二 345',campus:'玉泉',room:'曹西-101'});
 /* GET home page. */
 router.get('/my_course', function(req, res, next) {
   console.log(my_course.ejs);

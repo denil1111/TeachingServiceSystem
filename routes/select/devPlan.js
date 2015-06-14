@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 //培养方案页面
-var userType=0;//manager
+var userType=2;//manager
 //usertype为啥没在数据库里？！
 var currentId = "u001";
 var selectedMajor;// = "专业1";//默认专业为当期用户的专业
