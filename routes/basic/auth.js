@@ -31,4 +31,11 @@ auth.isAdmin = function(req, res, next) {
 	res.redirect('/login');
 };
 
+auth.isAdmin2 = function(req, res, next) {
+	if (req.session.user.status == "系统管理员") 
+		return next();
+	
+	res.redirect('/info/personinfo');
+};
+
 module.exports = auth; 

@@ -10,6 +10,7 @@ var PersonModel = require('../../db/group1db/PersonModel');
 router.get('/login',function(req,res,next){
   console.log("login get");
   console.log("app.get('env')"+app.get('env'));
+
   if (app.get('env') == 'development'){
     console.log("development module");
 
@@ -19,6 +20,7 @@ router.get('/login',function(req,res,next){
         userid:'1234',
         password:'1234'
       };
+     
 
       if(err){return(err);}
       
@@ -29,17 +31,25 @@ router.get('/login',function(req,res,next){
         });
       }
       else{
-        req.logIn(user, function(err){
-          // console.log(user);
+        PersonModel.findbyid(user.userid,function (err, user) {
+         if(err){console.log("development router login findbyid error!")}
+         else if(!user | user == ''){console.log("development router login findbyid find NULL!")}
+         else {
+           console.log("user : "+user);
+           req.logIn(user, function(err){
+          console.log(user);
           req.session.user=user;
-          // console.log(req.isAuthenticated());
+          console.log(req.isAuthenticated());
           if(user.status == "系统管理员"){
             res.redirect('/info/personinsert');
           }
           else{
             res.redirect('/info/personinfo');
           }
-        })
+        });
+          }
+      	}); 
+        
       }
     })(req,res,next);
   } else {

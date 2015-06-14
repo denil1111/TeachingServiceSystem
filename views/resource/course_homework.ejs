@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+
+<head>
+    <% include ../head.html %>
+    <style>
+        .action-nav-button{
+            width: 15%;
+        }
+    </style>
+</head>
+
+<body>
+<!-- 上方选择条 navbar-top-->
+<% include ../navbar.html %>
+<!-- 侧边框 -->
+<% include slide_course.html %>
+<script type="text/javascript">
+
+</script>
+<!-- 主要内容 -->
+<div class="main-content">
+    <%include current_title.html %>
+    <% include resource_bar.html %>
+
+    <div class="span10">
+        <div class="box">
+            <div class="box-header">
+                <span class="title">作业提交</span>
+                <%if (root == true) {%>
+                    <ul class="box-toolbar">
+                        <li style="margin-left:0px;">
+                            <button class="btn btn-xs btn-success"  data-toggle="modal" href="#modal-newwork">
+                                <i class="icon-plus"></i>
+                                <span>新增作业</span>
+                            </button>
+                        </li>
+                    </ul>
+                <%}%>
+            </div>
+            <div class="box-content">
+                <table class="table table-normal">
+                    <% if (hasOwnProperty("homeworkLisr")) { %>
+                        <thead>
+                        <tr>
+                            <td></td>
+                            <td style="width: 150px">作业名称</td>
+                            <td style="width: 60px">截至时间</td>
+                            <td>作业描述</td>
+                            <td style="width: 40px"></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <% var hwlist = homeworkLisr ? homeworkLisr : []; %>
+                        <% for(var i = 0 ; i < hwlist.length; i++) { %>
+                            <tr>
+                                <td class="icon">
+                                    <i class="icon-file"></i>
+                                </td>
+                                <td>
+                                    <a href="?cid=<%= current_cid %>&hw=<%= hwlist[i].homework %>"><%= hwlist[i].homework %></a></a>
+                                </td>
+                                <td>
+                                    <b><%= hwlist[i].ddl %> </b>
+                                </td>
+                                <td>
+                                    <b><%= hwlist[i].describe %></b>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-xs btn-default">
+                                            <i class="icon-info-sign"></i>
+                                        </button>
+                                        <button class="btn btn-xs btn-default">
+                                            <i class="icon-upload-alt"></i>
+                                        </button>
+                                        <button class="btn btn-xs btn-default">
+                                            <i class="icon-download-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% } %>
+                        </tbody>
+                    <% } else { %>
+                        <thead>
+                        <tr>
+                            <td></td>
+                            <td style="width: 150px">上传作业名称</td>
+                            <td style="width: 60px">上传时间</td>
+                            <td style="width: 60px">文件类型</td>
+                            <td style="width: 40px"></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <% var filelist = filelist ? filelist : []; %>
+                            <% for(var i = 0 ; i < filelist.length; i++) { %>
+                            <tr>
+                                <td class="icon">
+                                    <i class="icon-file"></i>
+                                </td>
+                                <td>
+                                    <a href="download?fid=<%= filelist[i].id%>&fname=<%= filelist[i].filename%>">
+                                        <%= filelist[i].filename %>
+                                    </a>
+                                </td>
+                                <td>
+                                    <b><%= filelist[i].uploadtime%></b>
+                                </td>
+                                <td>
+                                    <b><%= filelist[i].contentType %></b>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-xs btn-default">
+                                            <i class="icon-info-sign"></i>
+                                        </button>
+                                        <button class="btn btn-xs btn-default">
+                                            <i class="icon-upload-alt"></i>
+                                        </button>
+                                        <button class="btn btn-xs btn-default">
+                                            <i class="icon-download-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    <%}%>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<%if (root == true) {%>
+<div id="modal-newwork" class="modal fade hide">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">新增一个作业</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label">作业名称:</label>
+                        <input type="text" name="hw-name" placeholder="作业名称"/>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="control-label">截止日期:</label>
+                        <input type="text" name="hw-ddl" placeholder="截止日期"/>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="control-label">作业备注:</label>
+                        <input type="text" name="hw-more" placeholder="备注"/>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="control-label">作业要求:</label>
+                        <textarea rows="6" name="hw-require" placeholder="作业要求"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                <button type="button" class="btn btn-blue" data-src="" id="shareSubmit">确定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal --><!-- find me in partials/modal_form -->
+<%}%>
+
+
+    <div id="modal-editwork" class="modal fade hide">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><%if (root == false){%> 查看详情 <%}else{%> 修改作业信息 <%}%></h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label">作业名称:</label>
+                            <input type="text" name="hw-name" placeholder="作业名称" <%if (root == false){%> disabled <%}%> />
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="control-label">截止日期:</label>
+                            <input type="text" name="hw-ddl" placeholder="截止日期" <%if (root == false){%> disabled <%}%>/>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="control-label">作业备注:</label>
+                            <input type="text" name="hw-more" placeholder="备注" <%if (root == false){%> disabled <%}%>/>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="control-label">作业要求:</label>
+                            <textarea rows="6" name="hw-require" placeholder="作业要求" <%if (root == false){%> disabled <%}%>></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                    <button type="button" class="btn btn-blue" data-src="" id="shareSubmit">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal --><!-- find me in partials/modal_form -->
+
+    <div id="modal-uploadwork" class="modal fade hide">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">上传作业</h4>
+                </div>
+                <div class="modal-body">
+                    <label>请选择要上传的文件</label>
+                    <input type="file" name="fileUploadInput" size="40" multiple="multiple" id="fileUploadInput">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+                    <button id="fileUploadSubmit" type="button" class="btn btn-blue">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal --><!-- find me in partials/modal_form -->
+
+
+</div>
+</body>
+
+</html>
