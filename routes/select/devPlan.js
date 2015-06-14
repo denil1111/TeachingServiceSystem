@@ -14,6 +14,13 @@ var userModel = require('../../db/courseDB/userSchema');
 router.get('/dev_plan', function (req, res, next) {
   //console.log(course.ejs);
   console.log(req.body);
+  var userType;
+  switch (req.session.user.status.toString()){
+    case '学生':userType=0;break;
+    case '教师':userType=1;break;
+    case '系统管理员':userType=2;break;
+  }
+  var selectedMajor=req.session.user.major;
   
   //course: id, name, credit, recTime, type, subType, major
   //major: name
@@ -25,6 +32,7 @@ router.get('/dev_plan', function (req, res, next) {
 
   var major = [];//专业
   var majorModel = require('../../db/courseDB/majorSchema');
+  
   var dev_plan_elec_class = [];
   var dev_plan_gen_class=[];
   majorModel.find({}, function(error, result) {
@@ -229,7 +237,6 @@ router.post('/dev_plan', function (req, res, next) {
 ////GET////
 //major表中，除了公共课，其他的mincredit[0]表示专业必修课的mincredit，mincredit[1]表示专业选修课的mincredit
 router.get('/my_dev_plan', function (req, res, next) {
-
   console.log(req.body);
 
   var userType;
@@ -241,7 +248,6 @@ router.get('/my_dev_plan', function (req, res, next) {
   var currentId=req.session.user.userid;
 
   var ischecked=false;
-
   var render = function() {
     res.render('select/my_dev_plan', {
       type: userType,
@@ -535,7 +541,6 @@ router.post('/my_dev_plan_add', function(req, res, next) {
   var selectedMajor=req.session.user.major;
 
   //var currentId = "313001";
-
   var planModel = require('../../db/courseDB/planSchema');
   var courseModel = require('../../db/courseDB/courseSchema_hyx');
   var majorModel = require('../../db/courseDB/majorSchema');
@@ -870,7 +875,7 @@ router.get('/edit_dev_plan', function(req, res, next){
   var major_name = "";
 
   var dev_plan_elec_class = [];
-  var dev_plan_gen_class=[];//公共课类别++++6.7++++
+  var dev_plan_gen_class=[];
 
   var dev_plan_gen = [];
   var dev_plan_req = [];
