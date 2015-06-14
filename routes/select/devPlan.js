@@ -12,7 +12,8 @@ var userModel = require('../../db/courseDB/userSchema');
 //////////////////////////专业培养方案//////////////////////////
 ////GET////
 router.get('/dev_plan', function (req, res, next) {
-  console.log(course.ejs);
+  //console.log(course.ejs);
+  console.log(req.body);
   
   //course: id, name, credit, recTime, type, subType, major
   //major: name
@@ -238,6 +239,7 @@ router.get('/my_dev_plan', function (req, res, next) {
   }
   var currentId=req.session.user.userid;
 
+  var ischecked=false;
   var render = function() {
     res.render('select/my_dev_plan', {
       type: userType,
@@ -254,7 +256,7 @@ router.get('/my_dev_plan', function (req, res, next) {
       dev_plan_elec_class: my_dev_plan_elec_class,
       dev_plan_req: my_dev_plan_req,
       my_dev_plan_gen: my_dev_plan_gen,
-      is_checked: true //这样要改成这样，待审核时可以修改，其他时候不能修改
+      is_checked: ischecked //这样要改成这样，待审核时可以修改，其他时候不能修改
     });
   }
 
@@ -299,6 +301,7 @@ router.get('/my_dev_plan', function (req, res, next) {
     var credit2 = 0;
     var my_dev_plan_elec_tmp = [];
     
+    
     function isRender(){
       if(ok1&&ok2&&ok3){
         dev_plan_gen_class[0].credits=credit1_1.toString();
@@ -323,7 +326,39 @@ router.get('/my_dev_plan', function (req, res, next) {
         console.log("%d %d %d %d", credit1_1, credit1_2, credit1_3, credit1_4);
         console.log(credit2);
         console.log(credit3);
-        render();
+        //render();
+        majorModel.find({},function(error,result){
+          if (error) console.log(error);
+          else console.log(result);
+
+          /*if(result.length!=1)
+            console.log("ERROR:result.length!=1");*/
+
+          var ischecked1=false;
+          var ischecked2=false;
+
+          for(var i=0;i<result.length;i++){
+            if(result[i].name=="公共课"){
+              if(credit1_1>=result[0].mincredit[0]
+                && credit1_2>=result[0].mincredit[1]
+                && credit1_3>=result[0].mincredit[2]
+                && credit1_4>=result[0].mincredit[3]){
+                ischecked1=true;
+              }
+            }
+            else{
+              if(credit2>=result[i].mincredit[0]
+                &&credit3>=result[i].mincredit[1]){
+                ischecked2=true;
+              }
+            }
+
+            if(i==result.length-1){
+              ischecked=ischecked1&&ischecked2;
+              render();
+            }
+          }  
+        });
       }
         
     }
@@ -467,6 +502,7 @@ router.get('/my_dev_plan', function (req, res, next) {
 router.post('/my_dev_plan_add', function(req, res, next) {
   console.log(req.body);
 
+  var ischecked=false;
   var render = function() {
     res.render('select/my_dev_plan', {
       type: userType,
@@ -532,7 +568,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
   var ok3 = false;
   var credit2 = 0;
 
-  ischecked=false;
+  
   function isRender() {
     if (ok1 && ok2 && ok3) {
       dev_plan_gen_class[0].credits = credit1_1.toString();
@@ -588,8 +624,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
             ischecked=ischecked1&&ischecked2;
             render();
           }
-        }
-        
+        }  
       });
       
     }
@@ -610,10 +645,11 @@ router.post('/my_dev_plan_add', function(req, res, next) {
     //!!加课的时候要判断是否已存在在plan中
     //!!是否为本专业  
     // 修改记录
-    if (result[0].major != selectedMajor && result[0].major != "公共课") {
+    var ischangeable=true;
+    /*if (result[0].major != selectedMajor && result[0].major != "公共课") {
       console.log("Wrong Major!");
-      return;
-    }
+      ischangeable=false;
+    }*/
 
     planModel.find({id: currentId}, function(err, plan) {
       if (plan.length != 1) {
@@ -621,56 +657,62 @@ router.post('/my_dev_plan_add', function(req, res, next) {
         return;
       }
 
-      if (result[0].type == 1) { //如果是公共课
-        var isExisted = false;
-        for (var j = 0; j < plan[0].p1.length; j++) {
-          if (result[0].id == plan[0].p1[j]) {
-            if (req.body.type == "2") { //删除
-              plan[0].p1.splice(j, 1);
-              plan[0].isC1.splice(j, 1);
-            }
-            isExisted = true;
-            break;
-          }
-        }
-        if (req.body.type == "1" && !isExisted) { //添加
-          plan[0].p1.push(result[0].id);
-          plan[0].isC1.push(0);
-        }
-      } else if (result[0].type == 2) { //如果是专业必修课
-        var isExisted = false;
-        for (var j = 0; j < plan[0].p2.length; j++) {
-          if (result[0].id == plan[0].p2[j]) {
-            if (req.body.type == "2") {
-              plan[0].p2.splice(j, 1);
-              plan[0].isC2.splice(j, 1);
-            }
-            isExisted = true;
-            break;
-          }
-        }
-        if (req.body.type == "1" && !isExisted) {
-          plan[0].p2.push(result[0].id);
-          plan[0].isC2.push(0);
-        }
-      } else { //专业选修课
-        var isExisted = false;
-        for (var j = 0; j < plan[0].p3.length; j++) {
-          if (result[0].id == plan[0].p3[j]) {
-            if (req.body.type == "2") {
-              plan[0].p3.splice(j, 1);
-              plan[0].isC3.splice(j, 1);
-            }
-            isExisted = true;
-            break;
-          }
-        }
-        if (req.body.type == "1" && !isExisted) {
-          plan[0].p3.push(result[0].id);
-          plan[0].isC3.push(0);
-        }
+      if (result[0].major != selectedMajor && result[0].major != "公共课") {
+        console.log("Wrong Major!");
+        ischangeable=false;
       }
-      plan[0].save(function(err) {});
+      if(ischangeable){
+        if (result[0].type == 1) { //如果是公共课
+          var isExisted = false;
+          for (var j = 0; j < plan[0].p1.length; j++) {
+            if (result[0].id == plan[0].p1[j]) {
+              if (req.body.type == "2") { //删除
+                plan[0].p1.splice(j, 1);
+                plan[0].isC1.splice(j, 1);
+              }
+              isExisted = true;
+              break;
+            }
+          }
+          if (req.body.type == "1" && !isExisted) { //添加
+            plan[0].p1.push(result[0].id);
+            plan[0].isC1.push(0);
+          }
+        } else if (result[0].type == 2) { //如果是专业必修课
+          var isExisted = false;
+          for (var j = 0; j < plan[0].p2.length; j++) {
+            if (result[0].id == plan[0].p2[j]) {
+              if (req.body.type == "2") {
+                plan[0].p2.splice(j, 1);
+                plan[0].isC2.splice(j, 1);
+              }
+              isExisted = true;
+              break;
+            }
+          }
+          if (req.body.type == "1" && !isExisted) {
+            plan[0].p2.push(result[0].id);
+            plan[0].isC2.push(0);
+          }
+        } else { //专业选修课
+          var isExisted = false;
+          for (var j = 0; j < plan[0].p3.length; j++) {
+            if (result[0].id == plan[0].p3[j]) {
+              if (req.body.type == "2") {
+                plan[0].p3.splice(j, 1);
+                plan[0].isC3.splice(j, 1);
+              }
+              isExisted = true;
+              break;
+            }
+          }
+          if (req.body.type == "1" && !isExisted) {
+            plan[0].p3.push(result[0].id);
+            plan[0].isC3.push(0);
+          }
+        }
+        plan[0].save(function(err) {});
+      } 
 
       //公共课
       if ((plan[0].p1).length == 0){
@@ -702,7 +744,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
                 classi: nresult[0].subtype
               });
             } //if end
-            if (i == (plan[0].p1).length - 1) {
+            if (my_dev_plan_gen.length == (plan[0].p1).length) {
               ok1 = true;
               isRender();
             }
@@ -719,7 +761,6 @@ router.post('/my_dev_plan_add', function(req, res, next) {
         ok2 = true;
         isRender();
       }
-
       for (var i = 0; i < (plan[0].p3).length; i++) {
         //嵌套查询
         (function(i) {
@@ -755,7 +796,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
               });
               credit3 += nresult[0].credit;
             }
-            if (i == (plan[0].p3).length - 1) {
+            if (my_dev_plan_elec_tmp.length == (plan[0].p3).length) {
               ok2 = true;
               isRender();
             }
@@ -782,9 +823,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
       for (var i = 0; i < (plan[0].p2).length; i++) {
         //嵌套查询
         (function(i) {
-          courseModel.find({
-            id: plan[0].p2[i]
-          }, function(error, nresult) {
+          courseModel.find({id: plan[0].p2[i]}, function(error, nresult) {
             if (error) console.log(error);
             else console.log(nresult);
 
@@ -798,7 +837,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
               });
 
             credit2 += nresult[0].credit;
-            if (my_dev_plan_req.length == (result[0].p2).length){
+            if (my_dev_plan_req.length == (plan[0].p2).length){
               ok3=true;
               isRender();
             }
@@ -815,6 +854,14 @@ router.post('/my_dev_plan_add', function(req, res, next) {
 ////GET////
 router.get('/edit_dev_plan', function(req, res, next){
   console.log(req.body);
+  var userType;
+  switch (req.session.user.status.toString()){
+    case '学生':userType=0;break;
+    case '教师':userType=1;break;
+    case '系统管理员':userType=2;break;
+  }
+  var currentId=req.session.user.userid;
+
   var major = [];//专业
   var majorModel = require('../../db/courseDB/majorSchema');
   var major_name = "";
