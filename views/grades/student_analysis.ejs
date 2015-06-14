@@ -23,6 +23,8 @@
 </script>
 
 <script type="text/javascript">
+        var yearBar = <%-JSON.stringify(yearBar)%>;
+
         require.config({
             paths: {
                 echarts: '/javascripts/echarts/dist'
@@ -62,7 +64,8 @@
         {
             type : 'category',
             boundaryGap : false,       
-            data: ['2012-2013','2013-2014','2014-2015','2015-2016']
+            //data: ['2012-2013','2013-2014','2014-2015','2015-2016']
+            data: yearBar
         }
     ],
     yAxis : [
@@ -238,7 +241,7 @@
 
     <div class="box">
       <div class="box-header">
-        <span class="title">charts2</span>
+        <span class="title">charts2</span></span>
       </div>
       
       <div class="box-content padded">
