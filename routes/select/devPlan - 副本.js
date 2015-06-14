@@ -442,11 +442,9 @@ router.post('/dev_plan', function (req, res, next) {
 //////////////////////////我的培养方案//////////////////////////
 ////GET////
 //major表中，除了公共课，其他的mincredit[0]表示专业必修课的mincredit，mincredit[1]表示专业选修课的mincredit
-
-
 router.get('/my_dev_plan', function (req, res, next) {
   console.log(req.body);
-
+  
   var userType;
   switch (req.session.user.status.toString()){
     case '学生':userType=0;break;
@@ -474,8 +472,6 @@ router.get('/my_dev_plan', function (req, res, next) {
       is_checked: true //这样要改成这样，待审核时可以修改，其他时候不能修改
     });
   }
-
-  
 
   var planModel = require('../../db/courseDB/planSchema');
   var courseModel = require('../../db/courseDB/courseSchema_hyx');
@@ -508,50 +504,12 @@ router.get('/my_dev_plan', function (req, res, next) {
 
     //公共课
     var ok1=false;
-    var ok2=false;
-    var ok3=false;
     var credit1_1 = 0;
     var credit1_2 = 0;
     var credit1_3 = 0;
     var credit1_4 = 0;
-    var credit3 = 0;
-    var credit2 = 0;
-    var my_dev_plan_elec_tmp = [];
-    
-    function isRender(){
-      if(ok1&&ok2&&ok3){
-        dev_plan_gen_class[0].credits=credit1_1.toString();
-        dev_plan_gen_class[1].credits=credit1_2.toString();
-        dev_plan_gen_class[2].credits=credit1_3.toString();
-        dev_plan_gen_class[3].credits=credit1_4.toString();
-        var isEmpty = true;
-        for (var m = 0; m < my_dev_plan_elec_class.length; m++) {
-          var tmp = [];
-          for (var j = 0; j < my_dev_plan_elec_tmp.length; j++) { //每个子类一一匹配，好麻烦
-            if (my_dev_plan_elec_tmp[j].classi == my_dev_plan_elec_class[m].classification) {
-              tmp.push(my_dev_plan_elec_tmp[j]);
-            }
-          }
-          my_dev_plan_elec.push(tmp);
-          isEmpty = false;
-        }
-        if (isEmpty) {
-          var tmp = [];
-          my_dev_plan_elec.push(tmp);
-        }
-        console.log("%d %d %d %d", credit1_1, credit1_2, credit1_3, credit1_4);
-        console.log(credit2);
-        console.log(credit3);
-        render();
-      }
-        
-    }
-    
-    if((result[0].p1).length==0){
+    if((result[0].p1).length==0)
       ok1=true;
-      console.log(ok1);
-      isRender();
-    }
     for (var i = 0; i < (result[0].p1).length; i++) {
       //嵌套查询
       (function(i) {
@@ -579,8 +537,6 @@ router.get('/my_dev_plan', function (req, res, next) {
           }//if end
           if(my_dev_plan_gen.length==(result[0].p1).length){
             ok1=true;
-            console.log(ok1);
-            isRender();
           }
         });//find end
       })(i);
@@ -589,14 +545,11 @@ router.get('/my_dev_plan', function (req, res, next) {
     //console.log(my_dev_plan_gen);//[]
 
     //专业选修课
-    //var ok2=false;
-    /*var credit3 = 0;
-    var my_dev_plan_elec_tmp = [];*/
-    if((result[0].p3).length==0){
+    var ok2=false;
+    var credit3 = 0;
+    var my_dev_plan_elec_tmp = [];
+    if((result[0].p3).length==0)
       ok2=true;
-      console.log(ok2);
-      isRender();
-    }
     for (var i = 0; i < (result[0].p3).length; i++) {
       //嵌套查询
       (function(i) {
@@ -629,8 +582,6 @@ router.get('/my_dev_plan', function (req, res, next) {
 
           if(my_dev_plan_elec_tmp.length==(result[0].p3).length){
             ok2=true;
-            console.log(ok2);
-            isRender();
           }
         });//find end
       })(i);
@@ -648,7 +599,7 @@ router.get('/my_dev_plan', function (req, res, next) {
     console.log(2);
 
     //专业必修
-    //var credit2 = 0;
+    var credit2 = 0;
     /*var judage = function(){
       if(ok1 && ok2){
           dev_plan_gen_class[0].credits = credit1_1.toString(); 
@@ -675,13 +626,10 @@ router.get('/my_dev_plan', function (req, res, next) {
         var tmp = [];
         my_dev_plan_elec.push(tmp);
         render();
-        //break;
+        break;
       }*/
     
-    if((result[0].p2).length==0){
-      ok3=true;
-      isRender();
-    }
+    
     for (var i = 0; i < (result[0].p2).length; i++) {
       //嵌套查询
       (function(i) {
@@ -699,14 +647,11 @@ router.get('/my_dev_plan', function (req, res, next) {
             });
           credit2 += nresult[0].credit;
 
-          //if (my_dev_plan_req.length == (result[0].p2).length && ok1 && ok2) {
-          if (my_dev_plan_req.length == (result[0].p2).length){
-            ok3=true;
-            isRender();
-            /*dev_plan_gen_class[0].credits=credit1_1.toString();
+          if (my_dev_plan_req.length == (result[0].p2).length && ok1 && ok2) {
+            dev_plan_gen_class[0].credits=credit1_1.toString();
             dev_plan_gen_class[1].credits=credit1_2.toString();
             dev_plan_gen_class[2].credits=credit1_3.toString();
-            dev_plan_gen_class[3].credits=credit1_4.toString();*/
+            dev_plan_gen_class[3].credits=credit1_4.toString();
             /*console.log("~~~~~~~~~~~~~~~~");
             console.log(dev_plan_gen_class);
             console.log("~~~~~~~~~~~~~~~~"); 
@@ -719,7 +664,7 @@ router.get('/my_dev_plan', function (req, res, next) {
             console.log(my_dev_plan_req);
             console.log("~~~~~~~~~~~~~~~~");
             console.log(my_dev_plan_gen);*/
-            /*var isEmpty=true;
+            var isEmpty=true;
             for (var m = 0; m < my_dev_plan_elec_class.length; m++) {
               var tmp = [];
               for (var j = 0; j < my_dev_plan_elec_tmp.length; j++) { //每个子类一一匹配，好麻烦
@@ -733,36 +678,39 @@ router.get('/my_dev_plan', function (req, res, next) {
             if(isEmpty){
               var tmp = [];
               my_dev_plan_elec.push(tmp);
-            }*/
+            }
             /*console.log("~~~~~~~~~~~~~~~~"); 
             console.log(my_dev_plan_elec);
             console.log("~~~~~~~~~~~~~~~~"); */
 
-            /*console.log("%d %d %d %d", credit1_1, credit1_2, credit1_3, credit1_4);
+            console.log("%d %d %d %d", credit1_1, credit1_2, credit1_3, credit1_4);
             console.log(credit2);
-            console.log(credit3);*/
+            console.log(credit3);
 
-            //render();
+            render();
+            /*var render=function(){
+                res.render('select/my_dev_plan', {
+                type: userType,
+                name: '程序员',
+                image: 'images/avatars/avatar3.jpg',
+                total_a: '12',
+                a: '2,3,1,2,3,1,0',
+                total_b: '24',
+                b: '4,6,2,4,6,2,0',
+                total_credits: '24',
+                credits: '4,6,2,4,6,2,0',
+                dev_plan_gen: dev_plan_gen_class,
+                dev_plan_elec: my_dev_plan_elec,
+                dev_plan_elec_class: my_dev_plan_elec_class,
+                dev_plan_req: my_dev_plan_req,
+                my_dev_plan_gen: my_dev_plan_gen,
+                is_checked: true //这样要改成这样，待审核时可以修改，其他时候不能修改
+              });
+            }*/
           }
         });
       })(i);
     }
-    console.log(2.5);
-
-    /*while((result[0].p2).length==0){
-
-      if(ok1 && ok2){
-        dev_plan_gen_class[0].credits = credit1_1.toString(); 
-        dev_plan_gen_class[1].credits = credit1_2.toString();
-        dev_plan_gen_class[2].credits = credit1_3.toString();
-        dev_plan_gen_class[3].credits = credit1_4.toString();
-        var tmp = [];
-        my_dev_plan_elec.push(tmp);
-        render();
-        break;
-      }
-    }*/
-    
     console.log(3);
   });//plan find end
 });//get end
@@ -772,26 +720,6 @@ router.get('/my_dev_plan', function (req, res, next) {
 router.post('/my_dev_plan_add', function(req, res, next) {
   console.log(req.body);
 
-  var render = function() {
-    res.render('select/my_dev_plan', {
-      type: userType,
-      name: '程序员',
-      image: 'images/avatars/avatar3.jpg',
-      total_a: '12',
-      a: '2,3,1,2,3,1,0',
-      total_b: '24',
-      b: '4,6,2,4,6,2,0',
-      total_credits: '24',
-      credits: '4,6,2,4,6,2,0',
-      dev_plan_gen: dev_plan_gen_class,
-      dev_plan_elec: my_dev_plan_elec,
-      dev_plan_elec_class: my_dev_plan_elec_class,
-      dev_plan_req: my_dev_plan_req,
-      my_dev_plan_gen: my_dev_plan_gen,
-      is_checked: true //这样要改成这样，待审核时可以修改，其他时候不能修改
-    });
-  }
-   
   var userType;
   switch (req.session.user.status.toString()){
     case '学生':userType=0;break;
@@ -826,45 +754,6 @@ router.post('/my_dev_plan_add', function(req, res, next) {
   var my_dev_plan_elec = new Array();
   var my_dev_plan_elec_class = [];
 
-  var ok1 = false;
-  var credit1_1 = 0;
-  var credit1_2 = 0;
-  var credit1_3 = 0;
-  var credit1_4 = 0;
-  var ok2 = false;
-  var credit3 = 0;
-  var my_dev_plan_elec_tmp = [];
-  var ok3 = false;
-  var credit2 = 0;
-
-  function isRender() {
-    if (ok1 && ok2 && ok3) {
-      dev_plan_gen_class[0].credits = credit1_1.toString();
-      dev_plan_gen_class[1].credits = credit1_2.toString();
-      dev_plan_gen_class[2].credits = credit1_3.toString();
-      dev_plan_gen_class[3].credits = credit1_4.toString();
-      var isEmpty = true;
-      for (var m = 0; m < my_dev_plan_elec_class.length; m++) {
-        var tmp = [];
-        for (var j = 0; j < my_dev_plan_elec_tmp.length; j++) { //每个子类一一匹配，好麻烦
-          if (my_dev_plan_elec_tmp[j].classi == my_dev_plan_elec_class[m].classification) {
-            tmp.push(my_dev_plan_elec_tmp[j]);
-          }
-        }
-        my_dev_plan_elec.push(tmp);
-        isEmpty = false;
-      }
-      if (isEmpty) {
-        var tmp = [];
-        my_dev_plan_elec.push(tmp);
-      }
-      console.log("%d %d %d %d", credit1_1, credit1_2, credit1_3, credit1_4);
-      console.log(credit2);
-      console.log(credit3);
-      render();
-    }
-
-  }
 
   courseModel.find({id: req.body.course_number}, function(error, result) {
     if (error) console.log(error);
@@ -943,15 +832,13 @@ router.post('/my_dev_plan_add', function(req, res, next) {
       plan[0].save(function(err) {});
 
       //公共课
-      /*var ok1 = false;
+      var ok1 = false;
       var credit1_1 = 0;
       var credit1_2 = 0;
       var credit1_3 = 0;
-      var credit1_4 = 0;*/
-      if ((plan[0].p1).length == 0){
+      var credit1_4 = 0;
+      if ((plan[0].p1).length == 0)
         ok1 = true;
-        isRender();
-      }
       for (var i = 0; i < (plan[0].p1).length; i++) {
         //嵌套查询
         (function(i) {
@@ -979,7 +866,6 @@ router.post('/my_dev_plan_add', function(req, res, next) {
             } //if end
             if (i == (plan[0].p1).length - 1) {
               ok1 = true;
-              isRender();
             }
           }); //find end - course
         })(i); //function end
@@ -987,13 +873,11 @@ router.post('/my_dev_plan_add', function(req, res, next) {
       console.log(1);
 
       //专业选修课
-      /*var ok2 = false;
+      var ok2 = false;
       var credit3 = 0;
-      var my_dev_plan_elec_tmp = [];*/
-      if ((plan[0].p3).length == 0){
+      var my_dev_plan_elec_tmp = [];
+      if ((plan[0].p3).length == 0)
         ok2 = true;
-        isRender();
-      }
 
       for (var i = 0; i < (plan[0].p3).length; i++) {
         //嵌套查询
@@ -1032,7 +916,6 @@ router.post('/my_dev_plan_add', function(req, res, next) {
             }
             if (i == (plan[0].p3).length - 1) {
               ok2 = true;
-              isRender();
             }
           }); //find end
         })(i);
@@ -1050,11 +933,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
       console.log(2);
 
       //专业必修
-      /*var credit2 = 0;*/
-      if((plan[0].p2).length==0){
-        ok3=true;
-        isRender();
-      }
+      var credit2 = 0;
       for (var i = 0; i < (plan[0].p2).length; i++) {
         //嵌套查询
         (function(i) {
@@ -1071,11 +950,8 @@ router.post('/my_dev_plan_add', function(req, res, next) {
                 complete: plan[0].isC2[i]
               });
             credit2 += nresult[0].credit;
-            //if (i == (plan[0].p2).length - 1 && ok1 && ok2) {
-            if (my_dev_plan_req.length == (result[0].p2).length){
-              ok3=true;
-              isRender();
-              /*dev_plan_gen_class[0].credits = credit1_1.toString(); //请一定在这里赋值好么，同步异步拎不清啊啊啊。。
+            if (i == (plan[0].p2).length - 1 && ok1 && ok2) {
+              dev_plan_gen_class[0].credits = credit1_1.toString(); //请一定在这里赋值好么，同步异步拎不清啊啊啊。。
               dev_plan_gen_class[1].credits = credit1_2.toString();
               dev_plan_gen_class[2].credits = credit1_3.toString();
               dev_plan_gen_class[3].credits = credit1_4.toString();
@@ -1126,7 +1002,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
                 dev_plan_req: my_dev_plan_req,
                 my_dev_plan_gen: my_dev_plan_gen,
                 is_checked: true //这样要改成这样，待审核时可以修改，其他时候不能修改
-              });*/
+              });
             }
           });
         })(i);
