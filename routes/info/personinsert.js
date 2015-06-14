@@ -16,7 +16,7 @@ var tmp={
     email:"18868101234@163.com"
 };
 
-router.get('/personinsert', function(req, res,next) {
+router.get('/', function(req, res,next) {
     res.render('info/personinsert',{
         name: '程序员',
         image: 'images/avatars/avatar3.jpg',
@@ -38,7 +38,7 @@ router.get('/personinsert', function(req, res,next) {
     });
 });
 
-router.post('/personinsert',function(req,res,next){
+router.post('/',function(req,res,next){
     console.log("post:personinsert/test");
     var form = new formidable.IncomingForm(); //创建上传表单
     form.encoding = 'utf-8';        //设置编辑
@@ -142,7 +142,7 @@ router.post('/personinsert',function(req,res,next){
         else{
             PersonModel.findbyid(userid,function (err, user) {
                 if (err) {console.log('find error!'+error);}
-                if (user | user != '') {useridErr = "ID used!";}
+                if (user) {useridErr = "ID used!";}
 
                 if(useridErr != ''){
                     res.render('info/personinsert',{

@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose'); 
 var PersonModel = require('../../db/group1db/PersonModel');
 
-router.get('/persondelete', function(req, res,next) {
+router.get('/', function(req, res,next) {
     res.render('info/persondelete',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
@@ -18,7 +18,7 @@ router.get('/persondelete', function(req, res,next) {
     });
 });
 
-router.post('/persondelete',function(req,res,next){
+router.post('/',function(req,res,next){
     console.log("post:persondelete");
     PersonModel.findbyid(req.body.userid, function(error, user){
         if(error){

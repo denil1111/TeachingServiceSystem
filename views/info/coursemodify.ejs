@@ -49,17 +49,45 @@
               <ul>
                 <li class="input">
                   <label>课程名称</label>
-                  <input type="text" placeholder="e.g. 软件工程" name="coursename" value=<%= data.coursename %>>
+                  <input type="text" style="width:215px;" placeholder="e.g. 软件工程" name="coursename" value=<%= data.coursename %>>
                   <font color="red"><%= coursenameErr %></font>
                 </li>
 
-                <li class="input">
+                <li class="input" style="margin-top:-65px; margin-left:360px">
                   <label>课程ID</label>
-                  <input type="text" placeholder="e.g. 1234" name="courseid2" value=<%= data.courseid2 %>>
+                  <input type="text" style="width:215px;" placeholder="e.g. 1234" name="courseid2" value=<%= data.courseid2 %>>
                   <font color="red"><%= courseidErr %></font>
                 </li>
-
+                
                 <li class="input">
+                  <label>授课老师</label>
+                  <input type="text" style="width:215px;" placeholder="e.g. 王章野" name="teacher" value=<%= data.teacher %>>
+                  <font color="red"><%= teacherErr %></font>
+                </li>
+                
+                <li class="input" style="margin-top:-65px; margin-left:360px">
+                  <label>开课学院</label>
+                  <input type="text" style="width:215px;" placeholder="e.g. 计算机学院" name="college" value=<%= data.college %>>
+                  <font color="red"><%= collegeErr %></font>
+                </li>
+                
+                <li class="input">
+                  <label>课程年份</label>
+                  <select name="year">
+                    <option value="2007-2008">2007-2008</option>
+                    <option value="2008-2009">2008-2009</option>
+                    <option value="2009-2010">2009-2010</option>
+                    <option value="2010-2011">2010-2011</option>
+                    <option value="2011-2012">2011-2012</option>
+                    <option value="2012-2013">2012-2013</option>
+                    <option value="2013-2014">2013-2014</option>
+                    <option value="2014-2015">2014-2015</option>
+                    <option value="2015-2016" selected="selected">2015-2016</option>
+                    <option value="2016-2017">2016-2017</option>
+                  </select>
+                </li>
+                
+                <li class="input" style="margin-top:-65px; margin-left:360px">
                   <label>课程学期</label>
                   <select name="courseterm">
                     <option value="春" selected="selected">春</option>
@@ -69,8 +97,54 @@
                     <option value="春夏">春夏</option>
                     <option value="秋冬">秋冬</option>
                   </select>
+                </li> 
+                
+                <li class="input">
+                  <label>课程学分</label>
+                  <select name="coursescore">
+                    <option value="0.5">0.5</option>
+                    <option value="1.0">1.0</option>
+                    <option value="1.5">1.5</option>
+                    <option value="2.0" selected="selected">2.0</option>
+                    <option value="2.5">2.5</option>
+                    <option value="3.0">3.0</option>
+                    <option value="3.5">3.5</option>
+                    <option value="4.0">4.0</option>
+                    <option value="4.5">4.5</option>
+                    <option value="5.0">5.0</option>
+                  </select>
                 </li>
-
+                
+                <li class="input" style="margin-top:-65px; margin-left:360px">
+                  <label>考试时间</label>
+                  <input type="text" style="width:215px;" placeholder="e.g. 2015.07.01 8:00-10:00" name="examtime" value=<%= data.examtime %>>
+                  <font color="red"><%= examtimeErr %></font>
+                </li>
+                
+                <li class="input">
+                  <label>上课校区</label>
+                  <select name="campus">
+                    <option value="紫金港校区" selected="selected">紫金港校区</option>
+                    <option value="玉泉校区">玉泉校区</option>
+                    <option value="西溪校区">西溪校区</option>
+                    <option value="之江校区">之江校区</option>
+                    <option value="华家池校区">华家池校区</option>
+                    <option value="舟山校区">舟山校区</option>
+                  </select>
+                </li>
+                
+                <li class="input" style="margin-top:-65px; margin-left:360px">
+                  <label>上课教室</label>
+                  <input type="text" style="width:215px;" placeholder="e.g. 教7-602" name="room" value=<%= data.room %>>
+                  <font color = "red"><%= roomErr %></font> 
+                </li>
+                
+                <li class="input" style="margin-top:10px;">
+                  <label>课程容量&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="e.g. 100" style="WIDTH: 30px;" name="all" value=<%= data.all %>></label>
+                  <label style="margin-top:-42px; margin-left:120px">课程余量&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="e.g. 100" style="WIDTH: 30px;" name="remain" value=<%= data.remain %>></label>
+                  <label style="margin-top:-42px; margin-left:240px">待选人数&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="e.g. 0" style="WIDTH: 30px;" name="waiting" value=<%= data.waiting %>></label>
+                </li>
+                
                 <li>
                   <label>课程时间（全不选则为均可）:</label>
                   <table id="user" class="table table-normal">
@@ -140,80 +214,10 @@
                     </tbody>                  
                   </table>
                 </li>
-
-                <li class="input">
-                  <label>课程学分</label>
-                  <select name="coursescore">
-                    <option value="0.5">0.5</option>
-                    <option value="1.0">1.0</option>
-                    <option value="1.5">1.5</option>
-                    <option value="2.0" selected="selected">2.0</option>
-                    <option value="2.5">2.5</option>
-                    <option value="3.0">3.0</option>
-                    <option value="3.5">3.5</option>
-                    <option value="4.0">4.0</option>
-                    <option value="4.5">4.5</option>
-                    <option value="5.0">5.0</option>
-                  </select>
-                </li>
-
-                <li class="input">
-                  <label>授课老师</label>
-                  <input type="text" placeholder="e.g. 王章野" name="teacher" value=<%= data.teacher %>>
-                  <font color="red"><%= teacherErr %></font>
-                </li>
-
-                <li class="input">
-                  <label>课程年份</label>
-                  <select name="year">
-                    <option value="2007">2007</option>
-                    <option value="2008">2008</option>
-                    <option value="2009">2009</option>
-                    <option value="2010">2010</option>
-                    <option value="2011">2011</option>
-                    <option value="2012">2012</option>
-                    <option value="2013">2013</option>
-                    <option value="2014">2014</option>
-                    <option value="2015" selected="selected">2015</option>
-                    <option value="2016">2016</option>
-                  </select>
-                </li>
-                
-                <li class="input">
-                  <label>课程容量&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="e.g. 100" style="WIDTH: 30px;" name="all" value=<%= data.all %>></label>
-                  <label>课程余量&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="e.g. 100" style="WIDTH: 30px;" name="remain" value=<%= data.remain %>></label>
-                  <label>待选人数&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="e.g. 0" style="WIDTH: 30px;" name="waiting" value=<%= data.waiting %>></label>
-                </li>
-                <li class="input">
-                  <label>考试时间</label>
-                  <input type="text" placeholder="e.g. 2015.07.01 8:00-10:00" name="examtime" value=<%= data.examtime %>>
-                  <font color="red"><%= examtimeErr %></font>
-                </li>
-                <li class="input">
-                  <label>上课教室</label>
-                  <input type="text" placeholder="e.g. 教7-602" name="room" value=<%= data.room %>>
-                  <font color = "red"><%= roomErr %></font> 
-                </li>
-                <li class="input">
-                  <label>上课校区</label>
-                  <select name="campus">
-                    <option value="紫金港校区" selected="selected">紫金港校区</option>
-                    <option value="玉泉校区">玉泉校区</option>
-                    <option value="西溪校区">西溪校区</option>
-                    <option value="之江校区">之江校区</option>
-                    <option value="华家池校区">华家池校区</option>
-                    <option value="舟山校区">舟山校区</option>
-                  </select>
-                </li>
-                <li class="input">
-                  <label>开课学院</label>
-                  <input type="text" placeholder="e.g. 计算机学院" name="college" value=<%= data.college %>>
-                  <font color="red"><%= collegeErr %></font>
-                </li>
               </ul>
               </div>
             </div>
-            <button type="submit" class="btn btn-blue">修改</button>
+            <button type="submit" style="margin-left:26px" class="btn btn-blue">修改</button>
           </div>
         </div>
       </form>

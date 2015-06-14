@@ -13,13 +13,13 @@ module.exports = function(passport) {
         console.log('user empty!');
          return done(null, false);
        }
-       console.log("user.password : "+user[0].password);
+       console.log("user.password : "+user.password);
        console.log("password : "+password);
-       if (user[0].password != password) {
+       if (user.password != password) {
          return done(null, false);
        }
        console.log('suc');
-       return done(null, user[0]);
+       return done(null, user);
       });
   }));
   // Passport needs to be able to serialize and deserialize users to support persistent login sessions

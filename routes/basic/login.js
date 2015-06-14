@@ -35,7 +35,7 @@ router.get('/login',function(req,res,next){
          if(err){console.log("development router login findbyid error!")}
          else if(!user | user == ''){console.log("development router login findbyid find NULL!")}
          else {
-           user = user[0];console.log("user : "+user);
+           console.log("user : "+user);
            req.logIn(user, function(err){
           console.log(user);
           req.session.user=user;
