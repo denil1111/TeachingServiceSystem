@@ -131,7 +131,7 @@
         				<td width="30%">开始时间</td>
         				<td width="30%">结束时间</td>
         				<td width="15%">选课</td>
-        				<td width="15%">补选</td>
+        				<td width="15%">退课</td>
         				<td width="10%">选项</td>
       				</tr>
     				</thead>
@@ -152,11 +152,23 @@
     					<% if(!choose_time[i].isCancell) {%>
     					<td><i class="icon-minus-sign"></i></td>
     					<%}%>
-    					<td><button onclick="submit_del(<%=choose_time[i].ID%>)" class="btn btn-sm btn-default">删除</button></td>
+    					<td><button onclick="submit_del('<%=choose_time[i].ID%>')" class="btn btn-sm btn-default">删除</button></td>
     				</tr>
     				<%}%>
     				</tbody>
     			</table>
+    			</hr>
+    			<form name="input" action="/select/course_filtrate" method="post">
+              		<div class="input" style="display:inline; text-align:center;">
+                 		 <label style="float:left; margin-top:5px;">筛选时间:&nbsp;</label>
+                  			<select class="uniform" name="result">
+                      		<% for(var i=0;i<choose_time.length;i++){%>
+                      			<option value="<%=i%>"><%= choose_time[i].start_time%> ~ <%= choose_time[i].end_time%></option>
+                      		<% } %>
+                  			</select>
+                  		<button type="submit" class="btn btn-blue" style="margin-left:30px;">筛选</button>
+              		</div>
+          		</form>
 			</div>
         </div>
     </div>
@@ -221,9 +233,17 @@
         	dataType: "json",  
         	// contentType: "charset=utf-8",  
         	cache: false,
+        	success:function(data){
+        		if (data.status=='succ')
+        			location.reload();
+        		else
+        			alert(data.error);
+        	},
+        	error:function(error){
+        		alert(error);
+        	}
     	}); 
-    	location.reload();
-	}
+    }
 	function submit_del(id){
 		var _json = jQuery.param ({	
     		type:"delete",
@@ -237,8 +257,13 @@
         	dataType: "json",  
         	// contentType: "charset=utf-8",  
         	cache: false,
-    	});  
-    	location.reload();
+        	success:function(data){
+        		if (data.status=='succ')
+        			location.reload();
+        		else
+        			alert(data.error);
+        	}
+       	});  
 	}
 
 </script>
