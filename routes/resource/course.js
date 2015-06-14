@@ -230,7 +230,17 @@ router.post('/renamenode', function(req, res, next) {
   Tree.renamenode(req.body.url, req.body.oldName, req.body.newName, req.session.ctreeP, function() {
      Tree.refreshAndSend(res, req.session.ctreeP, req.session.nowcid);
   });
-})
+});
+/*
+  sort
+  */
+router.post('/sort', function(req, res, next) {
+  debug(req.body.url);
+  var newtree = JSON.parse(req.body.url);
+  //url is a tree ,wrong name~~~
+  debug(newtree);
+  Tree.refreshAndSend(res, newtree, req.session.nowcid);
+});
 
 router.get('/info', isValidCourseID, function (req, res, next) {
   var render_data = {
@@ -296,7 +306,7 @@ router.post('/homework/newhomework', function(req, res, next) {
   var desc  = req.body.desc;
   homeworkModel.findbycourseid(cid, function(error,result){
     if(error) {
-      console.log(erroe);
+      console.log(error);
     } else {
       var newhw = {
         homework  : hwname,
