@@ -28,6 +28,7 @@ router.get('/manual_add', function(req, res, next) {
 router.post('/manual_add', function(req, res, next) {
   var courseData=[];
   var courseModel = require('../../db/group1db/CourseModel');
+  var userModel = require('../../db/courseDB/userSchema'); 
   console.log(req.body);
   var status;
   switch (req.session.user.status.toString()){
@@ -41,26 +42,112 @@ router.post('/manual_add', function(req, res, next) {
           {
               console.log(err);
               res.json({status:"err",error:err});
+              return;
           }            
           else
             console.log(result);
           if (result.length==0)
           {
-              res.json({status:"err",error:"No such course"});
+              res.json({status:"err",error:"课程不存在！"});
+              return;
           }
           for (var i=0;i<result.length;i++){              
               courseData.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].coursetime,room:result[i].room,remain:result[i].remain,all:result[i].all,waiting:result[i].waiting,courseid:result[i]._id});
           }
           res.json({status:"succ",courseData:courseData});
+          return;
       });
-  }
-  res.render('select/manual', {
-    type:status,//manager
-    course:course,
-    name: req.session.user.username.toString(), 
-    image: 'images/avatars/avatar3.jpg',
-  //  choose_time:choose_time
-  });
+  }else if (req.body.type=='add'){
+      courseModel.find({_id:req.body.course_id.toString()},function(err,result){
+          if (err)
+          {
+            console.log(err);
+            res.json({status:"err",error:err});
+            return;
+          }
+          else
+            console.log(result);
+          if (result.length==0)
+          {
+              res.json({status:"err",error:"课程不存在！"});
+              return;
+          }
+          userModel.find({id:req.body.stu_id.toString()},function(err,uresult){
+              if (err)
+              {
+                console.log(err);
+                res.json({status:"err",error:err});
+                return;
+              }
+              else
+                console.log(result);
+              if (result.length==0)
+              {
+                  res.json({status:"err",error:"用户不存在！"});
+                  return;
+              }
+              var index=-1;
+              for (var i=0;i<uresult[0].confirmedCourse.length;i++){
+                  if (uresult[0].confirmedCourse[i].id==req.body.course_id.toString())
+                    index=i;
+              }
+              if (index!=-1)
+              {
+                  res.json({status:"err",error:"已选该课！"});
+                  return;
+              }
+              courseModel.update({_id:req.body.course_id.toString()},{$dec:{remain:1}},function(err,re){if (err) console.log(err);});
+              userModel.update({id:req.body.stu_id.toString()},{$push:{confirmedCourse:{id:req.body.course_id.toString(),points:0}}},function(err,re){if (err) console.log(err);});
+              res.json({status:"succ"});
+              return;
+          });        
+      });
+  } if (req.body.type=='delete'){
+      courseModel.find({_id:req.body.course_id.toString()},function(err,result){
+          if (err)
+          {
+            console.log(err);
+            res.json({status:"err",error:err});
+            return;
+          }
+          else
+            console.log(result);
+          if (result.length==0)
+          {
+              res.json({status:"err",error:"课程不存在！"});
+              return;
+          }
+          userModel.find({id:req.body.stu_id.toString()},function(err,uresult){
+              if (err)
+              {
+                console.log(err);
+                res.json({status:"err",error:err});
+                return;
+              }
+              else
+                console.log(result);
+              if (result.length==0)
+              {
+                  res.json({status:"err",error:"用户不存在！"});
+                  return;
+              }
+              var index=-1;
+              for (var i=0;i<uresult[0].confirmedCourse.length;i++){
+                  if (uresult[0].confirmedCourse[i].id==req.body.course_id.toString())
+                    index=i;
+              }
+              if (index==-1)
+              {
+                  res.json({status:"err",error:"没有选择该课！"});
+                  return;
+              }
+              courseModel.update({_id:req.body.course_id.toString()},{$inc:{remain:1}},function(err,re){if (err) console.log(err);});
+              userModel.update({id:req.body.stu_id.toString()},{$pull:{confirmedCourse:{id:req.body.course_id.toString(),points:0}}},function(err,re){if (err) console.log(err);});
+              res.json({status:"succ"});
+              return;
+          });        
+      });
+    }
 });
 
 module.exports = router;
