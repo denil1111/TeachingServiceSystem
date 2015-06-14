@@ -8,16 +8,16 @@ var userType=0;//manager
 var currentId = "u001";
 var selectedMajor;// = "专业1";//默认专业为当期用户的专业
 var userModel = require('../../db/courseDB/userSchema');
-userModel.find({id:currentId}, function(error, result) {
-    if (error) console.log(error);
-    else console.log(result);
+// userModel.find({id:currentId}, function(error, result) {
+//     if (error) console.log(error);
+//     else console.log(result);
     
-    if(result.length!=1)
-      console.log("ERROR: The length of result is not one!");
+//     if(result.length!=1)
+//       console.log("ERROR: The length of result is not one!");
 
-    selectedMajor=result[0].major;//注意啊 是result[0]啊亲
-    console.log(selectedMajor+"okokokokok");
-});
+//     selectedMajor=result[0].major;//注意啊 是result[0]啊亲
+//     console.log(selectedMajor+"okokokokok");
+// });
 
 //////////////////////////专业培养方案//////////////////////////
 ////GET////

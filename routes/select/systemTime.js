@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 //选课时间确定
-choose_time=[];
-choose_time.push({start_time:"2015/01/01",end_time:"2015/02/02",isChoose:true,isCancell:true,ID:"1"});
-choose_time.push({start_time:"2015/03/01",end_time:"2015/04/02",isChoose:true,isCancell:false,ID:"2"});
+//choose_time=[];
+//choose_time.push({start_time:"2015/01/01",end_time:"2015/02/02",isChoose:true,isCancell:true,ID:"1"});
+//choose_time.push({start_time:"2015/03/01",end_time:"2015/04/02",isChoose:true,isCancell:false,ID:"2"});
 //ID为主键
 Date.prototype.format = function(format)
 {
@@ -32,6 +32,12 @@ router.get('/time', function(req, res, next) {
   var userModel = require('../../db/courseDB/userSchema');
   var courseModel = require('../../db/group1db/CourseModel');
   var error="";
+  var status;
+  switch (req.session.user.status.toString()){
+    case '学生':status=0;break;
+    case '教师':status=1;break;
+    case '系统管理员':status=2;break;
+  }
   courseTimeModel.find({},function(err,cre){
       if (err)
           console.log(err);
@@ -48,8 +54,8 @@ router.get('/time', function(req, res, next) {
           }
           console.log(choose_time);
           res.render('select/time', {
-              type:2,//manager
-              name: '程序员', 
+              type:status,//manager
+              name: req.session.user.username.toString(), 
               image: 'images/avatars/avatar3.jpg',
               choose_time:choose_time,
               error:error

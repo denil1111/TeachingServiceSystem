@@ -4,9 +4,15 @@ var mongoose = require('mongoose');
 
 router.post('/choose', function(req, res, next) {
   console.log(req.body);
+  var status;
+  switch (req.session.user.status.toString()){
+    case '学生':status=0;break;
+    case '教师':status=1;break;
+    case '系统管理员':status=2;break;
+  }
   res.render('select/choose', {
-    type:2,//manager
-    name: '程序员', 
+    type:status,//manager
+    name: req.session.user.username.toString(), 
     image: 'images/avatars/avatar3.jpg',
     total_a:'12',
     a:'2,3,1,2,3,1,0',
@@ -26,10 +32,10 @@ router.post('/choose', function(req, res, next) {
 
 
 //进入选课系统
-var course1=[];//该课程号对应的所有不同老师、时间段的课程
-course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,_id:1});
-course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,_id:2});
-course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,_id:3});
+//var course1=[];//该课程号对应的所有不同老师、时间段的课程
+//course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,_id:1});
+//course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,_id:2});
+//course1.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,_id:3});
 router.get('/choose_course/:courseID', function(req, res, next){
 	var course_id = req.params.courseID;
   var courseModel = require('../../db/group1db/CourseModel');
@@ -37,7 +43,8 @@ router.get('/choose_course/:courseID', function(req, res, next){
   var selectedCourse=[];
   var selectedCourseP=[];
   var remainedP=0;
-  userModel.find({id:"u001"},function(error,uresult){
+
+  userModel.find({id:req.session.user.userid.toString()},function(error,uresult){
       if(error) {
           console.log(error);
       } else {
@@ -71,7 +78,7 @@ router.get('/choose_course/:courseID', function(req, res, next){
             my_choice:choice,//记录登陆人员选择的是哪个选项
             remain_points:remainedP,//该学生剩余的点数
             old_point:oldPoint,//该学生原来分配的点数
-            name: '程序员', 
+            name: req.session.user.username.toString(), 
             image: '../images/avatars/avatar3.jpg',
             error:error
             });
@@ -103,7 +110,7 @@ router.post('/choose_course/:courseID', function(req, res, next){
   var selectedCourse=[];
   var selectedCourseP=[];
   var remainedP=0;
-  userModel.find({id:"u001"},function(error,uresult){
+  userModel.find({id:req.session.user.userid.toString()},function(error,uresult){
       if(error) {
           console.log(error);
       } else {
@@ -138,7 +145,7 @@ router.post('/choose_course/:courseID', function(req, res, next){
             my_choice:choice,//记录登陆人员选择的是哪个选项
             remain_points:remainedP,//该学生剩余的点数
             old_point:oldPoint,//该学生原来分配的点数
-            name: '程序员', 
+            name: req.session.user.username.toString(), 
             image: '../images/avatars/avatar3.jpg',
             error:error
             });
