@@ -15,8 +15,8 @@ router.get('/manual_add', function(req, res, next) {
     type:2,//manager
     course:course,
     name: '程序员', 
-    image: 'images/avatars/avatar3.jpg',
-    choose_time:choose_time
+    image: 'images/avatars/avatar3.jpg'
+    
   });
 });
 router.post('/manual_add', function(req, res, next) {
@@ -26,8 +26,7 @@ router.post('/manual_add', function(req, res, next) {
     type:2,//manager
     course:course,
     name: '程序员', 
-    image: 'images/avatars/avatar3.jpg',
-    choose_time:choose_time
+    image: 'images/avatars/avatar3.jpg'
   });
 });
 

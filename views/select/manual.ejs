@@ -45,10 +45,9 @@
 		<div class="box-content padded">
 			<span>课程号:&nbsp;&nbsp;</span>
 	  		<input type="text" style="margin-top:10px;" name="course_id" id="course_id">	
-	  		<button class="btn btn-blue" style="margin-left:10px;" onclick="search()">搜索</button>
-	  		<% if(course.length!=0){%>
+	  		<button class="btn btn-blue" style="margin-left:10px;" onclick="search()" tyle="button">搜索</button>
 	  		<hr/>
-	  		<table width="100%" class="table table-normal" style="text-align:center;">
+	  		<table width="100%" class="table table-normal" style="text-align:center;" id="table2">
 	  		<thead>
                 <tr>
                   <td>教师</td>
@@ -59,25 +58,10 @@
 				  <td>待定人数</td>
 				  <td>选课</td>
                 </tr>
-              </thead>
-              <tbody>
-			  <% for(var i=0;i<course.length;i++){%>
-			  <tr>
-				  <td><%=course[i].teacher %></td>
-				  <td><%=course[i].time %></td>
-				  <td><%=course[i].campus %></td>
-				  <td><%=course[i].room %></td>
-				  <td><%=course[i].remain %>/<%=course[i].all%></td>
-				  <td><%=course[i].waiting %></td>
-				  <td>
-					<input type="radio" name="choose" class="icheck" id="iradio<%=i%>" value="<%=course[i].course_id%>">
-				  </td>
-			  </tr>
-			  <%}%>
-            </tbody>  
-            </table>
-            <hr/>
-            <%}%>	
+          </thead>
+        </table>
+        <hr/>
+
 			<span>学号ID:&nbsp;&nbsp;</span>
 	  		<input type="text" style="margin-top:10px;" name="student_id" id="student_id">
       		<br/>
@@ -105,8 +89,34 @@ function search(){
         	dataType: "json",  
         	// contentType: "charset=utf-8",  
         	cache: false,
+          success:function(data){
+            console.log("suss");
+            /*var course=[];
+          course.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,courseid:1});
+          course.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,courseid:2});
+          course.push({teacher:"xxx",campus:"玉泉",time:"周一12 周三345",room:"曹西502",language:"双语",remain:20,all:40,waiting:30,courseid:3});
+          var data={status:'succ',courseData:course}*/
+            if (data.status=='succ')
+            {
+                var str=document.getElementById("table2").innerHTML;
+                console.log(str);
+                str=str+"<tbody>"
+                for(var i=0;i<data.courseData.length;i++){
+                  var tmp="";
+                  tmp="<tr><td>"+data.courseData[i].teacher+"</td><td>"+data.courseData[i].time+"</td><td>"+data.courseData[i].campus+"</td><td>"+data.courseData[i].room+"</td><td>"+data.courseData[i].remain+"/"+data.courseData[i].all+"</td><td>"+data.courseData[i].waiting;"</td><td><input type=\"radio\" name=\"choose\" class=\"icheck\" id=\"iradio"+i+"\"value="+data.courseData[i].course_id+"\"></td></tr>";
+                  str=str+tmp;
+                }
+                str=str+"</tbody>";
+                console.log(str);
+                document.getElementById("table2").innerHTML=str; 
+            }
+            else
+              alert(data.error);
+          },
+          error:function(err){
+            alert("error");
+          }
     	});  
-    location.reload(); 
 }
 function add_course(){
 	console.log("add!!");
