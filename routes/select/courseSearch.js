@@ -23,8 +23,17 @@ var Time_Dictionary = {"11":"周一 12","12":"周一 34","13":"周一 67","14":"
 
 router.get('/course', function(req, res, next) {
   console.log(course.ejs);
+  var status;
+  switch (req.session.user.status.toString()){
+    case '学生': status = 0; 
+                break;
+    case '教师': status = 1; 
+                break;
+    case '系统管理员': status = 2;
+                break;
+  }
   res.render('select/course', {
-    type:0,//manager
+    type: status,//manager
   	name: '程序员', 
   	image: 'images/avatars/avatar3.jpg',
   	total_a:'12',
@@ -110,8 +119,17 @@ router.post('/course_search', function(req, res, next) {
                      campus:raw_result[i].campus});
       console.log(result);
       //关闭数据库链接
+      var status;
+      switch (req.session.user.status.toString()){
+        case '学生': status = 0; 
+                break;
+        case '教师': status = 1; 
+                break;
+        case '系统管理员': status = 2;
+                break;
+      }
       res.render('select/course', {
-        type:2,//manager
+        type:status,//manager
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',

@@ -165,7 +165,7 @@ router.get('/my_course/:timeID',function(req, res, next){
                 break;
     case '系统管理员': status = 2;
                 break;
-  }
+    }
 
     var userModel = require('../../db/courseDB/userSchema'); 
     var courseModel = require('../../db/group1db/CourseModel'); 
