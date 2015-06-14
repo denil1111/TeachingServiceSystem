@@ -1,6 +1,9 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var CourseModel = require('../../db/group1db/CourseModel');
 var router = express.Router();
+
+var CourseID = ' ';//课程的ID，为Schema中的courseid2，代表一门课程而不是一个教学班
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -13,8 +16,17 @@ router.get('/', function(req, res, next) {
 	problemModel.find({}, function(err, problems){
 		if(err)
 			return next(err);
-		res.render('OnlineTest/probManage', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', problems: problems});
-		//db.close();
+		var classId = req.session.user.cstlist[0];
+		CourseModel.findOne({_id: classId}, function(err, theCourse){
+			CourseID = theCourse.courseid2;
+			var problems_valid = [];
+			for(var i = 0; i < problems.length; i++){
+				if(problems[i].usedClass == CourseID){
+					problems_valid.push(problems[i]);
+				}
+			}
+			res.render('OnlineTest/probManage', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', problems: problems_valid});
+		});
 	});
   //res.render('teaTestManage', { title: 'Online Test System - Teacher' });
 });
@@ -58,6 +70,7 @@ router.post('/', function(req, res, next) {
 	 	problemEntity.choice = choice;
 	 	problemEntity.type = 0;
 	 	problemEntity.point = req.body.point;
+	 	problemEntity.usedClass = CourseID;
 		problemEntity.save(function(error) {
 		    if(error) {
 		        console.log(error);
@@ -78,6 +91,7 @@ router.post('/', function(req, res, next) {
 	 	problemEntity.answer = answer;
 	 	problemEntity.type = 1;
 	 	problemEntity.point = req.body.point;
+	 	problemEntity.usedClass = CourseID;
 		problemEntity.save(function(error) {
 		    if(error) {
 		        console.log(error);

@@ -70,10 +70,16 @@ router.post('/', function(req, res, next) {
 		var problemSchema = require('../../db/OnlineTestDB/problemSchema');	
 		var problemModel = mongoose.model('ProblemDB', problemSchema);
 
-		//渲染页面，其中problems是数据库中查询得到的内容
 		problemModel.find({}, function(err, problems){
 			if(err)
 				return next(err);
+			problems_valid = [];
+			for(var i = 0; i < problems.length; i++){
+				if(problems[i].usedClass == CourseID){
+					problems_valid.push(problems[i]);
+				}
+			}
+			problems = problems_valid;
 
 			var pro_1 = [];
 			var pro_2 = [];
@@ -199,7 +205,13 @@ router.get('/update/:id', function(req, res, next){
 			problemModel.find({}, function(err, allProblems){
 				if(err)
 					return next(err);
-				res.render('OnlineTest/paperEdit', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', paper: paper, problemsInPaper: problemsInPaper, allProblems: allProblems});
+				problems_valid = [];
+				for(var i = 0; i < allProblems.length; i++){
+					if(allProblems[i].usedClass == CourseID){
+						problems_valid.push(allProblems[i]);
+					}
+				}
+				res.render('OnlineTest/paperEdit', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', paper: paper, problemsInPaper: problemsInPaper, allProblems: problems_valid});
 				//db.close();
 			});
 			

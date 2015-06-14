@@ -6,7 +6,8 @@ var mongooseSchema = new mongoose.Schema({
     choice 	: {type : [String]},
     type	: {type : Number},//0 选择题， 1 判断题
 
-    point 	: {type : Number}//题目的分值
+    point 	: {type : Number},//题目的分值
+    usedClass	: {type : String}//用来记录试卷对应的课程ID
 });
 
 module.exports=mongooseSchema;

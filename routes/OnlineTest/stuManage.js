@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var paperModel = mongoose.model('PaperDB', paperSchema);
+	var paperModel = mongoose.model('PaperDB', paperSchema, 'papers');
 
 	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
 	var recordModel = mongoose.model('RecordDB', recordSchema);
@@ -55,7 +55,7 @@ router.post('/answer=:paperId', function(req, res, next) {
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var paperModel = mongoose.model('PaperDB', paperSchema);
+	var paperModel = mongoose.model('PaperDB', paperSchema, 'papers');
 
 	var problemSchema = require('../../db/OnlineTestDB/problemSchema');	
 	var problemModel = mongoose.model('ProblemDB', problemSchema);
@@ -115,7 +115,7 @@ router.get('/answer=:paperId', function(req, res, next) {
 	//连接数据库
 	//var db = mongoose.createConnection('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var paperModel = mongoose.model('PaperDB', paperSchema);
+	var paperModel = mongoose.model('PaperDB', paperSchema, 'papers');
 
 	var problemSchema = require('../../db/OnlineTestDB/problemSchema');	
 	var problemModel = mongoose.model('ProblemDB', problemSchema);
@@ -135,7 +135,7 @@ router.get('/answer=:paperId', function(req, res, next) {
 				problemModel.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
 					if(err)
 						return next(err);
-					res.render('OnlineTest/paperAnswer', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', done: done, point: point, paper: paper, problemsInPaper: problemsInPaper, time:time});
+					res.render('OnlineTest/paperAnswer', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', done: false, point: point, paper: paper, problemsInPaper: problemsInPaper, time:time});
 				});	
 			});
 		}
