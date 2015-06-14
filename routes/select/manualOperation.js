@@ -20,15 +20,9 @@ router.get('/manual_add', function(req, res, next) {
   res.render('select/manual', {
     type:status,//manager
     course:course,
-<<<<<<< HEAD
     name: req.session.user.username.toString(), 
     image: 'images/avatars/avatar3.jpg',
    // choose_time:choose_time
-=======
-    name: '程序员', 
-    image: 'images/avatars/avatar3.jpg'
-    
->>>>>>> 3afda6e7d2258cc05d9179d6fb7d087a54d48aef
   });
 });
 router.post('/manual_add', function(req, res, next) {
@@ -55,7 +49,7 @@ router.post('/manual_add', function(req, res, next) {
               res.json({status:"err",error:"No such course"});
           }
           for (var i=0;i<result.length;i++){              
-              courseData.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].coursetime,room:result[i].room,remain:result[i].remain,all:result[i].all,waiting:result[i].waiting,courseid:result[i]._id);
+              courseData.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].coursetime,room:result[i].room,remain:result[i].remain,all:result[i].all,waiting:result[i].waiting,courseid:result[i]._id});
           }
       });
   }
