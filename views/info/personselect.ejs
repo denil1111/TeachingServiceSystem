@@ -49,12 +49,12 @@
                             <ul>
                                 <li class="input">
                                     <label>学工号</label>
-                                    <input type="text" placeholder="e.g. 123456" name="userid">
+                                    <input type="text" style="width:215px" placeholder="e.g. 123456" name="userid">
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-blue">查询</button>
+                    <button type="submit" style="margin-left:26px" class="btn btn-blue">查询</button>
                 </div>
         </div>
         </form>
@@ -62,45 +62,44 @@
 
     <!-- 搜索结果 -->
     <div class="span10">
-        <style>.box li{list-style:none;}</style>
+        <!--style>.box li{list-style:none;}</style-->
         <div class="box">
             <div class="box-header">
                 <span class="title">搜索结果</span>
             </div>
 
             <form  action="/personselect" role="form" method="post"  >
-
-
-                <% for(var i=0; i<person_data.length;i++) if(i==0){ %>
+    	        <% if(person_data.length!=0) { %>
+                <!--% for(var i=0; i<person_data.length;i++) if(i==0){ %-->
                 <ul>
                     <li class="input" style="margin-top:40px;margin-left:360px">
-                        <img style="height:240px;width:240px" src=<%= person_data[0].photo %> class="menu-avatar">
+                        <img style="height:240px;width:240px" src=<%= person_data.photo %> class="menu-avatar">
                     </li>
                 </ul>
 
                 <ul>
                     <li class="input" style="margin-top:40px;margin-left:360px">
                         <label>年龄</label>
-                        <input type="text" readonly="readonly" name="age" style="border:none;margin-left:10px" value=<%= person_data[0].age %>>
+                        <input type="text"  readonly="readonly" name="age" style="width:215px;border:none;margin-left:10px" value=<%= person_data.age %>>
                     </li>
                 </ul>
 
                 <ul>
                     <li class="input" style="margin-left:360px">
                         <label>电话</label>
-                        <input type="text" readonly="readonly" name="tel" style="border:none;margin-left:10px" value=<%= person_data[0].tel %>>
+                        <input type="text" readonly="readonly" name="tel" style="width:215px;border:none;margin-left:10px" value=<%= person_data.tel %>>
                     </li>
                 </ul>
                 <ul>
                     <li class="input" style="margin-left:360px">
                         <label>邮箱</label>
-                        <input type="text" readonly="readonly" name="email" style="border:none;margin-left:10px" value=<%= person_data[0].email %>>
+                        <input type="text" readonly="readonly" name="email" style="width:215px;border:none;margin-left:10px" value=<%= person_data.email %>>
                     </li>
                 </ul>
                 <ul>
                     <li class="input" style="margin-top:-500px;margin-left:50px">
                         <label>姓名</label>
-                        <input type="text" readonly="readonly" name="username" style="border:none;margin-left:10px" value=<%= person_data[0].username %>>
+                        <input type="text" readonly="readonly" name="username" style="width:215px;border:none;margin-left:10px" value=<%= person_data.username %>>
                     </li>
                 </ul>
 
@@ -108,26 +107,26 @@
                 <ul>
                     <li class="input" style="margin-left:50px">
                         <label>学工号</label>
-                        <input type="text" readonly="readonly" name="userid" style="border:none;margin-left:10px" value=<%= person_data[0].userid %>>
+                        <input type="text" readonly="readonly" name="userid" style="width:215px;border:none;margin-left:10px" value=<%= person_data.userid %>>
                     </li>
                 </ul>
                 <ul>
                     <li class="input" style="margin-left:50px">
                         <label>学院</label>
-                        <input type="text" readonly="readonly" name="college" style="border:none;margin-left:10px" value=<%= person_data[0].college %>>
+                        <input type="text" readonly="readonly" name="college" style="width:215px;border:none;margin-left:10px" value=<%= person_data.college %>>
                     </li>
                 </ul>
                 <ul>
                     <li class="input" style="margin-left:50px">
                         <label>身份</label>
-                        <input type="text" readonly="readonly" name="status" style="border:none;margin-left:10px" value=<%= person_data[0].status %>>
+                        <input type="text" readonly="readonly" name="status" style="width:215px;border:none;margin-left:10px" value=<%= person_data.status %>>
                     </li>
                 </ul>
 
                 <ul>
                     <li class="input" style="margin-left:50px">
                         <label>性别</label>
-                        <input type="text" readonly="readonly" name="sex" style="border:none;margin-left:10px" value=<%= person_data[0].sex %>>
+                        <input type="text" readonly="readonly" name="sex" style="width:215px;border:none;margin-left:10px" value=<%= person_data.sex %>>
                     </li>
                 </ul>
 
@@ -136,7 +135,7 @@
                 <ul>
                     <li class="input" style="margin-left:50px">
                         <label>专业</label>
-                        <input type="text" readonly="readonly" name="major" style="border:none;margin-left:10px" value=<%= person_data[0].major %>>
+                        <input type="text" readonly="readonly" name="major" style="width:215px;border:none;margin-left:10px" value=<%= person_data.major %>>
                     </li>
                 </ul>
 
@@ -145,10 +144,20 @@
                 <ul>
                     <li class="input" style="margin-left:50px">
                         <label>职称</label>
-                        <input type="text" readonly="readonly" name="title" style="border:none;margin-left:10px" value=<%= person_data[0].title %>>
+                        <input type="text" readonly="readonly" name="title" style="width:215px;border:none;margin-left:10px" value=<%= person_data.title %>>
+                    </li>
+                </ul>
+                
+                <ul>
+                    <li class="input" style="margin-left:50px">
+                        <label>课程</label>
+                        <% for(var i=0; i<person_data.cstlist.length;i++) { %>
+                        <input type="text" readonly="readonly" name="title" style="width:300px;border:none;margin-left:10px" value=<%= person_data.cstlist[i] %>>
+                        <% } %>
                     </li>
                 </ul>
                 <% } %>
+                <!--% } %-->
             </form>
              <p><span><%= selectresult %></span></p>
         </div>

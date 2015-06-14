@@ -6,7 +6,7 @@ var tmp=[];
 
 var PersonModel = require('../../db/group1db/PersonModel');
 
-router.get('/personselect', function(req, res, next) {
+router.get('/', function(req, res, next) {
     res.render('info/personselect',{
 		name: '程序员', 
 		image: 'images/avatars/avatar3.jpg',
@@ -22,7 +22,7 @@ router.get('/personselect', function(req, res, next) {
 	});
 });
 
-router.post('/personselect',function(req, res, next){
+router.post('/',function(req, res, next){
 	console.log("post:personselect");
 	PersonModel.findbyid(req.body.userid,function (err, user) {
 		if (err) {
@@ -40,11 +40,11 @@ router.post('/personselect',function(req, res, next){
 				total_credits:'24',
 				credits:'4,6,2,4,6,2,0',
 
-				person_data: user,
+				person_data: tmp,
 				selectresult:"用户不存在"
 			});
 		}
-		console.log("user : "+user.length);
+//		console.log("user : "+user.length);
 		console.log('user : '+user);
 		res.render('info/personselect',{
 			name: '程序员', 

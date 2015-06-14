@@ -16,7 +16,7 @@ var tmp = {
     college : "计算机学院"
 };
 
-router.get('/coursemodify', function(req, res,next) {
+router.get('/', function(req, res,next) {
     res.render('info/coursemodify',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
@@ -38,7 +38,7 @@ router.get('/coursemodify', function(req, res,next) {
     });
 });
 
-router.post('/coursemodify',function(req,res,next){
+router.post('/',function(req,res,next){
     var doc = {
         courseid2: req.body.courseid2,
         coursename  : req.body.coursename,
