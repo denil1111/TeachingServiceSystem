@@ -10,6 +10,7 @@ var PersonModel = require('../../db/group1db/PersonModel');
 router.get('/login',function(req,res,next){
   console.log("login get");
   console.log("app.get('env')"+app.get('env'));
+
   if (app.get('env') == 'development'){
     console.log("development module");
 
@@ -23,28 +24,26 @@ router.get('/login',function(req,res,next){
       // };
 
       var user={
-        userid:'4321',
-        password:'4321',
-        status:'教师',
-        cstlist:["5579c56f0538ff3def0625c5", "557a6ff9f67bbecc22cf766f"]
+        userid:'3120000000',
+        password:'3120000000'
       };
-      // var user;
-      // PersonModel.findbyid(localuser.userid,function (err, user) {
-      //   if(err){console.log("development router login findbyid error!")}
-      //   else if(!user | user == ''){console.log("development router login findbyid find NULL!")}
-      //   else {user = user[0];console.log("user : "+user);}
-      // }); 
+     
 
       if(err){return(err);}
       
-      else if(user=="" | !user){
+      else if(!user){
         console.log("user : NULL");
         res.render('info/login',{
           loginerror:"学号/密码错误"
         });
       }
       else{
-        req.logIn(user, function(err){
+        PersonModel.findbyid(user.userid,function (err, user) {
+         if(err){console.log("development router login findbyid error!")}
+         else if(!user | user == ''){console.log("development router login findbyid find NULL!")}
+         else {
+           console.log("user : "+user);
+           req.logIn(user, function(err){
           console.log(user);
           req.session.user=user;
           console.log(req.isAuthenticated());
@@ -54,7 +53,10 @@ router.get('/login',function(req,res,next){
           else{
             res.redirect('/info/personinfo');
           }
-        })
+        });
+          }
+      	}); 
+        
       }
     })(req,res,next);
   } else {
@@ -76,9 +78,9 @@ router.post('/login',function(req, res, next){
     }
     else{
       req.logIn(user, function(err){
-        console.log(user);
+        // console.log(user);
         req.session.user=user;
-        console.log(req.isAuthenticated());
+        // console.log(req.isAuthenticated());
         if(user.status == "系统管理员"){
           res.redirect('/info/personinsert');
         }

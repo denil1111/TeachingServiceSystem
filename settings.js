@@ -11,6 +11,7 @@
 module.exports = {
   db : {
     // modify the line below
-	connect : 'mongodb://127.0.0.1:27017/info'
+	//connect : 'mongodb://127.0.0.1:27017/info'
+	connect : 'tssapp:tssapp@10.214.128.197:27123/tss'
   }
 }

@@ -1,5 +1,6 @@
 var express = require('express');
 var info = express.Router();
+var auth = require('../basic/auth');
 
 var personinsert = require('./personinsert');
 var personselect = require('./personselect');
@@ -14,17 +15,16 @@ var coursemodify = require('./coursemodify');
 
 // var group = require('./group');
 
-info.use('/', personinsert);
-info.use('/', personselect);
-info.use('/', persondelete);
-info.use('/', personmodify);
-info.use('/', personinfo);
-info.use('/', personpassword);
-info.use('/', courseinsert);
-info.use('/', courseselect);
-info.use('/', coursedelete);
-info.use('/', coursemodify);
-// info.use('/',group);
+info.use('/personinfo', personinfo);
+info.use('/personpassword', personpassword);
+info.use('/personinsert', auth.isAdmin2,personinsert);
+info.use('/personselect', auth.isAdmin2,personselect);
+info.use('/persondelete', auth.isAdmin2,persondelete);
+info.use('/personmodify', auth.isAdmin2,personmodify);
+info.use('/courseinsert', auth.isAdmin2,courseinsert);
+info.use('/courseselect', auth.isAdmin2,courseselect);
+info.use('/coursedelete', auth.isAdmin2,coursedelete);
+info.use('/coursemodify', auth.isAdmin2,coursemodify);
 
 
 module.exports = info;

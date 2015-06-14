@@ -10,7 +10,7 @@ var statistics = require('./statistics');
 
 router.get('/', function(req, res, next) {
   	console.log(req.session.user.status);
-  	if(req.session.user.status == '学生'){
+  	if(req.session.user.status == '学生' || req.session.user.status == '系统管理员'){
   		res.redirect('/OnlineTest/student');	
   	}
   	else if(req.session.user.status == '教师'){
@@ -18,10 +18,15 @@ router.get('/', function(req, res, next) {
 	}
 });
 
-router.use('/teacher', auth.isTeacher, teaOnlineTestManage);
-router.use('/statistics', auth.isTeacher, statistics);
-router.use('/probManage', auth.isTeacher, problemOnlineTest);
-router.use('/paperManage', auth.isTeacher ,paperOnlineTest);
-router.use('/student', auth.isStudent ,stuOnlineTestManage);
+// router.use('/teacher', auth.isTeacher, teaOnlineTestManage);
+// router.use('/statistics', auth.isTeacher, statistics);
+// router.use('/probManage', auth.isTeacher, problemOnlineTest);
+// router.use('/paperManage', auth.isTeacher ,paperOnlineTest);
+//router.use('/student', auth.isStudent ,stuOnlineTestManage);
+router.use('/student', stuOnlineTestManage);
+router.use('/teacher', teaOnlineTestManage);
+router.use('/statistics', statistics);
+router.use('/probManage', problemOnlineTest);
+router.use('/paperManage', paperOnlineTest);
 
 module.exports = router;

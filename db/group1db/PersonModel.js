@@ -22,7 +22,7 @@ var CollectionName = 'persons';
 //     return this.model('PersonModel').find({userid: userid}, callback);
 // }
 PersonSchema.statics.findbyid = function(userid, callback) {
-     return this.model('PersonModel').find({userid: userid}, callback);
+     return this.model('PersonModel').findOne({userid: userid}, callback);
 }
 
 PersonSchema.statics.findbyname = function(username, callback) {
