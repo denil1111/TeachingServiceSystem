@@ -5,7 +5,8 @@ var userSchema = new mongoose.Schema({
 	id:{type:String},
 	points:{type:Number},
 	selectedCourse:[{id:{type:String},points:{type:Number}}],
-	confirmedCourse:[{id:{type:String}}]
+	confirmedCourse:[{id:{type:String}}],
+	major:String
 });
 
 var userModel = mongoose.model('userModel',userSchema,'users');

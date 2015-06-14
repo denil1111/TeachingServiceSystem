@@ -13,13 +13,13 @@ module.exports = function(passport) {
         console.log('user empty!');
          return done(null, false);
        }
-       console.log("user.password : "+user[0].password);
+       console.log("user.password : "+user.password);
        console.log("password : "+password);
-       if (user[0].password != password) {
+       if (user.password != password) {
          return done(null, false);
        }
        console.log('suc');
-       return done(null, user[0]);
+       return done(null, user);
       });
   }));
   // Passport needs to be able to serialize and deserialize users to support persistent login sessions
@@ -28,7 +28,16 @@ module.exports = function(passport) {
       done(null, user);
     });
 
+//     passport.deserializeUser(function(userid, done) {
+//       console.log("in de",userid);
+//       PersonModel.findbyid(userid, function (err, user) {
+        
+
+//         // console.log(user[0]);
+//         done(null, user[0]);
+//       });
     passport.deserializeUser(function(user, done) {
       done(null, user);
+
     });
 };

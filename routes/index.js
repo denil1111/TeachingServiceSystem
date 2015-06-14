@@ -9,8 +9,9 @@ var resource = require('./resource/resource');
 var select = require("./select/course")
 // var resource = require()
 // var test = require()
-// var score = require()
+
 // var grades = require("./grades")
+
 var login = require("./basic/login");
 
 
@@ -42,9 +43,11 @@ router.use('/select', function setStatus(req, res, next){
 //  res.locals.Navstatus = 5;
 //  next();
 //}, auth.isLoggedIn, test);
+
 //router.use('/grades', function setStatus(req, res, next){
 //  res.locals.Navstatus = 6;
 //  next();
 //}, auth.isLoggedIn, grades);
+
 
 module.exports = router;
