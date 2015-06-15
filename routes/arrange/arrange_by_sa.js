@@ -166,8 +166,8 @@ function AnalyList(aList)
 				var timeIndex = i % 35;
 				print("courseID: "+ courseList[j].cid + " room: " + roomList[roomIndex].rid + " time: "
 					+  Math.floor(timeIndex / 5) + "-"+ (timeIndex % 5));
-				roomString = roomString + roomList[roomIndex].rid + ";";
-				timeString = timeString + Math.floor(timeIndex / 5) + "-"+ (timeIndex % 5) + ";";
+				roomString = roomString + roomList[roomIndex].rid;
+				timeString = timeString + Math.floor(timeIndex / 5 + 1) + "-"+ (timeIndex % 5 + 1);
 			}
 			
 		
@@ -267,6 +267,7 @@ function ArrangeACampus(campusName)
 	
 }
 
+	// ArrangeACampus('紫金港校区');
 router.get('/arrange_by_sa', function(req, res, next) {
 //	if(!req.session.user){return res.redirect('../info/login');}
     res.render('arrange/arrange_by_sa',{
@@ -285,10 +286,10 @@ router.post('/arrange_by_sa',function(req, res, next){
 	console.log("post:arrange_by_sa");
 
 	ArrangeACampus('紫金港校区');
-	ArrangeACampus('玉泉校区');
-	ArrangeACampus('西溪校区');
-	ArrangeACampus('华家池校区');
-	ArrangeACampus('之江校区');
+	// ArrangeACampus('玉泉校区');
+	// ArrangeACampus('西溪校区');
+	// ArrangeACampus('华家池校区');
+	// ArrangeACampus('之江校区');
 });
 
 module.exports = router;
