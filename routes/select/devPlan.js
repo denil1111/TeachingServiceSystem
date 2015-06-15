@@ -14,6 +14,13 @@ var userModel = require('../../db/courseDB/userSchema');
 router.get('/dev_plan', function (req, res, next) {
   //console.log(course.ejs);
   console.log(req.body);
+  var userType;
+  switch (req.session.user.status.toString()){
+    case '学生':userType=0;break;
+    case '教师':userType=1;break;
+    case '系统管理员':userType=2;break;
+  }
+  var selectedMajor=req.session.user.major;
   
   //course: id, name, credit, recTime, type, subType, major
   //major: name
@@ -25,6 +32,7 @@ router.get('/dev_plan', function (req, res, next) {
 
   var major = [];//专业
   var majorModel = require('../../db/courseDB/majorSchema');
+  
   var dev_plan_elec_class = [];
   var dev_plan_gen_class=[];
   majorModel.find({}, function(error, result) {
@@ -657,7 +665,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
         return;
       }
 
-      if (result[0].major != selectedMajor && result[0].major != "公共课") {
+      if (result[0].major != selectedMajor && result[0].major != "公共课" && req.body.type == "1") {
         console.log("Wrong Major!");
         ischangeable=false;
       }
@@ -867,7 +875,7 @@ router.get('/edit_dev_plan', function(req, res, next){
   var major_name = "";
 
   var dev_plan_elec_class = [];
-  var dev_plan_gen_class=[];//公共课类别++++6.7++++
+  var dev_plan_gen_class=[];
 
   var dev_plan_gen = [];
   var dev_plan_req = [];
