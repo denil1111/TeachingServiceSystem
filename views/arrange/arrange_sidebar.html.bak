@@ -5,9 +5,9 @@
 
   <!--侧边选择框 -->
   <ul class="nav nav-collapse collapse nav-collapse-primary">
-    <li id='arrange_by_sa'>
+    <li id='autoarrange'>
       <span class="glow"></span>
-      <a href="arrange_by_sa">
+      <a href="autoarrange">
         <i class="icon-dashboard icon-2x"></i>
         <span>自动排课</span>
       </a>
@@ -54,7 +54,7 @@
         <span>课表查询(基于教师)</span>
       </a>
     </li>
-
+<<<<<<< HEAD
     <li id='CourseApplicationInsert'>
       <span class="glow"></span>
       <a href="CourseApplicationInsert">
@@ -62,7 +62,8 @@
         <span>调课申请</span>
       </a>
     </li>
-
+=======
+>>>>>>> f9a90e39ebcddd448a05e415ab0a02da13f18e99
     <li id='arrange_course_management'>
       <span class="glow"></span>
       <a href="arrange_course_management">

@@ -6,7 +6,11 @@ var CourseModel = require('../../db/group1db/CourseModel');
 var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
 router.get('/timetable_teacher',function(req,res,next){
+<<<<<<< HEAD
 	if(!req.session.user){return res.redirect('../info/login');}
+=======
+	// if(!req.session.user){return res.redirect('../info/login');}
+>>>>>>> 0534b0d8f340471fa8f1ff3661c2131eb42351ff
 	var localuser=req.session.user;
 	console.log("teacher_course: pass user test.");
 	CourseModel.findbyteacher(localuser.username,function(error,data){
