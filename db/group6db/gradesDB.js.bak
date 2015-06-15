@@ -23,11 +23,7 @@ studentGradeSchema.statics.findbycourseid= function(courseid,my_userid,callback)
 	  console.log("222");
       model.findOne({courseid:item},function(error,data){
 		  console.log(data);
-		  if(data){
 		  callback(null,data.score);
-		  }else{
-		  callback(null,null);
-		  }
 	  }).where("userid").equals(my_userid);
       
 	  

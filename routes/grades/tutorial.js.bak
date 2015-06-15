@@ -235,10 +235,7 @@ CourseModel.find(id2,{},function(error,dev_plan2){
        }else{
          complete5.push(0);
        }
-	   }else{
-         complete5.push(0);
-	   }
-  }
+      }
   res.render('grades/student_guide', {
   name: '����Ա', 
   image: 'images/avatars/avatar1.jpg',
