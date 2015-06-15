@@ -22,7 +22,6 @@ var Time_Dictionary = {"11":"周一 12","12":"周一 34","13":"周一 67","14":"
                        "71":"周日 12","72":"周日 34","73":"周日 67","74":"周日 910","75":"周日 1112"};
 
 router.get('/course', function(req, res, next) {
-  console.log(course.ejs);
   var status;
   switch (req.session.user.status.toString()){
     case '学生': status = 0; 
