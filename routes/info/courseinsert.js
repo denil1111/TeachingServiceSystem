@@ -71,8 +71,8 @@ router.post('/',function(req,res,next){
     }
 
     //roomErr
-    if(doc.room == '')
-        roomErr = 'Room empty';
+    // if(doc.room == '')
+    //     roomErr = 'Room empty';
 
     //collegeErr
     if(doc.college == '')

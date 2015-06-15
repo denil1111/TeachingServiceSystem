@@ -69,8 +69,8 @@ router.post('/',function(req,res,next){
         teacherErr = 'Teacher name empty';
 
     //roomErr
-    if(doc.room == '')
-        roomErr = 'Room empty';
+    // if(doc.room == '')
+    //     roomErr = 'Room empty';
 
     //collegeErr
     if(doc.college == '')
