@@ -318,6 +318,7 @@
 
                     function refreshFileList(_newFileMap){
                         _resourceMap= _newFileMap;
+                        _resourceBackup=_newFileMap;
                         $('#moveTree').tree('loadData',_resourceMap);
                         _nowDir=findDirByUrl(_nowUrl,_resourceMap);
                         showFileList(_nowDir);
@@ -471,8 +472,8 @@
                                 function(_data){
                                     if(_data.code==200){
                                         alert("操作成功");
-                                        console.log(_data.newTree);
                                         refreshFileList(_data.newTree);
+
                                     }else{
                                         alert("操作失败");
                                     }
