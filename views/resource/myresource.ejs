@@ -369,6 +369,7 @@
                     function(_data){
                         if(_data.code==200){
                             alert("操作成功");
+                            $("#modal-newfolder").modal("hide");
                             refreshFileList(_data.newTree);
                         }else{
                             alert("操作失败");
@@ -400,6 +401,7 @@
                     {
 //                        console.log("success");
 //                        console.log(data);
+                        $("#modal-upload").modal("hide");
                         refreshFileList(data.newTree);
 
                     },
@@ -429,6 +431,7 @@
                     function(_data){
                         if(_data.code==200){
                             alert("删除成功");
+                            $("#modal-remove").modal("hide");
                             refreshFileList(_data.newTree);
                         }else{
                             alert("删除失败");
@@ -467,6 +470,7 @@
                     function(_data){
                         if(_data.code==200){
                             alert("操作成功");
+                            $("#modal-rename").modal("hide");
                             refreshFileList(_data.newTree);
                         }else{
                             alert("操作失败");
@@ -516,6 +520,7 @@
                         function(_data){
                             if(_data.code==200){
                                 alert("操作成功");
+                                $("#modal-rename").modal("hide");
                                 refreshFileList(_data.newTree);
                             }else{
                                 alert("操作失败");
@@ -549,6 +554,7 @@
                     function(_data){
                         if(_data.code==200){
                             alert("操作成功");
+                            $("#modal-share").modal("hide");
                             refreshFileList(_data.newTree);
                         }else{
                             alert("操作失败");
