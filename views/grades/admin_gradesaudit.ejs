@@ -30,7 +30,7 @@
     }
 
     function reject(formid){
-        if(confirm(formid) ) {
+        if(confirm('请确认拒绝') ) {
             var cmd = document.getElementById('cmd_id');
             cmd.value = "reject"
             var reason = document.getElementById('r_' + formid);
