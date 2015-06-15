@@ -19,7 +19,7 @@ var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 function getCourseList(userid, callback) {
   Person.findbyid(userid, function (err, user) {
     debug('user is ' + user);
-    var cstlist = user[0].cstlist;
+    var cstlist = user.cstlist;
     debug('cstlist is ' + cstlist);
     Course.findbylist(cstlist, function (err, _courseList) {
       var courseList = _courseList ? _courseList : [];

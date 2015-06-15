@@ -25,7 +25,7 @@ router.get('/classroomselect', function(req, res, next) {
 router.post('/classroomselect',function(req, res, next){
 	console.log("post:classroomselect");
 
-	ClassroomModel.findbyid(req.body.classid2, function(error, data){
+	ClassroomModel.findbyic(req.body.classid2,req.body.campus ,function(error, data){
 		if(error)
 		{
 			console.log('find error!'+error);

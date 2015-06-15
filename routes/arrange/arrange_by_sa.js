@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
-//mongoose.connect('mongodb://localhost/TS');
+var express = require('express');
+var router = express.Router();
 //var ClassroomModel = require('../../db/group2db/ClassroomModel');
 var Course = require('../../db/group1db/CourseModel');
 var Room = require('../../db/group2db/ClassroomModel');
@@ -165,8 +166,8 @@ function AnalyList(aList)
 				var timeIndex = i % 35;
 				print("courseID: "+ courseList[j].cid + " room: " + roomList[roomIndex].rid + " time: "
 					+  Math.floor(timeIndex / 5) + "-"+ (timeIndex % 5));
-				roomString = roomString + roomList[roomIndex].rid + ";";
-				timeString = timeString + Math.floor(timeIndex / 5) + "-"+ (timeIndex % 5) + ";";
+				roomString = roomString + roomList[roomIndex].rid;
+				timeString = timeString + Math.floor(timeIndex / 5 + 1) + "-"+ (timeIndex % 5 + 1);
 			}
 			
 		
@@ -265,8 +266,33 @@ function ArrangeACampus(campusName)
 	InputCourse(campusName, InputClassroom);
 	
 }
-console.log("Begin at time: "+ Date());
-ArrangeACampus('zjg');
+
+	// ArrangeACampus('紫金港校区');
+router.get('/arrange_by_sa', function(req, res, next) {
+//	if(!req.session.user){return res.redirect('../info/login');}
+    res.render('arrange/arrange_by_sa',{
+    	name: '程序员', 
+		image: 'images/avatars/avatar3.jpg',
+		total_a:'12',
+		a:'2,3,1,2,3,1,0',
+		total_b:'24',
+		b:'4,6,2,4,6,2,0',
+		total_credits:'24',
+		credits:'4,6,2,4,6,2,0',
+    });
+});
+
+router.post('/arrange_by_sa',function(req, res, next){
+	console.log("post:arrange_by_sa");
+
+	ArrangeACampus('紫金港校区');
+	// ArrangeACampus('玉泉校区');
+	// ArrangeACampus('西溪校区');
+	// ArrangeACampus('华家池校区');
+	// ArrangeACampus('之江校区');
+});
+
+module.exports = router;
 
 
 

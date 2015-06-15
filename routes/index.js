@@ -4,8 +4,19 @@ var auth = require('./basic/auth');
 
 var info = require('./info/info');
 var arrange = require('./arrange/arrange')
+// var arrange = require()
+
 var resource = require('./resource/resource');
-var select = require("./select/course");
+var select = require("./select/course")
+
+//<<<<<<< HEAD
+
+// var select = require("./course")
+//=======
+var select = require("./select/course")
+//>>>>>>> master
+
+// var resource = require()
 // var test = require()
 
 // var grades = require("./grades")
@@ -46,5 +57,6 @@ router.use('/select', function setStatus(req, res, next){
 //  res.locals.Navstatus = 6;
 //  next();
 //}, auth.isLoggedIn, grades);
+
 
 module.exports = router;
