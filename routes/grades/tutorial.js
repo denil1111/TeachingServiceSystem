@@ -83,6 +83,16 @@ var id3={courseid: {$in: courseid3}};
 var id4={courseid: {$in: courseid4}};
 var id5={courseid: {$in: courseid5}};
 //��������
+gradesDB.findbycourseid(id1,function(error,mdata){
+  console.log("start");
+  console.log(id1);
+  if(error){
+    console.log(error);
+    return;
+  }
+  console.log(mdata);
+  console.log("end");
+});
 CourseModel.find(id1,function(error,dev_plan1){
   if(error){
     console.log(error);
@@ -135,7 +145,6 @@ CourseModel.find(id2,{},function(error,dev_plan2){
     console.log(error);
     return;
   }
-  console.log(dev_plan3);
   for (var i = 0; i < dev_plan3.length; i++){
     total_point3+=dev_plan3[i].coursescore;
   }
@@ -144,7 +153,6 @@ CourseModel.find(id2,{},function(error,dev_plan2){
       console.log(error);
       return;
    }
-   console.log(gradeData3);
    for (var i = 0; i < gradeData3.length; i++) {
        var grade3=gradeData3[i].score;
        if(grade3>=60){
