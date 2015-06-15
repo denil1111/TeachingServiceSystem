@@ -7,7 +7,7 @@ var gradesDB = require('../../db/group6db/gradesDB');
 
 function handler(req, res) {
     console.log("motionManager.handler");
-    if(req.insertMotion != turue) return false;
+    if(req.insertMotion != true) return false;
     // console.log("what is req:"+req.body.courseid);
 
     console.log("user:"+req.session.user);

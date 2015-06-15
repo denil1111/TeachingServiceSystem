@@ -82,12 +82,14 @@ var id2={courseid: {$in: courseid2}};
 var id3={courseid: {$in: courseid3}};
 var id4={courseid: {$in: courseid4}};
 var id5={courseid: {$in: courseid5}};
+console.log(id1);
 //��������
 CourseModel.find(id1,function(error,dev_plan1){
   if(error){
     console.log(error);
     return;
   }
+  console.log(dev_plan1);
   for (var i = 0; i < dev_plan1.length; i++){
     total_point1+=dev_plan1[i].coursescore;
   }
@@ -96,9 +98,10 @@ CourseModel.find(id1,function(error,dev_plan1){
       console.log(error);
       return;
    }
+  // console.log(gradeData1);
    for (var i = 0; i < gradeData1.length; i++) {
        var grade1=gradeData1[i].score;
-       
+          console.log(gradeData1[i]);
        if(grade1>=60){
          complete1.push(1);
          getPoint1+=dev_plan1[i].coursescore;
@@ -245,7 +248,7 @@ CourseModel.find(id2,{},function(error,dev_plan2){
 }).sort( {"courseid":1} );
 }).sort( {"courseid":1} ).where("userid").equals(my_userid);
 }).sort( {"courseid":1} );
-}).sort( {"courseid":1} );
+}).sort( {_id:1} );
 });
 
 module.exports = router;
