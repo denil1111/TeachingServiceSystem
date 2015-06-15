@@ -34,6 +34,7 @@ function isValidCourseID(req, res, next) {
   if (!('cid' in req.query)) {
     // has no query of cid, default access at first course
     req.query.cid = encodeURIComponent(req.session.courseList[0]._id);
+    debug('Add default cid ' + req.query.cid);
   } else {
     //has a query of cid, then check validation
     debug(JSON.stringify(req.session.courseList));
@@ -143,7 +144,7 @@ router.get('/', function (req, res, next) {
   res.redirect('/resource/course/data');
 });
 
-router.get('/data', function (req, res, next) {
+router.get('/data', isValidCourseID, function (req, res, next) {
   var render_data = {
     current_cid: decodeURIComponent(req.query.cid),
     slide_course: req.session.slide_course,
