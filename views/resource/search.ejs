@@ -14,6 +14,22 @@
   //   active.className='active';
   // }
   // setActive();
+  function downloadByUrl(fid,_name){
+//                window.open("/resource/cloud/iddownload/"+fid);
+    $.post(
+      "/resource/cloud/iddownload",
+      {
+        fid:fid,
+        name:_name
+      },
+      function(_data){
+        //TODO: maybe can ...
+        window.open("/resource/cloud/iddownload/" + fid);
+      }
+    ).error(function(){
+        alert("超级下载出错！");
+      });
+  }
 </script>
 <!-- 主要内容 -->
 <div class="main-content">
@@ -99,7 +115,7 @@
         <!--<td><b>软件工程</b></td>-->
         <td>
           <div class="btn-group">
-            <button class="btn btn-xs btn-default"><i class="icon-download-alt"></i></button>
+            <button class="btn btn-xs btn-default" onclick="downloadByUrl('<%= search_results[i]._id%>','<%= search_results[i].filename %>')"><i class="icon-download-alt"></i></button>
           </div>
         </td>
       </tr>
