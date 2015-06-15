@@ -665,7 +665,7 @@ router.post('/my_dev_plan_add', function(req, res, next) {
         return;
       }
 
-      if (result[0].major != selectedMajor && result[0].major != "公共课") {
+      if (result[0].major != selectedMajor && result[0].major != "公共课" && req.body.type == "1") {
         console.log("Wrong Major!");
         ischangeable=false;
       }
