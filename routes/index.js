@@ -5,17 +5,17 @@ var auth = require('./basic/auth');
 var info = require('./info/info');
 var arrange = require('./arrange/arrange')
 // var arrange = require()
-<<<<<<< HEAD
+
 var resource = require('./resource/resource');
 var select = require("./select/course")
-=======
+
 //<<<<<<< HEAD
 
 // var select = require("./course")
 //=======
 var select = require("./select/course")
 //>>>>>>> master
->>>>>>> 0534b0d8f340471fa8f1ff3661c2131eb42351ff
+
 // var resource = require()
 // var test = require()
 
