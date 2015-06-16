@@ -32,33 +32,16 @@ router.post('/',function(req, res, next){
 		} else {
 			console.log('find ok!'+data);
 		}
-		console.log('data : '+data.length);
+		for(i=0;i<data.length;i++)
+			console.log('data id : '+data[i].courseid);
 		if(!data | data ==''){
 			res.render('info/courseselect',{
-				name: '程序员', 
-				image: 'images/avatars/avatar3.jpg',
-				total_a:'12',
-				a:'2,3,1,2,3,1,0',
-				total_b:'24',
-				b:'4,6,2,4,6,2,0',
-				total_credits:'24',
-				credits:'4,6,2,4,6,2,0',
-
 				data: tmp,
 				selectresult:'课程不存在'
 			});
 		}
 		else{
 			res.render('info/courseselect',{
-				name: '程序员', 
-				image: 'images/avatars/avatar3.jpg',
-				total_a:'12',
-				a:'2,3,1,2,3,1,0',
-				total_b:'24',
-				b:'4,6,2,4,6,2,0',
-				total_credits:'24',
-				credits:'4,6,2,4,6,2,0',
-
 				data: data,
 				selectresult:''
 			});

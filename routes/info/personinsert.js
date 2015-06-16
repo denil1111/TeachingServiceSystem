@@ -18,15 +18,6 @@ var tmp={
 
 router.get('/', function(req, res,next) {
     res.render('info/personinsert',{
-        name: '程序员',
-        image: 'images/avatars/avatar3.jpg',
-        total_a:'12',
-        a:'2,3,1,2,3,1,0',
-        total_b:'24',
-        b:'4,6,2,4,6,2,0',
-        total_credits:'24',
-        credits:'4,6,2,4,6,2,0',
-
         useridErr: "",
         userNameErr: "",
         passwordErr: "",
@@ -117,15 +108,6 @@ router.post('/',function(req,res,next){
 
         if(userNameErr != '' || emailerr != '' || ageerr != '' || telerr != '' || passwordErr != '' || useridErr != ''){
             res.render('info/personinsert',{
-                name: '程序员',
-                image: 'images/avatars/avatar3.jpg',
-                total_a:'12',
-                a:'2,3,1,2,3,1,0',
-                total_b:'24',
-                b:'4,6,2,4,6,2,0',
-                total_credits:'24',
-                credits:'4,6,2,4,6,2,0',
-
                 useridErr: useridErr,
                 userNameErr: userNameErr,
                 passwordErr: passwordErr,
@@ -146,15 +128,6 @@ router.post('/',function(req,res,next){
 
                 if(useridErr != ''){
                     res.render('info/personinsert',{
-                        name: '程序员',
-                        image: 'images/avatars/avatar3.jpg',
-                        total_a:'12',
-                        a:'2,3,1,2,3,1,0',
-                        total_b:'24',
-                        b:'4,6,2,4,6,2,0',
-                        total_credits:'24',
-                        credits:'4,6,2,4,6,2,0',
-
                         useridErr: useridErr,
                         userNameErr: userNameErr,
                         passwordErr: passwordErr,
@@ -207,15 +180,6 @@ router.post('/',function(req,res,next){
                     if(extName.length == 0){
                         console.log("Err:invalid image type");
                         res.render('info/personinsert',{
-                            name: '程序员',
-                            image: 'images/avatars/avatar3.jpg',
-                            total_a:'12',
-                            a:'2,3,1,2,3,1,0',
-                            total_b:'24',
-                            b:'4,6,2,4,6,2,0',
-                            total_credits:'24',
-                            credits:'4,6,2,4,6,2,0',
-
                             useridErr: useridErr,
                             userNameErr: userNameErr,
                             passwordErr: passwordErr,
@@ -234,15 +198,6 @@ router.post('/',function(req,res,next){
                     if(files.fulAvatar.size > 1000000){
                         console.log("Err:Too large image ");
                         res.render('info/personinsert',{
-                            name: '程序员',
-                            image: 'images/avatars/avatar3.jpg',
-                            total_a:'12',
-                            a:'2,3,1,2,3,1,0',
-                            total_b:'24',
-                            b:'4,6,2,4,6,2,0',
-                            total_credits:'24',
-                            credits:'4,6,2,4,6,2,0',
-
                             useridErr: useridErr,
                             userNameErr: userNameErr,
                             passwordErr: passwordErr,
@@ -283,15 +238,6 @@ router.post('/',function(req,res,next){
                         if(err){
                             console.log("create err : "+err);
                             res.render('info/personinsert',{
-                                name: '程序员',
-                                image: 'images/avatars/avatar3.jpg',
-                                total_a:'12',
-                                a:'2,3,1,2,3,1,0',
-                                total_b:'24',
-                                b:'4,6,2,4,6,2,0',
-                                total_credits:'24',
-                                credits:'4,6,2,4,6,2,0',
-
                                 useridErr: useridErr,
                                 userNameErr: userNameErr,
                                 passwordErr: passwordErr,
@@ -308,15 +254,6 @@ router.post('/',function(req,res,next){
                             console.log('Saved by Model OK!');
                             console.log(doc.username);
                             res.render('info/personinsert',{
-                                name: '程序员',
-                                image: 'images/avatars/avatar3.jpg',
-                                total_a:'12',
-                                a:'2,3,1,2,3,1,0',
-                                total_b:'24',
-                                b:'4,6,2,4,6,2,0',
-                                total_credits:'24',
-                                credits:'4,6,2,4,6,2,0',
-
                                 useridErr: useridErr,
                                 userNameErr: userNameErr,
                                 passwordErr: passwordErr,
