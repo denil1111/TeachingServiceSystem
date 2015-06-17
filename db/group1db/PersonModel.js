@@ -73,7 +73,7 @@ PersonSchema.statics.findbyorderlist = function(userlist, callback) {
         });
     }
     return list;
-};
+}
 
 
 var PersonModel = mongoose.model('PersonModel',PersonSchema,CollectionName);

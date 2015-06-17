@@ -11,7 +11,7 @@ function handler(req, res, next) {
     if(!req.session.user){return res.redirect('../basic/login');}
     if(typeof req.body.cmd !== 'undefined') {
         if( req.body.cmd == 'accept' ) {
-            console.log('accept')
+            console.log('accept:' + req.body.studentid + " " + req.body.newvalue)
             var detail = {
                 "teacherid":req.body.teacherid,
                 "studentid":req.body.studentid,
@@ -84,8 +84,8 @@ function handler(req, res, next) {
     	        total_credits:'24',
   	            credits:'4,6,2,4,6,2,0',
                 pending:motions,
-                accepted:motions_rejected,
-                rejected:motions_accepted
+                accepted:motions_accepted,
+                rejected:motions_rejected
             });
         });
      });

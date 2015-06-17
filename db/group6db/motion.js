@@ -52,7 +52,9 @@ motionSchema.statics.findbystatus = function(req, callback) {
             callback);
 }
 motionSchema.statics.acceptbyid = function(req, callback) {
-    console.log("Motion:accepbyid");
+    console.log("Motion:accepbyid:" + req.studentid + 
+        " " + req.newvalue 
+        + " " + req.courseid);
     gradesDB.update(
     {
         userid:req.studentid,
@@ -66,6 +68,7 @@ motionSchema.statics.acceptbyid = function(req, callback) {
     },function(error,other){
         if(error)
             console.log(error)
+        console.log(other)
     });
     return this.model('motions').update(
         {
