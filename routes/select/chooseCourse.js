@@ -106,6 +106,7 @@ router.post('/choose_course/:courseID', function(req, res, next){
   //课程号
   var course_id = req.params.courseID;
   var courseModel = require('../../db/group1db/CourseModel');
+  var courseTimeModel = require('../../db/courseDB/selectTimeModel');
   var userModel = require('../../db/courseDB/userSchema'); 
   var selectedCourse=[];
   var selectedCourseP=[];
@@ -161,61 +162,91 @@ router.post('/choose_course/:courseID', function(req, res, next){
              //console.log(result[i]._id);
               course.push({teacher:result[i].teacher,campus:result[i].campus,time:result[i].coursetime,room:result[i].room,remain:result[i].remain,all:result[i].all,waiting:result[i].waiting,_id:result[i]._id}); 
           }
-          if ('choose' in req.body)
-          {
-              console.log('choose-sect');
-              var point=parseInt(req.body.points);
-              if (point>remainedP){
-                  error="点数不够";
-              }
-              else
+          courseTimeModel.find({},function(err,cre){
+              if (err)
               {
-                  if (choice!=-1)
+                error=err;
+                console.log(err);
+              }                  
+              else
+                  console.log(cre);
+              var now=new Date();
+              var choose=0;
+              var cancel=0;
+              for (var i=0;i<cre.length;i++)
+              {
+                  if (now>=cre[i].stTime&&now<=cre[i].edTime)
                   {
-                        error="已经选课";
+                      choose=choose|(cre[i].select==true);
+                      cancel=cancel|(cre[i].unselect==true);
+                  }
+              }
+              if ('choose' in req.body)
+              {
+                  console.log('choose-sect');
+                  var point=parseInt(req.body.points);
+                  if (choose==0)
+                  {
+                      error="不是选课时间";
+                  }
+                  else
+                  if (point>remainedP){
+                      error="点数不够";
                   }
                   else
                   {
-                        var user=uresult[0];
-                        courseModel.update({_id:req.body.choose},{$inc:{waiting:1}},function(err,re){if (err) console.log(err);});
-                        userModel.update({id:req.session.user.userid.toString()},{$set:{points:user.points-point}},function(err,re){if (err) console.log(err);});
-                        userModel.update({id:req.session.user.userid.toString()},{$push:{selectedCourse:{id:req.body.choose,points:point}}},function(err,re){if (err) console.log(err);});
-                        for (var i=0;i<course.length;i++)
-                            if (course[i]._id==req.body.choose)
-                            {
-                                choice=i;
-                                course[i].waiting+=1;
-                            }
-                                
-                        console.log(choice);
-                        oldPoint=point;
-                        remainedP=remainedP-point;
+                      if (choice!=-1)
+                      {
+                            error="已经选课";
+                      }
+                      else
+                      {
+                            var user=uresult[0];
+                            courseModel.update({_id:req.body.choose},{$inc:{waiting:1}},function(err,re){if (err) console.log(err);});
+                            userModel.update({id:req.session.user.userid.toString()},{$set:{points:user.points-point}},function(err,re){if (err) console.log(err);});
+                            userModel.update({id:req.session.user.userid.toString()},{$push:{selectedCourse:{id:req.body.choose,points:point}}},function(err,re){if (err) console.log(err);});
+                            for (var i=0;i<course.length;i++)
+                                if (course[i]._id==req.body.choose)
+                                {
+                                    choice=i;
+                                    course[i].waiting+=1;
+                                }
+                                    
+                            console.log(choice);
+                            oldPoint=point;
+                            remainedP=remainedP-point;
+                      }
                   }
               }
-          }
-          if ('cancel_course' in req.body)
-          {
-              console.log('cancel-sect');
-              if (choice==-1)
+              if ('cancel_course' in req.body)
               {
-                    error="没有选课";
+                  console.log('cancel-sect');
+                  if (cancel==0)
+                  {
+                      error="不是退课时间";
+                  }
+                  else
+                  if (choice==-1)
+                  {
+                        error="没有选课";
+                  }
+                  else
+                  {
+                        console.log('cancel-update-sect');
+                        var cid=result[choice]._id;
+                        var cpo=oldPoint;
+                        var user=uresult[0];
+                        console.log(cid,cpo);
+                        courseModel.update({_id:req.body.cancel_course},{$inc:{waiting:-1}},function(err,re){if (err) console.log(err);});
+                        userModel.update({id:req.session.user.userid.toString()},{$set:{points:user.points+cpo}},function(err,re){if (err) console.log(err);});
+                        userModel.update({id:req.session.user.userid.toString()},{$pull:{selectedCourse:{id:cid,points:cpo}}},function(err,re){if (err) console.log(err);});
+                        remainedP=remainedP+oldPoint;
+                        course[choice].waiting-=1;
+                        choice=-1;
+                  }
               }
-              else
-              {
-                    console.log('cancel-update-sect');
-                    var cid=result[choice]._id;
-                    var cpo=oldPoint;
-                    var user=uresult[0];
-                    console.log(cid,cpo);
-                    courseModel.update({_id:req.body.choose},{$inc:{waiting:-1}},function(err,re){if (err) console.log(err);});
-                    userModel.update({id:req.session.user.userid.toString()},{$set:{points:user.points+cpo}},function(err,re){if (err) console.log(err);});
-                    userModel.update({id:req.session.user.userid.toString()},{$pull:{selectedCourse:{id:cid,points:cpo}}},function(err,re){if (err) console.log(err);});
-                    remainedP=remainedP+oldPoint;
-                    course[choice].waiting-=1;
-                    choice=-1;
-              }
-          }
-          render();
+              render();
+          });     
       });
   });
   

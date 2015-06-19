@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-
+var fs = require('fs');
 //state = 1;  // 1:teacher, 0:student
 /*my_course.push({
   course_id:"000000",
@@ -69,6 +69,7 @@ router.post('/my_course', function(req, res, next) {
 /*var students=[];
 students.push({sId:"3130000027",sname:"桓神",classNo:"启真1301",major:"计算机科学与技术"});
 students.push({sId:"3130000017",sname:"闻神",classNo:"启真1301",major:"计算机科学与技术"});*/
+
 router.get('/course_list/:courseID', function(req, res, next){
   var my_course=[];
   //课程号

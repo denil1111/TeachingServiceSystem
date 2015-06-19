@@ -84,8 +84,8 @@ router.post('/manual_add', function(req, res, next) {
                 return;
               }
               else
-                console.log(result);
-              if (result.length==0)
+                console.log(uresult);
+              if (uresult.length==0)
               {
                   res.json({status:"err",error:"用户不存在！"});
                   return;
