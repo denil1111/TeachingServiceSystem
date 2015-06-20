@@ -8,12 +8,13 @@ var router = express.Router();
 var home = require('./home');
 var student_analysis = require('./student_analysis');
 var student_test = require('./student_test');
-var student_guide= require('./tutorial');
+var student_guide= require('./guide');
 var teacher_classlist = require('./teacher_classlist');
 var teacher_classmanage = require('./teacher_classmanage');
 //var teacher_gradesfix = require('./teacher_gradesfix');
 var teacher_gradessubmit = require('./teacher_gradessubmit');
 var admin_gradesaudit = require('./admin_gradesaudit');
+
 
 
 router.use('/',home);

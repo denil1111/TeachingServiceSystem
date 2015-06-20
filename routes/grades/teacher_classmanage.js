@@ -148,7 +148,7 @@ function display(req, res,result){
 		 			});
 		 		}).sort({"userid":1});
 			});
-		}).sort({"userid":-1}); 
+		}).sort({"userid":1}); 
 
 }
 
