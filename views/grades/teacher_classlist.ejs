@@ -66,13 +66,13 @@
       <% if(cliston[i].status=="on"){ %>
       <form name="input" action="classManagement" method="post">
       <tr class="status-pending">
-        <td><%=cliston[i].courseid %></td>
+        <td><%=cliston[i]._id %></td>
         <td><%=cliston[i].coursename %></td>
         <td><%=cliston[i].coursetime %></td>
         <td><%=cliston[i].courseterm %></td>
         <td><%=cliston[i].room %></td>
         <td> 90</td>
-        <input type="hidden" name="courseid"  value=<%=cliston[i].courseid %> readonly>
+        <input type="hidden" name="courseid"  value=<%=cliston[i]._id %> readonly>
         <td>
           <div class="btn-group">
             <button class="btn btn-xs btn-default dropdown-toggle" type="submit" ><i class="icon-cog"></i></button>
@@ -116,13 +116,13 @@
        <%  if(clistoff[i].status=="off") { %>
       <form name="input" action="classManagement" method="post">
       <tr class="status-pending">
-        <td><%=clistoff[i].courseid %></td>
+        <td><%=clistoff[i]._id %></td>
         <td><%=clistoff[i].coursename %></td>
         <td><%=clistoff[i].coursetime %></td>
         <td><%=clistoff[i].courseterm %></td>
         <td><%=clistoff[i].room %></td>
         <td> 90</td>
-        <input type="hidden" name="courseid"  value=<%=clistoff[i].courseid %> readonly >
+        <input type="hidden" name="courseid"  value=<%=clistoff[i]._id %> readonly >
         <td>
           <div class="btn-group">
             <button class="btn btn-xs btn-default dropdown-toggle" type="submit" ><i class="icon-cog"></i></button>

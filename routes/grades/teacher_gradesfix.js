@@ -17,6 +17,28 @@ function gradesfix(req, res) {
    // console.log("what is req:"+req.body.courseid);
 
     console.log("userid"+req.body.userid);
+    if(req.body.score-45<60){
+        
+        gradesDB.update(
+        {
+            userid:req.body.userid,
+            courseid:req.body.courseid
+        },
+        {
+            $set:{
+                score:req.body.score,
+                gradePoint:0
+            }
+        },function(error,lol){
+  
+        }
+    );
+        
+        
+        
+        
+    }
+    else{
 
     gradesDB.update(
         {
@@ -32,7 +54,7 @@ function gradesfix(req, res) {
   
         }
     );
-
+    }
 
 
 }

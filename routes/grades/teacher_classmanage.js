@@ -29,7 +29,7 @@ function viewGrade(grades,callback){
 	
 	}
 	average=Math.round(average/grades.length*100)/100;
-	grades.sort(sortNumber);
+	//grades.sort(sortNumber);
 	console.log("grades.length/2:" + parseInt(grades.length/2));
 	if(grades.length)
 		medium=grades[parseInt(grades.length/2)].score;
@@ -110,16 +110,22 @@ function display(req, res,result){
         		console.log(error);
 				return;
 			}
-    
+    		
+			console.log(grades[0])
+			
 			var studentList=[];
    
 			for(var i=0;i<grades.length;i++){
 				studentList.push(grades[i].userid);
 			}
+			
+			console.log(studentList[0]);
+			
 			viewGrade(grades,function(bar,average,medium,avgpos,midpos){
-		 		PersonModel.findbylist(studentList,function(error,persons){     
+		 		PersonModel.find({"userid":{$in:studentList}},function(error,persons){     
 		 			// console.log("what is" + persons);
-		 			CourseModel.findbyid(req.body.courseid,function(error,courses){     
+					 console.log(persons[0]);
+		 			CourseModel.find({_id:req.body.courseid},function(error,courses){     
      		 			//console.log("what is persons:" + persons);
 	 		 			//console.log("what is courses:" + courses);
 	 		 			//console.log("what is grades:" + grades);

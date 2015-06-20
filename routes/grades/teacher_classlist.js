@@ -10,7 +10,7 @@ router.get('/classLists',function(req, res, next) {
 if(!req.session.user){return res.redirect('../basic/login');}
 
 
-CourseModel.findbylist(req.session.user.cstlist,function(error,clist){
+CourseModel.find({_id:{$in:req.session.user.cstlist}},function(error,clist){
     if(error){
          console.log(error);
          return;
@@ -40,7 +40,7 @@ CourseModel.findbylist(req.session.user.cstlist,function(error,clist){
     clistoff:clistoff
    });  
    
- });
+ }).sort({"_id":1});
 }); 
 
 

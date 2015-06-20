@@ -55,7 +55,28 @@ motionSchema.statics.acceptbyid = function(req, callback) {
     console.log("Motion:accepbyid:" + req.studentid + 
         " " + req.newvalue 
         + " " + req.courseid);
-    gradesDB.update(
+        
+    if(req.newvalue<60){
+        gradesDB.update(
+    {
+        userid:req.studentid,
+        courseid:req.courseid
+    },
+    {
+        $set:{
+           score:req.newvalue,
+           gradePoint:0
+        }
+    },function(error,other){
+        if(error)
+            console.log(error)
+        console.log(other)
+    });
+         
+    }
+    else{
+        
+           gradesDB.update(
     {
         userid:req.studentid,
         courseid:req.courseid
@@ -70,6 +91,11 @@ motionSchema.statics.acceptbyid = function(req, callback) {
             console.log(error)
         console.log(other)
     });
+        
+        
+    }    
+        
+    
     return this.model('motions').update(
         {
             teacherid:req.teacherid, 
