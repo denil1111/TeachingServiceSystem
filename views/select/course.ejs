@@ -53,7 +53,7 @@
                 </li>
                 <li class="input" style="margin-bottom:10px">
                   <label>课程名称:</label>
-                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_name">程序员</textarea>
+                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_name"></textarea>
                 </li>
                 <li>
                   <label>课程时间（全不选则为均可）:</label>
@@ -126,7 +126,7 @@
                 </li>
                 <li class="input" style="margin-bottom:10px">
                   <label>教师姓名:</label>
-                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher">XXX</textarea>
+                  <textarea class="tags" placeholder="This is a textarea" id="tags1428302378316" style="display: none;" name="course_teacher"></textarea>
                 </li>
               </ul>
                <!--  课程名称AND/OR -->
@@ -213,6 +213,7 @@
             <div class="news-title"><a href="course/<%=course_data[i].id%>" target="view_window"><%= course_data[i].name%></a></div>
             <!-- 课程信息 -->
             <div class="news-text" style="display:inline">
+              课程号:<span id="courseID"><%= course_data[i].id%></span>
               任课教师:<span id="teacher"><%= course_data[i].teacher%></span>
               校区:<span id="campus"><%= course_data[i].campus%></span>
               上课地点:<span id="classroom"><%= course_data[i].room%></span>
