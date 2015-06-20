@@ -6,6 +6,7 @@ var gradesDB = require('../../db/group6db/gradesDB.js');
 var tutorialDB= require('../../db/group6db/tutorialDB.js');
 var CourseModel = require('../../db/group1db/CourseModel');
 var gradesDB = require('../../db/group6db/gradesDB');
+var coursePlan = require('../../db/courseDB/courseSchema_hyx');
 
 
 function viewGPA(docs,callback){
@@ -105,23 +106,56 @@ router.get('/gradesAnalysis',function(req, res, next) {
 
 	if(req.session.user.status=="student"){
 //这里使用数据库
-	 	gradesDB.find(criteria,function(error,docs){
+	 	gradesDB.find(criteria,function(error,docs1){
 	 	  if(error){
          	console.log(error);
 		 	return;
      	  }
+		   
+		   var courselist=[];
+		   
+		   for(i=0;i<docs1.length;i++){
+			   courselist.push(docs1[i].courseid);
+		   }
      	  
-	 	  tutorialDB.find({"major":req.session.user.major},{},function(error, tData){
+		   
+		  CourseModel.find({_id:{$in:courselist}},function(error,docs){
+	 	  if(error){
+         	console.log(error);
+		 	return;
+     	  }
+		   
+		   var courseidlist=[]
+		   
+		   for(i=0;i<docs.length;i++){
+			   courseidlist.push(docs[i].courseid);
+		   }
+		   
+		   
+	 	  coursePlan.find({"id":req.session.user.userid},function(error, tData){
 	 	  	if(error){
 	 	  		console.log(error);
 	 	  		return;
   			}
-  			for (var i = 0; i < docs.length; i++) {
-	  			for(var j = 0;j < tData.length;++j)
-	  				if(tData[j].courseid==docs[i]["courseid"]){
-		  				docs[i]["type"]=tData[j].type;
+			 
+			 
+			for  (var i = 0; i < docs.length; i++) {
+	  			for(var j = 0;j < tData[0].p1.length;++j)
+	  				if(tData[0].p1[j]==docs[i]["courseid"]){
+		  				docs[i]["type"]=1;
+	  				}
+					  
+				for(var j = 0;j < tData[0].p2.length;++j)
+	  				if(tData[0].p2[j]==docs[i]["courseid"]){
+		  				docs[i]["type"]=2;
+	  				}
+				
+				for(var j = 0;j < tData[0].p3.length;++j)
+	  				if(tData[0].p3[j]==docs[i]["courseid"]){
+		  				docs[i]["type"]=3;
 	  				}
   			}
+			
   		  });
 	 	  CourseModel.find({},function(error,courses){
 		 	
@@ -166,10 +200,11 @@ router.get('/gradesAnalysis',function(req, res, next) {
 	 			yearsGPA:YearsGPA
      		});
 
-     
+  			});     
    		 });     
  		});//for stu_grades
 	}
-});  
+}); 
+ 
 
 module.exports = router;
