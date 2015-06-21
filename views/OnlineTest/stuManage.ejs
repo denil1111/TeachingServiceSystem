@@ -56,13 +56,20 @@
            <div class="box-header">
              <div class="title">历史成绩</div>
            </div>
-           <div class="box-section news with-icons">
+           <% for(var i = 0; i < records.length; i++){
+                   var record = records[i];
+           %>
+            <div class="box-section news with-icons">
+            <% if(i % 3 == 0){ %>
               <div class="avatar purple">
+            <% }else if(i % 3 == 1){ %>
+              <div class="avatar green">
+            <% }else{ %>
+              <div class="avatar blue">
+            <% } %>
                 <i class="icon-file-alt icon-2x"></i>
               </div>
-              <% for(var i = 0; i < records.length; i++){
-                   var record = records[i];
-              %>
+              
               <div class="news-content">
                 <div class="news-title">
                 <%= titles[i] %>
@@ -70,9 +77,9 @@
                 <div class="news-text">
                   得分：<%= record.point %>
                 </div>
-              </div>
-              <% } %>
-           </div>
+              </div>   
+            </div>
+           <% } %>
          </div>
        </div>
      </div>

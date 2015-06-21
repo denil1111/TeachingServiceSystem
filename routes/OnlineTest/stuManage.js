@@ -128,22 +128,21 @@ router.get('/answer=:paperId', function(req, res, next) {
 
 	//渲染页面，其中problems是数据库中查询得到的内容
 	recordModel.findOne({student: student, paperId: thisId}, function(err, result){
-		//没有查询到答题记录，渲染答题页面
-		if(!result){
-			paperModel.findOne({_id: thisId}, function(err, paper){
+		paperModel.findOne({_id: thisId}, function(err, paper){
+			if(err)
+				return next(err);
+			problemModel.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
 				if(err)
 					return next(err);
-				problemModel.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
-					if(err)
-						return next(err);
+				//没有查询到答题记录，渲染答题页面
+				if(!result){
 					res.render('OnlineTest/paperAnswer', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', done: false, point: point, paper: paper, problemsInPaper: problemsInPaper});
-				});	
-			});
-		}
-		//查询到答题记录，用户不能再次答题
-		else{
-			res.render('OnlineTest/paperAnswer', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', done: true, point: result.point, paper: result.paperId, problemsInPaper: [], time: result.time});
-		}
+				}
+				else{
+					res.render('OnlineTest/paperAnswer', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', done: true, point: result.point, paper: result.paperId, problemsInPaper: problemsInPaper, time: result.time});						
+				}
+			});	
+		});
 	});
 });
 

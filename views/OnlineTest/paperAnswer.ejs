@@ -33,6 +33,7 @@
             document.getElementById('paperAnswer').submit();
 
           document.getElementById('time').innerHTML = nowTime;
+          document.getElementById('txt').value = nowTime;
           seconds = seconds + 1;
           if (seconds == 60) {
               seconds = 0;
@@ -69,8 +70,70 @@
           <%
             if(done){
           %>
-          <div class="box-content">
+          <div class="box-content scrollable" style="height: 768px;overflow-y: auto">
               <h1>您已完成答题。您的分数：<%= point %>，答题时间：<%= time %></h1>
+              <% for(var i = 0; i < problemsInPaper.length; i++){
+                  var problem = problemsInPaper[i];
+                  if(problem.type == 0){
+              %>
+              <div class="box-section news with-icons">
+                <div class="avatar blue">
+                  <i class="icon-ok icon-2x"></i>
+                </div>
+                <div class="news-content">
+                  <div class="news-title">
+                  <%= problem.stem %>(<%= problem.point %>分)
+                  </div><br/>
+                  <div class="news-text">
+                  <% if (problem.answer==1){ %>
+                    <b><i>A.<%= problem.choice[0] %></i></b>
+                  <% }else{ %>
+                    A.<%= problem.choice[0] %>
+                  <% } %>
+                  </br>
+                  <% if (problem.answer==2){ %>
+                    <b><i>B.<%= problem.choice[1] %></i></b>
+                  <% }else{ %>
+                    B.<%= problem.choice[1] %>
+                  <% } %>
+                  </br>
+                  <% if (problem.answer==3){ %>
+                    <b><i>C.<%= problem.choice[2] %></i></b>
+                  <% }else{ %>
+                    C.<%= problem.choice[2] %>
+                  <% } %>
+                  </br>
+                  <% if (problem.answer==4){ %>
+                    <b><i>D.<%= problem.choice[3] %></i></b>
+                  <% }else{ %>
+                    D.<%= problem.choice[3] %>
+                  <% } %>
+                  </br>
+                  <a class="btn btn-blue", href="/OnlineTest/paperManage/deleteProblem/<%= paper._id %>/<%= problem._id %>/<%= problem.point %>">删除</a>
+                  </div>
+                </div>
+              </div>
+              <% }else{ %>
+              <div class="box-section news with-icons">
+                <div class="avatar green">
+                  <i class="icon-lightbulb icon-2x"></i>
+                </div>
+                <div class="news-content">
+                  <div class="news-title">
+                    <%= problem.stem %>
+                  </div>
+                  <div class="news-text">
+                    <% if (problem.answer==1){ %>
+                      <b><i>True</i></b>
+                    <% }else{ %>
+                      <b><i>False</i></b>
+                    <% } %>
+                    <br/>
+                    <a class="btn btn-blue", href="/OnlineTest/paperManage/deleteProblem/<%= paper._id %>/<%= problem._id %>/<%= problem.point %>">删除</a>
+                  </div>
+                </div>
+              </div>
+            <% }} %> 
           <%
             }
             else{
@@ -81,7 +144,8 @@
                 <ul class="padded separate-sections">
                   <p><h3>计时：（限时：<%= paper.timeLimit %>）</h3></p>
                   <pre><div id="time">00:00:00</div></pre>
-                  <input class="btn btn-blue", type="button" value="开始答题" onclick="timeCount()" />
+                  <input style="display:none;" id="txt" name="clock" />
+                  <input class="btn btn-blue" type="button" value="开始答题" onclick="timeCount()" />
                 </ul>
                 
                 <div id="problems" style="display:none;">

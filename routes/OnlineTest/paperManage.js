@@ -132,7 +132,7 @@ router.post('/', function(req, res, next) {
 			 	paperEntity.usedClass = CourseID;
 			 	paperEntity.problems = createdProblems;
 			 	paperEntity.totalPoint = point;
-			 	paperEntity.timeLimit = "" + formatTime(req.body.hour) + ":" + formatTime(req.body.minute) + ":00";
+			 	paperEntity.timeLimit = "" + formatTime(req.body.hour) + ":" + formatTime(req.body.minute) + ":" + formatTime(req.body.second);
 				paperEntity.save(function(error) {
 				    if(error) {
 				        console.log(error);
@@ -157,7 +157,7 @@ router.post('/', function(req, res, next) {
 	 	var paperEntity = new paperModel();
 	 	paperEntity.title = title;
 	 	paperEntity.usedClass = CourseID;
-	 	paperEntity.timeLimit = "" + formatTime(req.body.hour) + ":" + formatTime(req.body.minute) + ":00";
+	 	paperEntity.timeLimit = "" + formatTime(req.body.hour) + ":" + formatTime(req.body.minute) + ":" + formatTime(req.body.second);
 		paperEntity.save(function(error) {
 		    if(error) {
 		        console.log(error);
