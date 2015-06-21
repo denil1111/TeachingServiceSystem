@@ -214,12 +214,26 @@ router.post('/course_filtrate', function(req, res, next) {
                 for (var i=0;i<remaining;i++){
                     userModel.update({id: current[i].user},{$push:{confirmedCourse:{id: result[course_i].id}}},
                         function(err,re){if (err) console.log(err);});
+                    userModel.update({id: current[i].user},{$pull:{selectedCourse:{id: result[course_i].id}}},
+                        function(err,re){if (err) console.log(err);});
                     courseStudentModel.update({id: result[course_i].id},{$push:{confirmedStudent:{id: current[i].user}}},
                         function(err,re){if (err) console.log(err);});
                 }
             }
-            else console.log(current);
-            });
+            // vacancy is enough
+            else {
+                console.log(current);
+                for (var i=0;i<current.length;i++){
+                    userModel.update({id: current[i].user},{$push:{confirmedCourse:{id: result[course_i].id}}},
+                        function(err,re){if (err) console.log(err);});
+                    userModel.update({id: current[i].user},{$pull:{selectedCourse:{id: result[course_i].id}}},
+                        function(err,re){if (err) console.log(err);});
+                    courseStudentModel.update({id: result[course_i].id},{$push:{confirmedStudent:{id: current[i].user}}},
+                        function(err,re){if (err) console.log(err);});
+                }
+            }
+                
+        });
         })(course_i);
         // end one course
         }
