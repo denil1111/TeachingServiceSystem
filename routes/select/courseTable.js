@@ -304,7 +304,7 @@ router.get('/my_course/:timeID',function(req, res, next){
                     console.log(nresult);
                 }              
                 if (nresult.length!=0)
-                    my_course.push({course_id:nresult[i]._id, ID:nresult[0].courseid2, name:nresult[0].coursename, teacher:nresult[0].teacher, semaster:nresult[0].courseterm, time:nresult[0].coursetime, campus:nresult[0].campus, room:nresult[0].room});           
+                    my_course.push({course_id:nresult[0]._id, ID:nresult[0].courseid2, name:nresult[0].coursename, teacher:nresult[0].teacher, semaster:nresult[0].courseterm, time:nresult[0].coursetime, campus:nresult[0].campus, room:nresult[0].room});           
                 
                 console.log("!");
                 if (my_course.length==my_course_list.length){
