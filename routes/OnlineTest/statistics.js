@@ -8,16 +8,20 @@ var thisPersonNum = [];
 
 var papers_valid = [];
 
+var print_record = -1;
+
 //假定只有一个班级。在合体之后需要通过别的方法获取这些信息
 var classId = "001";
 
 router.get('/', function(req, res, next){
 	var paperSchema = require('../../db/OnlineTestDB/paperSchema');	
-	var paperModel = mongoose.model('PaperDB', paperSchema);
+	var paperModel = mongoose.model('PaperDB', paperSchema, 'papers');
+
+	classId = req.session.user.cstlist[0];
 
 	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
-	var recordModel = mongoose.model('RecordDB', recordSchema);
-	paperModel.find({usedClass: classId}, function(err, papers){
+	var recordModel = mongoose.model('RecordDB', recordSchema, 'records');
+	paperModel.find({}, function(err, papers){
 		if(err)
 			return next(err);
 
@@ -44,18 +48,24 @@ router.get('/', function(req, res, next){
 				totalpoints: totalpoints,
 				title: thisTitle,
 				legends: thisLegends,
-				personNum: thisPersonNum
+				personNum: thisPersonNum,
+				records: records,
+				print_record: print_record
 			});
 		});
 	});
 });
 
 router.post('/', function(req, res, next){
+	if(!req.body.choosePaper){
+		res.send("<script type='text/javascript'>alert('请先选择一场考试！');window.location.href='/OnlineTest/statistics'</script>");
+	}
 	splitNum = req.body.counter;
 	splits = [];
 	before = 0;
 
 	thisLegends = [];
+	thisPersonNum = [];
 	thisTitle = papers_valid[req.body.choosePaper].title;
 	for(var i = 0; i < splitNum; i++){
 		var name = 'parag' + i;
@@ -72,7 +82,7 @@ router.post('/', function(req, res, next){
 	thisPaper = papers_valid[req.body.choosePaper]._id;
 
 	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
-	var recordModel = mongoose.model('RecordDB', recordSchema);
+	var recordModel = mongoose.model('RecordDB', recordSchema, 'records');
 
 	recordModel.find({paperId: thisPaper}, function(err, records){
 		console.log(thisPersonNum);
@@ -97,6 +107,11 @@ router.post('/', function(req, res, next){
 
 		res.redirect('/OnlineTest/statistics');
 	});
+});
+
+router.get('/print/paper=:paperTitle', function(req, res, next){
+	print_record = req.params.paperTitle;
+	res.redirect('/OnlineTest/statistics');
 });
 
 module.exports = router;

@@ -11,6 +11,16 @@
     <% include slide_teacher.html%>    
 
     <div class="main-content">
+      <div class="container-fluid">
+        <div class="row-fluid">
+          <div class="area-top clearfix">
+            <div class="pull-left header">
+              <h3 class="title"><i class="icon-file-alt"></i>试卷管理</h3>
+              <h5>创建、修改、发布试卷</h5>
+            </div>
+          </div>
+        </div>
+      </div>
        <div class="span12">
         <div class="box">
           <div class="box-header">
@@ -18,8 +28,11 @@
           </div>
           <div class="box-content">
             <form method='post'>
-              <input type='text', style="margin-top:10px;", name='paperTitle', placeholder='请输入试卷标题'/>
-              <button type='submit', class="btn btn-blue">提交</button>
+              <ul class="padded separate-sections">
+                <li><input type='text', style="margin-top:10px;", name='paperTitle', placeholder='请输入试卷标题'/></li>
+                <li>限时<input type='text', style="margin-top:10px;width:40px;", name='hour'/>小时<input type='text', style="margin-top:10px;width:40px;", name='minute'/>分钟</li>
+                <li><button type='submit', class="btn btn-blue">提交</button></li>
+              </ul>
             </form>
           </div>
         </div>
@@ -34,6 +47,9 @@
                 <li><input type='text', style="margin-top:10px;", name='point1', placeholder='1分题数量'></li>
                 <li><input type='text', style="margin-top:10px;", name='point2', placeholder='2分题数量'></li>
                 <li><input type='text', style="margin-top:10px;", name='point3', placeholder='3分题数量'></li>
+                <li>
+                限时<input type='text', style="margin-top:10px;width:40px;", name='hour'/>小时<input type='text', style="margin-top:10px;width:40px;", name='minute'/>分钟
+                <li/>
                 <li><button type='submit', class="btn btn-blue">提交</button></li>
               </ul>
             </form>
@@ -53,9 +69,9 @@
             <div class="page-header">
               <div class="title"><h3><%= paper.title %><% if(paper.deliver[0]){ %>(已发布)<% } %></h3></div>
             </div>
-              <a class="btn btn-blue", href="/OnlineTest/paperManage/delete/<%= paper._id %>">删除</a> <a class="btn btn-red", href="/OnlineTest/paperManage/update/<%= paper._id %>">修改</a>
-              <a class="btn btn-green", href="/OnlineTest/paperManage/deliver/<%= paper._id %>">发布</a>
-              <a class="btn btn-default", href="/OnlineTest/paperManage/undeliver/<%= paper._id %>">撤销发布</a>
+              <a class="btn btn-blue", href="/OnlineTest/paperManage/delete/<%= paper._id %>">删除</a> <% if(!paper.deliver[0]){ %><a class="btn btn-red", href="/OnlineTest/paperManage/update/<%= paper._id %>">修改</a>
+              <a class="btn btn-green", href="/OnlineTest/paperManage/deliver/<%= paper._id %>">发布</a><% }else{ %>
+              <a class="btn btn-default", href="/OnlineTest/paperManage/undeliver/<%= paper._id %>">撤销发布</a><% } %>
             <% } %>
             </div>
           </div>

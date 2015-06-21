@@ -23,6 +23,14 @@ function shuffle(aArr){
     return aArr;
 }
 
+function formatTime(strIn){
+	input = parseInt(strIn);
+	if(input < 10)
+		return "0" + strIn;
+	else
+		return strIn;
+}
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	//连接数据库
@@ -124,6 +132,7 @@ router.post('/', function(req, res, next) {
 			 	paperEntity.usedClass = CourseID;
 			 	paperEntity.problems = createdProblems;
 			 	paperEntity.totalPoint = point;
+			 	paperEntity.timeLimit = "" + formatTime(req.body.hour) + ":" + formatTime(req.body.minute) + ":00";
 				paperEntity.save(function(error) {
 				    if(error) {
 				        console.log(error);
@@ -132,7 +141,7 @@ router.post('/', function(req, res, next) {
 				    }
 				    //db.close();
 				});
-				res.redirect('/OnlineTest/paperManage');
+				// res.redirect('/OnlineTest/paperManage');
 			}
 		});
 	}
@@ -148,6 +157,7 @@ router.post('/', function(req, res, next) {
 	 	var paperEntity = new paperModel();
 	 	paperEntity.title = title;
 	 	paperEntity.usedClass = CourseID;
+	 	paperEntity.timeLimit = "" + formatTime(req.body.hour) + ":" + formatTime(req.body.minute) + ":00";
 		paperEntity.save(function(error) {
 		    if(error) {
 		        console.log(error);
@@ -156,9 +166,8 @@ router.post('/', function(req, res, next) {
 		    }
 		    //db.close();
 		});
-
-		res.redirect('/OnlineTest/paperManage');
-	}	
+	}
+	res.redirect('/OnlineTest/paperManage');
 });
 
 router.get('/delete/:id', function(req, res, next){

@@ -12,26 +12,32 @@
     <div class="main-content">
       <div class="container-fluid">
         <div class="row-fluid">
-          
+          <div class="area-top clearfix">
             <div class="pull-left header">
-              <h3 class="title">编辑试卷</h3>
+              <h3 class="title"><i class="icon-pencil"></i>编辑试卷</h3>
+              <h5>添加或删除试卷中的题目</h5>
             </div>
-          
+          </div>
         </div>
       </div>
       <div class="box">
         <div class="box-header">
-          <div class="title"><%= paper.title %>(总分:<%= paper.totalPoint%>)</div>
+          <div class="title"><%= paper.title %>(总分:<%= paper.totalPoint%>, 限时<%= paper.timeLimite %>)</div>
         </div>
-        <div class="box-content">
-          <ul>
+        <div class="box-content scrollable" style="height: 480px;overflow-y: auto">
             <% for(var i = 0; i < problemsInPaper.length; i++){
                 var problem = problemsInPaper[i];
                 if(problem.type == 0){
             %>
-              <li>
-                <%= problem.stem %>
-                <br/>
+            <div class="box-section news with-icons">
+              <div class="avatar blue">
+                <i class="icon-ok icon-2x"></i>
+              </div>
+              <div class="news-content">
+                <div class="news-title">
+                <%= problem.stem %>(<%= problem.point %>分)
+                </div><br/>
+                <div class="news-text">
                 <% if (problem.answer==1){ %>
                   <b><i>A.<%= problem.choice[0] %></i></b>
                 <% }else{ %>
@@ -39,38 +45,48 @@
                 <% } %>
                 </br>
                 <% if (problem.answer==2){ %>
-                  <b><i>A.<%= problem.choice[1] %></i></b>
+                  <b><i>B.<%= problem.choice[1] %></i></b>
                 <% }else{ %>
-                  A.<%= problem.choice[1] %>
+                  B.<%= problem.choice[1] %>
                 <% } %>
                 </br>
                 <% if (problem.answer==3){ %>
-                  <b><i>A.<%= problem.choice[2] %></i></b>
+                  <b><i>C.<%= problem.choice[2] %></i></b>
                 <% }else{ %>
-                  A.<%= problem.choice[2] %>
+                  C.<%= problem.choice[2] %>
                 <% } %>
                 </br>
                 <% if (problem.answer==4){ %>
-                  <b><i>A.<%= problem.choice[3] %></i></b>
+                  <b><i>D.<%= problem.choice[3] %></i></b>
                 <% }else{ %>
-                  A.<%= problem.choice[3] %>
+                  D.<%= problem.choice[3] %>
                 <% } %>
                 </br>
                 <a class="btn btn-blue", href="/OnlineTest/paperManage/deleteProblem/<%= paper._id %>/<%= problem._id %>/<%= problem.point %>">删除</a>
-              </li>
+                </div>
+              </div>
+            </div>
             <% }else{ %>
-              <li>
-                <%= problem.stem %>
-                <% if (problem.answer==1){ %>
-                  <b><i>T</i></b>
-                <% }else{ %>
-                  <b><i>F</i></b>
-                <% } %>
-                <br/>
-                <a class="btn btn-blue", href="/OnlineTest/paperManage/deleteProblem/<%= paper._id %>/<%= problem._id %>/<%= problem.point %>">删除</a>
-              </li>
+            <div class="box-section news with-icons">
+              <div class="avatar green">
+                <i class="icon-lightbulb icon-2x"></i>
+              </div>
+              <div class="news-content">
+                <div class="news-title">
+                  <%= problem.stem %>
+                </div>
+                <div class="news-text">
+                  <% if (problem.answer==1){ %>
+                    <b><i>True</i></b>
+                  <% }else{ %>
+                    <b><i>False</i></b>
+                  <% } %>
+                  <br/>
+                  <a class="btn btn-blue", href="/OnlineTest/paperManage/deleteProblem/<%= paper._id %>/<%= problem._id %>/<%= problem.point %>">删除</a>
+                </div>
+              </div>
+            </div>
             <% }} %>
-          </ul>
         </div>
       </div>
 
@@ -78,14 +94,14 @@
         <div class="box-header">
           <div class="title">题库</div>
         </div>
-        <div class="box-content">
+        <div class="box-content scrollable" style="height: 480px;overflow-y: auto">
           <ul>
             <% for(var i = 0; i < allProblems.length; i++){
                 var problem = allProblems[i];
                 if(problem.type == 0){
             %>
               <li>
-                <%= problem.stem %>
+                <%= problem.stem %>(<%= problem.point %>分)
                 <br/>
                 <% if (problem.answer==1){ %>
                   <b><i>A.<%= problem.choice[0] %></i></b>
@@ -94,21 +110,21 @@
                 <% } %>
                 </br>
                 <% if (problem.answer==2){ %>
-                  <b><i>A.<%= problem.choice[1] %></i></b>
+                  <b><i>B.<%= problem.choice[1] %></i></b>
                 <% }else{ %>
-                  A.<%= problem.choice[1] %>
+                  B.<%= problem.choice[1] %>
                 <% } %>
                 </br>
                 <% if (problem.answer==3){ %>
-                  <b><i>A.<%= problem.choice[2] %></i></b>
+                  <b><i>C.<%= problem.choice[2] %></i></b>
                 <% }else{ %>
-                  A.<%= problem.choice[2] %>
+                  C.<%= problem.choice[2] %>
                 <% } %>
                 </br>
                 <% if (problem.answer==4){ %>
-                  <b><i>A.<%= problem.choice[3] %></i></b>
+                  <b><i>D.<%= problem.choice[3] %></i></b>
                 <% }else{ %>
-                  A.<%= problem.choice[3] %>
+                  D.<%= problem.choice[3] %>
                 <% } %>
                 </br>
                 <a class="btn btn-blue", href="/OnlineTest/paperManage/add/<%= paper._id %>/<%= problem._id %>/<%= problem.point %>">加入试卷</a>

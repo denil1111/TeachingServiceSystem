@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 	var paperModel = mongoose.model('PaperDB', paperSchema, 'papers');
 
 	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
-	var recordModel = mongoose.model('RecordDB', recordSchema);
+	var recordModel = mongoose.model('RecordDB', recordSchema, 'records');
 
 	//从session获取studentID和classID
 	var student = req.session.user.userid;
@@ -61,7 +61,7 @@ router.post('/answer=:paperId', function(req, res, next) {
 	var problemModel = mongoose.model('ProblemDB', problemSchema);
 
 	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
-	var recordModel = mongoose.model('RecordDB', recordSchema);
+	var recordModel = mongoose.model('RecordDB', recordSchema, 'records');
 
 	//渲染页面，其中problems是数据库中查询得到的内容
 	paperModel.findOne({_id: thisId}, function(err, paper){
@@ -74,8 +74,9 @@ router.post('/answer=:paperId', function(req, res, next) {
 			for(var i = 0; i < problemsInPaper.length; i++){
 				var thisAnswer = req.body[problemsInPaper[i]._id];
 				if(!thisAnswer){
-					res.render('OnlineTest/onlineTestErr',{message: '答题未完成！'});
-					return;
+					// res.render('OnlineTest/onlineTestErr',{message: '答题未完成！'});
+					// return;
+					thisAnswer = -1;
 				}
 				//console.log(thisAnswer);
 				choices.push(thisAnswer);
@@ -121,7 +122,7 @@ router.get('/answer=:paperId', function(req, res, next) {
 	var problemModel = mongoose.model('ProblemDB', problemSchema);
 
 	var recordSchema = require('../../db/OnlineTestDB/recordSchema');
-	var recordModel = mongoose.model('RecordDB', recordSchema);
+	var recordModel = mongoose.model('RecordDB', recordSchema, 'records');
 
 	var student = req.session.user.userid;
 
@@ -135,7 +136,7 @@ router.get('/answer=:paperId', function(req, res, next) {
 				problemModel.find({_id: {$in: paper.problems}}, function(err, problemsInPaper){
 					if(err)
 						return next(err);
-					res.render('OnlineTest/paperAnswer', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', done: false, point: point, paper: paper, problemsInPaper: problemsInPaper, time:time});
+					res.render('OnlineTest/paperAnswer', {name: '老程序猿', image: 'images/avatars/avatar1.jpg', done: false, point: point, paper: paper, problemsInPaper: problemsInPaper});
 				});	
 			});
 		}
