@@ -113,7 +113,10 @@
             <div class="btn-group">
               <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
               <ul class="dropdown-menu">
-                <li><a href="#"><span class="label label-gray">删除</span></a></li>
+
+                <button input type="submit" name="type"   class = "label label-gray" value=<%= accepted[k]._id %>>删除</button>
+
+
               </ul>
             </div>
           </td>
@@ -155,7 +158,7 @@
             <div class="btn-group">
               <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
               <ul class="dropdown-menu">
-                <li><a href="#"><span class="label label-gray">删除</span></a></li>
+                <button input type="submit" name="type"   class = "label label-gray" value=<%= deny[j]._id %>>删除</button>
               </ul>
             </div>
           </td>

@@ -5,6 +5,10 @@ var PersonModel = require('../../db/group1db/PersonModel');
 var CourseModel = require('../../db/group1db/CourseModel');
 var ClassroomModel = require('../../db/group2db/ClassroomModel');
 var CourseApplicationModel = require('../../db//group2db/CourseApplicationModel');
+
+
+
+
 //mongoose.connect('mongodb://localhost/hello-world');
 
 //var mongo = require('mongodb').MongoClient;
@@ -52,26 +56,20 @@ router.get('/CourseApplicationInsert', function(req, res,next) {
         total_credits:'24',
         credits:'4,6,2,4,6,2,0',
         data : tmp,
-        insertresult:'请提交表单'
+        insertresult:'请提交申请'
     });
 });
 
 router.post('/CourseApplicationInsert',function(req,res,next){
     console.log("post:CourseApplicationInsert");
-    var doc = {
-        courseid2: req.body.courseid2,
-        coursetime : req.body.time,
-        room : req.body.room,
-        campus : req.body.campus,
-        time : req.body.time
-    };
-
-    console.log("doc length : "+doc.length);
-    console.log("doc : "+doc);
-    console.log("doc courseid2: "+doc.courseid2);
-    CourseApplicationModel.create(doc,function(err,data){
-        if(err){
-            console.log("create err : "+err);
+    console.log("num of courses");
+           // if ID号不存在COURSE数据库里，返回错误信息！ 这有问题，读不出course里的东西
+           // console.log(CourseModel.find().count({courserid:doc.courseid2}));
+    console.log(req.body.courseid2);
+    CourseModel.find({courseid2:req.body.courseid2},function(err,dataa){
+        if(dataa=='')
+        {
+            console.log('The course not exit!');
             res.render('arrange/CourseApplicationInsert',{
                 name: '程序员',
                 image: 'images/avatars/avatar3.jpg',
@@ -81,54 +79,91 @@ router.post('/CourseApplicationInsert',function(req,res,next){
                 b:'4,6,2,4,6,2,0',
                 total_credits:'24',
                 credits:'4,6,2,4,6,2,0',
-                data : doc,
-                insertresult:'错误的申请信息！'
+                data : tmp,
+                insertresult:'不存在的课程！'
             });
         }
-        else{  // if ID号不存在COURSE数据库里，返回错误信息！ 这有问题，读不出course里的东西
-           // console.log(CourseModel.find().count({courserid:doc.courseid2}));
-            console.log(req.body.courseid2);
-            CourseModel.findbyid(req.body.classid2, function(error, dataa){
-                console.log(dataa);
-                console.log(dataa.length);
-                if(dataa=='')
-                {
-                    console.log('The course not exit!');
-                    res.render('arrange/CourseApplicationInsert',{
+                else {
+            console.log('Saved by Model OK!');
+            var doc = {
+                courseid2: req.body.courseid2,
+                coursetime: req.body.time,
+                room: req.body.room,
+                campus: req.body.campus,
+                time: req.body.time
+            };
+            console.log("doc length : " + doc.length);
+            console.log("doc : " + doc);
+            console.log("doc courseid2: " + doc.courseid2);
+            if (doc.campus == undefined || doc.courseid2 == undefined || doc.coursetime == undefined || doc.room == undefined) //坑爹啊！ undefined<>null！！
+                res.render('arrange/CourseApplicationInsert', {
+                    name: '程序员',
+                    image: 'images/avatars/avatar3.jpg',
+                    total_a: '12',
+                    a: '2,3,1,2,3,1,0',
+                    total_b: '24',
+                    b: '4,6,2,4,6,2,0',
+                    total_credits: '24',
+                    credits: '4,6,2,4,6,2,0',
+                    data: doc,
+                    insertresult: '请完整填写信息！'
+                });
+            else {
+                var tmpstring;
+                console.log(doc.coursetime);
+                console.log(doc.coursetime.length);
+                console.log(doc.coursetime[0].length);// 多个时间仍需调试！！ 该值不为1，说明选择啦多个时间，需要拆开来存！ 还没写。
+                if (doc.coursetime[0] == '1') tmpstring = '周一';
+                else if (doc.coursetime[0] == '2') tmpstring = '周二';
+                else if (doc.coursetime[0] == '3') tmpstring = '周三';
+                else if (doc.coursetime[0] == '4') tmpstring = '周四';
+                else if (doc.coursetime[0] == '5') tmpstring = '周五';
+                else if (doc.coursetime[0] == '6') tmpstring = '周六';
+                else if (doc.coursetime[0] == '7') tmpstring = '周日';
+
+                if (doc.coursetime[1] == '1') tmpstring = tmpstring + '第1,2节课';
+                else if (doc.coursetime[1] == '2') tmpstring = tmpstring + '第3,4,5节课';
+                else if (doc.coursetime[1] == '3') tmpstring = tmpstring + '第6,7节课';
+                else if (doc.coursetime[1] == '4') tmpstring = tmpstring + '第8,9,10节课';
+                else if (doc.coursetime[1] == '5') tmpstring = tmpstring + '晚上';
+                console.log(tmpstring);
+                doc.coursetime = tmpstring;
+                CourseApplicationModel.create(doc, function (err, data) {
+                    if (err|| doc.coursetime==undefined) {
+                        console.log("create err : " + err);
+                        res.render('arrange/CourseApplicationInsert', {
+                            name: '程序员',
+                            image: 'images/avatars/avatar3.jpg',
+                            total_a: '12',
+                            a: '2,3,1,2,3,1,0',
+                            total_b: '24',
+                            b: '4,6,2,4,6,2,0',
+                            total_credits: '24',
+                            credits: '4,6,2,4,6,2,0',
+                            data: doc,
+                            insertresult: '错误的申请信息！(请选择有且仅有一个申请调课时间段)'
+                        });
+                    }
+                    console.log(data);
+                    res.render('arrange/CourseApplicationInsert', {
                         name: '程序员',
                         image: 'images/avatars/avatar3.jpg',
-                        total_a:'12',
-                        a:'2,3,1,2,3,1,0',
-                        total_b:'24',
-                        b:'4,6,2,4,6,2,0',
-                        total_credits:'24',
-                        credits:'4,6,2,4,6,2,0',
-                        data : doc,
-                        insertresult:'不存在的课程！'
+                        total_a: '12',
+                        a: '2,3,1,2,3,1,0',
+                        total_b: '24',
+                        b: '4,6,2,4,6,2,0',
+                        total_credits: '24',
+                        credits: '4,6,2,4,6,2,0',
+                        data: doc,
+                        insertresult: '调课申请成功！'
                     });
-                }
-                else{
-                     console.log('Saved by Model OK!');
-                     console.log(data);
-                     res.render('arrange/CourseApplicationInsert',{
-                     name: '程序员',
-                     image: 'images/avatars/avatar3.jpg',
-                        total_a:'12',
-                         a:'2,3,1,2,3,1,0',
-                         total_b:'24',
-                         b:'4,6,2,4,6,2,0',
-                         total_credits:'24',
-                         credits:'4,6,2,4,6,2,0',
-                         data : doc,
-                         insertresult:'表单提交成功！'
-                     });
-                 }
-           })
+                });
+            }
         }
+        });
 
     });
 //    db.close();
-});
 
 module.exports = router;
 
