@@ -142,7 +142,7 @@
                             <thead>
                             <tr>
                                 <td></td>
-                                <td style="width:50px;"><input type="checkbox" id="all-choose" name="choose" onclick="chooseAll()" style="text-align:center;"></td>
+                                <!--<td style="width:50px;"><input type="checkbox" id="all-choose" name="choose" onclick="chooseAll()" style="text-align:center;"></td>-->
                                 <td>资源名称</td>
                                 <td style="width:60px">资源类型</td>
                                 <td style="width:60px">资源大小</td>
@@ -247,7 +247,6 @@
             <script id="fileListTpl" type="text/x-jquery-tmpl">
                 <tr>
                     <td class="icon"><i class="{{if isFolder}} icon-folder-close {{else}} icon-file {{/if}}"></i></td>
-                    <td style="width:50px;text-align:center;"><input type="checkbox" name="choose"></td>
                     <td><a href="{{if isFolder}}javascript:void(0){{else}}#{{/if}}" {{if isFolder}} data-view="enterFolder" name="${text}" {{/if}} data-num="${order}" class="fileItem">${text}</a></td>
                     <td style="width:60px;"><b>${ext}</b></td>
                     <td style="width:60px;"><b>${formsize}</b></td>
