@@ -82,8 +82,11 @@
                                             <button class="btn btn-xs btn-info" data-num="<%=i%>" func="edit-btn"><i class="icon-edit"></i>编辑信息</button>
                                         <%}else{%>
                                             <button class="btn btn-xs btn-default" data-num="<%=i%>" func="edit-btn"><i class="icon-info-sign"></i>查看详情</button>
-                                            <button class="btn btn-xs btn-success" data-src="<%= hwlist[i]._id %>" func="upload-btn"><i class="icon-upload-alt"></i>上传</button>
-                                            <!--<a class="btn btn-xs btn-info" href="#"><i class="icon-download-alt"></i>下载</a>-->
+                                            <%var nowDate=new Date();nowDate=nowDate.getTime();%>
+                                            <%if (hwlist[i].ddl.getTime() > nowDate){%>
+                                                <button class="btn btn-xs btn-success" data-src="<%= hwlist[i]._id %>" func="upload-btn"><i class="icon-upload-alt"></i>上传</button>
+                                                <!--<a class="btn btn-xs btn-info" href="#"><i class="icon-download-alt"></i>下载</a>-->
+                                            <%}%>
                                         <%}%>
                                     </div>
                                 </td>
