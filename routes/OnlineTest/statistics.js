@@ -28,7 +28,7 @@ router.get('/', function(req, res, next){
 		papers_valid = [];
 		var papers_valid_id = [];
 		for(var i = 0; i < papers.length; i++){
-			if(papers[i].deliver.length != 0){
+			if(papers[i].deliver.indexOf(classId) != -1){
 				papers_valid.push(papers[i]);
 				papers_valid_id.push(papers[i]._id);
 			}

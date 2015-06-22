@@ -26,7 +26,7 @@ function shuffle(aArr){
 function formatTime(strIn){
 	input = parseInt(strIn);
 	if(input < 10)
-		return "0" + strIn;
+		return "0" + input.toString();
 	else
 		return strIn;
 }
