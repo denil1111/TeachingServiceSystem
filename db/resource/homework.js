@@ -22,6 +22,14 @@ var mongooseSchema = new mongoose.Schema({
 });
 var collectionname = 'homework';
 
+mongooseSchema.statics.insertBlank = function(cid, callback) {
+    var course = {
+        courseid : cid,
+        homeworklist : []
+    };
+    return this.model('homeworkModel').create(course,callback);
+}
+
 mongooseSchema.statics.insertdemo = function (callback) {
     var ddl = new Date();
     ddl.setDate(21);
@@ -41,7 +49,7 @@ mongooseSchema.statics.insertdemo = function (callback) {
         uploadfile : []
     };
     var course = {
-        courseid : 'g1',
+        courseid : '5576e0f7bed7f4392d92098a',
         homeworklist : [homework1,homework2]
     };
     return this.model('homeworkModel').create(course,callback);
@@ -52,6 +60,7 @@ mongooseSchema.statics.findbycourseid = function(courseid, callback) {
 };
 mongooseSchema.statics.updatehw = function(cid, homework, callback) {
     console.log('update');
+    console.log(homework);
     var conditions = {courseid: cid};
 	var update     = {$set : {homeworklist: homework}};
 	var options    = {upsert : true};
