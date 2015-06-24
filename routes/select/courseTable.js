@@ -181,6 +181,7 @@ router.get('/course_list/:courseID', function(req, res, next){
             console.log(err);
             error='错误课程号';
             render();
+            return;
         }            
         else
             console.log(re);
@@ -188,6 +189,7 @@ router.get('/course_list/:courseID', function(req, res, next){
         {
             error='错误课程号';
             render();
+            return;
         }
         else
         {
@@ -196,6 +198,7 @@ router.get('/course_list/:courseID', function(req, res, next){
                 {
                     error="错误课程号";
                     render();
+                    return;
                 }                    
                 else
                     console.log(cre);
@@ -203,6 +206,7 @@ router.get('/course_list/:courseID', function(req, res, next){
                 {
                     error="错误课程号";
                     render();
+                    return;
                 }
                 else
                 for (var i=0;i<cre[0].confirmedStudent.length;i++)
@@ -215,6 +219,7 @@ router.get('/course_list/:courseID', function(req, res, next){
                                 console.log(err);
                                 error="错误用户";
                                 render();
+                                return;
                             }                                
                             else
                                 console.log(ure);                           
@@ -225,13 +230,19 @@ router.get('/course_list/:courseID', function(req, res, next){
                                 courseid=re[0].coursename;
                                 coursecredits=re[0].coursescore;
                                 render();
+                                return;
                                 //console.log(student);
                             }
 
                         });       
-                    })(i);    
-          
+                    })(i);                    
                 }
+                if (cre[0].confirmedStudent.length==0)
+                {
+                    render();   
+                    return;
+                }
+
             });
         }
   });
