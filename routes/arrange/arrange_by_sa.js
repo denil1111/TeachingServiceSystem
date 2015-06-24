@@ -1,4 +1,14 @@
 var mongoose = require('mongoose');
+
+
+//choose one db to run ths js
+//local db
+//mongoose.connect('mongodb://localhost/TS');
+//tssapp
+//mongoose.connect('mongodb://tssapp:tssapp@10.214.128.197:27123/tss');
+
+
+
 var express = require('express');
 var router = express.Router();
 //var ClassroomModel = require('../../db/group2db/ClassroomModel');
@@ -42,9 +52,10 @@ function print(line)
 
 // InputCourse ---> InputClassroom 
 // input all course in campusXXX
-function InputCourse (campusName, NextReadFunction)
+function InputCourse (campusName, NextReadFunction, callback)
 {
-	print("start read course");
+	print("start read course from campus:" + campusName);
+	courseList.length=0;
 	Course.find({campus: campusName},function(err, res){
 		if(err)
 			console.log(err);
@@ -56,25 +67,26 @@ function InputCourse (campusName, NextReadFunction)
 			{
 				//transform data type	
 				courseList.push(new CourseClass(
-					res[i].courseid2,
+					res[i]._id,
 					res[i].coursename,
-					75,
+					res[i].all,		//expected total num
 					1,				//times
 					0				//isOnWeekend
 					));		
 			}
-			NextReadFunction(campusName, SA);
+			NextReadFunction(campusName, SA, callback);
 		}
 	}
-)
+	)
 }
 
 
 // inputClassroom ---> SA
 // input all class room in campusXXX
-function InputClassroom(campusName, ReadDoneFunction)
+function InputClassroom(campusName, ReadDoneFunction, callback)
 {
 	print("start read class room");
+	roomList.length = 0;
 	Room.find({campus: campusName}, function(err, res){
 		if(err)
 			console.log(err);
@@ -90,7 +102,7 @@ function InputClassroom(campusName, ReadDoneFunction)
 					))
 			}
 			//do SA()
-			ReadDoneFunction();
+			ReadDoneFunction(callback);
 		}
 	})
 	
@@ -149,7 +161,6 @@ function CalcScore(aList)
 		
 	}
 	return score;
-	
 }
 
 //analyze an arrangeList, output some info
@@ -171,27 +182,10 @@ function AnalyList(aList)
 			}
 			
 		
-		var conditions = { courseid2: courseList[j].cid }
-  		, update = { $set: { coursetime: timeString, room: roomString }}
+		var conditions = { _id: courseList[j].cid }
+  		, update = { $set: { coursetime: timeString, room: roomString}}
   		, options = { multi: true };
-  		
-  		Course.update(conditions,update,options,function(err){
-  			if(err)
-  				console.log(err);
-  		});
-  		
-		/*Course.findOne({ courseid2: courseList[j].cid }, function (err, doc){
-			if(err)
-				console.log(err);
-			else
-			{
-				doc.coursetime = timeString;
-				doc.room = roomString;
-				doc.save();
-			}
-		});
-		*/
-		
+  		Course.update(conditions, update, options, function(err,doc){});
 	}
 	return;
 }
@@ -199,7 +193,7 @@ function AnalyList(aList)
 
 
 //sa algorithm
-function SA()
+function SA(callback)
 {
 	print("SA start");
 	arrangeList = InitFirstSolu();
@@ -255,19 +249,20 @@ function SA()
 	AnalyList(bestArrange);
 	
 	console.log("Program end at time: "+ Date());
+	if(typeof callback == 'function')callback();
 	//mongoose.connection.close();
 }
 
 
-function ArrangeACampus(campusName)
+function ArrangeACampus(campusName, callback)
 {
 	
 	//InputCourse ---> InputClassroom ---> SA
-	InputCourse(campusName, InputClassroom);
+	InputCourse(campusName, InputClassroom, callback);
 	
 }
 
-	// ArrangeACampus('紫金港校区');
+
 router.get('/arrange_by_sa', function(req, res, next) {
 //	if(!req.session.user){return res.redirect('../info/login');}
     res.render('arrange/arrange_by_sa',{
@@ -284,13 +279,44 @@ router.get('/arrange_by_sa', function(req, res, next) {
 
 router.post('/arrange_by_sa',function(req, res, next){
 	console.log("post:arrange_by_sa");
-
-	ArrangeACampus('紫金港校区');
+	ArangeOneByOne();
+	//ArrangeACampus('紫金港校区');
 	// ArrangeACampus('玉泉校区');
 	// ArrangeACampus('西溪校区');
 	// ArrangeACampus('华家池校区');
 	// ArrangeACampus('之江校区');
 });
+
+
+function ArangeOneByOne()
+{
+	var allCampus = {};
+	
+	Course.find({ },function(err, res){
+		if(err)
+			console.log(err);
+		else
+		{
+	
+			for(var i = 0; i< res.length; i++)
+			{
+				allCampus[res[i].campus] = 1;
+			}
+			
+			
+			var campusList = new Array;
+			
+			for(var aCampus in allCampus)
+			{	
+				campusList.push(aCampus);
+			}
+			setTimeout(function(){ArrangeACampus(campusList[0],function(){})},10);
+			setTimeout(function(){ArrangeACampus(campusList[1],function(){})},1000);						
+			setTimeout(function(){ArrangeACampus(campusList[2],function(){})},2000);
+			setTimeout(function(){ArrangeACampus(campusList[3],function(){})},3000);		
+		}
+	})
+}
 
 module.exports = router;
 
