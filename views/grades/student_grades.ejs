@@ -20,80 +20,80 @@
     if(choice==1)           document.getElementById('sem').innerHTML = "秋冬";
     else if(choice==2)      document.getElementById('sem').innerHTML = "春夏";
     else                    document.getElementById('sem').innerHTML = "全部";
-    show_table(0,100);
+    show_table();
   }
   function show_year(year) {
       if(year==-1)
         document.getElementById('year').innerHTML = "全部";
       else
         document.getElementById('year').innerHTML = year + " ~ " + (year+1);
-      show_table(0,100);
+      show_table();
   }
   function show_type(choice) {
       if(choice==-1)
          document.getElementById('type').innerHTML = "全部";
       else if(choice==1)
-         document.getElementById('type').innerHTML = "大类必修";
+         document.getElementById('type').innerHTML = "公共课";
       else if(choice==2)
-         document.getElementById('type').innerHTML = "大类选修";
-      else if(choice==3)
-         document.getElementById('type').innerHTML = "通识";
-      else if(choice==4)
          document.getElementById('type').innerHTML = "专业必修";
-      else if(choice==5)
+      else if(choice==3)
          document.getElementById('type').innerHTML = "专业选修";
-      show_table(0,100);
+      show_table();
   }
-  function show_table(grade1, grade2){
+  function show_gradeBetween(){
+    show_table();
+  }
+  function show_table()
+  {
     var strSem = document.getElementById('sem').innerHTML;
     var semNoLimit = strSem=="全部"?1:0;
     
     var strYear = document.getElementById('year').innerHTML;//"20XX~20XY"/"全部";
     var yearNoLimit = strYear=="全部"?1:0;
+         
+    var strgrade1 = document.getElementById('grade1').value;
+    var strgrade2 = document.getElementById('grade2').value;
+    var grade1 = 0;
+    var grade2 = 100;
+    if( !( isNaN(parseFloat(strgrade1)) || isNaN(parseFloat(strgrade2)) ) ) 
+    {
+      grade1 = parseInt(strgrade1);
+      grade2 = parseInt(strgrade2);
+    }
     
     var cnt = 0;
     var ctable = document.getElementById('contentTable');
-    for(var i = 1;i < ctable.rows.length;++i){
-      //var takecourseID = ctable.rows[i].cells[0].innerHTML;
+    for(var i = 1;i < ctable.rows.length;++i)
+    {
+      var display = true;
+      
       var semesterBool = (ctable.rows[i].cells[1].innerHTML==strSem);
+      if(semesterBool || semNoLimit)  display = display && true;
+      else                            display = display && false;
       
       var yearinTable = ctable.rows[i].cells[0].innerHTML; 
       var yearBool = strYear[0]==yearinTable[0] && strYear[1]==yearinTable[1] && strYear[2]==yearinTable[2] && strYear[3]==yearinTable[3];
+      if(yearBool || yearNoLimit)  display = display && true;
+      else                         display = display && false;
       
       var score = parseInt(ctable.rows[i].cells[4].innerHTML);
+      var scoreBool = (grade1 <= score) && (score <= grade2);
+      if(scoreBool) display = display && true;
+      else          display = display && false;
       
-      var display = false;
-      if((grade1 <= score && score <= grade2) && 
-             ((semNoLimit && yearNoLimit) ||
-              (semesterBool && yearNoLimit) ||
-              (semNoLimit && yearBool) ||
-              (semesterBool && yearBool))
-         ){  
-             var typeLimit = document.getElementById('type').innerHTML;
-             if(typeLimit=="全部" || ctable.rows[i].cells[2].innerHTML==typeLimit)
-               display = true;
-             else display = false;
-          }
-          else display = false;
-          
-          if(display){
-                ctable.rows[i].style.display = "";
-                if(cnt&1)           ctable.rows[i].class = "odd";
-                else                ctable.rows[i].class = "even";
-                cnt++;
-          }
-          else ctable.rows[i].style.display = "none";
-    }
+      var typeLimit = document.getElementById('type').innerHTML;
+      if(typeLimit=="全部" || ctable.rows[i].cells[2].innerHTML==typeLimit) display = display && true;
+      else display = display && false;
+      
+      if(display){
+            ctable.rows[i].style.display = "";
+            if(cnt&1)           ctable.rows[i].class = "odd";
+            else                ctable.rows[i].class = "even";
+            cnt++;
+      }
+      else ctable.rows[i].style.display = "none";
   }
-  function show_gradeBetween(){
-    
-    var strgrade1 = document.getElementById('grade1').value;
-    var strgrade2 = document.getElementById('grade2').value;
-    if(isNaN(parseFloat(strgrade1)) || isNaN(parseFloat(strgrade2))) return;
-    var grade1 = parseInt(strgrade1);
-    var grade2 = parseInt(strgrade2);
-    show_table(grade1,grade2);
-  }
+}
 
      show_gradeBetween();
      setNavActive();
@@ -132,6 +132,7 @@
                 <li><a href="javascript:show_year(2012)"> 2012 ~ 2013</a></li>
                 <li><a href="javascript:show_year(2013)"> 2013 ~ 2014</a></li>
                 <li><a href="javascript:show_year(2014)"> 2014 ~ 2015</a></li>
+                <li><a href="javascript:show_year(2015)"> 2015 ~ 2016</a></li>
             </ul>
           </div>
           <span>学年&nbsp;&nbsp;</span>
@@ -154,11 +155,9 @@
               <span class="caret"></span></button>
             <ul class="dropdown-menu">
               <li><a href="javascript:show_type(-1)">全部</a></li>
-              <li><a href="javascript:show_type(1)">大类必修</a></li>
-              <li><a href="javascript:show_type(2)">大类选修</a></li>
-              <li><a href="javascript:show_type(3)">通识</a></li>
-              <li><a href="javascript:show_type(4)">专业必修</a></li>
-              <li><a href="javascript:show_type(5)">专业选修</a></li>
+              <li><a href="javascript:show_type(1)">公共课</a></li>
+              <li><a href="javascript:show_type(2)">专业必修</a></li>
+              <li><a href="javascript:show_type(3)">专业选修</a></li>
             </ul>
           </div>
           <span>类别&nbsp;&nbsp;</span>

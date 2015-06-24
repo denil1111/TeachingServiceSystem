@@ -6,6 +6,7 @@ var CourseModel = require('../../db/group1db/CourseModel');
 var gradesDB = require('../../db/group6db/gradesDB');
 var tutorialModel= require('../../db/group6db/tutorialDB.js');
 var motionModel = require('../../db/group6db/motion');
+var coursePlan = require('../../db/courseDB/courseSchema_hyx')
 
 router.get('/grades', function(req, res, next) {
 if(!req.session.user){return res.redirect('../basic/login');}
@@ -22,46 +23,67 @@ if(req.session.user.status=="student"){
          return;
      }
      
+   var docs_result = [];
+   var idx_docs_reuslt = 0;
+   var courseplanID = [];
    CourseModel.find({},function(error,courses){
-     tutorialModel.find({},function(error,tutors){
          for(var i = 0;i < docs.length;++i)
          {   
            for(var j = 0;j < courses.length;++j)
+           {            
               if(courses[j]["_id"]==docs[i]["courseid"])//we can use sort to speed up
               {
-                docs[i]["coursename"] = courses[j]["coursename"];
-                docs[i]["coursecredit"] = courses[j]["coursescore"];
-                docs[i]["courseterm"] = courses[j]["courseterm"];
-                docs[i]["courseyear"] = courses[j]["year"];
-              }
-            for(var j = 0;j < tutors.length;++j)
-              if(tutors[j]["courseid"]==docs[i]["courseid"]){
-                switch(tutors[j]["type"])
+                if(courses[j]["status"]=="off")
                 {
-                  case 1:  
-                      docs[i]["coursetype"] = "大类必修"; break;
-                  case 2:  
-                      docs[i]["coursetype"] = "大类选修"; break;
-                  case 3:  
-                      docs[i]["coursetype"] = "通识"; break;
-                  case 4:  
-                      docs[i]["coursetype"] = "专业必修"; break;
-                  case 5:  
-                      docs[i]["coursetype"] = "专业选修"; break;
+                  docs_result.push(docs[i]);
+                  docs_result[idx_docs_reuslt]["coursename"] = courses[j]["coursename"];
+                  docs_result[idx_docs_reuslt]["coursecredit"] = courses[j]["coursescore"];
+                  docs_result[idx_docs_reuslt]["courseterm"] = courses[j]["courseterm"];
+                  docs_result[idx_docs_reuslt]["courseyear"] = courses[j]["year"];
+                  docs_result[idx_docs_reuslt]["courseplan_id"] = courses[j]["courseid"];
+                  courseplanID.push(courses[j]["courseid"]);
+                  idx_docs_reuslt++;
                 }
+                break;
               }
-         }
-         res.render('grades/student_grades', {
-     	name: '程序员', 
-     	image: 'images/avatars/avatar1.jpg',
-     	total_a:'12',
-     	a:'2,3,1,2,3,1,0',
-     	total_b:'24',
-     	b:'4,6,2,4,6,2,0',
-     	total_credits:'24',
-     	credits:'4,6,2,4,6,2,0',
-      data:docs});
-     });     
+           }
+         }            
+         //console.log(courseplanID);
+         coursePlan.find({id:{$in:courseplanID}},function(error,courseplan){
+             for(var i = 0;i < docs_result.length;++i)
+             {
+                //console.log(docs_result[i]["courseplan_id"]);
+                for(var j = 0;j < courseplan.length;++j)
+                {
+                  //console.log("curr_courseplanID");
+                  //console.log(courseplan[j]["id"]);
+                  if(courseplan[j]["id"]==docs_result[i]["courseplan_id"])
+                  {
+                    switch(courseplan[j]["type"])
+                    {
+                      case 1: docs_result[i]["coursetype"] = "公共课"; break;
+                      case 2: docs_result[i]["coursetype"] = "专业必修"; break;
+                      case 3: docs_result[i]["coursetype"] = "专业选修"; break;
+                    }
+                    break;
+                  }
+                }
+             }
+           res.render('grades/student_grades', {
+               	name: '程序员', 
+               	image: 'images/avatars/avatar1.jpg',
+               	total_a:'12',
+               	a:'2,3,1,2,3,1,0',
+               	total_b:'24',
+               	b:'4,6,2,4,6,2,0',
+               	total_credits:'24',
+               	credits:'4,6,2,4,6,2,0',
+                data:docs_result});
+         });                
+         
+         
+         
+     
    });
   });
 }
