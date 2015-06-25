@@ -5,6 +5,9 @@ var PersonModel = require('../../db/group1db/PersonModel');
 var formidable = require('formidable');
 var fs = require('fs');
 
+// var multiparty=require('connect-multiparty');
+// router.use(multiparty({uploadDir:'./public', keepExtensions:true}));
+
 var tmp={
     userid:"3120",
     username:"admin",
@@ -272,4 +275,7 @@ router.post('/',function(req,res,next){
         } 
     });
 });
+
+
+
 module.exports = router;
