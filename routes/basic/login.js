@@ -17,14 +17,14 @@ router.get('/login',function(req,res,next){
     passport.authenticate('local',function(err,user2,info){
       //use your own admin account here
       var user={
-        userid:'3120',
+        userid:'3120100017',
         password:'123456'
       };
      
 
       if(err){return(err);}
       
-      else if(user=="" | !user){
+      else if(!user){
         console.log("user : NULL");
         res.render('info/login',{
           loginerror:"学号/密码错误"
@@ -118,5 +118,9 @@ router.post('/login',function(req, res, next){
     }
   })(req,res,next);
 });
-
+router.get('/logout', function(req, res, next) {
+ req.session.destroy(function (err) {
+    res.redirect('/'); //Inside a callback… bulletproof!
+  });
+});
 module.exports = router;

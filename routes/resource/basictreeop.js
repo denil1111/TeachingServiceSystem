@@ -74,7 +74,7 @@ Tree.newnode = function(path, ws, treeP, callback) {
      
       
     };
-Tree.delnode = function(path, name, treeD, treeP, flag, callback) {
+Tree.delnode = function(path, name, treeP, flag, callback) {
       console.log("new node");
       var nowtreeP = treeP;
       path.split('\.').forEach(function(foldername) {
