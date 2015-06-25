@@ -69,7 +69,7 @@ router.post('/',function(req,res,next){
             email : fields.email,
         };
 
-        if(doc.userid == ''){useridErr = 'ID empty!';}
+        if(doc.userid == ''){useridErr = '学工号不能为空!';}
         for(var i = 0, userid = doc.userid; i < userid.length; i++){
             if(userid.charAt(i)>'9' || userid.charAt(i) < '0'){
                 useridErr = 'ID illegal!';
@@ -78,10 +78,10 @@ router.post('/',function(req,res,next){
         }
 
         //userNameErr
-        if(doc.username == ''){userNameErr = 'username empty!';}
+        if(doc.username == ''){userNameErr = '姓名不能为空!';}
 
         //paswwordErr
-        if(fields.password1 == ""){passwordErr = 'password empty!';}
+        if(fields.password1 == ""){passwordErr = '密码不能为空!';}
         if(fields.password1 != fields.password2){passwordErr = 'password different!';}
 
 
@@ -95,24 +95,24 @@ router.post('/',function(req,res,next){
         else if(email.indexOf('.',index+1) == -1 || email.indexOf('.',index+1) == index + 1){emailerr = 'incorrect .';}
 
         //aggerr
-        if(doc.age == ''){ageerr = 'age empty!';}
+        if(doc.age == ''){ageerr = '年龄不能为空!';}
         for(var i = 0, age = doc.age; i < age.length; i++){
             if(age.charAt(i)>'9' || age.charAt(i) < '0'){
-                ageerr = 'age not number!';
+                ageerr = '年龄非整数!';
                 break;
             }
         }
         if(ageerr == ''){
             var age = doc.age;
-            if(age > '120' && age.length >= 3 || age.length ==1 && age <'5'){ageerr = 'age unreasonable!';}
+            if(age > '120' && age.length >= 3 || age.length ==1 && age <'5'){ageerr = '年龄不合理!';}
         }
 
 
         //telerr
-        if(doc.tel == ''){telerr = 'tel empty!';}
+        if(doc.tel == ''){telerr = '电话不能为空!';}
         for(var i = 0, tel = doc.tel; i < tel.length; i++){
             if(tel.charAt(i) > '9' || tel.charAt(i) < '0'){
-                telerr = 'tel not number!';
+                telerr = '电话非整数!';
                 break;
             }
         }
