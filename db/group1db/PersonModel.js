@@ -76,13 +76,8 @@ PersonSchema.statics.findbyorderlist = function(userlist, callback) {
     return list;
 };
 
-var User = require('../courseDB/userSchema');
-var PersonModel = mongoose.model('PersonModel',PersonSchema,CollectionName);
 
-User.schema.post('update', function(doc) {
-   console.log("hook user");
-   console.log(doc);
-});
+var PersonModel = mongoose.model('PersonModel',PersonSchema,CollectionName);
 
 
 

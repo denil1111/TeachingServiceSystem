@@ -77,7 +77,7 @@ router.post('/manual_add', function(req, res, next) {
               res.json({status:"err",error:"课程不存在！"});
               return;
           }
-          userModel.find({id:req.body.stu_id.toString()},function(err,uresult){
+          userModel.find({userid:req.body.stu_id.toString()},function(err,uresult){
               if (err)
               {
                 console.log(err);
@@ -123,7 +123,7 @@ router.post('/manual_add', function(req, res, next) {
               res.json({status:"err",error:"课程不存在！"});
               return;
           }
-          userModel.find({id:req.body.stu_id.toString()},function(err,uresult){
+          userModel.find({userid:req.body.stu_id.toString()},function(err,uresult){
               if (err)
               {
                 console.log(err);
