@@ -17,8 +17,8 @@ router.get('/login',function(req,res,next){
     passport.authenticate('local',function(err,user2,info){
       //use your own admin account here
       var user={
-        userid:'3120100017',
-        password:'123456'
+        userid:'31200000',
+        password:'31200000'
       };
      
 
@@ -64,23 +64,57 @@ router.post('/login',function(req, res, next){
   passport.authenticate('local',function(err,user,info){
     if(err){return(err);}
     if(user=="" | !user){
+      console.log("userid"+user.userid);
       console.log("user : NULL");
-      res.render('info/login',{
-        loginerror:"学号/密码错误"
+      return res.render('info/login',{
+        loginerror:"学工号不存在！"
       });
     }
     else{
-      req.logIn(user, function(err){
-        // console.log(user);
-        req.session.user=user;
-        // console.log(req.isAuthenticated());
-        if(user.status == "系统管理员"){
-          res.redirect('/info/personinsert');
-        }
-        else{
-          res.redirect('/info/personinfo');
-        }
-      }) 
+      if(req.body.status!=user.status){
+        return res.render('info/login',{
+        loginerror:"登录身份错误！"
+      });
+      }
+      else if(!user.trytime){
+        req.logIn(user, function(err){
+          // console.log(user);
+          req.session.user=user;
+          // console.log(req.isAuthenticated());
+          if(user.status == "系统管理员"){
+            return res.redirect('/info/personinsert');
+          }
+          else{
+            return res.redirect('/info/personinfo');
+          }
+        })
+      }
+     else{
+       if(user.trytime=='5'){
+         return res.render('info/login',{
+            loginerror:"帐号被锁！"
+          });
+       }
+       else if(user.trytime!='0'){
+         return res.render('info/login',{
+            loginerror:"密码错误，"+user.trytime+"次！"
+          });
+       }
+       else{
+         req.logIn(user, function(err){
+            // console.log(user);
+            req.session.user=user;
+            // console.log(req.isAuthenticated());
+            if(user.status == "系统管理员"){
+              return res.redirect('/info/personinsert');
+            }
+            else{
+              return res.redirect('/info/personinfo');
+            }
+          })
+       }
+     }
+      
     }
   })(req,res,next);
 });
