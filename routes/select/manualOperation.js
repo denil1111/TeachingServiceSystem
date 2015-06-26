@@ -33,6 +33,8 @@ router.post('/manual_add', function(req, res, next) {
   var courseData=[];
   var courseModel = require('../../db/group1db/CourseModel');
   var userModel = require('../../db/courseDB/userSchema'); 
+  var personModel = require('../../db/group1db/PersonModel'); 
+  var courseStudentModel = require('../../db/courseDB/courseStudentSchema');
   console.log(req.body);
   var status;
   switch (req.session.user.status.toString()){
@@ -100,8 +102,10 @@ router.post('/manual_add', function(req, res, next) {
                   res.json({status:"err",error:"已选该课！"});
                   return;
               }
-              courseModel.update({_id:req.body.course_id.toString()},{$dec:{remain:1}},function(err,re){if (err) console.log(err);});
+              personModel.addcstlist(req.body.stu_id.toString(),req.body.course_id.toString(),function(err,re){if (err) console.log(err)});
+              courseModel.update({_id:req.body.course_id.toString()},{$inc:{remain:-1}},function(err,re){if (err) console.log(err);});
               userModel.update({id:req.body.stu_id.toString()},{$push:{confirmedCourse:{id:req.body.course_id.toString(),points:0}}},function(err,re){if (err) console.log(err);});
+              courseStudentModel.update({id: req.body.course_id.toString()},{$push:{confirmedStudent:{id: req.body.stu_id.toString()}}},function(err,re){if (err) console.log(err);});
               res.json({status:"succ"});
               return;
           });        
@@ -145,8 +149,10 @@ router.post('/manual_add', function(req, res, next) {
                   res.json({status:"err",error:"没有选择该课！"});
                   return;
               }
+              personModel.deletecstlist(req.body.stu_id.toString(),req.body.course_id.toString(),function(err,re){if (err) console.log(err)});
               courseModel.update({_id:req.body.course_id.toString()},{$inc:{remain:1}},function(err,re){if (err) console.log(err);});
               userModel.update({id:req.body.stu_id.toString()},{$pull:{confirmedCourse:{id:req.body.course_id.toString(),points:0}}},function(err,re){if (err) console.log(err);});
+              courseStudentModel.update({id: req.body.course_id.toString()},{$pull:{confirmedStudent:{id: req.body.stu_id.toString()}}},function(err,re){if (err) console.log(err);});
               res.json({status:"succ"});
               return;
           });        

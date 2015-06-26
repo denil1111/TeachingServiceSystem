@@ -1,4 +1,6 @@
 <!doctype html>
+<html>
+<head>
 <% include ../head.html %>
 </head>
 <body>
@@ -22,6 +24,7 @@
 </script>
 
 <!-- 主要内容 -->
+
 <div class="main-content">
   <div class="container-fluid">
     <div class="row-fluid">
@@ -46,54 +49,34 @@
       <thead>
         <tr>
           <td>课程号</td>
-          <td>课程名</td>
-          <td>上课时间</td>
-          <td>学期</td>
-          <td>上课地点</td>
-          <td>教学班人数</td>
-          <td>申请内容</td>
+          <td>申请上课时间</td>
+          <td>申请上课地点</td>
           <td>操作</td>
         </tr>
       </thead>
 
       <tbody>
-        <tr class="status-pending">
-          <td>MC001</a></td>
-          <td>微积分1</td>
-          <td>周一1、2节</td>
-          <td>春夏</td>
-          <td>曹楼201</td>
-          <td>90</td>
-          <td>上课时间 改为 周二1、2节</td>
-          <td>
-            <div class="btn-group">
-              <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-              <ul class="dropdown-menu">
-                <li><a href="#"><span class="label label-green">通过</span></a></li>
-                <li><a href="#"><span class="label label-red">拒绝</span></a></li>
-              </ul>
-            </div>
-          </td>
-        </tr>
-  
-        <tr class="status-pending">
-          <td>MC002</a></td>
-          <td>微积分2</td>
-          <td>周一3、4节</td>
-          <td>春夏</td>
-          <td>曹楼201</td>
-          <td>90</td>
-          <td>上课时间 改为 周二3、4节</td>
-          <td>
-            <div class="btn-group">
-              <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-              <ul class="dropdown-menu">
-                <li><a href="#"><span class="label label-green">通过</span></a></li>
-                <li><a href="#"><span class="label label-red">拒绝</span></a></li>
-              </ul>
-            </div>
-          </td>
-        </tr>
+
+        <form action="/arrange/arrange_course_management" role="form" method="post">
+          <% for ( n=0; n<pending.length;n++){%>
+
+            <tr class="status-pending">
+              <td><%= pending[n].courseid2 %></td>
+              <td><%= pending[n].coursetime %> </td>
+              <td><%= pending[n].campus %> <%= pending[n].room %></td>
+              <td>
+                <div class="btn-group">
+                  <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
+                  <ul class="dropdown-menu">
+                    <button input type="submit" name="type" value=y<%= pending[n]._id %>  class="label label-green">通过</button>
+                    <button input type="submit" name="type" value=n<%= pending[n]._id %>  class="label label-red">拒绝</button>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          <% } %>
+        </form>
+
       </tbody>
     </table>
   </div>
@@ -113,52 +96,34 @@
       <thead>
         <tr>
           <td>课程号</td>
-          <td>课程名</td>
-          <td>上课时间</td>
-          <td>学期</td>
-          <td>上课地点</td>
-          <td>教学班人数</td>
-          <td>申请内容</td>
+          <td>申请上课时间</td>
+          <td>申请上课地点</td>
           <td>操作</td>
         </tr>
       </thead>
 
       <tbody>
-        <tr class="status-pending">
-          <td>MC003</a></td>
-          <td>微积分3</td>
-          <td>周二1、2节</td>
-          <td>春夏</td>
-          <td>曹楼201</td>
-          <td>90</td>
-          <td>上课时间 改为 周三1、2节</td>
+      <form action="/arrange/arrange_course_management" role="form" method="post">
+        <% for (k=0; k<accepted.length;k++){%>
+        <tr class="status-accept">
+          <td><%= accepted[k].courseid2 %></td>
+          <td><%= accepted[k].coursetime %> </td>
+          <td><%= accepted[k].campus %> <%= accepted[k].room %></td>
           <td>
             <div class="btn-group">
               <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
               <ul class="dropdown-menu">
-                <li><a href="#"><span class="label label-gray">删除</span></a></li>
+
+                <button input type="submit" name="type"   class = "label label-gray" value=<%= accepted[k]._id %>>删除</button>
+
+
               </ul>
             </div>
           </td>
         </tr>
-  
-        <tr class="status-pending">
-          <td>MC004</a></td>
-          <td>微积分4</td>
-          <td>周二3、4节</td>
-          <td>春夏</td>
-          <td>曹楼201</td>
-          <td>90</td>
-          <td>上课时间 改为 周三3、4节</td>
-          <td>
-            <div class="btn-group">
-              <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-              <ul class="dropdown-menu">
-                <li><a href="#"><span class="label label-gray">删除</span></a></li>
-              </ul>
-            </div>
-          </td>
-        </tr>
+        <% } %>
+
+        </form>
       </tbody>
     </table>
   </div>
@@ -178,53 +143,29 @@
       <thead>
         <tr>
           <td>课程号</td>
-          <td>课程名</td>
-          <td>上课时间</td>
-          <td>学期</td>
-          <td>上课地点</td>
-          <td>教学班人数</td>
-          <td>申请内容</td>
+          <td>申请上课时间</td>
+          <td>申请上课地点</td>
           <td>操作</td>
         </tr>
       </thead>
+      <form action="/arrange/arrange_course_management" role="form" method="post">
+        <% for (j=0; j<deny.length;j++){%>
+        <tr class="status-accept">
+          <td><%= deny[j].courseid2 %></td>
+          <td><%= deny[j].coursetime %> </td>
+          <td><%= deny[j].campus %> <%= deny[j].room %></td>
+          <td>
+            <div class="btn-group">
+              <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
+              <ul class="dropdown-menu">
+                <button input type="submit" name="type"   class = "label label-gray" value=<%= deny[j]._id %>>删除</button>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <% } %>
 
-      <tbody>
-        <tr class="status-pending">
-          <td>MC005</a></td>
-          <td>微积分5</td>
-          <td>周三1、2节</td>
-          <td>春夏</td>
-          <td>曹楼201</td>
-          <td>90</td>
-          <td>上课时间 改为 周四1、2节</td>
-          <td>
-            <div class="btn-group">
-              <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-              <ul class="dropdown-menu">
-                <li><a href="#"><span class="label label-gray">删除</span></a></li>
-              </ul>
-            </div>
-          </td>
-        </tr>
-  
-        <tr class="status-pending">
-          <td>MC006</a></td>
-          <td>微积分6</td>
-          <td>周三3、4节</td>
-          <td>春夏</td>
-          <td>曹楼201</td>
-          <td>90</td>
-          <td>上课时间 改为 周三3、4节</td>
-          <td>
-            <div class="btn-group">
-              <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></button>
-              <ul class="dropdown-menu">
-                <li><a href="#"><span class="label label-gray">删除</span></a></li>
-              </ul>
-            </div>
-          </td>
-        </tr>
-      </tbody>
+      </form>
     </table>
   </div>
 </div>

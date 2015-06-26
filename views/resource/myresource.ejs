@@ -134,7 +134,7 @@
       <thead>
       <tr>
         <td></td>
-        <td style="width:50px;"><input type="checkbox" id="all-choose" name="choose" onclick="chooseAll()" style="text-align:center;"></td>
+        <!--<td style="width:50px;"><input type="checkbox" id="all-choose" name="choose" onclick="chooseAll()" style="text-align:center;"></td>-->
         <td>资源名称</td>
         <td style="width: 60px">资源类型</td>
         <td style="width: 60px">资源大小</td>
@@ -270,14 +270,12 @@
 <script id="fileListTpl" type="text/x-jquery-tmpl">
 <tr>
     <td class="icon"><i class="{{if isFolder}} icon-folder-close {{else}} icon-file {{/if}}"></i></td>
-    <td style="width:50px;text-align:center;"><input type="checkbox" name="choose"></td>
     <td><a href="{{if isFolder}}javascript:void(0){{else}}#{{/if}}" {{if isFolder}} data-view="enterFolder" name="${text}" {{/if}}>${text}</a></td>
     <td><b>${ext}</b></td>
     <td><b>${formsize}</b></td>
     <td><b>${courseName}</b></td>
     <td>
         <div class="btn-group">
-            <button class="btn btn-xs btn-default" data-src="${text}" func="share-btn"> <i class="icon-share"></i>分享</button>
             <button class="btn btn-xs btn-lightblue dropdown-toggle" data-toggle="dropdown" data-src="${text}"> <i class="icon-cog"></i>操作<span class="caret"></span></button>
             <ul class="dropdown-menu">
                 <li><a data-src="${text}" func="delete-btn"><i class="icon-remove-sign"></i> 删除</a></li>
@@ -369,6 +367,7 @@
                     function(_data){
                         if(_data.code==200){
                             alert("操作成功");
+                            $("#modal-newfolder").modal("hide");
                             refreshFileList(_data.newTree);
                         }else{
                             alert("操作失败");
@@ -400,6 +399,7 @@
                     {
 //                        console.log("success");
 //                        console.log(data);
+                        $("#modal-upload").modal("hide");
                         refreshFileList(data.newTree);
 
                     },
@@ -429,6 +429,7 @@
                     function(_data){
                         if(_data.code==200){
                             alert("删除成功");
+                            $("#modal-remove").modal("hide");
                             refreshFileList(_data.newTree);
                         }else{
                             alert("删除失败");
@@ -467,6 +468,7 @@
                     function(_data){
                         if(_data.code==200){
                             alert("操作成功");
+                            $("#modal-rename").modal("hide");
                             refreshFileList(_data.newTree);
                         }else{
                             alert("操作失败");
@@ -516,6 +518,7 @@
                         function(_data){
                             if(_data.code==200){
                                 alert("操作成功");
+                                $("#modal-rename").modal("hide");
                                 refreshFileList(_data.newTree);
                             }else{
                                 alert("操作失败");
@@ -549,6 +552,7 @@
                     function(_data){
                         if(_data.code==200){
                             alert("操作成功");
+                            $("#modal-share").modal("hide");
                             refreshFileList(_data.newTree);
                         }else{
                             alert("操作失败");

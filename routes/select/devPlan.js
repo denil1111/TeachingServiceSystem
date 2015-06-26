@@ -264,7 +264,8 @@ router.get('/my_dev_plan', function (req, res, next) {
       dev_plan_elec_class: my_dev_plan_elec_class,
       dev_plan_req: my_dev_plan_req,
       my_dev_plan_gen: my_dev_plan_gen,
-      is_checked: ischecked //这样要改成这样，待审核时可以修改，其他时候不能修改
+      is_checked: ischecked, //这样要改成这样，待审核时可以修改，其他时候不能修改
+      error:""
     });
   }
 
@@ -510,6 +511,7 @@ router.get('/my_dev_plan', function (req, res, next) {
 router.post('/my_dev_plan_add', function(req, res, next) {
   console.log(req.body);
 
+  var output_error="";
   var ischecked=false;
   var render = function() {
     res.render('select/my_dev_plan', {
@@ -527,7 +529,8 @@ router.post('/my_dev_plan_add', function(req, res, next) {
       dev_plan_elec_class: my_dev_plan_elec_class,
       dev_plan_req: my_dev_plan_req,
       my_dev_plan_gen: my_dev_plan_gen,
-      is_checked: ischecked 
+      is_checked: ischecked, 
+      error:output_error
     });
   }
    
@@ -633,20 +636,21 @@ router.post('/my_dev_plan_add', function(req, res, next) {
             render();
           }
         }  
-      });
-      
-    }
-
-  }
+      });//major find end
+    }//if ok1&2&3
+  }//isRender function end
 
   courseModel.find({id: req.body.course_number}, function(error, result) {
     if (error) console.log(error);
     else console.log(result);
 
     //找到了一个course
+    var isCourse=true;
     if (result.length != 1) {
       console.log("ERROR:result.length!=1");
-      return;
+      output_error="不存在此课!";
+      isCourse=false;
+      isRender();
     }
 
     //将这门课放进currentId的plan列表 
@@ -665,11 +669,12 @@ router.post('/my_dev_plan_add', function(req, res, next) {
         return;
       }
 
-      if (result[0].major != selectedMajor && result[0].major != "公共课" && req.body.type == "1") {
+      if (isCourse && result[0].major != selectedMajor && result[0].major != "公共课" && req.body.type == "1") { //如果存在才用result[0]
         console.log("Wrong Major!");
+        output_error="非本专业课程！";
         ischangeable=false;
       }
-      if(ischangeable){
+      if(isCourse && ischangeable){
         if (result[0].type == 1) { //如果是公共课
           var isExisted = false;
           for (var j = 0; j < plan[0].p1.length; j++) {
@@ -1064,9 +1069,9 @@ router.post('/edit_dev_plan', function(req, res, next){
     for(var i=0;i<req.body.reqIDinput.length;i++){
       courseModel.update({id: req.body.reqIDinput[i]}, 
         {$set:{
-          name: req.body.reqNameinput[i], 
+          //name: req.body.reqNameinput[i], 
           time: req.body.reqTimeinput[i], 
-          credit: req.body.reqCreditinput[i], 
+          //credit: req.body.reqCreditinput[i], 
           type: 2,
           major:major_name}
         }, 
@@ -1079,9 +1084,9 @@ router.post('/edit_dev_plan', function(req, res, next){
   else if(req.body.reqIDinput){
     courseModel.update({id: req.body.reqIDinput}, 
       {$set:{
-        name: req.body.reqNameinput, 
+        //name: req.body.reqNameinput, 
         time: req.body.reqTimeinput, 
-        credit: req.body.reqCreditinput, 
+        //credit: req.body.reqCreditinput, 
         type: 2,
         major:major_name}
       }, 
@@ -1112,9 +1117,9 @@ router.post('/edit_dev_plan', function(req, res, next){
     for(var i=0;i<req.body.elecIDinput.length;i++){
       courseModel.update({id: req.body.elecIDinput[i]}, 
         {$set:{
-          name: req.body.elecNameinput[i], 
+          //name: req.body.elecNameinput[i], 
           time: req.body.elecTimeinput[i], 
-          credit: req.body.elecCreditinput[i], 
+          //credit: req.body.elecCreditinput[i], 
           type: 3,
           subtype: req.body.classNameinput,
           major:major_name}
@@ -1128,9 +1133,9 @@ router.post('/edit_dev_plan', function(req, res, next){
   else if(req.body.elecIDinput){
       courseModel.update({id: req.body.elecIDinput}, 
         {$set:{
-          name: req.body.elecNameinput, 
+          //name: req.body.elecNameinput, 
           time: req.body.elecTimeinput, 
-          credit: req.body.elecCreditinput, 
+          //credit: req.body.elecCreditinput, 
           type: 3,
           subtype: req.body.classNameinput,
           major:major_name}

@@ -233,6 +233,12 @@
     function examine(choice) {
       document.getElementById("type").value=choice;
     }
+    function error_detection(){
+      <%if(error!=""){%>
+        alert("<%=error%>");  
+        <%}%>
+    }
+    error_detection();
 </script>
 </body>
 </html>

@@ -69,8 +69,7 @@ router.post('/my_course', function(req, res, next) {
 /*var students=[];
 students.push({sId:"3130000027",sname:"桓神",classNo:"启真1301",major:"计算机科学与技术"});
 students.push({sId:"3130000017",sname:"闻神",classNo:"启真1301",major:"计算机科学与技术"});*/
-
-router.get('/course_list/:courseID', function(req, res, next){
+router.post('/course_list/:courseID', function(req, res, next){
   var my_course=[];
   //课程号
   var course_id = req.params.courseID;
@@ -80,31 +79,19 @@ router.get('/course_list/:courseID', function(req, res, next){
   var student=[];
   var courseid,coursename,coursecredits;
   var error="";
-  var render=function(){
-                res.render('select/course_list', {
-                    course_id:courseid,//re[0].courseid2,
-                    course_name:courseid,//re[0].coursename,
-                    credits:coursecredits,//re[0].coursescore ,
-                    course_time:"",
-                    students:student,
-                    name: '程序员', 
-                    image: '../images/avatars/avatar3.jpg',
-                    error:error
-                }); 
-              }
   courseModel.find({_id:course_id},function(err,re){
         if (err)
         {
             console.log(err);
             error='错误课程号';
-            render();
+            res.json({error:error});
         }            
         else
             console.log(re);
         if (re.length==0)
         {
             error='错误课程号';
-            render();
+            res.json({error:error});
         }
         else
         {
@@ -112,14 +99,14 @@ router.get('/course_list/:courseID', function(req, res, next){
                 if (err)
                 {
                     error="错误课程号";
-                    render();
+                    res.json({error:error});
                 }                    
                 else
                     console.log(cre);
                 if (cre.length==0)
                 {
                     error="错误课程号";
-                    render();
+                    res.json({error:error});
                 }
                 else
                 for (var i=0;i<cre[0].confirmedStudent.length;i++)
@@ -141,7 +128,17 @@ router.get('/course_list/:courseID', function(req, res, next){
                                 courseid=re[0].courseid2;
                                 courseid=re[0].coursename;
                                 coursecredits=re[0].coursescore;
-                                render();
+                                var nfs=fs.createWriteStream("List"+course_id+".csv");
+                                nfs.write("学号,姓名,班级,专业\n");
+                                for (var j=0;j<student.length;j++)
+                                    nfs.write(student[j].sId+','+student[j].sname+','+student[j].classNo+','+student[j].major+'\n');
+                                nfs.end('\n');
+                                console.log("dao le");
+                                var rfs=fs.createReadStream("List"+course_id+".csv");
+                                res.setHeader('Content-disposition', 'attachment; filename=' + "List"+course_id+".csv");
+                                res.setHeader('Content-type', 'text/plain');
+                                rfs.pipe(res);
+                                //res.json({succ:"succ"});
                                 //console.log(student);
                             }
 
@@ -149,6 +146,103 @@ router.get('/course_list/:courseID', function(req, res, next){
                     })(i);    
           
                 }
+            });
+        }
+  });
+});
+
+router.get('/course_list/:courseID', function(req, res, next){
+  var my_course=[];
+  //课程号
+  var course_id = req.params.courseID;
+  var courseStudentModel=require('../../db/courseDB/courseStudentSchema');
+  var courseModel = require('../../db/group1db/CourseModel');
+  var userModel = require('../../db/group1db/PersonModel'); 
+  var student=[];
+  var courseid,coursename,coursecredits;
+  var error="";
+  var render=function(){
+                console.log(course_id);
+                res.render('select/course_list', {
+                    course_id:courseid,//re[0].courseid2,
+                    course_name:courseid,//re[0].coursename,
+                    credits:coursecredits,//re[0].coursescore ,
+                    course_time:"",
+                    students:student,
+                    name: '程序员', 
+                    image: '../images/avatars/avatar3.jpg',
+                    error:error,
+                    _id:course_id
+                }); 
+              }
+  courseModel.find({_id:course_id},function(err,re){
+        if (err)
+        {
+            console.log(err);
+            error='错误课程号';
+            render();
+            return;
+        }            
+        else
+            console.log(re);
+        if (re.length==0)
+        {
+            error='错误课程号';
+            render();
+            return;
+        }
+        else
+        {
+            courseStudentModel.find({id:course_id},function(err,cre){
+                if (err)
+                {
+                    error="错误课程号";
+                    render();
+                    return;
+                }                    
+                else
+                    console.log(cre);
+                if (cre.length==0)
+                {
+                    error="错误课程号";
+                    render();
+                    return;
+                }
+                else
+                for (var i=0;i<cre[0].confirmedStudent.length;i++)
+                {
+                    (function(i){
+                        userModel.find({userid:cre[0].confirmedStudent[i].id.toString()},function(err,ure){
+                            console.log(cre[0].confirmedStudent[i].id);
+                            if (err)
+                            {
+                                console.log(err);
+                                error="错误用户";
+                                render();
+                                return;
+                            }                                
+                            else
+                                console.log(ure);                           
+                            student.push({sId:ure[0].userid,sname:ure[0].username,classNo:"启真1301",major:ure[0].major});
+                            if (student.length==cre[0].confirmedStudent.length)
+                            {
+                                courseid=re[0].courseid2;
+                                courseid=re[0].coursename;
+                                coursecredits=re[0].coursescore;
+                                render();
+                                return;
+                                //console.log(student);
+                            }
+
+                        });       
+                    })(i);                    
+                }
+                if (cre[0].confirmedStudent.length==0)
+                {
+                    render();   
+                    return;
+                }
+
             });
         }
   });
@@ -221,7 +315,7 @@ router.get('/my_course/:timeID',function(req, res, next){
                     console.log(nresult);
                 }              
                 if (nresult.length!=0)
-                    my_course.push({course_id:nresult[i]._id, ID:nresult[0].courseid2, name:nresult[0].coursename, teacher:nresult[0].teacher, semaster:nresult[0].courseterm, time:nresult[0].coursetime, campus:nresult[0].campus, room:nresult[0].room});           
+                    my_course.push({course_id:nresult[0]._id, ID:nresult[0].courseid2, name:nresult[0].coursename, teacher:nresult[0].teacher, semaster:nresult[0].courseterm, time:nresult[0].coursetime, campus:nresult[0].campus, room:nresult[0].room});           
                 
                 console.log("!");
                 if (my_course.length==my_course_list.length){

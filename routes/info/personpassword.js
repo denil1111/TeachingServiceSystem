@@ -5,15 +5,6 @@ var PersonModel = require('../../db/group1db/PersonModel');
 
 router.get('/', function(req, res,next) {
     res.render('info/personpassword',{
-	    name: '程序员', 
-	    image: 'images/avatars/avatar3.jpg',
-	    total_a:'12',
-	    a:'2,3,1,2,3,1,0',
-	    total_b:'24',
-	    b:'4,6,2,4,6,2,0',
-	    total_credits:'24',
-	    credits:'4,6,2,4,6,2,0',
-
 	    passwordErr: '',
 	    password1Err: '',
 	    password2Err: '',
@@ -26,22 +17,13 @@ router.post('/', function(req, res,next) {
 	var password1Err='';
 	var password2Err='';
 
-	if(req.body.password == ""){passwordErr = 'password empty!';}
-	if(req.body.password1 == ""){password1Err = 'new password empty!';}
-    if(req.body.password1 != req.body.password2){password1Err = 'password different!';}
+	if(req.body.password == ""){passwordErr = '原密码不能为空!';}
+	if(req.body.password1 == ""){password1Err = '新密码不能为空!';}
+    if(req.body.password1 != req.body.password2){password1Err = '两次密码输入不同!';}
 
     if(passwordErr != '' || password1Err != '' || password1Err != ''){
     	console.log("输入信息有误");
     	res.render('info/personpassword',{
-		    name: '程序员', 
-		    image: 'images/avatars/avatar3.jpg',
-		    total_a:'12',
-		    a:'2,3,1,2,3,1,0',
-		    total_b:'24',
-		    b:'4,6,2,4,6,2,0',
-		    total_credits:'24',
-		    credits:'4,6,2,4,6,2,0',
-
 		    passwordErr: passwordErr,
 		    password1Err: password1Err,
 		    password2Err: password2Err,
@@ -66,25 +48,16 @@ router.post('/', function(req, res,next) {
 		            passwordErr: passwordErr,
 				    password1Err: password1Err,
 				    password2Err: password2Err,
-		            passwordresult: "find error"
+		            passwordresult: "查找用户出错"
 	        	});
 	        }
 	        else if(!user){
 	        	console.log("找不到对应id用户");
 	        	res.render('info/personpassword',{
-		            name: '程序员', 
-		            image: 'images/avatars/avatar3.jpg',
-		            total_a:'12',
-		            a:'2,3,1,2,3,1,0',
-		            total_b:'24',
-		            b:'4,6,2,4,6,2,0',
-		            total_credits:'24',
-		            credits:'4,6,2,4,6,2,0',
-
 		            passwordErr: passwordErr,
 				    password1Err: password1Err,
 				    password2Err: password2Err,
-		            passwordresult: "user unfind"
+		            passwordresult: "用户不存在"
 	        	});
 	        }
 	        else{
@@ -96,15 +69,6 @@ router.post('/', function(req, res,next) {
 	        		console.log("原密码错误");
 	        		passwordErr="原密码错误";
 	        		res.render('info/personpassword',{
-			            name: '程序员', 
-			            image: 'images/avatars/avatar3.jpg',
-			            total_a:'12',
-			            a:'2,3,1,2,3,1,0',
-			            total_b:'24',
-			            b:'4,6,2,4,6,2,0',
-			            total_credits:'24',
-			            credits:'4,6,2,4,6,2,0',
-
 			            passwordErr: passwordErr,
 					    password1Err: password1Err,
 					    password2Err: password2Err,
@@ -118,15 +82,6 @@ router.post('/', function(req, res,next) {
 		                if(err){
 		                	console.log("密码修改错误");
 		                    res.render('info/personpassword',{
-		                        name: '程序员',
-		                        image: 'images/avatars/avatar3.jpg',
-		                        total_a:'12',
-		                        a:'2,3,1,2,3,1,0',
-		                        total_b:'24',
-		                        b:'4,6,2,4,6,2,0',
-		                        total_credits:'24',
-		                        credits:'4,6,2,4,6,2,0',
-
 		                        passwordErr: passwordErr,
 							    password1Err: password1Err,
 							    password2Err: password2Err,
@@ -136,15 +91,6 @@ router.post('/', function(req, res,next) {
 		                else{
 		                	console.log("密码修改成功");
 		                    res.render('info/personpassword',{
-		                        name: '程序员',
-		                        image: 'images/avatars/avatar3.jpg',
-		                        total_a:'12',
-		                        a:'2,3,1,2,3,1,0',
-		                        total_b:'24',
-		                        b:'4,6,2,4,6,2,0',
-		                        total_credits:'24',
-		                        credits:'4,6,2,4,6,2,0',
-
 		                        passwordErr: passwordErr,
 							    password1Err: password1Err,
 							    password2Err: password2Err,
