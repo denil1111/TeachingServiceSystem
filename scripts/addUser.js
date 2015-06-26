@@ -57,14 +57,14 @@ module.exports = function(req,res,next){
     function (next) {
       Person.findbyid(user.userid, function(err, data){
         console.log(data);
-        if (data == null)
+        if (data == null){
             if (err)
               next(err, null);
             else {
               next(null, data)
             }
-      	  });
-      }); 
+        }
+      });
     }
   ], function (err, results) {
       console.log('Insert into db ' + results);

@@ -7,9 +7,6 @@ var ClassroomModel = require('../../db/group2db/ClassroomModel');
 var CourseApplicationModel = require('../../db//group2db/CourseApplicationModel');
 
 
-// var BSON = require('mongodb').BSONPure;
-
-
 
 
 //var mongo = require('mongodb').MongoClient;
