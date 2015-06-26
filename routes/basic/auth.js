@@ -10,7 +10,7 @@ auth.isLoggedIn = function(req, res, next) {
     res.redirect('/login');
 };
 
-auth.isTeadcher = function(req, res, next) {
+auth.isTeacher = function(req, res, next) {
 	if (req.session.user.status == "教师") 
 		return next();
 	

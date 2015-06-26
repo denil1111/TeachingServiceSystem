@@ -178,6 +178,7 @@ router.post('/course_filtrate', function(req, res, next) {
   var userModel = require('../../db/courseDB/userSchema');
   var courseModel = require('../../db/group1db/CourseModel');
   var courseStudentModel = require('../../db/courseDB/courseStudentSchema');
+  var personModel = require('../../db/group1db/PersonModel'); 
   var current = [];
     // 课程筛选
   courseModel.find({},function(error,result){
@@ -218,6 +219,7 @@ router.post('/course_filtrate', function(req, res, next) {
                         function(err,re){if (err) console.log(err);});
                     courseStudentModel.update({id: result[course_i].id},{$push:{confirmedStudent:{id: current[i].user}}},
                         function(err,re){if (err) console.log(err);});
+                    personModel.addcstlist(current[i].user,result[course_i].id,function(err,re){if (err) console.log(err)});
                 }
             }
             // vacancy is enough
@@ -230,6 +232,7 @@ router.post('/course_filtrate', function(req, res, next) {
                         function(err,re){if (err) console.log(err);});
                     courseStudentModel.update({id: result[course_i].id},{$push:{confirmedStudent:{id: current[i].user}}},
                         function(err,re){if (err) console.log(err);});
+                    personModel.addcstlist(current[i].user,result[course_i].id,function(err,re){if (err) console.log(err)});
                 }
             }
                 

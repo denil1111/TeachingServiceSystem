@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
-//var db       = mongoose.connect('mongodb://tssapp:tssapp@10.214.128.197:27123/tss');// 链接错误
-var db       = mongoose.connect('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
+var db       = mongoose.connect('mongodb://tssapp:tssapp@10.214.128.197:27123/tss');// 链接错误
+//var db       = mongoose.connect('mongodb://127.0.0.1:27017/NodeJS');// 链接错误
 var course=require("../group1db/CourseModel");
 var courseSelect=require("./courseStudentSchema");
 /*
