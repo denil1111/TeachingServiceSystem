@@ -213,6 +213,7 @@
             <div class="news-title"><a href="course/<%=course_data[i].id%>" target="view_window"><%= course_data[i].name%></a></div>
             <!-- 课程信息 -->
             <div class="news-text" style="display:inline">
+              课程号:<span id="courseID"><%= course_data[i].id%></span>
               任课教师:<span id="teacher"><%= course_data[i].teacher%></span>
               校区:<span id="campus"><%= course_data[i].campus%></span>
               上课地点:<span id="classroom"><%= course_data[i].room%></span>

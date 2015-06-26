@@ -98,12 +98,14 @@ function search(){
           var data={status:'succ',courseData:course}*/
             if (data.status=='succ')
             {
+                var content=document.getElementById("content");
+                if(content!=null) content.remove();
                 var str=document.getElementById("table2").innerHTML;
                 console.log(str);
-                str=str+"<tbody>"
+                str=str+"<tbody id=\"content\">";
                 for(var i=0;i<data.courseData.length;i++){
                   var tmp="";
-                  tmp="<tr><td>"+data.courseData[i].teacher+"</td><td>"+data.courseData[i].time+"</td><td>"+data.courseData[i].campus+"</td><td>"+data.courseData[i].room+"</td><td>"+data.courseData[i].remain+"/"+data.courseData[i].all+"</td><td>"+data.courseData[i].waiting;"</td><td><input type=\"radio\" name=\"choose\" class=\"icheck\" id=\"iradio"+i+"\"value="+data.courseData[i].course_id+"\"></td></tr>";
+                 tmp="<tr><td>"+data.courseData[i].teacher+"</td><td>"+data.courseData[i].time+"</td><td>"+data.courseData[i].campus+"</td><td>"+data.courseData[i].room+"</td><td>"+data.courseData[i].remain+"/"+data.courseData[i].all+"</td><td>"+data.courseData[i].waiting+"</td><td><input type=\"radio\" name=\"choose\" class=\"icheck\" id=\"iradio"+i+"\" value=\""+data.courseData[i].courseid+"\"></td></tr>";
                   str=str+tmp;
                 }
                 str=str+"</tbody>";
@@ -112,15 +114,18 @@ function search(){
             }
             else
               alert(data.error);
-          },
-          error:function(err){
-            alert("error");
           }
     	});  
 }
 function add_course(){
 	console.log("add!!");
-	var course_id=document.getElementsByName("choose").value;
+	// var course_id=document.getElementsByName("choose").value;
+  var temp=document.getElementsByName("choose");
+  var course_id;
+  for(var i=0;i<temp.length;i++){
+    if(temp[i].checked) course_id=temp[i].value;
+  }
+  console.log(course_id);
 	var stu_id=document.getElementById("student_id").value;
 	var _json = jQuery.param ({	
     		type:"add",
@@ -135,12 +140,26 @@ function add_course(){
         	dataType: "json",  
         	// contentType: "charset=utf-8",  
         	cache: false,
+          success:function(data){
+            if(data.status=="succ"){
+              alert("选课成功");
+              location.reload();
+            }
+            else{
+              alert(data.error);
+            }
+          } 
     	});  
-    location.reload(); 
+    //location.reload(); 
 }
 function delete_course(){
 	console.log("delete!!");
-	var course_id=document.getElementsByName("choose").value;
+  var temp=document.getElementsByName("choose");
+	var course_id;
+  for(var i=0;i<temp.length;i++){
+    if(temp[i].checked) course_id=temp[i].value;
+  }
+  console.log(course_id);
 	var stu_id=document.getElementById("student_id").value;
 	var _json = jQuery.param ({	
     		type:"delete",
@@ -155,6 +174,15 @@ function delete_course(){
         	dataType: "json",  
         	// contentType: "charset=utf-8",  
         	cache: false,
+          success:function(data){
+            if(data.status=="succ"){
+              alert("退课成功");
+              location.reload();
+            }
+            else{
+              alert(data.error);
+            }
+          } 
     	});  
     location.reload(); 
 }

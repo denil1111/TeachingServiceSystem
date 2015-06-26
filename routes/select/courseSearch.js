@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var course = [];
-course.push({name:'程序员的自我修养',complete:true, teacher:'XX1', semaster:'春',time:'周一 123',campus:'玉泉',room:'曹西-204',id:'000001'});
+/*course.push({name:'程序员的自我修养',complete:true, teacher:'XX1', semaster:'春',time:'周一 123',campus:'玉泉',room:'曹西-204',id:'000001'});
 course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', semaster:'春夏',time:'周一 123 周二 345',campus:'玉泉',room:'曹西-101',id:'000002'});
 course.push({name:'程序员的自我修养',complete:true, teacher:'XX1', semaster:'春',time:'周一 123',campus:'玉泉',room:'曹西-204',id:'000001'});
 course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', semaster:'春夏',time:'周一 123 周二 345',campus:'玉泉',room:'曹西-101',id:'000002'});
@@ -11,7 +11,7 @@ course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', s
 course.push({name:'程序员的自我修养',complete:true, teacher:'XX1', semaster:'春',time:'周一 123',campus:'玉泉',room:'曹西-204',id:'000001'});
 course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', semaster:'春夏',time:'周一 123 周二 345',campus:'玉泉',room:'曹西-101',id:'000002'});
 course.push({name:'程序员的自我修养',complete:true, teacher:'XX1', semaster:'春',time:'周一 123',campus:'玉泉',room:'曹西-204',id:'000001'});
-course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', semaster:'春夏',time:'周一 123 周二 345',campus:'玉泉',room:'曹西-101',id:'000002'});
+course.push({name:'论程序员的把妹精神',complete:false, teacher:'XX2', semaster:'春夏',time:'周一 123 周二 345',campus:'玉泉',room:'曹西-101',id:'000002'});*/
 
 var Time_Dictionary = {"11":"周一 12","12":"周一 34","13":"周一 67","14":"周一 910","15":"周一 1112",
                        "21":"周二 12","22":"周二 34","23":"周二 67","24":"周二 910","25":"周二 1112",
@@ -22,9 +22,17 @@ var Time_Dictionary = {"11":"周一 12","12":"周一 34","13":"周一 67","14":"
                        "71":"周日 12","72":"周日 34","73":"周日 67","74":"周日 910","75":"周日 1112"};
 
 router.get('/course', function(req, res, next) {
-  console.log(course.ejs);
+  var status;
+  switch (req.session.user.status.toString()){
+    case '学生': status = 0; 
+                break;
+    case '教师': status = 1; 
+                break;
+    case '系统管理员': status = 2;
+                break;
+  }
   res.render('select/course', {
-    type:0,//manager
+    type: status,//manager
   	name: '程序员', 
   	image: 'images/avatars/avatar3.jpg',
   	total_a:'12',
@@ -110,8 +118,17 @@ router.post('/course_search', function(req, res, next) {
                      campus:raw_result[i].campus});
       console.log(result);
       //关闭数据库链接
+      var status;
+      switch (req.session.user.status.toString()){
+        case '学生': status = 0; 
+                break;
+        case '教师': status = 1; 
+                break;
+        case '系统管理员': status = 2;
+                break;
+      }
       res.render('select/course', {
-        type:2,//manager
+        type:status,//manager
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',
         total_a:'12',
