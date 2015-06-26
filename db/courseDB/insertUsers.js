@@ -26,7 +26,7 @@ person.find({},function(err,re){
 	var user=require("./userSchema");
 	for (var i=0;i<re.length;i++)
 	{
-		user.create({name:re[i].username,id:re[i]._id,points:100,selectedCourse:[],confirmedCourse:[],major:re[i].major},function(err,re){
+		user.create({name:re[i].username,id:re[i].userid,points:100,selectedCourse:[],confirmedCourse:[],major:re[i].major},function(err,re){
 			
 			if (err)
 				console.log(err);
