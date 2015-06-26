@@ -19,6 +19,23 @@ var PersonSchema = new mongoose.Schema({
 });
 var CollectionName = 'persons';
 
+PersonSchema.statics.deletecstlist = function(userid, courseid, callback) {
+    return this.model('PersonModel').update(
+        {userid: userid},
+        {
+            $pop:{ 'cstlist':courseid } },
+        callback);
+}
+
+PersonSchema.statics.addcstlist = function(userid, courseid, callback) {
+    return this.model('PersonModel').update(
+        {userid: userid},
+        {
+            $push:{ 'cstlist':courseid } },
+        callback);
+}
+
+
 // PersonSchema.statics.findbyid = function(userid, callback) {
 //     return this.model('PersonModel').find({userid: userid}, callback);
 // }
@@ -78,7 +95,4 @@ PersonSchema.statics.findbyorderlist = function(userlist, callback) {
 
 
 var PersonModel = mongoose.model('PersonModel',PersonSchema,CollectionName);
-
-
-
 module.exports=PersonModel;

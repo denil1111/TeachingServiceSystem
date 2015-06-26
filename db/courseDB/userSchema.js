@@ -11,12 +11,11 @@ var userSchema = new mongoose.Schema({
 
 var userModel = mongoose.model('userModel',userSchema,'users');
 var person = require('../group1db/PersonModel');
-console.log(person);
 person.schema.post('save', function(doc) {
    console.log("hook course");
    console.log(doc);
    userModel.create({
-       id : doc._id,
+       id : doc.userid,
        name: doc.username,
        points: 100,
        major:doc.major,
@@ -24,7 +23,7 @@ person.schema.post('save', function(doc) {
        confirmedCourse:[]
    }); 
 });
-userSchema.post('update',function(doc){
+userSchema.post('save',function(doc){
 	console.log("update hook");
 	console.log(doc);
 });
