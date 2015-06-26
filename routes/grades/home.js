@@ -15,7 +15,7 @@ criteria.userid = req.session.user.userid;
 
 // console.log(req.session.user[0].userid);
 
-if(req.session.user.status=="student"){
+if(req.session.user.status=="学生"){
 //这里使用数据库
  gradesDB.find(criteria,function(error,docs){
      if(error){
@@ -87,7 +87,7 @@ if(req.session.user.status=="student"){
    });
   });
 }
-else if (req.session.user.status=="teacher"){
+else if (req.session.user.status=="教师"){
   
  CourseModel.findbylist(req.session.user.cstlist,function(error,clist){
     if(error){
@@ -125,7 +125,7 @@ else if (req.session.user.status=="teacher"){
  
 }
 
-else if(req.session.user.status=="admin"){
+else if(req.session.user.status=="系统管理员"){
     var rejected = {
         "status" : "rejected"
     }
