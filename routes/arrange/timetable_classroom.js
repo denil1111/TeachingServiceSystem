@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-//var PersonModel = require('../../db/group1db/PersonModel');
+var PersonModel = require('../../db/group1db/PersonModel');
 var CourseModel = require('../../db/group1db/CourseModel');
 var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
 var tmp=[];
 
 router.get('/timetable_classroom',function(req,res,next){
-//	if(!req.session.user){return res.redirect('../info/login');}
+	if(!req.session.user){return res.redirect('../info/login');}
 	res.render('arrange/timetable_classroom',{
         name: '程序员', 
         image: 'images/avatars/avatar3.jpg',

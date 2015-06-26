@@ -9,7 +9,6 @@ var resource = require('./resource/resource');
 var select = require("./select/course")
 
 var test = require('./OnlineTest/onlineTestIndex');
-
 // var grades = require("./grades")
 
 var login = require("./basic/login");

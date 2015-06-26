@@ -20,7 +20,7 @@ router.get('/classroomdelete', function(req, res,next) {
 });
 
 router.post('/classroomdelete',function(req,res,next){
-    ClassroomModel.deletebyid(req.body.classid2, function(error, data){
+    ClassroomModel.deletebyic(req.body.classid2,req.body.campus, function(error, data){
         if(error) {
             console.log('find error!'+error);
         } else {
