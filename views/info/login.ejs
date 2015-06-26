@@ -557,7 +557,13 @@ pre.debug {
           <input id="username" name="username" type="text" placeholder="学号" value="" spellcheck="false" class="">
           <label class="hidden-label" for="Passwd">密码</label>
           <input id="Passwd" name="password" type="password" placeholder="密码" class="">
-          <input id="signIn" name="signIn" class="rc-button rc-button-submit" type="submit" value="登录">
+          <select name="status" size=1 style="width:275px;height:60px;font-size:60px;">
+            <option value="学生" selected="selected">学生</option>
+            <option value="教师">教师</option>
+            <option value="教务管理员">教务管理员</option>
+            <option value="系统管理员">系统管理员</option>
+          </select>
+          <input id="signIn"style="margin-top:10px;" name="signIn" class="rc-button rc-button-submit" type="submit" value="登录">
           <font color="red"><%= loginerror  %> </font>
         </form>
       </div>

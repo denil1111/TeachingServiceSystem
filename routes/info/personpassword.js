@@ -17,9 +17,9 @@ router.post('/', function(req, res,next) {
 	var password1Err='';
 	var password2Err='';
 
-	if(req.body.password == ""){passwordErr = 'password empty!';}
-	if(req.body.password1 == ""){password1Err = 'new password empty!';}
-    if(req.body.password1 != req.body.password2){password1Err = 'password different!';}
+	if(req.body.password == ""){passwordErr = '原密码不能为空!';}
+	if(req.body.password1 == ""){password1Err = '新密码不能为空!';}
+    if(req.body.password1 != req.body.password2){password1Err = '两次密码输入不同!';}
 
     if(passwordErr != '' || password1Err != '' || password1Err != ''){
     	console.log("输入信息有误");
@@ -48,7 +48,7 @@ router.post('/', function(req, res,next) {
 		            passwordErr: passwordErr,
 				    password1Err: password1Err,
 				    password2Err: password2Err,
-		            passwordresult: "find error"
+		            passwordresult: "查找用户出错"
 	        	});
 	        }
 	        else if(!user){
@@ -57,7 +57,7 @@ router.post('/', function(req, res,next) {
 		            passwordErr: passwordErr,
 				    password1Err: password1Err,
 				    password2Err: password2Err,
-		            passwordresult: "user unfind"
+		            passwordresult: "用户不存在"
 	        	});
 	        }
 	        else{

@@ -103,7 +103,7 @@
     <%include current_title.html %>
     <%include resource_bar.html%>
 
-    <%var root = true %>
+    <%var root =(user.status=="系统管理员"||user.status=="教师")?true:false %>
 
     <div class="span10" style="">
         <div class="row">
@@ -136,13 +136,13 @@
                     </div>
                     <div class="box-content" >
                         <%if (root == true){%>
-                            <div style="padding: 15px 15px;border-bottom:1px solid #d1d2da;"><i class="icon-info-sign"></i>直接拖拽可以改变资源顺序</div>
+                            <div style="padding: 15px 15px;border-bottom:1px solid #d1d2da;"><i class="icon-info-sign"></i>直接拖拽可以改变资源顺序<button class="btn btn-xs btn-info" style="display:none;margin-left:20px;" id="saveSort">保存顺序</button></div>
                         <%}%>
                         <table class="table table-normal">
                             <thead>
                             <tr>
                                 <td></td>
-                                <td style="width:50px;"><input type="checkbox" id="all-choose" name="choose" onclick="chooseAll()" style="text-align:center;"></td>
+                                <!--<td style="width:50px;"><input type="checkbox" id="all-choose" name="choose" onclick="chooseAll()" style="text-align:center;"></td>-->
                                 <td>资源名称</td>
                                 <td style="width:60px">资源类型</td>
                                 <td style="width:60px">资源大小</td>
@@ -247,14 +247,13 @@
             <script id="fileListTpl" type="text/x-jquery-tmpl">
                 <tr>
                     <td class="icon"><i class="{{if isFolder}} icon-folder-close {{else}} icon-file {{/if}}"></i></td>
-                    <td style="width:50px;text-align:center;"><input type="checkbox" name="choose"></td>
-                    <td><a href="{{if isFolder}}javascript:void(0){{else}}#{{/if}}" {{if isFolder}} data-view="enterFolder" name="${text}" {{/if}}>${text}</a></td>
+                    <td><a href="{{if isFolder}}javascript:void(0){{else}}#{{/if}}" {{if isFolder}} data-view="enterFolder" name="${text}" {{/if}} data-num="${order}" class="fileItem">${text}</a></td>
                     <td style="width:60px;"><b>${ext}</b></td>
                     <td style="width:60px;"><b>${formsize}</b></td>
                     <td style="width:100px;"><b>${courseName}</b></td>
                     <td style="width:120px;">
                         <div class="btn-group">
-                            <button class="btn btn-xs btn-default" data-src="${text}" func="delete-btn"><i class="icon-remove-sign"></i> 删除</button>
+                            <button class="btn btn-xs btn-default" data-src="${text}" func="delete-btn"><i class="icon-remove-sign"></i>删除</button>
                             <%if (root==true) {%>
                                 <button class="btn btn-xs btn-lightblue dropdown-toggle" data-toggle="dropdown" data-src="${text}"> <i class="icon-cog"></i>操作<span class="caret"></span></button>
                                     <ul class="dropdown-menu">
@@ -271,9 +270,10 @@
             <script>
                 ;(function($){
                     var _fileMap=<%-JSON.stringify(fileTree)%>;
+                    var _resourceBackup=<%-JSON.stringify(cfileTree)%>;
                     var _resourceMap=<%-JSON.stringify(cfileTree)%>;
                     var _nowUrl="";
-                    var _nowDir=findDirByUrl(_nowUrl);
+                    var _nowDir=findDirByUrl(_nowUrl,_resourceMap);
                     $("#shareTree").tree({
                         data:_fileMap
                     });
@@ -283,9 +283,9 @@
                     });
 
                     //显示文件列表
-                    function findDirByUrl(_url){
+                    function findDirByUrl(_url,_Map){
                         var _urlArray=_url.split(".");
-                        var _dir=_resourceMap.slice(0);
+                        var _dir=_Map;
                         console.log(_urlArray);
                         if(_urlArray.length==0){
                             return _dir;
@@ -316,20 +316,34 @@
                     };
 
                     function refreshFileList(_newFileMap){
-                        $('#moveTree').tree('loadData',_resourceMap);
                         _resourceMap= _newFileMap;
-                        _nowDir=findDirByUrl(_nowUrl);
+                        _resourceBackup=_newFileMap;
+                        $('#moveTree').tree('loadData',_resourceMap);
+                        _nowDir=findDirByUrl(_nowUrl,_resourceMap);
                         showFileList(_nowDir);
                     }
 
                     showFileList(_nowDir);
+
+                    function sortChangeTree(){
+                        var tmpOrder=[];
+                        var refArray=findDirByUrl(_nowUrl,_resourceBackup);
+                        var tmpArray=refArray.slice(0);//深拷贝
+                        $(".fileItem").each(function(index,item){
+                            tmpOrder.push($(this).attr("data-num"));
+                        });
+                        refArray.splice(0,_nowDir.length);
+                        for(var i=0;i<tmpOrder.length;i++){
+                            refArray.push(tmpArray[tmpOrder[i]]);
+                        }
+                    }
 
                     //返回上一级
                     $(".box-toolbar").delegate("[data-view=backFolder]","click",function(_event){
                         var _nowUrlArray=_nowUrl.split(".");
                         _nowUrlArray.pop();
                         _nowUrl=_nowUrlArray.join(".");
-                        _nowDir=findDirByUrl(_nowUrl);
+                        _nowDir=findDirByUrl(_nowUrl,_resourceMap);
                         showFileList(_nowDir);
                     })
 
@@ -339,7 +353,7 @@
                         var _name=_event.target.getAttribute("name");
                         _nowUrl=_nowUrl?_nowUrl.concat(".",_name):_name;
                         console.log(_nowUrl);
-                        _nowDir=findDirByUrl(_nowUrl);
+                        _nowDir=findDirByUrl(_nowUrl,_resourceMap);
                         showFileList(_nowDir);
                     })
 
@@ -418,7 +432,33 @@
                     });
 
                     <%if (root == true){%>
-                        $("#fileList").sortable();
+                        $("#fileList").sortable({
+                            change:function(event,ui){}
+                        });
+
+                        $("#fileList").on("sortchange",function(event,ui){
+                            $("#saveSort").show();
+                        });
+
+                        $("#saveSort").bind("click",function(){
+                            sortChangeTree();
+                            $.post(
+                                    "/resource/course/sort",
+                                    {
+                                        url:JSON.stringify(_resourceBackup)
+                                    },
+                                    function(_data){
+                                        if(_data.code==200){
+                                            alert("保存成功");
+                                            refreshFileList(_data.newTree);
+                                        }else{
+                                            alert("保存失败");
+                                        }
+                                    }
+                            ).error(function(){
+                                        alert("请求失败");
+                                    });
+                        });
                     <%}%>
 
                     //新建文件夹
@@ -432,6 +472,7 @@
                                     if(_data.code==200){
                                         alert("操作成功");
                                         refreshFileList(_data.newTree);
+
                                     }else{
                                         alert("操作失败");
                                     }
