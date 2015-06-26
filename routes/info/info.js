@@ -12,6 +12,8 @@ var courseinsert = require('./courseinsert');
 var courseselect = require('./courseselect');
 var coursedelete = require('./coursedelete');
 var coursemodify = require('./coursemodify');
+var personbatch = require('./personbatch');
+var coursebatch = require('./coursebatch');
 
 // var group = require('./group');
 
@@ -25,6 +27,7 @@ info.use('/courseinsert', auth.isAdmin2,courseinsert);
 info.use('/courseselect', auth.isAdmin2,courseselect);
 info.use('/coursedelete', auth.isAdmin2,coursedelete);
 info.use('/coursemodify', auth.isAdmin2,coursemodify);
-
+info.use('/personbatch', auth.isAdmin2,personbatch);
+info.use('/coursebatch', auth.isAdmin2,coursebatch);
 
 module.exports = info;

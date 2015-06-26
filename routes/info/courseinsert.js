@@ -4,6 +4,8 @@ var mongoose = require('mongoose');
 var CourseModel = require('../../db/group1db/CourseModel');
 var PersonModel = require('../../db/group1db/PersonModel');
 
+var fs = require('fs');
+
 var tmp = {
     courseid2 : "123456",
     coursename : "软件工程",
