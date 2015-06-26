@@ -4,6 +4,8 @@ var mongoose = require('mongoose');
 var CourseModel = require('../../db/group1db/CourseModel');
 var PersonModel = require('../../db/group1db/PersonModel');
 
+var fs = require('fs');
+
 var tmp = {
     courseid2 : "123456",
     coursename : "软件工程",
@@ -19,15 +21,6 @@ var tmp = {
 
 router.get('/', function(req, res,next) {
     res.render('info/courseinsert',{
-        name: '程序员', 
-        image: 'images/avatars/avatar3.jpg',
-        total_a:'12',
-        a:'2,3,1,2,3,1,0',
-        total_b:'24',
-        b:'4,6,2,4,6,2,0',
-        total_credits:'24',
-        credits:'4,6,2,4,6,2,0',
-
         coursenameErr: '',
         courseidErr: '',
         teacherErr: '',
@@ -71,11 +64,17 @@ router.post('/',function(req,res,next){
 
     //teacherErr
     if(doc.teacher == '')
-        teacherErr = 'Teacher name empty';
+        teacherErr = 'Teacher id empty';
+    for(var i = 0, teacher = doc.teacher; i < teacher.length; i++){
+        if(teacher.charAt(i)>'9' || teacher.charAt(i)<'0'){
+            teacherErr = "Teacher ID illegal";
+            break;
+        }
+    }
 
     //roomErr
-    if(doc.room == '')
-        roomErr = 'Room empty';
+    // if(doc.room == '')
+    //     roomErr = 'Room empty';
 
     //collegeErr
     if(doc.college == '')
@@ -92,103 +91,79 @@ router.post('/',function(req,res,next){
 
     if(doc.examtime == '') { examtimeErr = 'Exam time empty'; }
 
-    if(courseidErr != '' || examtimeErr != '' || 
-            roomErr != '' || teacherErr != '' || coursenameErr != '' || collegeErr != '' )
+    /**信息输入有误 */
+    if(courseidErr || examtimeErr || roomErr || teacherErr || coursenameErr || collegeErr )
     {
-        res.render('info/courseinsert',{
-            name: '程序员', 
-            image: 'images/avatars/avatar3.jpg',
-            total_a:'12',
-            a:'2,3,1,2,3,1,0',
-            total_b:'24',
-            b:'4,6,2,4,6,2,0',
-            total_credits:'24',
-            credits:'4,6,2,4,6,2,0',
-    
-            coursenameErr: coursenameErr,
-            courseidErr: courseidErr,
-            teacherErr: teacherErr,
-            roomErr: roomErr,
-            collegeErr: collegeErr,
-            examtimeErr: examtimeErr,
+        return res.render('info/courseinsert',{
+            coursenameErr: coursenameErr,courseidErr: courseidErr,teacherErr: teacherErr,roomErr: roomErr,collegeErr: collegeErr,examtimeErr: examtimeErr,
             data : doc,
             insertresult:'表单解析失败！'
         });
     }
     else{
-        console.log("doc : "+doc);
-        console.log("doc courseid2: "+doc.courseid2);
-        CourseModel.create(doc,function(err,data){
-            if(err){
-                console.log("create err : "+err);
+        /**查找教师ID对应用户是否存在 */
+        PersonModel.findOne({userid:doc.teacher},function(err,data1){
+            if(err) {
+                console.log("findOne by teacher err!");
+                return res.render('info/courseinsert',{
+                    coursenameErr: coursenameErr,courseidErr: courseidErr,teacherErr: teacherErr,roomErr: roomErr,collegeErr: collegeErr,examtimeErr: examtimeErr,
+                    data : doc,
+                    insertresult:'教师ID查找错误！'
+                });
+            }
+            else if(!data1){
+                return res.render('info/courseinsert',{
+                    coursenameErr: coursenameErr,courseidErr: courseidErr,teacherErr: teacherErr,roomErr: roomErr,collegeErr: collegeErr,examtimeErr: examtimeErr,
+                    data : doc,
+                    insertresult:'ID教师不存在！'
+                });
             }
             else{
-                // console.log("data"+data);
-                // console.log("data.id"+data.id);
-                CourseModel.findbyid(doc.courseid2,function(err,data2){
+                /**创建对应课程 */
+                CourseModel.create(doc,function(err,data2){
                     if(err){
-                        console.log("find course err");
+                        console.log("create err : "+err);
+                        return res.render('info/courseinsert',{
+                            coursenameErr: coursenameErr,courseidErr: courseidErr,teacherErr: teacherErr,roomErr: roomErr,collegeErr: collegeErr,examtimeErr: examtimeErr,
+                            data : doc,
+                            insertresult:'课程创建失败！'
+                        });
                     }
                     else{
+                        /**更新data2._id中的courseid为_id */
                         CourseModel.update(
-                            {'courseid2' : doc.courseid2},
-                            {
-                                $set:{
-                                    'courseid' : data2[0]._id.toString()
-                                }
-                            },
+                            {'_id' : data2._id},
+                            { $set:{ 'courseid' : data2._id.toString() } },
                             function(err,data3){
-                                if(err){
-                                    console.log('update err');
-
-                                }
+                                if(err)
+                                    console.log('update courseid err');
                             }
                         );
+                        /**更新教师cstlist */
+                        PersonModel.update(
+                            {userid:doc.teacher},
+                            { $push:{ 'cstlist':data2._id.toString() } },
+                            function(err,data4){
+                                if(err)
+                                    console.log('update cstlist err');
+                            }
+                        );
+                        res.render('info/courseinsert',{
+                            coursenameErr: coursenameErr,
+                            courseidErr: courseidErr,
+                            teacherErr: teacherErr,
+                            roomErr: roomErr,
+                            collegeErr: collegeErr,
+                            examtimeErr: examtimeErr,
+        
+                            data : doc,
+                            insertresult:'表单提交成功！'
+                        });
                     }
-                });
-                PersonModel.update(
-                    {userid:doc.teacher},
-                    {
-                        $push:{
-                            'cstlist':data._id.toString()
-                        }
-                    },
-                    function(err,data3){
-                        if(err){
-                            console.log('update err');
-
-                        }
-                    }
-                );
-
-
-                console.log('Saved by Model OK!');
-                console.log(data);
-                res.render('info/courseinsert',{
-                    name: '程序员', 
-                    image: 'images/avatars/avatar3.jpg',
-                    total_a:'12',
-                    a:'2,3,1,2,3,1,0',
-                    total_b:'24',
-                    b:'4,6,2,4,6,2,0',
-                    total_credits:'24',
-                    credits:'4,6,2,4,6,2,0',
-
-                    coursenameErr: coursenameErr,
-                    courseidErr: courseidErr,
-                    teacherErr: teacherErr,
-                    roomErr: roomErr,
-                    collegeErr: collegeErr,
-                    examtimeErr: examtimeErr,
-
-                    data : doc,
-                    insertresult:'表单提交成功！'
                 });
             }
         });
-
     }
-//    db.close();
 });
 
 module.exports = router;

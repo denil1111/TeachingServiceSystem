@@ -14,6 +14,7 @@ var PersonSchema = new mongoose.Schema({
     title       : {type : String, default : '无'},   //职称
     tel			: {type : String},    //电话
     email		: {type : String},   //邮件
+    trytime     : {type : String, default : '0'},//当前尝试登录次数
     time     : {type : Date, default: Date.now} //创建时间
 });
 var CollectionName = 'persons';
