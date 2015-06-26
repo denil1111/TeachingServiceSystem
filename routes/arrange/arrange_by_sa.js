@@ -266,14 +266,7 @@ function ArrangeACampus(campusName, callback)
 router.get('/arrange_by_sa', function(req, res, next) {
 //	if(!req.session.user){return res.redirect('../info/login');}
     res.render('arrange/arrange_by_sa',{
-    	name: '程序员', 
-		image: 'images/avatars/avatar3.jpg',
-		total_a:'12',
-		a:'2,3,1,2,3,1,0',
-		total_b:'24',
-		b:'4,6,2,4,6,2,0',
-		total_credits:'24',
-		credits:'4,6,2,4,6,2,0',
+		saresult:"请开始排课!"
     });
 });
 
@@ -285,6 +278,9 @@ router.post('/arrange_by_sa',function(req, res, next){
 	// ArrangeACampus('西溪校区');
 	// ArrangeACampus('华家池校区');
 	// ArrangeACampus('之江校区');
+	res.render('arrange/arrange_by_sa',{
+		saresult:"自动排课成功!"
+	});
 });
 
 

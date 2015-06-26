@@ -47,14 +47,6 @@ examtime:'2015-7-10', room:'教7-501',campus:'玉泉校区',college:'计算机�
 router.get('/CourseApplicationInsert', function(req, res,next) {
 //    if(!req.session.user){return res.redirect('../info/login');}
     res.render('arrange/CourseApplicationInsert',{
-        name: '程序员',
-        image: 'images/avatars/avatar3.jpg',
-        total_a:'12',
-        a:'2,3,1,2,3,1,0',
-        total_b:'24',
-        b:'4,6,2,4,6,2,0',
-        total_credits:'24',
-        credits:'4,6,2,4,6,2,0',
         data : tmp,
         insertresult:'请提交申请'
     });
@@ -71,14 +63,6 @@ router.post('/CourseApplicationInsert',function(req,res,next){
         {
             console.log('The course not exit!');
             res.render('arrange/CourseApplicationInsert',{
-                name: '程序员',
-                image: 'images/avatars/avatar3.jpg',
-                total_a:'12',
-                a:'2,3,1,2,3,1,0',
-                total_b:'24',
-                b:'4,6,2,4,6,2,0',
-                total_credits:'24',
-                credits:'4,6,2,4,6,2,0',
                 data : tmp,
                 insertresult:'不存在的课程！'
             });
@@ -97,14 +81,6 @@ router.post('/CourseApplicationInsert',function(req,res,next){
             console.log("doc courseid2: " + doc.courseid2);
             if (doc.campus == undefined || doc.courseid2 == undefined || doc.coursetime == undefined || doc.room == undefined) //坑爹啊！ undefined<>null！！
                 res.render('arrange/CourseApplicationInsert', {
-                    name: '程序员',
-                    image: 'images/avatars/avatar3.jpg',
-                    total_a: '12',
-                    a: '2,3,1,2,3,1,0',
-                    total_b: '24',
-                    b: '4,6,2,4,6,2,0',
-                    total_credits: '24',
-                    credits: '4,6,2,4,6,2,0',
                     data: doc,
                     insertresult: '请完整填写信息！'
                 });
@@ -132,28 +108,13 @@ router.post('/CourseApplicationInsert',function(req,res,next){
                     if (err|| doc.coursetime==undefined) {
                         console.log("create err : " + err);
                         res.render('arrange/CourseApplicationInsert', {
-                            name: '程序员',
-                            image: 'images/avatars/avatar3.jpg',
-                            total_a: '12',
-                            a: '2,3,1,2,3,1,0',
-                            total_b: '24',
-                            b: '4,6,2,4,6,2,0',
-                            total_credits: '24',
-                            credits: '4,6,2,4,6,2,0',
+
                             data: doc,
                             insertresult: '错误的申请信息！(请选择有且仅有一个申请调课时间段)'
                         });
                     }
                     console.log(data);
                     res.render('arrange/CourseApplicationInsert', {
-                        name: '程序员',
-                        image: 'images/avatars/avatar3.jpg',
-                        total_a: '12',
-                        a: '2,3,1,2,3,1,0',
-                        total_b: '24',
-                        b: '4,6,2,4,6,2,0',
-                        total_credits: '24',
-                        credits: '4,6,2,4,6,2,0',
                         data: doc,
                         insertresult: '调课申请成功！'
                     });

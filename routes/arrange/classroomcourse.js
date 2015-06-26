@@ -12,15 +12,6 @@ router.get('/classroomcourse',function(req,res,next){
 //	ClassroomModel.findall(function(err,classroom_total_info){
 //		classroom = classroom_total_info;
 		res.render('arrange/classroomcourse',{
-        name: '程序员', 
-        image: 'images/avatars/avatar3.jpg',
-        total_a:'12',
-        a:'2,3,1,2,3,1,0',
-        total_b:'24',
-        b:'4,6,2,4,6,2,0',
-        total_credits:'24',
-        credits:'4,6,2,4,6,2,0',
-//        classroom_data: classroom,
         course_data:tmp
     });
 });
@@ -35,14 +26,6 @@ router.post('/classroomcourse',function(req,res,next){
 			console.log('find succeed!' + error);
 		}
 		res.render('arrange/classroomcourse',{
-    	name: '程序员', 
-    	image: 'images/avatars/avatar3.jpg',
-   		total_a:'12',
-  		a:'2,3,1,2,3,1,0',
-    	total_b:'24',
-   		b:'4,6,2,4,6,2,0',
-    	total_credits:'24',
-    	credits:'4,6,2,4,6,2,0',
 
 		course_data : data
 		});
