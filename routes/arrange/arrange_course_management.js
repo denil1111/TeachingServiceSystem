@@ -7,7 +7,7 @@ var ClassroomModel = require('../../db/group2db/ClassroomModel');
 var CourseApplicationModel = require('../../db//group2db/CourseApplicationModel');
 
 
-var BSON = require('mongodb').BSONPure;
+// var BSON = require('mongodb').BSONPure;
 
 
 
@@ -19,37 +19,37 @@ var BSON = require('mongodb').BSONPure;
 /*mongo.connect(uri.function(err,db))
  {
  if (err) {
- console.log("¶ÁÊý¾Ý¿âÊ§°ÜÀ²");
+ console.log("ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½Ê§ï¿½ï¿½ï¿½ï¿½");
  return ;
  }
  }
  */
 /*
 var tmp = {
-    courseid2	: "J523001",	//¿Î³ÌID
-    coursename  : "Èí¼þ¹¤³Ì",	//¿Î³ÌÃû³Æ
-    courseterm  : "2014Çï¶¬",  //¿Î³ÌÑ§ÆÚ
-    coursetime	: "1,2,3",	//ÉÏ¿ÎÊ±¼ä ?!
-    coursescore	: "4.5",	//¿Î³ÌÑ§·Ö
-    status      : "pending", //ÉêÇë×´Ì¬£» ÉÐÔÚ´¦ÀíÖÐÎª on£¬ ´¦Àí½áÊø¸ÄÎªoff
-    teacher     : "MR.J",	//ÊÚ¿ÎÀÏÊ¦
-    examtime	: "2014-7-10",	//¿¼ÊÔÊ±¼ä
-    room        : "½Ì7-501",	//ÉÏ¿Î½ÌÊÒ
-    campus      : "ÓñÈªÐ£Çø",  //ÉÏ¿ÎÐ£Çø
-    college     : "¼ÆËã»úÑ§Ôº",	//¿ª¿ÎÑ§Ôº
-    time     :  Date.now	//´´½¨Ê±¼ä
+    courseid2	: "J523001",	//ï¿½Î³ï¿½ID
+    coursename  : "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",	//ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½
+    courseterm  : "2014ï¿½ï¶¬",  //ï¿½Î³ï¿½Ñ§ï¿½ï¿½
+    coursetime	: "1,2,3",	//ï¿½Ï¿ï¿½Ê±ï¿½ï¿½ ?!
+    coursescore	: "4.5",	//ï¿½Î³ï¿½Ñ§ï¿½ï¿½
+    status      : "pending", //ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½Îª onï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªoff
+    teacher     : "MR.J",	//ï¿½Ú¿ï¿½ï¿½ï¿½Ê¦
+    examtime	: "2014-7-10",	//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+    room        : "ï¿½ï¿½7-501",	//ï¿½Ï¿Î½ï¿½ï¿½ï¿½
+    campus      : "ï¿½ï¿½ÈªÐ£ï¿½ï¿½",  //ï¿½Ï¿ï¿½Ð£ï¿½ï¿½
+    college     : "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§Ôº",	//ï¿½ï¿½ï¿½ï¿½Ñ§Ôº
+    time     :  Date.now	//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 
 };*/
 var tmp;
 /*
  db.CourseApplication.save(
- {courseid2:'J523001',coursename:'Èí¼þ¹¤³Ì', courseterm:'2014Çï' , coursetime:'ÖÜÒ»1,2', coursescore:'4.5', status:'pending', teacher:'MR.J',
- examtime:'2015-7-10', room:'½Ì7-501',campus:'ÓñÈªÐ£Çø',college:'¼ÆËã»úÑ§Ôº',time:'2015-2-3'})
+ {courseid2:'J523001',coursename:'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', courseterm:'2014ï¿½ï¿½' , coursetime:'ï¿½ï¿½Ò»1,2', coursescore:'4.5', status:'pending', teacher:'MR.J',
+ examtime:'2015-7-10', room:'ï¿½ï¿½7-501',campus:'ï¿½ï¿½ÈªÐ£ï¿½ï¿½',college:'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§Ôº',time:'2015-2-3'})
  */
 
 router.get('/arrange_course_management', function(req, res,next) {
 //    if(!req.session.user){return res.redirect('../info/login');}
-    console.log("ÐÂ¿ªmanagement");
+    console.log("ï¿½Â¿ï¿½management");
     CourseApplicationModel.findbystatus('pending',function(error,data1){
         CourseApplicationModel.findbystatus('accept',function(error,data2){
             CourseApplicationModel.findbystatus('deny',function(error,data3){
@@ -58,7 +58,7 @@ router.get('/arrange_course_management', function(req, res,next) {
                // console.log('deny:' + data3);
                 console.log('start!');
                 res.render('arrange/arrange_course_management',{
-                    name: '³ÌÐòÔ±',
+                    name: 'ï¿½ï¿½ï¿½ï¿½Ô±',
                     image: 'images/avatars/avatar3.jpg',
                     total_a:'12',
                     a:'2,3,1,2,3,1,0',
@@ -69,7 +69,7 @@ router.get('/arrange_course_management', function(req, res,next) {
                     pending: data1,
                     accepted: data2,
                     deny: data3
-                   // insertresult:'ÇëÌá½»±íµ¥'
+                   // insertresult:'ï¿½ï¿½ï¿½á½»ï¿½ï¿½'
                 });
             })
         })
@@ -89,8 +89,8 @@ router.post('/arrange_course_management',function(req,res,next){
                 if (err) console.log(err);
                 else {
                     //   console.log(data);
-                    //ÆäËûÍ¬ÑùµÄ¿Î³ÌÉêÇëÖ±½ÓÅÐÎªdeny£¡
-                    //¸ü¸Äcourse
+                    //ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½Ä¿Î³ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½Îªdenyï¿½ï¿½
+                    //ï¿½ï¿½ï¿½ï¿½course
                     console.log('3');
                     console.log('same or not');
                     console.log(data._id);
@@ -118,7 +118,7 @@ router.post('/arrange_course_management',function(req,res,next){
                                                     console.log('deny:' + data33.length);
                                                     console.log('5');
                                                     res.render('arrange/arrange_course_management',{
-                                                        name: '³ÌÐòÔ±',
+                                                        name: 'ï¿½ï¿½ï¿½ï¿½Ô±',
                                                         image: 'images/avatars/avatar3.jpg',
                                                         total_a:'12',
                                                         a:'2,3,1,2,3,1,0',
@@ -129,7 +129,7 @@ router.post('/arrange_course_management',function(req,res,next){
                                                         pending: data11,
                                                         accepted: data22,
                                                         deny: data33
-                                                        // insertresult:'ÇëÌá½»±íµ¥'
+                                                        // insertresult:'ï¿½ï¿½ï¿½á½»ï¿½ï¿½'
                                                     });
                                                 })
                                             })
@@ -157,7 +157,7 @@ router.post('/arrange_course_management',function(req,res,next){
                                     console.log('deny:' + data33.length);
                                     console.log('5');
                                     res.render('arrange/arrange_course_management',{
-                                        name: '³ÌÐòÔ±',
+                                        name: 'ï¿½ï¿½ï¿½ï¿½Ô±',
                                         image: 'images/avatars/avatar3.jpg',
                                         total_a:'12',
                                         a:'2,3,1,2,3,1,0',
@@ -168,7 +168,7 @@ router.post('/arrange_course_management',function(req,res,next){
                                         pending: data11,
                                         accepted: data22,
                                         deny: data33
-                                        // insertresult:'ÇëÌá½»±íµ¥'
+                                        // insertresult:'ï¿½ï¿½ï¿½á½»ï¿½ï¿½'
                                     });
                                 })
                             })
@@ -187,7 +187,7 @@ router.post('/arrange_course_management',function(req,res,next){
                          console.log('fail?');
                      } else {
                          console.log(txtb);
-                         console.log('É¾³ýÀ²');
+                         console.log('É¾ï¿½ï¿½ï¿½ï¿½');
                          CourseApplicationModel.update({_id: req.body.type.substring(1, 100)}, {$set: {status: 'deny'}}, function (err, data) {
                              CourseApplicationModel.findbystatus('pending',function(error,data11){
                                  CourseApplicationModel.findbystatus('accept',function(error,data22){
@@ -197,7 +197,7 @@ router.post('/arrange_course_management',function(req,res,next){
                                          console.log('deny:' + data33.length);
                                          console.log('5');
                                          res.render('arrange/arrange_course_management',{
-                                             name: '³ÌÐòÔ±',
+                                             name: 'ï¿½ï¿½ï¿½ï¿½Ô±',
                                              image: 'images/avatars/avatar3.jpg',
                                              total_a:'12',
                                              a:'2,3,1,2,3,1,0',
@@ -208,7 +208,7 @@ router.post('/arrange_course_management',function(req,res,next){
                                              pending: data11,
                                              accepted: data22,
                                              deny: data33
-                                             // insertresult:'ÇëÌá½»±íµ¥'
+                                             // insertresult:'ï¿½ï¿½ï¿½á½»ï¿½ï¿½'
                                          });
                                      })
                                  })
