@@ -21,14 +21,14 @@ if(req.session.user.status=="学生"){
  req.session.user.cstlist.forEach(function(courseid){
 
     
-   gradesDB.findOne( {"courseid":courseid},function(error,docs){
+   gradesDB.findOne( {"courseid":courseid,"userid":req.session.user.userid},function(error,docs){
      if(error){
        console.log(error);
        return ;
      }
 
      if(docs=="" | !docs){
-     gradesDB.create({"courseid":courseid,"userid":req.session.user.userid,"score":"","gradePoint":"" ,"secondScore": ""},function(error,docs){
+     gradesDB.insertrecord(courseid,req.session.user.userid,function(error,docs){
        if(error){
        console.log(error);
        return ;
