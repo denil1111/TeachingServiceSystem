@@ -17,8 +17,8 @@ router.get('/login',function(req,res,next){
     passport.authenticate('local',function(err,user2,info){
       //use your own admin account here
       var user={
-        userid:'3120100017',
-        password:'123456'
+          userid:'3120100017',
+          password:'123456'
       };
      
 
@@ -84,9 +84,5 @@ router.post('/login',function(req, res, next){
     }
   })(req,res,next);
 });
-router.get('/logout', function(req, res, next) {
- req.session.destroy(function (err) {
-    res.redirect('/'); //Inside a callback… bulletproof!
-  });
-});
+
 module.exports = router;

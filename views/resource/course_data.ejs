@@ -105,6 +105,7 @@
 
     <%var root =(user.status=="系统管理员"||user.status=="教师")?true:false %>
 
+    <%if (course.length!=0) {%>
     <div class="span10" style="">
         <div class="row">
             <div class="span10">
@@ -572,5 +573,19 @@
 
 
             </script>
+
+            <%}else{%>
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="error-box">
+                                <div class="message-big" style="font-size:40px;">暂时还没有课程</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <%}%>
+
 </body>
 </html>
