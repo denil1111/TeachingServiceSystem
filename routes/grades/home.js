@@ -4,7 +4,7 @@ var router = express.Router();
 //这里require数据库
 var CourseModel = require('../../db/group1db/CourseModel');
 var gradesDB = require('../../db/group6db/gradesDB');
-var tutorialModel= require('../../db/group6db/tutorialDB.js');
+//var tutorialModel= require('../../db/group6db/tutorialDB.js');
 var motionModel = require('../../db/group6db/motion');
 var coursePlan = require('../../db/courseDB/courseSchema_hyx')
 
@@ -17,6 +17,34 @@ criteria.userid = req.session.user.userid;
 
 if(req.session.user.status=="学生"){
 //这里使用数据库
+
+ req.session.user.cstlist.forEach(function(courseid){
+
+
+     console.log("what the fuck is cstlist "+courseid);
+   gradesDB.findOne( {"courseid":courseid},function(error,docs){
+     if(error){
+       console.log(error);
+       return ;
+     }
+
+     console.log("what the fuck is inside cstlist "+courseid);
+     if(docs=="" | !docs){
+     gradesDB.create({"courseid":courseid,"userid":req.session.user.userid,"score":"","gradePoint":"" ,"secondScore": ""},function(error,docs){
+       if(error){
+       console.log(error);
+       return ;
+       }
+       
+     });
+     }
+   }); 
+   
+   
+ });
+  
+
+
  gradesDB.find(criteria,function(error,docs){
      if(error){
          console.log(error);

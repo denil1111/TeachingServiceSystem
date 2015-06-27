@@ -63,7 +63,7 @@ planModel.find(criteria,function(error,docs){
     }
      
      
-   CourseModel.find({_id: {$in:courseidList}},{"courseid":1},function(error,clist){
+   CourseModel.find({_id: {$in:courseidList}},{"courseid2":1},function(error,clist){
      if(error){
          console.log(error);
          return;
@@ -73,7 +73,7 @@ planModel.find(criteria,function(error,docs){
       
     var cclist = [];
     for( i=0;i<clist.length;i++){
-      cclist.push(clist[i].courseid);
+      cclist.push(clist[i].courseid2);
     }
     
     console.log(cclist);

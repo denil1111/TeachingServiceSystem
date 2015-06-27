@@ -3,7 +3,7 @@ var router = express.Router();
 
 //这里require数据库
 var gradesDB = require('../../db/group6db/gradesDB.js');
-var tutorialDB= require('../../db/group6db/tutorialDB.js');
+//var tutorialDB= require('../../db/group6db/tutorialDB.js');
 var CourseModel = require('../../db/group1db/CourseModel');
 var gradesDB = require('../../db/group6db/gradesDB');
 var coursePlan = require('../../db/courseDB/planSchema');
@@ -104,7 +104,7 @@ router.get('/gradesAnalysis',function(req, res, next) {
 	var criteria = {userid : '3120102300'};
 	criteria.userid = req.session.user.userid;
 
-	if(req.session.user.status=="student"){
+	if(req.session.user.status=="学生"){
 //这里使用数据库
 	 	gradesDB.find(criteria,function(error,docs){
 	 	  if(error){
@@ -128,7 +128,7 @@ router.get('/gradesAnalysis',function(req, res, next) {
 		   var courseidlist=[]
 		   
 		   for(i=0;i<docs1.length;i++){
-			   courseidlist.push(docs1[i].courseid);
+			   courseidlist.push(docs1[i].courseid2);
 		   }
 		   
 		   
@@ -141,17 +141,17 @@ router.get('/gradesAnalysis',function(req, res, next) {
 			 
 			for  (var i = 0; i < docs1.length; i++) {
 	  			for(var j = 0;j < tData[0].p1.length;++j)
-	  				if(tData[0].p1[j]==docs1[i]["courseid"]){
+	  				if(tData[0].p1[j]==docs1[i]["courseid2"]){
 		  				docs[i]["type"]=1;
 	  				}
 					  
 				for(var j = 0;j < tData[0].p2.length;++j)
-	  				if(tData[0].p2[j]==docs1[i]["courseid"]){
+	  				if(tData[0].p2[j]==docs1[i]["courseid2"]){
 		  				docs[i]["type"]=2;
 	  				}
 				
 				for(var j = 0;j < tData[0].p3.length;++j)
-	  				if(tData[0].p3[j]==docs1[i]["courseid"]){
+	  				if(tData[0].p3[j]==docs1[i]["courseid2"]){
 		  				docs[i]["type"]=3;
 	  				}
   			}
