@@ -100,12 +100,13 @@
 
 <!-- 主要内容 -->
 <div class="main-content">
+
     <%include current_title.html %>
+    <% var courses = slide_course.courses ? slide_course.courses : []; %>
+    <%if (courses.length!=0) {%>
     <%include resource_bar.html%>
 
     <%var root =(user.status=="系统管理员"||user.status=="教师")?true:false %>
-
-    <%if (course.length!=0) {%>
     <div class="span10" style="">
         <div class="row">
             <div class="span10">
