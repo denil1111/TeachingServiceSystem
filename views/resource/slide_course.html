@@ -3,8 +3,9 @@
 </div>
 <div class="primary-sidebar">
     <!--侧边选择框 -->
+    <% var courses = slide_course.courses ? slide_course.courses : []; %>
+    <%if (courses.length!=0) {%>
     <ul class="nav nav-collapse collapse nav-collapse-primary">
-        <% var courses = slide_course.courses ? slide_course.courses : []; %>
         <%if (courses.length <=10) {%>
         <% for(var i = 0; i < courses.length; i++) {
         var active = courses[i].courseid === current_cid ? "active" : "";
@@ -50,7 +51,7 @@
         </li>
         <%}%>
     </ul>
-
+    <%}%>
     <a href="/resource/cloud" id="toCloud" class="btn btn-info btn-lg" style="position:absolute;width:115px;margin-top:60px;margin-left:35px;margin-bottom:50px;text-align: center;height:30px;padding:10px;">
         <i class="icon-file icon-2x" style="color:white;"></i>
         <span id="cloud-course" style="font-size:15px;color:white;vertical-align: middle;">我的云盘</span>

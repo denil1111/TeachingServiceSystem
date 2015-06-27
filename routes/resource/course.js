@@ -33,8 +33,12 @@ function getCourseList(userid, callback) {
 function isValidCourseID(req, res, next) {
   if (!('cid' in req.query)) {
     // has no query of cid, default access at first course
-    req.query.cid = encodeURIComponent(req.session.courseList[0]._id);
-    debug('Add default cid ' + req.query.cid);
+    if (req.session.courseList.length > 0) {
+      req.query.cid = encodeURIComponent(req.session.courseList[0]._id);
+      debug('Add default cid ' + req.query.cid);
+    } else {
+      console.log("User's course list is empty");
+    }
   } else {
     //has a query of cid, then check validation
     debug(JSON.stringify(req.session.courseList));
@@ -97,48 +101,7 @@ function cache_slide_course_data(req, res, next) {
   routes
 */
 
-router.use(
-  function cache_courseList(req, res, next) {
-    debug('cache_courseList');
-    if ('courseList' in req.session) {
-      next();
-    } else {
-      getCourseList(req.session.user.userid, function (err, courseList) {
-        if (err)
-          next(err);
-        else {
-          //debug(courseList);
-          req.session.courseList = courseList;
-          next();
-        }
-      })
-    }
-  },
-  function cache_slide_course_data(req, res, next) {
-    debug('cache_slide_course_data');
-    if (!('slide_course' in req.session)) {
-      var arr = [];
-      debug('arr length is ' + arr.length);
-      for (var i = 0; i < req.session.courseList.length; i++) {
-        var c = req.session.courseList[i];
-        debug('arr at ' + i + ' is ' + c);
-        arr.push({
-          courseid: c._id,
-          coursename: c.coursename
-        });
-      }
-      debug('arr length is ' + arr.length);
-      req.session.slide_course = {
-        courses: arr
-      };
-      debug('slide_course is ' + JSON.stringify(req.session.slide_course));
-    }
-    next();
-  }
-  );
-
 router.use(cache_courseList, cache_slide_course_data);
-
 
 router.get('/', function (req, res, next) {
   res.redirect('/resource/course/data');
@@ -151,40 +114,43 @@ router.get('/data', isValidCourseID, function (req, res, next) {
     path_prefix: 'data'
   };
 //  console.log(req.query.cid);
-  console.log(req.session.slide_course);
-  var cid = req.session.slide_course.courses[0].courseid;
-  console.log(cid);
-  if (req.query.cid) {
-    cid = req.query.cid;
-    req.session.nowcid = cid;
-  }
-  fileTree.findbyuser(cid, function(err, resu) {
-    console.log("in findbyuser");
-    if (err) {
-      console.log("in err");
-      console.log(err);
-    } else {
-      console.log(resu);
-      req.session.ctreeP = resu[0].tree;
-      console.log(req.session.ctreeP);
-      var nowUserId = req.session.user.userid;
-      console.log("ok");
-      fileTree.findbyuser(nowUserId, function(err, result) {
-        console.log("in findbyuser");
-        if (err) {
-          console.log("in err");
-          console.log(err);
-        } else {
-          console.log("before render");
-          req.session.treeP = result[0].tree;
-          render_data.cfileTree = req.session.ctreeP;
-          render_data.fileTree = req.session.treeP;
-          debug(render_data);
-          res.render('resource/course_data', render_data);
-        }  
-      });   
+  if (req.session.slide_course.courses.length === 0) {
+    res.render('resource/course_data', render_data);
+  } else {
+    var cid = '';
+    console.log(cid);
+    if (req.query.cid) {
+      cid = req.query.cid;
+      req.session.nowcid = cid;
     }
-  });
+    fileTree.findbyuser(cid, function(err, resu) {
+      console.log("in findbyuser");
+      if (err) {
+        console.log("in err");
+        console.log(err);
+      } else {
+        console.log(resu);
+        req.session.ctreeP = resu[0].tree;
+        console.log(req.session.ctreeP);
+        var nowUserId = req.session.user.userid;
+        console.log("ok");
+        fileTree.findbyuser(nowUserId, function(err, result) {
+          console.log("in findbyuser");
+          if (err) {
+            console.log("in err");
+            console.log(err);
+          } else {
+            console.log("before render");
+            req.session.treeP = result[0].tree;
+            render_data.cfileTree = req.session.ctreeP;
+            render_data.fileTree = req.session.treeP;
+            debug(render_data);
+            res.render('resource/course_data', render_data);
+          }
+        });
+      }
+    });
+  }
 });
 router.post('/newfile',function(req,res,next){
   console.log('coursenewfile');
