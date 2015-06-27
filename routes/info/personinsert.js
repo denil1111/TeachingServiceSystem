@@ -5,6 +5,9 @@ var PersonModel = require('../../db/group1db/PersonModel');
 var formidable = require('formidable');
 var fs = require('fs');
 
+// var multiparty=require('connect-multiparty');
+// router.use(multiparty({uploadDir:'./public', keepExtensions:true}));
+
 var tmp={
     userid:"3120",
     username:"admin",
@@ -60,48 +63,48 @@ router.post('/',function(req,res,next){
         };
         console.log(doc);
         //useridErr
-        if(doc.userid == ''){useridErr = 'ID empty!';}
+        if(doc.userid == ''){useridErr = '学工号不能为空!';}
         for(var i = 0, userid = doc.userid; i < userid.length; i++){
             if(userid.charAt(i)>'9' || userid.charAt(i) < '0'){
-                useridErr = 'ID illegal!';
+                useridErr = '学工号不符合规则!';
                 break;
             }
         }
 
-        if(doc.username == ''){userNameErr = 'username empty!';}
+        if(doc.username == ''){userNameErr = '姓名不能为空!';}
 
         //paswwordErr
-        if(fields.password1 == ""){passwordErr = 'password empty!';}
-        if(fields.password1 != fields.password2){passwordErr = 'password different!';}
+        if(fields.password1 == ""){passwordErr = '密码不能为空!';}
+        if(fields.password1 != fields.password2){passwordErr = '两次密码输入不同!';}
 
         //emailerr
         var email = doc.email;
         var index = email.indexOf('@');
         console.log("index : "+index);
         console.log("indexOf : "+email.indexOf('@',index+1));
-        if(index == -1 || index == 0){emailerr = 'format incorrect!';}
-        else if(email.indexOf('@',index+1) != -1){emailerr = 'too much @!';}//more than one @
-        else if(email.indexOf('.',index+1) == -1 || email.indexOf('.',index+1) == index + 1){emailerr = 'incorrect .';}
+        if(index == -1 || index == 0){emailerr = '邮件格式错误!';}
+        else if(email.indexOf('@',index+1) != -1){emailerr = '邮件格式错误!';}//more than one @
+        else if(email.indexOf('.',index+1) == -1 || email.indexOf('.',index+1) == index + 1){emailerr = '邮件格式错误';}
 
         //aggerr
-        if(doc.age == ''){ageerr = 'age empty!';}
+        if(doc.age == ''){ageerr = '年龄不能为空!';}
         for(var i = 0, age = doc.age; i < age.length; i++){
             if(age.charAt(i)>'9' || age.charAt(i) < '0'){
-                ageerr = 'age not number!';
+                ageerr = '年龄非整数!';
                 break;
             }
         }
         if(ageerr == ''){
             var age = doc.age;
-            if(age > '120' && age.length >= 3 || age.length ==1 && age <'5'){ageerr = 'age unreasonable!';}
+            if(age > '120' && age.length >= 3 || age.length ==1 && age <'5'){ageerr = '年龄不合理!';}
         }
 
 
         //telerr
-        if(doc.tel == ''){telerr = 'tel empty!';}
+        if(doc.tel == ''){telerr = '电话不能为空!';}
         for(var i = 0, tel = doc.tel; i < tel.length; i++){
             if(tel.charAt(i) > '9' || tel.charAt(i) < '0'){
-                telerr = 'tel not number!';
+                telerr = '电话非整数!';
                 break;
             }
         }
@@ -124,7 +127,7 @@ router.post('/',function(req,res,next){
         else{
             PersonModel.findbyid(userid,function (err, user) {
                 if (err) {console.log('find error!'+error);}
-                if (user) {useridErr = "ID used!";}
+                if (user) {useridErr = "学工号已被使用!";}
 
                 if(useridErr != ''){
                     res.render('info/personinsert',{
@@ -272,4 +275,7 @@ router.post('/',function(req,res,next){
         } 
     });
 });
+
+
+
 module.exports = router;

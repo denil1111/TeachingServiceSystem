@@ -4,8 +4,8 @@ var mongoose = require('mongoose');
 var CourseModel = require('../../db/group1db/CourseModel');
 var tmp=[];
 // tmp.push({couresname:'initial_name',teacher:'initial_teacher',exametime:'initial_exametime',room:'initial_room',college:'initial_college'});
-
-
+var fs = require('fs');
+var PersonModel = require('../../db/group1db/PersonModel');
 
 router.get('/', function(req, res, next) {
     res.render('info/courseselect',{

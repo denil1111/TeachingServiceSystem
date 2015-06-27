@@ -34,9 +34,13 @@ router.get('/time', function(req, res, next) {
   var error="";
   var status;
   switch (req.session.user.status.toString()){
-    case '学生':status=0;break;
-    case '教师':status=1;break;
-    case '系统管理员':status=2;break;
+    case '学生':status = 0;
+                res.redirect("../../login");
+                break;
+    case '教师':status = 1;
+                res.redirect("../../login");
+                break;
+    case '系统管理员':status = 2; break;
   }
   courseTimeModel.find({},function(err,cre){
       if (err)
@@ -174,6 +178,7 @@ router.post('/course_filtrate', function(req, res, next) {
   var userModel = require('../../db/courseDB/userSchema');
   var courseModel = require('../../db/group1db/CourseModel');
   var courseStudentModel = require('../../db/courseDB/courseStudentSchema');
+  var personModel = require('../../db/group1db/PersonModel'); 
   var current = [];
     // 课程筛选
   courseModel.find({},function(error,result){
@@ -210,23 +215,43 @@ router.post('/course_filtrate', function(req, res, next) {
                 for (var i=0;i<remaining;i++){
                     userModel.update({id: current[i].user},{$push:{confirmedCourse:{id: result[course_i].id}}},
                         function(err,re){if (err) console.log(err);});
-                    courseStudentModel.update({},{$push:{id: result[course_i]._id, confirmedStudent:{id: current[i].user}}},
+                    userModel.update({id: current[i].user},{$pull:{selectedCourse:{id: result[course_i].id}}},
                         function(err,re){if (err) console.log(err);});
+                    courseStudentModel.update({id: result[course_i].id},{$push:{confirmedStudent:{id: current[i].user}}},
+                        function(err,re){if (err) console.log(err);});
+                    personModel.addcstlist(current[i].user,result[course_i].id,function(err,re){if (err) console.log(err)});
                 }
             }
-            else console.log(current);
-            });
+            // vacancy is enough
+            else {
+                console.log(current);
+                for (var i=0;i<current.length;i++){
+                    userModel.update({id: current[i].user},{$push:{confirmedCourse:{id: result[course_i].id}}},
+                        function(err,re){if (err) console.log(err);});
+                    userModel.update({id: current[i].user},{$pull:{selectedCourse:{id: result[course_i].id}}},
+                        function(err,re){if (err) console.log(err);});
+                    courseStudentModel.update({id: result[course_i].id},{$push:{confirmedStudent:{id: current[i].user}}},
+                        function(err,re){if (err) console.log(err);});
+                    personModel.addcstlist(current[i].user,result[course_i].id,function(err,re){if (err) console.log(err)});
+                }
+            }
+                
+        });
         })(course_i);
         // end one course
         }
   });
-
+  
+  var course = [];
+  var choose_time = [];
+  var error = "";
   res.render('select/time', {
     type:2,//manager
     course:course,
     name: '程序员', 
     image: 'images/avatars/avatar3.jpg',
-    choose_time:choose_time
+    choose_time:choose_time,
+    error: error
   });
 });
 

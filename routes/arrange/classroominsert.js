@@ -89,7 +89,7 @@ router.post('/classroominsert',function(req,res,next){
     }
     else
     {
-        ClassroomModel.findbyid(doc.classid2,function (err, data)
+        ClassroomModel.findbyic(doc.classid2,doc.campus,function (err, data)
         {
             if (err)
             {

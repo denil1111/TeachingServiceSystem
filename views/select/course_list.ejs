@@ -5,10 +5,14 @@
 </head>
 <body>
 <% include ../navbar.html%>
-  
+<form name="input" action="/select/course_list/<%=_id%>" method="post"> 
 <div style="width:100%;text-align:center; padding-top:20px;">
-  <button onclick="CellToTable(student_list)" class="btn btn-blue">导出课程名单为Excel</button>
+  <div hidden="">
+    <input type="text" name="type" value="list">
+  </div>
+  <button type="submit" class="btn btn-blue">导出课程名单为Excel</button>
 </div>
+</form>
 <div class="span12" style="margin-top:20px">
 <div class="box">
   <div class="box-header">
@@ -58,6 +62,19 @@ var idTmr;
 
 function CellToTable(tableid)
 {
+
+  var _json = jQuery.param ({ 
+        type:"delete",
+      }); 
+    var request = $.ajax({  
+          url: location.pathname,  
+          type: "POST",  
+          async: false,  
+          data: _json, //不能直接写成 {id:"123",code:"tomcat"}  
+          dataType: "json",  
+          // contentType: "charset=utf-8",  
+          cache: false
+      });  
     console.log(tableid);
     var curTbl = document.getElementById(tableid);
     var oXL = new ActiveXObject("Excel.Application");

@@ -17,12 +17,17 @@ ClassroomSchema.statics.findbyid = function (classid2,callback) {
     return this.model('ClassroomModel').find({classid2 : classid2},callback);
 }
 
+ClassroomSchema.statics.findbyic = function (classid2,campus,callback) {
+    return this.model('ClassroomModel').find({classid2 : classid2,campus : campus},callback);
+}
+
+
 ClassroomSchema.statics.findbycampus = function (campus, callback) {
     return this.model('ClassroomModel').find({campus : campus},callback);
 }
 
-ClassroomSchema.statics.deletebyid = function(classid2, callback) {
-    return this.model('ClassroomModel').remove({classid2: classid2}, callback);
+ClassroomSchema.statics.deletebyic = function(classid2,campus, callback) {
+    return this.model('ClassroomModel').remove({classid2: classid2,campus:campus}, callback);
 }
 
 ClassroomSchema.statics.modifybyid = function(req, callback) {
