@@ -57,7 +57,7 @@ module.exports = function(req,res,next){
     function (next) {
       Person.findbyid(user.userid, function(err, data){
         console.log(data);
-        if (data.length==0)
+        if (data == null)
           Person.create(user, function(err, data) {
             if (err)
               next(err, null);
