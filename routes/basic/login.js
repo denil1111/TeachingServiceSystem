@@ -10,7 +10,7 @@ var PersonModel = require('../../db/group1db/PersonModel');
 router.get('/login',function(req,res,next){
   console.log("login get");
   console.log("app.get('env')"+app.get('env'));
-
+  req.session.destroy(); // not need callback function
   if (app.get('env') == 'development'){
     console.log("development module");
 
