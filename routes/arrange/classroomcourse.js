@@ -11,13 +11,25 @@ router.get('/classroomcourse',function(req,res,next){
 //	var classroom;//=req.session.user[0];
 //	ClassroomModel.findall(function(err,classroom_total_info){
 //		classroom = classroom_total_info;
+		var status;
+		switch (req.session.user.status.toString()){
+		    case '学生':status = 0;
+		                res.redirect("../../login");
+		                break;
+		    case '教师':status = 1;
+		                res.redirect("../../login");
+		                break;
+		    case '系统管理员':status = 2;break;
+		}
 		res.render('arrange/classroomcourse',{
-        course_data:tmp
+			type:status,
+        	course_data:tmp
     });
 });
 
 router.post('/classroomcourse',function(req,res,next){
 	console.log("post:classroomcourse");
+	
 	CourseModel.findbyclassroom(req.body.campus,req.body.classroom,function(error,data){
 		if(error){
 			console.log('find error!' + error);

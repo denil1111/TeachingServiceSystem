@@ -12,8 +12,18 @@ var tmp = {
 
 router.get('/classroommodify', function(req, res,next) {
 //    if(!req.session.user){return res.redirect('../info/login');}
+    var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                res.redirect("../../login");
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
     res.render('arrange/classroommodify',{
-
+        type:status,
         data : tmp,
         modifyresult:'请提交表单'
     });
@@ -21,6 +31,7 @@ router.get('/classroommodify', function(req, res,next) {
 
 router.post('/classroommodify',function(req,res,next){
     console.log("post:classroominsert");
+    
     var doc = {
         classid2 : req.body.classid2,
         campus : req.body.campus,

@@ -9,14 +9,25 @@ var tmp=[];
 
 router.get('/classroomselect', function(req, res, next) {
 //	if(!req.session.user){return res.redirect('../info/login');}
+   	var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                res.redirect("../../login");
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
     res.render('arrange/classroomselect',{
+		type:status,
     	classroom_data:tmp,
     });
 });
 
 router.post('/classroomselect',function(req, res, next){
 	console.log("post:classroomselect");
-
+	
 	ClassroomModel.findbyic(req.body.classid2,req.body.campus ,function(error, data){
 		if(error)
 		{

@@ -264,8 +264,19 @@ function ArrangeACampus(campusName, callback)
 
 
 router.get('/arrange_by_sa', function(req, res, next) {
+	var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                res.redirect("../../login");
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
 //	if(!req.session.user){return res.redirect('../info/login');}
     res.render('arrange/arrange_by_sa',{
+		type:status,
 		saresult:"请开始排课!"
     });
 });
@@ -273,6 +284,7 @@ router.get('/arrange_by_sa', function(req, res, next) {
 router.post('/arrange_by_sa',function(req, res, next){
 	console.log("post:arrange_by_sa");
 	ArangeOneByOne();
+	
 	//ArrangeACampus('紫金港校区');
 	// ArrangeACampus('玉泉校区');
 	// ArrangeACampus('西溪校区');

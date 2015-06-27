@@ -6,8 +6,18 @@ var CourseModel = require('../../db/group1db/CourseModel');
 var ClassroomModel = require('../../db/group2db/ClassroomModel');
 
 router.get('/timetable_teacher',function(req,res,next){
-
-	if(!req.session.user){return res.redirect('../info/login');}
+	var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                break;
+	    case '系统管理员':status = 2;
+					res.redirect("../../login");
+					break;
+  	}
+	// if(!req.session.user){return res.redirect('../info/login');}
 	var localuser=req.session.user;
 	console.log("teacher_course: pass user test.");
 	CourseModel.findbyteacher(localuser.username,function(error,data){
@@ -18,14 +28,7 @@ router.get('/timetable_teacher',function(req,res,next){
 			console.log('find ok:'+data);
 		}
 		res.render('arrange/timetable_teacher',{
-			name: '程序员', 
-            image: 'images/avatars/avatar3.jpg',
-            total_a:'12',
-            a:'2,3,1,2,3,1,0',
-            total_b:'24',
-            b:'4,6,2,4,6,2,0',
-            total_credits:'24',
-            credits:'4,6,2,4,6,2,0',
+			type:status,
             course_data: data
 		});
 	});
