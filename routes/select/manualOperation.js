@@ -35,6 +35,7 @@ router.post('/manual_add', function(req, res, next) {
   var userModel = require('../../db/courseDB/userSchema'); 
   var personModel = require('../../db/group1db/PersonModel'); 
   var courseStudentModel = require('../../db/courseDB/courseStudentSchema');
+  var studentGradeSchema = require('../../db/group6db/gradesDB');
   console.log(req.body);
   var status;
   switch (req.session.user.status.toString()){
@@ -102,6 +103,7 @@ router.post('/manual_add', function(req, res, next) {
                   res.json({status:"err",error:"已选该课！"});
                   return;
               }
+              studentGradeSchema.insertrecord(req.body.course_id.toString(),req.body.stu_id.toString(), function(err,re){if (err) console.log(err); console.log(re);});
               personModel.addcstlist(req.body.stu_id.toString(),req.body.course_id.toString(),function(err,re){if (err) console.log(err)});
               courseModel.update({_id:req.body.course_id.toString()},{$inc:{remain:-1}},function(err,re){if (err) console.log(err);});
               userModel.update({id:req.body.stu_id.toString()},{$push:{confirmedCourse:{id:req.body.course_id.toString(),points:0}}},function(err,re){if (err) console.log(err);});
