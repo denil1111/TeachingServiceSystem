@@ -20,17 +20,15 @@ if(req.session.user.status=="学生"){
 
  req.session.user.cstlist.forEach(function(courseid){
 
-
-     console.log("what the fuck is cstlist "+courseid);
-   gradesDB.findOne( {"courseid":courseid},function(error,docs){
+    
+   gradesDB.findOne( {"courseid":courseid,"userid":req.session.user.userid},function(error,docs){
      if(error){
        console.log(error);
        return ;
      }
 
-     console.log("what the fuck is inside cstlist "+courseid);
      if(docs=="" | !docs){
-     gradesDB.create({"courseid":courseid,"userid":req.session.user.userid,"score":"","gradePoint":"" ,"secondScore": ""},function(error,docs){
+     gradesDB.insertrecord(courseid,req.session.user.userid,function(error,docs){
        if(error){
        console.log(error);
        return ;
@@ -68,8 +66,8 @@ if(req.session.user.status=="学生"){
                   docs_result[idx_docs_reuslt]["coursecredit"] = courses[j]["coursescore"];
                   docs_result[idx_docs_reuslt]["courseterm"] = courses[j]["courseterm"];
                   docs_result[idx_docs_reuslt]["courseyear"] = courses[j]["year"];
-                  docs_result[idx_docs_reuslt]["courseplan_id"] = courses[j]["courseid"];
-                  courseplanID.push(courses[j]["courseid"]);
+                  docs_result[idx_docs_reuslt]["courseplan_id"] = courses[j]["courseid2"];
+                  courseplanID.push(courses[j]["courseid2"]);
                   idx_docs_reuslt++;
                 }
                 break;
@@ -153,7 +151,7 @@ else if (req.session.user.status=="教师"){
  
 }
 
-else if(req.session.user.status=="系统管理员"){
+else if(req.session.user.status=="教务管理员"||req.session.user.status=="系统管理员"){
     var rejected = {
         "status" : "rejected"
     }
