@@ -35,11 +35,9 @@
 
                   <li class="with-image">
                     <div class="avatar">
-
                       <%if (user.image) {%>
                       <img src="<%= user.image %>" />
                       <%}%>
-
                     </div>
                     <span><%= user.username %></span>
                   </li>
@@ -61,9 +59,8 @@
               <li <%if (Navstatus == 3){%>class="active"<%}%>><a href="/select/course" title="Courses"><i class="icon-table"></i>学生选课</a></li>
 
               <li <%if (Navstatus == 4){%>class="active"<%}%>><a href="/resource" title="Share"><i class="icon-file-alt"></i>资源共享</a></li>
-
-              <li <%if (Navstatus == 5){%>class="active"<%}%>><a href="/test" title="Judge"><i class="icon-edit"></i>在线测试</a></li>
-              <li id="grades" <%if (Navstatus == 6){%>class="active"<%}%>><a href="/grades/grades" title="GPA"><i class="icon-bar-chart"></i>成绩管理</a></li>
+              <li <%if (Navstatus == 5){%>class="active"<%}%>><a href="/OnlineTest" title="Judge"><i class="icon-edit"></i>在线测试</a></li>
+              <li id="grades" <%if (Navstatus == 6){%>class="active"<%}%>><a href="/grade" title="GPA"><i class="icon-bar-chart"></i>成绩管理</a></li>
 
             </ul>
           </div>

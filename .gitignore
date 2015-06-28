@@ -6,14 +6,13 @@ lib-cov
 *.out
 *.pid
 *.gz
-*.swp
+
 pids
 logs
 results
 
 npm-debug.log
 node_modules
-.settings
 
 settings.js
 
@@ -22,4 +21,3 @@ member*
 .idea
 
 .DS_Store
-start.bat
