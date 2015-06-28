@@ -17,7 +17,7 @@ function gradesfix(req, res) {
    // console.log("what is req:"+req.body.courseid);
 
     console.log("userid"+req.body.userid);
-    if(req.body.score-45<60){
+    if(req.body.score<60){
         
         gradesDB.update(
         {
