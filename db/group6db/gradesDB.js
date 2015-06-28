@@ -14,12 +14,6 @@ secondScore : Number
 studentGradeSchema.statics.findbyid = function(courseid, callback) {
     return this.model('gradesDB').find({courseid: courseid}, callback);
 }
-
-studentGradeSchema.statics.insertrecord = function(courseid,userid, callback){
-    return this.model('gradesDB').create({"courseid":courseid,"userid":userid,"score":"","gradePoint":"" ,"secondScore": ""},callback);
-}
-   
-   
 studentGradeSchema.statics.findbycourseid= function(courseid,my_userid,callback) {
    console.log("findbycourseid");
    var model=this.model('gradesDB');

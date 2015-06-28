@@ -10,7 +10,7 @@ router.get('/testSearch',function(req, res, next) {
 
 
 if(!req.session.user){return res.redirect('../basic/login');}
-if(req.session.user.status!="学生"){return res.redirect('../login');}
+
 
 gradesDB.find(function(error,docs){
     if(error){

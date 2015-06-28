@@ -3,13 +3,12 @@ var router = express.Router();
 
 var PersonModel = require('../../db/group1db/PersonModel');
 var CourseModel = require('../../db/group1db/CourseModel');
-var gradesDB = require('../../db/group6db/gradesDB');
+
 
 router.get('/classLists',function(req, res, next) {
 
 if(!req.session.user){return res.redirect('../basic/login');}
 
-if(req.session.user.status!="教师"){return res.redirect('../login');}
 
 CourseModel.find({_id:{$in:req.session.user.cstlist}},function(error,clist){
     if(error){
@@ -27,8 +26,7 @@ CourseModel.find({_id:{$in:req.session.user.cstlist}},function(error,clist){
         clistoff.push(clist[i]);
       }
     }
-    
-    console.log("count :" +count);
+   
     res.render('grades/teacher_classlist', {
     name: '程序员', 
     image: 'images/avatars/avatar1.jpg',
@@ -41,6 +39,7 @@ CourseModel.find({_id:{$in:req.session.user.cstlist}},function(error,clist){
     cliston: cliston,
     clistoff:clistoff
    });  
+   
  }).sort({"_id":1});
 }); 
 

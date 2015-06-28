@@ -9,7 +9,6 @@ var motionModel = require('../../db/group6db/motion.js');
 function handler(req, res, next) {
     //feedback of modifing db
     if(!req.session.user){return res.redirect('../basic/login');}
-    if(!(req.session.user.status=="教务管理员"||req.session.user.status=="系统管理员")){return res.redirect('../login');}
     if(typeof req.body.cmd !== 'undefined') {
         if( req.body.cmd == 'accept' ) {
             console.log('accept:' + req.body.studentid + " " + req.body.newvalue)

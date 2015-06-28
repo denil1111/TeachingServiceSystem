@@ -101,7 +101,6 @@ function viewGPA(docs,callback){
 router.get('/gradesAnalysis',function(req, res, next) {
 
 	if(!req.session.user){return res.redirect('../info/login');}
-	if(req.session.user.status!="学生"){return res.redirect('../login');}
 	var criteria = {userid : '3120102300'};
 	criteria.userid = req.session.user.userid;
 
@@ -158,8 +157,6 @@ router.get('/gradesAnalysis',function(req, res, next) {
   			}
 			
   		  })
-			
-			console.log("docs "+  docs);
 	 	  CourseModel.find({},function(error,courses){
 		 	
 	 	    for(var i = 0;i < docs.length;++i)
