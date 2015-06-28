@@ -100,11 +100,13 @@
 
 <!-- 主要内容 -->
 <div class="main-content">
+
     <%include current_title.html %>
+    <% var courses = slide_course.courses ? slide_course.courses : []; %>
+    <%if (courses.length!=0) {%>
     <%include resource_bar.html%>
 
     <%var root =(user.status=="系统管理员"||user.status=="教师")?true:false %>
-
     <div class="span10" style="">
         <div class="row">
             <div class="span10">
@@ -572,5 +574,19 @@
 
 
             </script>
+
+            <%}else{%>
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="error-box">
+                                <div class="message-big" style="font-size:40px;">暂时还没有课程</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <%}%>
+
 </body>
 </html>

@@ -1,5 +1,5 @@
-#Cloud
-##data store
+# Cloud
+## data store
 ```json
 {
 	uid: user id,
@@ -16,19 +16,19 @@
 	]
 }
 ```
-##opeartion
-###move
+## opeartion
+### move
 just move json in tree
-###delete
-####folder
+### delete
+#### folder
 	delete folder but (TODO) not recursive delete file
-####file
+#### file
 	delete file in tree and in gfs
-###upload
+### upload
 	upload folder just make a folder in tree,
 	
 	upload a file in tree and in gfs;
-###rename
+### rename
 	just rename in tree
-###Download
+### Download
 	use fid

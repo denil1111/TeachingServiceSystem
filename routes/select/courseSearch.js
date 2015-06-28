@@ -24,11 +24,11 @@ var Time_Dictionary = {"11":"周一 12","12":"周一 34","13":"周一 67","14":"
 router.get('/course', function(req, res, next) {
   var status;
   switch (req.session.user.status.toString()){
-    case '学生': status = 0; 
+    case 'student': status = 0; 
                 break;
-    case '教师': status = 1; 
+    case 'teacher': status = 1; 
                 break;
-    case '系统管理员': status = 2;
+    case 'admin': status = 2;
                 break;
   }
   res.render('select/course', {

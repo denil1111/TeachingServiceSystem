@@ -1,8 +1,10 @@
 var mongoose = require('mongoose');
 // Schema 结构
 var CourseSchema = new mongoose.Schema({
+
     courseid    : {type : String},
 	courseid2	: {type : String},	//课程ID 不能直接用courseid或id，mongodb自动对应_id，不能由我们设置
+
     coursename  : {type : String},	//课程名称
     courseterm  : {type : String},  //课程学期
     coursetime	: {type : String},	//上课时间
@@ -22,12 +24,13 @@ var CourseSchema = new mongoose.Schema({
 });
 var CollectionName = 'courses';
 
-CourseSchema.statics.findbyid = function(courseid2, callback) {
-    return this.model('CourseModel').find({courseid2: courseid2}, callback);
+CourseSchema.statics.findbyid = function(courseid, callback) {
+    return this.model('CourseModel').find({courseid: courseid}, callback);
 }
 CourseSchema.statics.findbyname = function(coursename, callback) {
     return this.model('CourseModel').find({coursename: coursename}, callback);
 }
+
 
 CourseSchema.statics.findbyterm = function (term , callback) {
     return this.model ('CourseModel').find({courseterm : term},callback);
@@ -35,6 +38,7 @@ CourseSchema.statics.findbyterm = function (term , callback) {
 
 CourseSchema.statics.deletebyid = function(courseid2, callback) {
     return this.model('CourseModel').remove({courseid2: courseid2}, callback);
+
 }
 
 CourseSchema.statics.findbyteacher = function(teacher,callback){
@@ -47,7 +51,7 @@ CourseSchema.statics.findbyclassroom = function(campus,room,callback){
 
 CourseSchema.statics.modifybyid = function(req, callback) {
     return this.model('CourseModel').update(
-        {courseid2: req.courseid2},
+        {courseid: req.courseid},
         {
             $set:{
                 coursename : req.coursename,
@@ -71,16 +75,19 @@ CourseSchema.statics.modifybyid = function(req, callback) {
 
 //给出cstlist = ['1234','3120'],返回所有id符合cstlist(中一条)的course
 CourseSchema.statics.findbylist = function(cstlist, callback) {
+
     return this.model('CourseModel').find({_id: {$in:cstlist}}, callback);
+
 }
 
-CourseSchema.statics.statusoff = function(courseid2, callback) {
+CourseSchema.statics.statusoff = function(courseid, callback) {
     return this.model('CourseModel').update(
-        {courseid2: courseid2},
+        {courseid: courseid},
         {
             $set:{ status : 'off' }
         },
         callback);
+
 }
 
 

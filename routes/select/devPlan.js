@@ -16,9 +16,9 @@ router.get('/dev_plan', function (req, res, next) {
   console.log(req.body);
   var userType;
   switch (req.session.user.status.toString()){
-    case '学生':userType=0;break;
-    case '教师':userType=1;break;
-    case '系统管理员':userType=2;break;
+    case 'student':userType=0;break;
+    case 'teacher':userType=1;break;
+    case 'admin':userType=2;break;
   }
   var selectedMajor=req.session.user.major;
   

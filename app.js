@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
 var busboy = require('connect-busboy');
 var mongoose = require('mongoose');
 var Grid = require('gridfs-stream');
@@ -11,6 +12,7 @@ var session = require('express-session');
 var passport = require('passport');
 
 var initP = require('./initPassport');
+
 
 var app = express();
 

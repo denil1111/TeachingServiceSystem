@@ -23,16 +23,16 @@ password:123456
 ## 用户登录
 /info/login
 
-##用户添加
+## 用户添加
 /info/personinsert
 
-##用户删除(by username)
+## 用户删除(by username)
 /info/persondelete
 
-##用户查询(by username)
+## 用户查询(by username)
 /info/personselect
 
-##用户修改(by username)
+## 用户修改(by username)
 /info/personmodify
 
 session使用说明

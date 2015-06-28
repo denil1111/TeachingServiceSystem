@@ -10,15 +10,15 @@ var PersonModel = require('../../db/group1db/PersonModel');
 router.get('/login',function(req,res,next){
   console.log("login get");
   console.log("app.get('env')"+app.get('env'));
-
+  req.session.destroy(); // not need callback function
   if (app.get('env') == 'development'){
     console.log("development module");
 
     passport.authenticate('local',function(err,user2,info){
       //use your own admin account here
       var user={
-        userid:'31200000',
-        password:'31200000'
+        userid:'3120100002',
+        password:'123456'
       };
      
 
@@ -118,9 +118,11 @@ router.post('/login',function(req, res, next){
     }
   })(req,res,next);
 });
+
 router.get('/logout', function(req, res, next) {
  req.session.destroy(function (err) {
     res.redirect('/'); //Inside a callback… bulletproof!
   });
 });
 module.exports = router;
+
