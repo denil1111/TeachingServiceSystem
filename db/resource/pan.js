@@ -28,7 +28,7 @@ var mongooseModel = mongoose.model('tree', mongooseSchema);
 person.schema.post('save', function(doc) {
    console.log("hook");
    console.log(doc);
-   mongooseModel.findbyuser(doc.userid,function(res,callbakc) {
+   mongooseModel.findbyuser(doc.userid,function(err, res) {
        if (res.length == 0) {
            mongooseModel.create({
                uid : doc.userid,
@@ -41,7 +41,7 @@ person.schema.post('save', function(doc) {
 course.schema.post('save', function(doc) {
    console.log("hook course");
    console.log(doc);
-   mongooseModel.findbyuser(doc._id,function(res,callbakc) {
+   mongooseModel.findbyuser(doc._id,function(err, res) {
        if (res.length == 0) {
            mongooseModel.create({
                uid : doc._id,

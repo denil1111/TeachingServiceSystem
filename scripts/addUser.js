@@ -58,12 +58,13 @@ module.exports = function(req,res,next){
       Person.findbyid(user.userid, function(err, data){
         console.log(data);
         if (data == null){
+            Person.create(user, function(err, data) {
             if (err)
               next(err, null);
-            else {
-              next(null, data)
-            }
-        }
+            else
+              next(null,data);
+            });
+         }
       });
     }
   ], function (err, results) {
