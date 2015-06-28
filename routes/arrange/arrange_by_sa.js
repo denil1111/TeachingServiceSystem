@@ -264,27 +264,46 @@ function ArrangeACampus(campusName, callback)
 
 
 router.get('/arrange_by_sa', function(req, res, next) {
+	var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                res.redirect("../../login");
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
 //	if(!req.session.user){return res.redirect('../info/login');}
     res.render('arrange/arrange_by_sa',{
-    	name: '程序员', 
-		image: 'images/avatars/avatar3.jpg',
-		total_a:'12',
-		a:'2,3,1,2,3,1,0',
-		total_b:'24',
-		b:'4,6,2,4,6,2,0',
-		total_credits:'24',
-		credits:'4,6,2,4,6,2,0',
+		type:status,
+		saresult:"请开始排课!"
     });
 });
 
 router.post('/arrange_by_sa',function(req, res, next){
 	console.log("post:arrange_by_sa");
 	ArangeOneByOne();
+	
 	//ArrangeACampus('紫金港校区');
 	// ArrangeACampus('玉泉校区');
 	// ArrangeACampus('西溪校区');
 	// ArrangeACampus('华家池校区');
 	// ArrangeACampus('之江校区');
+	var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                res.redirect("../../login");
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
+	res.render('arrange/arrange_by_sa',{
+		type:status,
+		saresult:"自动排课成功!"
+	});
 });
 
 

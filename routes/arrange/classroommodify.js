@@ -12,16 +12,18 @@ var tmp = {
 
 router.get('/classroommodify', function(req, res,next) {
 //    if(!req.session.user){return res.redirect('../info/login');}
+    var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                res.redirect("../../login");
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
     res.render('arrange/classroommodify',{
-        name: '程序员', 
-        image: 'images/avatars/avatar3.jpg',
-        total_a:'12',
-        a:'2,3,1,2,3,1,0',
-        total_b:'24',
-        b:'4,6,2,4,6,2,0',
-        total_credits:'24',
-        credits:'4,6,2,4,6,2,0',
-
+        type:status,
         data : tmp,
         modifyresult:'请提交表单'
     });
@@ -29,6 +31,16 @@ router.get('/classroommodify', function(req, res,next) {
 
 router.post('/classroommodify',function(req,res,next){
     console.log("post:classroominsert");
+    var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                res.redirect("../../login");
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
     var doc = {
         classid2 : req.body.classid2,
         campus : req.body.campus,
@@ -65,7 +77,6 @@ router.post('/classroommodify',function(req,res,next){
     
     if(capacityErr == '')
     {
-        var capacity = doc.capacity;
         if(capacity > 500)
         {
             capacityErr = 'Capacity is too large';
@@ -73,17 +84,10 @@ router.post('/classroommodify',function(req,res,next){
     }
     if(classidErr!= '' || facilityErr !='' || capacityErr !='')
     {
-       res.render('arrange/classroominsert',{
-            name: '程序员', 
-            image: 'images/avatars/avatar3.jpg',
-            total_a:'12',
-            a:'2,3,1,2,3,1,0',
-            total_b:'24',
-            b:'4,6,2,4,6,2,0',
-            total_credits:'24',
-            credits:'4,6,2,4,6,2,0',
+       res.render('arrange/classroommodify',{
+            type:status,
             data:doc,
-            insertresult:'表单解析失败'
+            modifyresult:'填写数据不符合标准'
         });
         return;
     }
@@ -100,17 +104,10 @@ router.post('/classroommodify',function(req,res,next){
                 classidErr = "Classroom doesn't exist.";
             }
             if(classidErr !=''){
-                    res.render('arrange/classroominsert',{
-                    name: '程序员', 
-                    image: 'images/avatars/avatar3.jpg',
-                    total_a:'12',
-                    a:'2,3,1,2,3,1,0',
-                    total_b:'24',
-                    b:'4,6,2,4,6,2,0',
-                    total_credits:'24',
-                    credits:'4,6,2,4,6,2,0',
+                    res.render('arrange/classroommodify',{
+                    type:status,
                     data:doc,
-                    insertresult: '表单提交失败'
+                    modifyresult: '教室不存在'
                     });
                 return;
             }
@@ -122,15 +119,7 @@ router.post('/classroommodify',function(req,res,next){
                     else{
                         console.log(data);
                         res.render('arrange/classroommodify',{
-                            name: '程序员', 
-                            image: 'images/avatars/avatar3.jpg',
-                            total_a:'12',
-                            a:'2,3,1,2,3,1,0',
-                            total_b:'24',
-                            b:'4,6,2,4,6,2,0',
-                            total_credits:'24',
-                            credits:'4,6,2,4,6,2,0',
-                
+                            type:status,
                             data : doc,
                             modifyresult:'表单提交成功！'
                         });

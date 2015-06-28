@@ -179,6 +179,7 @@ router.post('/course_filtrate', function(req, res, next) {
   var courseModel = require('../../db/group1db/CourseModel');
   var courseStudentModel = require('../../db/courseDB/courseStudentSchema');
   var personModel = require('../../db/group1db/PersonModel'); 
+  var studentGradeSchema = require('../../db/group6db/gradesDB');
   var current = [];
     // 课程筛选
   courseModel.find({},function(error,result){
@@ -220,6 +221,7 @@ router.post('/course_filtrate', function(req, res, next) {
                     courseStudentModel.update({id: result[course_i].id},{$push:{confirmedStudent:{id: current[i].user}}},
                         function(err,re){if (err) console.log(err);});
                     personModel.addcstlist(current[i].user,result[course_i].id,function(err,re){if (err) console.log(err)});
+                    studentGradeSchema.insertrecord(result[course_i].id,current[i].user, function(err,re){if (err) console.log(err)});
                 }
             }
             // vacancy is enough
@@ -233,6 +235,7 @@ router.post('/course_filtrate', function(req, res, next) {
                     courseStudentModel.update({id: result[course_i].id},{$push:{confirmedStudent:{id: current[i].user}}},
                         function(err,re){if (err) console.log(err);});
                     personModel.addcstlist(current[i].user,result[course_i].id,function(err,re){if (err) console.log(err)});
+                    studentGradeSchema.insertrecord(result[course_i].id,current[i].user, function(err,re){if (err) console.log(err)});
                 }
             }
                 

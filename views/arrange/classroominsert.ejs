@@ -5,9 +5,16 @@
 </head>
 <body>
 <!-- 上方选择条 navbar-top-->
-<% include ../navbar.html %>
+<%if(type==0) {%>
+<% include slidebar_student.html%>
+<% }%>
+<%if(type==1) {%>
+<% include slidebar_teacher.html%>
+<% }%>
+<%if(type==2) {%>
+<% include arrange_slidebar.html%>
+<% }%>
 <!-- 侧边框 -->
-<% include arrange_sidebar.html %>
 <script type="text/javascript">
    function setNavActive(){
        var active=document.getElementById('arrange');
