@@ -28,17 +28,26 @@ var mongooseModel = mongoose.model('tree', mongooseSchema);
 person.schema.post('save', function(doc) {
    console.log("hook");
    console.log(doc);
-   mongooseModel.create({
-       uid : doc.userid,
-       tree : []
-   }); 
+   mongooseModel.findbyuser(doc.userid,function(res,callbakc) {
+       if (res.length == 0) {
+           mongooseModel.create({
+               uid : doc.userid,
+               tree : []
+           }); 
+       }
+   });
+   
 });
 course.schema.post('save', function(doc) {
    console.log("hook course");
    console.log(doc);
-   mongooseModel.create({
-       uid : doc._id,
-       tree : []
-   }); 
+   mongooseModel.findbyuser(doc._id,function(res,callbakc) {
+       if (res.length == 0) {
+           mongooseModel.create({
+               uid : doc._id,
+               tree : []
+           }); 
+       }
+   });
 });
 module.exports=mongooseModel;
