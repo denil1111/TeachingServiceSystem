@@ -8,22 +8,35 @@ var ClassroomModel = require('../../db/group2db/ClassroomModel');
 var tmp=[];
 
 router.get('/timetable_classroom',function(req,res,next){
-	if(!req.session.user){return res.redirect('../info/login');}
-	res.render('arrange/timetable_classroom',{
-        name: '程序员', 
-        image: 'images/avatars/avatar3.jpg',
-        total_a:'12',
-        a:'2,3,1,2,3,1,0',
-        total_b:'24',
-        b:'4,6,2,4,6,2,0',
-        total_credits:'24',
-        credits:'4,6,2,4,6,2,0',
+	// if(!req.session.user){return res.redirect('../info/login');}
+	 var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                res.redirect("../../login");
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
+    res.render('arrange/timetable_classroom',{
+        type:status,
         course_data : tmp
     });
 });
 
 router.post('/timetable_classroom', function(req, res, next) {
     console.log("post:timetable_classroom");
+    var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                res.redirect("../../login");
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
     CourseModel.findbyclassroom(req.body.campus,req.body.classid2, function(error,data){
         if(error)
     	{
@@ -34,14 +47,7 @@ router.post('/timetable_classroom', function(req, res, next) {
     	}
     	console.log('data : '+data.length);
         res.render('arrange/timetable_classroom', {
-            name: '程序员', 
-            image: 'images/avatars/avatar3.jpg',
-            total_a:'12',
-            a:'2,3,1,2,3,1,0',
-            total_b:'24',
-            b:'4,6,2,4,6,2,0',
-            total_credits:'24',
-            credits:'4,6,2,4,6,2,0',
+            type:status,
             course_data: data
         });
     });
@@ -49,6 +55,16 @@ router.post('/timetable_classroom', function(req, res, next) {
 
 router.post('/search_sem',function(req,res,next){
     console.log("search_sem");
+    var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                res.redirect("../../login");
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
     CourseModel.findbyterm(req.body.term,function (error,data) {
         if(error)
     	{
@@ -59,14 +75,7 @@ router.post('/search_sem',function(req,res,next){
     	}
     	console.log('data : '+data.length);
         res.render('arrange/search_sem', {
-            name: '程序员', 
-            image: 'images/avatars/avatar3.jpg',
-            total_a:'12',
-            a:'2,3,1,2,3,1,0',
-            total_b:'24',
-            b:'4,6,2,4,6,2,0',
-            total_credits:'24',
-            credits:'4,6,2,4,6,2,0',
+            type:status,
             course_data: data
         });
     });

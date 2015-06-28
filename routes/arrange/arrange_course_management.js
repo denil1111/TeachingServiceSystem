@@ -6,49 +6,18 @@ var CourseModel = require('../../db/group1db/CourseModel');
 var ClassroomModel = require('../../db/group2db/ClassroomModel');
 var CourseApplicationModel = require('../../db//group2db/CourseApplicationModel');
 
-
-
-
-
-
-//var mongo = require('mongodb').MongoClient;
-//var uri = "mongodb://segroup2:segroup2@ds041168.mongolab.com:41168/group2"
-
-
-/*mongo.connect(uri.function(err,db))
- {
- if (err) {
- console.log("�����ݿ�ʧ����");
- return ;
- }
- }
- */
-/*
-var tmp = {
-    courseid2	: "J523001",	//�γ�ID
-    coursename  : "��������",	//�γ�����
-    courseterm  : "2014�ﶬ",  //�γ�ѧ��
-    coursetime	: "1,2,3",	//�Ͽ�ʱ�� ?!
-    coursescore	: "4.5",	//�γ�ѧ��
-    status      : "pending", //����״̬�� ���ڴ�����Ϊ on�� ����������Ϊoff
-    teacher     : "MR.J",	//�ڿ���ʦ
-    examtime	: "2014-7-10",	//����ʱ��
-    room        : "��7-501",	//�Ͽν���
-    campus      : "��ȪУ��",  //�Ͽ�У��
-    college     : "������ѧԺ",	//����ѧԺ
-    time     :  Date.now	//����ʱ��
-
-};*/
 var tmp;
-/*
- db.CourseApplication.save(
- {courseid2:'J523001',coursename:'��������', courseterm:'2014��' , coursetime:'��һ1,2', coursescore:'4.5', status:'pending', teacher:'MR.J',
- examtime:'2015-7-10', room:'��7-501',campus:'��ȪУ��',college:'������ѧԺ',time:'2015-2-3'})
- */
-
 router.get('/arrange_course_management', function(req, res,next) {
 //    if(!req.session.user){return res.redirect('../info/login');}
-    console.log("�¿�management");
+    var status;
+    switch (req.session.user.status.toString()){
+        case '学生':status = 0;
+                    res.redirect("../../login");
+                    break;
+        case '教师':status = 1;
+                    break;
+        case '系统管理员':status = 2;break;
+    }
     CourseApplicationModel.findbystatus('pending',function(error,data1){
         CourseApplicationModel.findbystatus('accept',function(error,data2){
             CourseApplicationModel.findbystatus('deny',function(error,data3){
@@ -56,15 +25,9 @@ router.get('/arrange_course_management', function(req, res,next) {
                // console.log('accept:' + data2);
                // console.log('deny:' + data3);
                 console.log('start!');
+                
                 res.render('arrange/arrange_course_management',{
-                    name: '����Ա',
-                    image: 'images/avatars/avatar3.jpg',
-                    total_a:'12',
-                    a:'2,3,1,2,3,1,0',
-                    total_b:'24',
-                    b:'4,6,2,4,6,2,0',
-                    total_credits:'24',
-                    credits:'4,6,2,4,6,2,0',
+                    type:status,
                     pending: data1,
                     accepted: data2,
                     deny: data3
@@ -76,6 +39,15 @@ router.get('/arrange_course_management', function(req, res,next) {
 });
 
 router.post('/arrange_course_management',function(req,res,next){
+    var status;
+    switch (req.session.user.status.toString()){
+        case '学生':status = 0;
+                    res.redirect("../../login");
+                    break;
+        case '教师':status = 1;
+                    break;
+        case '系统管理员':status = 2;break;
+    }
     console.log("post:arrange_course_management");
     console.log(req.body.type.substring(1,100));
     console.log('1');
@@ -117,14 +89,7 @@ router.post('/arrange_course_management',function(req,res,next){
                                                     console.log('deny:' + data33.length);
                                                     console.log('5');
                                                     res.render('arrange/arrange_course_management',{
-                                                        name: '����Ա',
-                                                        image: 'images/avatars/avatar3.jpg',
-                                                        total_a:'12',
-                                                        a:'2,3,1,2,3,1,0',
-                                                        total_b:'24',
-                                                        b:'4,6,2,4,6,2,0',
-                                                        total_credits:'24',
-                                                        credits:'4,6,2,4,6,2,0',
+                                                        type:status,
                                                         pending: data11,
                                                         accepted: data22,
                                                         deny: data33
@@ -156,14 +121,7 @@ router.post('/arrange_course_management',function(req,res,next){
                                     console.log('deny:' + data33.length);
                                     console.log('5');
                                     res.render('arrange/arrange_course_management',{
-                                        name: '����Ա',
-                                        image: 'images/avatars/avatar3.jpg',
-                                        total_a:'12',
-                                        a:'2,3,1,2,3,1,0',
-                                        total_b:'24',
-                                        b:'4,6,2,4,6,2,0',
-                                        total_credits:'24',
-                                        credits:'4,6,2,4,6,2,0',
+                                        type:status,
                                         pending: data11,
                                         accepted: data22,
                                         deny: data33
@@ -196,14 +154,7 @@ router.post('/arrange_course_management',function(req,res,next){
                                          console.log('deny:' + data33.length);
                                          console.log('5');
                                          res.render('arrange/arrange_course_management',{
-                                             name: '����Ա',
-                                             image: 'images/avatars/avatar3.jpg',
-                                             total_a:'12',
-                                             a:'2,3,1,2,3,1,0',
-                                             total_b:'24',
-                                             b:'4,6,2,4,6,2,0',
-                                             total_credits:'24',
-                                             credits:'4,6,2,4,6,2,0',
+                                             type:status,
                                              pending: data11,
                                              accepted: data22,
                                              deny: data33

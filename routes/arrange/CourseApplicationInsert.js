@@ -46,15 +46,18 @@ examtime:'2015-7-10', room:'教7-501',campus:'玉泉校区',college:'计算机�
 
 router.get('/CourseApplicationInsert', function(req, res,next) {
 //    if(!req.session.user){return res.redirect('../info/login');}
+    var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                // res.redirect("../../login");
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
     res.render('arrange/CourseApplicationInsert',{
-        name: '程序员',
-        image: 'images/avatars/avatar3.jpg',
-        total_a:'12',
-        a:'2,3,1,2,3,1,0',
-        total_b:'24',
-        b:'4,6,2,4,6,2,0',
-        total_credits:'24',
-        credits:'4,6,2,4,6,2,0',
+        type:status,
         data : tmp,
         insertresult:'请提交申请'
     });
@@ -63,6 +66,16 @@ router.get('/CourseApplicationInsert', function(req, res,next) {
 router.post('/CourseApplicationInsert',function(req,res,next){
     console.log("post:CourseApplicationInsert");
     console.log("num of courses");
+    var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                // res.redirect("../../login");
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
            // if ID号不存在COURSE数据库里，返回错误信息！ 这有问题，读不出course里的东西
            // console.log(CourseModel.find().count({courserid:doc.courseid2}));
     console.log(req.body.courseid2);
@@ -71,14 +84,7 @@ router.post('/CourseApplicationInsert',function(req,res,next){
         {
             console.log('The course not exit!');
             res.render('arrange/CourseApplicationInsert',{
-                name: '程序员',
-                image: 'images/avatars/avatar3.jpg',
-                total_a:'12',
-                a:'2,3,1,2,3,1,0',
-                total_b:'24',
-                b:'4,6,2,4,6,2,0',
-                total_credits:'24',
-                credits:'4,6,2,4,6,2,0',
+                type:status,
                 data : tmp,
                 insertresult:'不存在的课程！'
             });
@@ -97,14 +103,7 @@ router.post('/CourseApplicationInsert',function(req,res,next){
             console.log("doc courseid2: " + doc.courseid2);
             if (doc.campus == undefined || doc.courseid2 == undefined || doc.coursetime == undefined || doc.room == undefined) //坑爹啊！ undefined<>null！！
                 res.render('arrange/CourseApplicationInsert', {
-                    name: '程序员',
-                    image: 'images/avatars/avatar3.jpg',
-                    total_a: '12',
-                    a: '2,3,1,2,3,1,0',
-                    total_b: '24',
-                    b: '4,6,2,4,6,2,0',
-                    total_credits: '24',
-                    credits: '4,6,2,4,6,2,0',
+                    type:status,
                     data: doc,
                     insertresult: '请完整填写信息！'
                 });
@@ -128,36 +127,46 @@ router.post('/CourseApplicationInsert',function(req,res,next){
                 else if (doc.coursetime[1] == '5') tmpstring = tmpstring + '晚上';
                 console.log(tmpstring);
                 doc.coursetime = tmpstring;
-                CourseApplicationModel.create(doc, function (err, data) {
-                    if (err|| doc.coursetime==undefined) {
-                        console.log("create err : " + err);
-                        res.render('arrange/CourseApplicationInsert', {
-                            name: '程序员',
-                            image: 'images/avatars/avatar3.jpg',
-                            total_a: '12',
-                            a: '2,3,1,2,3,1,0',
-                            total_b: '24',
-                            b: '4,6,2,4,6,2,0',
-                            total_credits: '24',
-                            credits: '4,6,2,4,6,2,0',
-                            data: doc,
-                            insertresult: '错误的申请信息！(请选择有且仅有一个申请调课时间段)'
-                        });
-                    }
-                    console.log(data);
+                if (doc.coursetime == undefined) {
                     res.render('arrange/CourseApplicationInsert', {
-                        name: '程序员',
-                        image: 'images/avatars/avatar3.jpg',
-                        total_a: '12',
-                        a: '2,3,1,2,3,1,0',
-                        total_b: '24',
-                        b: '4,6,2,4,6,2,0',
-                        total_credits: '24',
-                        credits: '4,6,2,4,6,2,0',
+                        type:status,
                         data: doc,
-                        insertresult: '调课申请成功！'
+                        insertresult: '请选择有且仅有一个申请调课时间段'
                     });
-                });
+                }
+                else {
+                    ClassroomModel.findbyid(req.body.room, function (error, data) {
+                        if (error) {
+                            console.log('find error!' + error);
+                        }
+                        else {
+                            console.log('find classroom ok!' + data);
+                            if (data == '')
+                                res.render('arrange/CourseApplicationInsert', {
+                                    type:status,
+                                    data: doc,
+                                    insertresult: '不存在的教室！！'
+                                });
+                            else
+                                CourseApplicationModel.create(doc, function (err, data) {
+                                    if (err) {
+                                        console.log("create err : " + err);
+                                        res.render('arrange/CourseApplicationInsert', {
+                                            type:status,
+                                            data: doc,
+                                            insertresult: '错误的申请信息！'
+                                        });
+                                    }
+                                    else
+                                        res.render('arrange/CourseApplicationInsert', {
+                                            type:status,
+                                            data: doc,
+                                            insertresult: '调课申请成功！'
+                                        });
+                                });
+                        }
+                    })
+                }
             }
         }
         });

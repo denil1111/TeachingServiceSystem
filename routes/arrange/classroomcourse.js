@@ -11,22 +11,34 @@ router.get('/classroomcourse',function(req,res,next){
 //	var classroom;//=req.session.user[0];
 //	ClassroomModel.findall(function(err,classroom_total_info){
 //		classroom = classroom_total_info;
+		var status;
+		switch (req.session.user.status.toString()){
+		    case '学生':status = 0;
+		                res.redirect("../../login");
+		                break;
+		    case '教师':status = 1;
+		                res.redirect("../../login");
+		                break;
+		    case '系统管理员':status = 2;break;
+		}
 		res.render('arrange/classroomcourse',{
-        name: '程序员', 
-        image: 'images/avatars/avatar3.jpg',
-        total_a:'12',
-        a:'2,3,1,2,3,1,0',
-        total_b:'24',
-        b:'4,6,2,4,6,2,0',
-        total_credits:'24',
-        credits:'4,6,2,4,6,2,0',
-//        classroom_data: classroom,
-        course_data:tmp
+			type:status,
+        	course_data:tmp
     });
 });
 
 router.post('/classroomcourse',function(req,res,next){
 	console.log("post:classroomcourse");
+	var status;
+		switch (req.session.user.status.toString()){
+		    case '学生':status = 0;
+		                res.redirect("../../login");
+		                break;
+		    case '教师':status = 1;
+		                res.redirect("../../login");
+		                break;
+		    case '系统管理员':status = 2;break;
+		}
 	CourseModel.findbyclassroom(req.body.campus,req.body.classroom,function(error,data){
 		if(error){
 			console.log('find error!' + error);
@@ -35,16 +47,8 @@ router.post('/classroomcourse',function(req,res,next){
 			console.log('find succeed!' + error);
 		}
 		res.render('arrange/classroomcourse',{
-    	name: '程序员', 
-    	image: 'images/avatars/avatar3.jpg',
-   		total_a:'12',
-  		a:'2,3,1,2,3,1,0',
-    	total_b:'24',
-   		b:'4,6,2,4,6,2,0',
-    	total_credits:'24',
-    	credits:'4,6,2,4,6,2,0',
-
-		course_data : data
+			type:status,
+			course_data : data
 		});
 	});
 });
