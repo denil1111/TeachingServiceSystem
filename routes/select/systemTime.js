@@ -34,13 +34,13 @@ router.get('/time', function(req, res, next) {
   var error="";
   var status;
   switch (req.session.user.status.toString()){
-    case '学生':status = 0;
+    case 'student':status = 0;
                 res.redirect("../../login");
                 break;
-    case '教师':status = 1;
+    case 'teacher':status = 1;
                 res.redirect("../../login");
                 break;
-    case '系统管理员':status = 2; break;
+    case 'admin':status = 2; break;
   }
   courseTimeModel.find({},function(err,cre){
       if (err)
