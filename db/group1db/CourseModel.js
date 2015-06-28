@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+
 // Schema 结构
 var CourseSchema = new mongoose.Schema({
     courseid    : {type : String},
@@ -85,4 +86,25 @@ CourseSchema.statics.statusoff = function(courseid2, callback) {
 
 
 var CourseModel = mongoose.model('CourseModel',CourseSchema,CollectionName);
+var courseStudentModel = require('../../db/courseDB/courseStudentSchema');
+var courseSelectModel = require('../../db/courseDB/courseSelectModel');
+CourseSchema.post('save', function(doc) {
+   console.log("hook course for courseStudent");
+   console.log(doc);
+   courseStudentModel.create({
+       id : doc._id,
+       confirmedStudent:[]
+   }); 
+});
+CourseSchema.post('save', function(doc) {
+   console.log("hook course for courseSelect");
+   console.log(doc);
+   courseSelectModel.create({
+       id : doc._id,
+       remain: 50,
+       all: 50,
+       waiting: 0
+   }); 
+});
+
 module.exports=CourseModel;
