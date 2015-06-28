@@ -12,10 +12,8 @@ router.get('/classroomselect', function(req, res, next) {
    	var status;
 	switch (req.session.user.status.toString()){
 	    case '学生':status = 0;
-	                res.redirect("../../login");
 	                break;
 	    case '教师':status = 1;
-	                res.redirect("../../login");
 	                break;
 	    case '系统管理员':status = 2;break;
   	}
@@ -27,7 +25,14 @@ router.get('/classroomselect', function(req, res, next) {
 
 router.post('/classroomselect',function(req, res, next){
 	console.log("post:classroomselect");
-	
+	var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                break;
+	    case '教师':status = 1;
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
 	ClassroomModel.findbyic(req.body.classid2,req.body.campus ,function(error, data){
 		if(error)
 		{
@@ -38,6 +43,7 @@ router.post('/classroomselect',function(req, res, next){
 		}
 		console.log('data : '+data.length);
 		res.render('arrange/classroomselect',{
+			type:status,
 			classroom_data: data
 		});
 	});

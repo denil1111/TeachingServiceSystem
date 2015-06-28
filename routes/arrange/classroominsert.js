@@ -31,7 +31,16 @@ router.get('/classroominsert', function(req, res,next) {
 
 router.post('/classroominsert',function(req,res,next){
     console.log("post:classroominsert");
-    
+    var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                res.redirect("../../login");
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
     var doc = {
         classid2 : req.body.classid2,
         campus : req.body.campus,
@@ -68,7 +77,6 @@ router.post('/classroominsert',function(req,res,next){
     
     if(capacityErr == '')
     {
-        var capacity = doc.capacity;
         if(capacity > 500)
         {
             capacityErr = 'Capacity is too large';
@@ -77,16 +85,9 @@ router.post('/classroominsert',function(req,res,next){
     if(classidErr!= '' || facilityErr !='' || capacityErr !='')
     {
        res.render('arrange/classroominsert',{
-            name: '程序员', 
-            image: 'images/avatars/avatar3.jpg',
-            total_a:'12',
-            a:'2,3,1,2,3,1,0',
-            total_b:'24',
-            b:'4,6,2,4,6,2,0',
-            total_credits:'24',
-            credits:'4,6,2,4,6,2,0',
+            type:status,
             data:doc,
-            insertresult:'表单解析失败'
+            insertresult:'填写的信息错误'
         });
         return;
     }
@@ -104,16 +105,9 @@ router.post('/classroominsert',function(req,res,next){
             }
             if(classidErr !=''){
                     res.render('arrange/classroominsert',{
-                    name: '程序员', 
-                    image: 'images/avatars/avatar3.jpg',
-                    total_a:'12',
-                    a:'2,3,1,2,3,1,0',
-                    total_b:'24',
-                    b:'4,6,2,4,6,2,0',
-                    total_credits:'24',
-                    credits:'4,6,2,4,6,2,0',
-                    data:doc,
-                    insertresult: '表单提交失败'
+                        type:status,
+                        data:doc,
+                        insertresult: '已经存在的教室'
                     });
                 return;
             }
@@ -126,15 +120,7 @@ router.post('/classroominsert',function(req,res,next){
                     console.log('Saved by Model OK!');
                     console.log(data);
                     res.render('arrange/classroominsert',{
-                        name: '程序员', 
-                        image: 'images/avatars/avatar3.jpg',
-                        total_a:'12',
-                        a:'2,3,1,2,3,1,0',
-                        total_b:'24',
-                        b:'4,6,2,4,6,2,0',
-                        total_credits:'24',
-                        credits:'4,6,2,4,6,2,0',
-        
+                        type:status,
                         data : doc,
                         insertresult:'表单提交成功！'
                         });

@@ -29,7 +29,16 @@ router.get('/classroomcourse',function(req,res,next){
 
 router.post('/classroomcourse',function(req,res,next){
 	console.log("post:classroomcourse");
-	
+	var status;
+		switch (req.session.user.status.toString()){
+		    case '学生':status = 0;
+		                res.redirect("../../login");
+		                break;
+		    case '教师':status = 1;
+		                res.redirect("../../login");
+		                break;
+		    case '系统管理员':status = 2;break;
+		}
 	CourseModel.findbyclassroom(req.body.campus,req.body.classroom,function(error,data){
 		if(error){
 			console.log('find error!' + error);
@@ -38,8 +47,8 @@ router.post('/classroomcourse',function(req,res,next){
 			console.log('find succeed!' + error);
 		}
 		res.render('arrange/classroomcourse',{
-
-		course_data : data
+			type:status,
+			course_data : data
 		});
 	});
 });

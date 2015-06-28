@@ -31,7 +31,16 @@ router.get('/classroommodify', function(req, res,next) {
 
 router.post('/classroommodify',function(req,res,next){
     console.log("post:classroominsert");
-    
+    var status;
+	switch (req.session.user.status.toString()){
+	    case '学生':status = 0;
+	                res.redirect("../../login");
+	                break;
+	    case '教师':status = 1;
+	                res.redirect("../../login");
+	                break;
+	    case '系统管理员':status = 2;break;
+  	}
     var doc = {
         classid2 : req.body.classid2,
         campus : req.body.campus,
@@ -68,7 +77,6 @@ router.post('/classroommodify',function(req,res,next){
     
     if(capacityErr == '')
     {
-        var capacity = doc.capacity;
         if(capacity > 500)
         {
             capacityErr = 'Capacity is too large';
@@ -76,9 +84,10 @@ router.post('/classroommodify',function(req,res,next){
     }
     if(classidErr!= '' || facilityErr !='' || capacityErr !='')
     {
-       res.render('arrange/classroominsert',{
+       res.render('arrange/classroommodify',{
+            type:status,
             data:doc,
-            insertresult:'表单解析失败'
+            modifyresult:'填写数据不符合标准'
         });
         return;
     }
@@ -95,9 +104,10 @@ router.post('/classroommodify',function(req,res,next){
                 classidErr = "Classroom doesn't exist.";
             }
             if(classidErr !=''){
-                    res.render('arrange/classroominsert',{
+                    res.render('arrange/classroommodify',{
+                    type:status,
                     data:doc,
-                    insertresult: '表单提交失败'
+                    modifyresult: '教室不存在'
                     });
                 return;
             }
@@ -109,6 +119,7 @@ router.post('/classroommodify',function(req,res,next){
                     else{
                         console.log(data);
                         res.render('arrange/classroommodify',{
+                            type:status,
                             data : doc,
                             modifyresult:'表单提交成功！'
                         });

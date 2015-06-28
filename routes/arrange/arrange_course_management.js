@@ -9,6 +9,15 @@ var CourseApplicationModel = require('../../db//group2db/CourseApplicationModel'
 var tmp;
 router.get('/arrange_course_management', function(req, res,next) {
 //    if(!req.session.user){return res.redirect('../info/login');}
+    var status;
+    switch (req.session.user.status.toString()){
+        case '学生':status = 0;
+                    res.redirect("../../login");
+                    break;
+        case '教师':status = 1;
+                    break;
+        case '系统管理员':status = 2;break;
+    }
     CourseApplicationModel.findbystatus('pending',function(error,data1){
         CourseApplicationModel.findbystatus('accept',function(error,data2){
             CourseApplicationModel.findbystatus('deny',function(error,data3){
@@ -16,15 +25,7 @@ router.get('/arrange_course_management', function(req, res,next) {
                // console.log('accept:' + data2);
                // console.log('deny:' + data3);
                 console.log('start!');
-                var status;
-            	switch (req.session.user.status.toString()){
-            	    case '学生':status = 0;
-            	                res.redirect("../../login");
-            	                break;
-            	    case '教师':status = 1;
-            	                break;
-            	    case '系统管理员':status = 2;break;
-              	}
+                
                 res.render('arrange/arrange_course_management',{
                     type:status,
                     pending: data1,
@@ -38,6 +39,15 @@ router.get('/arrange_course_management', function(req, res,next) {
 });
 
 router.post('/arrange_course_management',function(req,res,next){
+    var status;
+    switch (req.session.user.status.toString()){
+        case '学生':status = 0;
+                    res.redirect("../../login");
+                    break;
+        case '教师':status = 1;
+                    break;
+        case '系统管理员':status = 2;break;
+    }
     console.log("post:arrange_course_management");
     console.log(req.body.type.substring(1,100));
     console.log('1');
@@ -79,7 +89,7 @@ router.post('/arrange_course_management',function(req,res,next){
                                                     console.log('deny:' + data33.length);
                                                     console.log('5');
                                                     res.render('arrange/arrange_course_management',{
-                                                       
+                                                        type:status,
                                                         pending: data11,
                                                         accepted: data22,
                                                         deny: data33
@@ -111,6 +121,7 @@ router.post('/arrange_course_management',function(req,res,next){
                                     console.log('deny:' + data33.length);
                                     console.log('5');
                                     res.render('arrange/arrange_course_management',{
+                                        type:status,
                                         pending: data11,
                                         accepted: data22,
                                         deny: data33
@@ -143,14 +154,7 @@ router.post('/arrange_course_management',function(req,res,next){
                                          console.log('deny:' + data33.length);
                                          console.log('5');
                                          res.render('arrange/arrange_course_management',{
-                                             name: '����Ա',
-                                             image: 'images/avatars/avatar3.jpg',
-                                             total_a:'12',
-                                             a:'2,3,1,2,3,1,0',
-                                             total_b:'24',
-                                             b:'4,6,2,4,6,2,0',
-                                             total_credits:'24',
-                                             credits:'4,6,2,4,6,2,0',
+                                             type:status,
                                              pending: data11,
                                              accepted: data22,
                                              deny: data33
