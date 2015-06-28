@@ -6,9 +6,9 @@ router.post('/choose', function(req, res, next) {
   console.log(req.body);
   var status;
   switch (req.session.user.status.toString()){
-    case 'student':status=0;break;
-    case 'teacher':status=1;break;
-    case 'admin':status=2;break;
+    case '学生':status=0;break;
+    case '教师':status=1;break;
+    case '系统管理员':status=2;break;
   }
   res.render('select/choose', {
     type:status,//manager

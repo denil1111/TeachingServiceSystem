@@ -23,11 +23,11 @@ router.get('/my_course', function(req, res, next) {
   var my_course=[];
   var status;
   switch (req.session.user.status.toString()){
-    case 'student': status = 0; 
+    case '学生': status = 0; 
                 break;
-    case 'teacher': status = 1; 
+    case '教师': status = 1; 
                 break;
-    case 'admin': status = 2;
+    case '系统管理员': status = 2;
                 res.redirect("../../login");
                 break;
   }
