@@ -247,7 +247,7 @@
     //处理字符串 找到相应位置 添加课程
     <% for(var i=0; i<course_data.length;i++) { %>
       var time="<%=course_data[i].time%>";
-      var time_arr=time.split(' ');
+      var time_arr=time.split(/[-;]/);
       var course_name="<%=course_data[i].name%>";
       var course_teacher="<%=course_data[i].teacher%>";
       var course_room="<%=course_data[i].room%>";
@@ -257,32 +257,42 @@
       for(var j=0;j<time_arr.length;j=j+2){
         var str;
         switch(time_arr[j]){
-          case "周一": str="Mon";break; 
-          case "周二": str="Tue";break;
-          case "周三": str="Web";break; 
-          case "周四": str="Thu";break; 
-          case "周五": str="Fri";break; 
-          case "周六": str="Sat";break; 
-          case "周日": str="Sun";break;
+          case "1": str="Mon";break; 
+          case "2": str="Tue";break;
+          case "3": str="Web";break; 
+          case "4": str="Thu";break; 
+          case "5": str="Fri";break; 
+          case "6": str="Sat";break; 
+          case "7": str="Sun";break;
         }
         switch(time_arr[j+1]){
+          case "1":
+          case "2":
           case "12":
             document.getElementById(str+'12').innerHTML=data;
             break;
+          case "3":
+          case "4":
           case "34":
             document.getElementById(str+'34').innerHTML=data;
             break;
+          case "5":
           case "345":
             document.getElementById(str+'34').innerHTML=data;
             document.getElementById(str+'5').innerHTML=data;
             break;
+          case "6":
+          case "7":
           case "67":
             document.getElementById(str+'67').innerHTML=data;
             break;
+          case "8":
           case "678":
             document.getElementById(str+'67').innerHTML=data;
             document.getElementById(str+'8').innerHTML=data;
             break;
+          case "9":
+          case "10":
           case "910":
             document.getElementById(str+'910').innerHTML=data;
             break;

@@ -70,7 +70,7 @@ function InputCourse (campusName, NextReadFunction, callback)
 					res[i]._id,
 					res[i].coursename,
 					res[i].all,		//expected total num
-					1,				//times
+					2,				//times
 					0				//isOnWeekend
 					));		
 			}
@@ -177,8 +177,8 @@ function AnalyList(aList)
 				var timeIndex = i % 35;
 				print("courseID: "+ courseList[j].cid + " room: " + roomList[roomIndex].rid + " time: "
 					+  Math.floor(timeIndex / 5) + "-"+ (timeIndex % 5));
-				roomString = roomString + roomList[roomIndex].rid;
-				timeString = timeString + Math.floor(timeIndex / 5 + 1) + "-"+ (timeIndex % 5 + 1);
+				roomString = roomList[roomIndex].rid;
+				timeString = timeString + Math.floor(timeIndex / 5 + 1) + "-"+ (timeIndex % 5 + 1)+";";
 			}
 			
 		
@@ -332,7 +332,8 @@ function ArangeOneByOne()
 			setTimeout(function(){ArrangeACampus(campusList[0],function(){})},10);
 			setTimeout(function(){ArrangeACampus(campusList[1],function(){})},1000);						
 			setTimeout(function(){ArrangeACampus(campusList[2],function(){})},2000);
-			setTimeout(function(){ArrangeACampus(campusList[3],function(){})},3000);		
+			setTimeout(function(){ArrangeACampus(campusList[3],function(){})},3000);	
+			setTimeout(function(){ArrangeACampus(campusList[4],function(){})},4000);	
 		}
 	})
 }
