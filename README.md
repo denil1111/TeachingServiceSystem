@@ -1,135 +1,82 @@
-# TeachingServiceSystem Group2 自动排课
+# 教务管理系统用户手册
+## 服务器配置
+### 基本环境
+语言: NodeJS v0.12.0
 
-## 使用说明
+数据库: Mongodb v3.0.1
 
-### 1.依赖关系安装
+（为了支持在数据库中的搜索功能需要其他依赖的插件）
 
-npm install
+### 开启步骤
 
-### 2.运行
+1. 配置settings.js，填入需要连接的数据库地址，可参考settings.example.js
+2. npm install
+3. NODE_ENV="pro" npm start（直接npm start 为debug环境）
+4. 监听端口为3000。
+4. 访问路由 /adduser可自动生成一个系统管理员，账号密码为：3120000000，3120000000
 
-npm start
-可以运行网站
+## 管理员管理
+### 用户和课程
+登录后，在上方导航栏点击信息管理按钮，进入信息管理页面，有一系列可以进行的管理操作，如添加用户，查询用户，删除用户等。
 
-## 选课
-/course 访问选课页面
+如需批量添加用户或课程，可参考在example文件夹中的两个批量文件。
 
-## 资源管理
-/resource
-## 用户登录
-/info/login
+### 教室和排课
+在上方导航栏点击教学资源，可以进行教室操作，排课。
 
-## 用户添加
-/info/personinsert
+### 选课管理
+在上方导航栏中点击学生选课，可以进入队选课的管理界面，管理内容如下
 
-## 用户删除(by username)
-/info/persondelete
+1. 制定培养方案
+2. 指定选课时间
+2. 手动选课，退可
 
-## 用户查询(by username)
-/info/personselect
+### 成绩管理
+在上方导航栏中点击成绩管理，进入成绩审批页面，可以审核教师提出的成绩修改申请。
 
-## 用户修改(by username)
-/info/personmodify
+### 基本管理流程
+1. 批量添加学生和教师
+2. 批量添加教师的课程，不包含教室和时间信息
+3. 添加教室
+4. 使用自动排课
+5. 指定培养方案
+6. 指定选课时间
+5. 后续对申请的审批。
 
-session使用说明
-session内带有user信息，直接使用req.session.user即可
-例如，需要登录用户才能访问当前页面(否则重定向到login, infn/login)，可如下编程：
-router.get('/personselect', function(req, res, next) {
-	if(!req.session.user){return res.redirect('login');}
-	...
-}
+## 学生操作
+### 个人信息
+上方导航栏中点击信息管理，可以查看个人信息，以及修改一些信息。
 
-PersonModel的使用：
-1 原PersonSchema已经移除，现直接调用PersonModel即可；
-2 具体使用方法
-	var PersonModel = require('../db/group1db/PersonModel');	//在js的开头（不要再函数内部）require PersonModel
-	PersonModel.findbyname(username,function (err, user) {		//调用PersonModel方法，username是输入参数，err,user分别是返回错误信息和用户信息
-		...
-	}
-3 PersonModel静态在./db/group1db/PresonModel.js中有定义，如果各小组有其他方法需求，请联系A1小组组长葛现隆
+### 教学资源
+上方导航栏中选择教学资源， 可以查询教室。
 
-CourseModel的使用：
-1 原CourseSchema已经移除，现直接调用PersonModel即可；
-2 具体使用方法
-	var CourseModel = require('../db/group1db/CourseModel');	//在js的开头（不要再函数内部）require PersonModel
-	CourseModel.findbyid(courseid,function (err, course) {		//调用PersonModel方法，username是输入参数，err,user分别是返回错误信息和用户信息
-		...
-	}
-3 CourseModel静态在./db/group1db/CourseModel.js中有定义，如果各小组有其他方法需求，请联系A1小组组长葛现隆
+### 选课和课表
+上方导航栏中点击学生选课，可以自己制定培养方案，并根据培养方案选课，等待筛选。之后还可以在这里查看自己的课表，（注意，课表点进去后，要选择一下学年和学期才能出现课程）
 
-实例请参考route下personinsert.js, courseinsert.js等文件
+### 个人云盘和资源下载
+上方导航栏中点击资源共享，可进入个人云盘，上传下载或管理自己的云盘，另外点击左侧的课程资源按钮，可以查看自己各门课程老师分享的资源，并可以上传作业。
 
-Person使用数据库 'mongodb://127.0.0.1:27017/info'下的persons collections
-Course使用数据库 'mongodb://127.0.0.1:27017/info'下的courses collections
+### 在线测试
+上方导航栏中点击在线测试可以查看老师所布置的所有测试，并完成答题。
 
-### 3.运行前将下面的内容复制到目录下的settings.js文件
+### 成绩管理
+上方导航栏中点击成绩管理可以查看自己的成绩，并且还有分析成绩功能。
 
-```javascript
-  module.exports = {
-    db : {
-      // modify the line below
-      connect : 'mongodb://127.0.0.1:27017/info'
-    }
-  }
-```
+##教师操作
+### 个人信息（同学生）
+上方导航栏中点击信息管理，可以查看个人信息，以及修改一些信息。
 
-### 4.数据库使用说明
+### 教学资源
+上方导航栏中选择教学资源， 可以查询教室，还可以针对教室申请课程。
 
-* 使用了mongolab的云数据库服务，账号密码都是segroup2。可以利用命令行工具批量导入数据，方便测试。具体导入和导出方法可以参见mongolab网站。
-* 目前`教室信息`里使用了segroup2数据库下的`classroom`Collection. 大家可暂时在mongolab上建立自己的collection来作测试。
-* 查找和使用数据的例子可以参考 routes/arrange.js 与 views/arrange_classroom_information.ejs
-* 更多例子可以参考 db/dbDemo/ 下的文件
+### 选课和课表
+上方导航栏中点击学生选课，可以查看自己的课表，并可以查看每节课的学生名单（注意，课表点进去后，要选择一下学年和学期才能出现课程）
 
-### 5.Group2页面文件说明
+### 个人云盘和资源下载
+上方导航栏中点击资源共享，可进入个人云盘，上传下载或管理自己的云盘，另外点击左侧的课程资源按钮，可以查看自己各门课程老师分享的资源，并可以上传作业。
 
-* views/arrange 自动排课
-* views/arrange_course_information 课程信息
-* views/arrange_course_management 课程管理
-* views/arrange_classroom_information 教室信息
+### 在线测试
+上方导航栏中点击在线测试，可以选择一门课，在其题库中添加题目，并制作试卷发布。
 
-模板元素参考 : http://beer2code.com/themes/core-admin-3/pages/dashboard/dashboard.html
-
-### 6.其他文件说明
-
-* routes/arrange.js  处理后端数据库连接与路由
-* settings.js 连接数据库
-
-# login具体使用
-首先 我给各位所有的基本路由上都判定了是否登陆，所以大家这个可以不用加了，如果需要取消，可以在index.js里改！
-其次，大家想保证登陆用户的类型的话，验证函数在routes／basic／auth里都有，请自己选择。
-如果想获取当前用户的信息，就在req.session.user里。
-在mongo里手动添加用户的collection是persons
-
-
-# hook 方法！
-如果想在哪个数据插入的同时插入自己的数据，比如user，可以这样做
-```js
-	var person=require("../db/group1db/PersonModel");
-   	person.schema.post('save',function()
-   	{
-		//内容写在这里
-    	console.log("我成功了！！");
-  	});
-```
-
-
-# 生成自动登陆用户
-如果要生成自动登陆用户，只需要开启服务器后，localhost:3000/adduser即可，不过这个脚本目前还不是非常智能，
-如果原来数据库中有这个user，会发生错误，所以，如果要使用，最好能先清空数据库（本地自己的），自动生成后，
-该用户会有三门课提供测试，创建的用户为
-```
-    {
-        userid : 3120000000
-        username : wtf
-        password: 3120000000
-        status : 系统管理员
-        cstlist : [...(三门课)]
-    }
-```
-    如果要创建别的用户，那很简单，到根目录下./script/adduser.js里去改就好了。
-创建完成之后，运行服务器就能自动登陆，如果不想自动登陆，需要更改启动服务器的指令
-```
-    NODE_ENV="nodev" npm start
-```
-    自动登陆用户默认为312000000，如果要更改的话，到./routes/basic/login.js中更改。
-    如果连接的是远程数据库，请勿再/adduser了，已经设置完成该用户，直接自动登陆就好了。    
+### 成绩管理
+上方导航栏中点击成绩管理可以登录学生最后的成绩，如有错误，还可以提交成绩修改申请。
